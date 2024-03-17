@@ -1,9 +1,10 @@
 package isep.ipp.pt.api.desofs.Authentication;
 
-import isep.ipp.pt.api.desofs.Mapper.UserViewMapper;
-import isep.ipp.pt.api.desofs.Model.User;
-import isep.ipp.pt.api.desofs.Model.UserView;
+import isep.ipp.pt.api.desofs.Model.UserModel.User;
+import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,13 +34,14 @@ public class AuthenticationApi {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtEncoder jwtEncoder;
-    @Autowired
-    private UserViewMapper userViewMapper;
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationApi.class);
+
 
     @PostMapping("login")
-    public ResponseEntity<UserView> login(@Valid final SignUpRequest request) {
+    public ResponseEntity<UserView> login(@RequestBody @Valid final SignUpRequest request) {
         try {
             final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.name(), request.password()));
+            System.out.println("AUTHENTICATED");
             final User user = (User) authentication.getPrincipal();
             final Instant now = Instant.now();
             final long expiry = 36000L;
@@ -51,12 +54,14 @@ public class AuthenticationApi {
                     .claim("roles", scope).build();
 
             final String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-
-            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(userViewMapper.toUserView(user));
-
+            System.out.println(token);//MANDAR ESTE TOKEN PARA
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(mapToUSerView(user));
         } catch (final BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+    private UserView mapToUSerView(User user) {
+        return new UserView(user.getUserId().toString(), user.getUsername(), user.getFullName());
     }
 
 

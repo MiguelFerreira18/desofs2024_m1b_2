@@ -6,15 +6,24 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import isep.ipp.pt.api.desofs.Repository.Implementation.UserRepoImpl;
+import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
+import isep.ipp.pt.api.desofs.Service.UserService.UserService;
+import isep.ipp.pt.api.desofs.Service.UserService.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -36,6 +45,9 @@ import java.security.interfaces.RSAPublicKey;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
+    @Autowired
+    private UserServiceImpl userDetailsService;
+
     @Value("${jwt.public.key}")
     private RSAPublicKey rsaPublicKey;
 
@@ -50,23 +62,32 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // Enable CORS and disable CSRF
+        // TODO ADICIONAR PERMISSÕES À MEDIDA QUE SE VAI FAZENDO O WEBSITE
 
-        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(
-                request -> request.requestMatchers("/", "home")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated()
-        ).formLogin(
-                form -> form
-                        .loginPage("/login")
-                        .permitAll()
-        ).logout(
-                LogoutConfigurer::permitAll
-        );
+
+        // Enable CORS and disable CSRF
+        http.cors(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(
+                auth -> auth
+                        .requestMatchers("/auth/public/**").permitAll()
+                        .requestMatchers("/auth/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/auth/user/**").hasRole("USER")
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                ).authenticationManager(authenticationManager(http));
         return http.build();
 
     }
+//    @Bean
+//    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+//        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+//        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+//        return authenticationManagerBuilder.build();
+//    }
 
     @Bean
     public JwtEncoder jwtEncoder() {
@@ -107,6 +128,7 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)

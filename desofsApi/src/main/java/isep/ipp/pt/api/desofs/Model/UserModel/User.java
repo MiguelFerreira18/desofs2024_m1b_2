@@ -1,15 +1,18 @@
-package isep.ipp.pt.api.desofs.Model;
+package isep.ipp.pt.api.desofs.Model.UserModel;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.management.relation.Role;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 public class User implements UserDetails {
 
@@ -34,6 +37,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String morada;
 
+    protected User(){
+
+    }
+
+    //WITH ID
     public User(Long userId, String username, String password, String fullName, Set<Role> authorities, String nif, String morada) {
         this.userId = userId;
         this.username = username;
@@ -43,83 +51,46 @@ public class User implements UserDetails {
         this.nif = nif;
         this.morada = morada;
     }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public void setUsername(String username) {
+    // WITHOUT ID BUT WIHT AUTHORITIES
+    public User(String username, String password, String fullName, Set<Role> authorities, String nif, String morada) {
         this.username = username;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public void setAuthorities(Set<Role> authorities) {
         this.authorities = authorities;
-    }
-
-    public String getNif() {
-        return nif;
-    }
-
-    public void setNif(String nif) {
         this.nif = nif;
+        this.morada = morada;
     }
-
-    public String getMorada() {
-        return morada;
-    }
-
-    public void setMorada(String morada) {
+    //WITHOUT ID AND AUTHORITIES
+    public User(String username, String password, String fullName, String nif, String morada) {
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.nif = nif;
         this.morada = morada;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
+    public void addAuthority(Role r){
+        authorities.add(r);
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
