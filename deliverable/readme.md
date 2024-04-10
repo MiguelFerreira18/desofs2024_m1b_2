@@ -112,10 +112,83 @@ não devo conseguir alterar receitas que não existam.
 **US30** - Eu como Gestor de Ficheiros quero poder remover uma receita, para poder remover receitas de um pacote. Eu não
 devo conseguir remover receitas que não existam.
 
+### 2.5 Requisitos de Segurança
 
+**RS1** - Uso de uma checklist de boas práticas de código
+**RS2** - Efetuar revisões de código
+**RS3** - Implementar um design seguro
+**RS4** - Implementar a arquitetura Onion para a API
+**RS5** - Fazer pseudo requests com o uso da api do sveltekit
+**RS6** - Usar o dependabot
+**RS7** - Usar o github actions para CI/CD
+**RS8** - Usar o DockerScout
+**RS9** - Usar o OWASP ASVS checklist
+**RS10** - Seguir uma semantica fixa para o controlo de versões
+**RS11** - Seguir normas para efetuar commits
+**RS12** - Usar Trunk Based Development
+**RS13** - Apenas efetuar o Release please após a revisão de código por parte de todos os membros da equipa
+**RS14** - Usar ferramentas de threat modeling como a Microsoft Threat Modeling Tool e o OWASP Threat Dragon
+**RS15** - Usar ferramentas de segurança como o OWASP ZAP
 
+# Exit Points
 
+| ID | Name                                 |
+|----|--------------------------------------|
+| 1  | HTTP Response                        |
+| 2  | Pedidos à API                        |
+| 3  | Falha na validação dos dados         |
+| 4  | Operação de escrita na base de dados |
+| 5  | Finalização de uma transação         |
+| 6  | Tratar de Erros                      |
+| 7  | Logging                              |
+| 8  | Término da Sessão                    |
+| 9  | Interação dos utilizadores           |
 
+# Threat Analysis
 
+## 1. STRIDE
 
+| Categoria              | Descrição                                                                                                                                                                                                                                                                                        |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spoofing               | **Threat 1**: A aplicação tem de ser accessivel aos utilizadores, consequentemente tem de ser fácil de user, contudo não se pode introduzir uma ameaça<br/> **Threat 2**: Visto esta aplicação ser delivery service, implica que haja a possibilidade de alguem se fazer passar por outra pessoa |
+| Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor , é possivel que estas sejam editadas                                                                                                                                                                      |
+| Repudiation            | Sem Ameaças                                                                                                                                                                                                                                                                                      |
+| Information disclosure | **Threat 1**: É possivel que haja XSS visto haver formas de inserir scripts de javascript, com isto é possivel adquirir informação de outros utilizadores  <br/> **Threat 2**: É possivel interceptar pedidos de Http, consequentemente obter informação que não era suposto                     |
+| Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS                                                                                                                                                                                                                         |
+| Elevation of privilege | Sem Ameaças                                                                                                                                                                                                                                                                                      |
 
+## 2. ASF
+
+| Category                 | Description                                                                                                                                             |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Auditing and Logging     | **Threat 1**: Como não existe sistema de logging, não é possivel saber quem fez o que e quando. <br/>**Threat 2**: Qualquer pessoa pode aceder aos logs |
+| Authentication           | **Threat 1**: Com o sistema simples que está em uso, é relativamente fácil de usar credenciais de outros utilizadores                                   |
+| Authorization            | **Threat 1**: Qualquer pessoa pode fazer download das receitas, criando um possivel ponto de entrada                                                    |
+| Configuration management | **Threat 1**: A aplicação está a correr com todas as permições, logo é uma possível ameaça                                                              |
+
+# Countermeasures
+
+### 1. STRIDE
+
+| Categoria              | Descrição                                                                                                                                                                                                                                                                                                                                                                                      |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados                                                                                                                                                                 |
+| Tampering              | **Countermeasure 1**: Utilização de Hashing para as receitas<br/> **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos                                                                                                                                                               |
+| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                                                                                                                                                                                                                                                                                            |
+| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs                                                                                              |
+| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting                                                                                                                                                                                                                                |
+| Elevation of privilege | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs <br/> **Countermeasure 4**: Ninguem deve ter a capacidade de mudar os privilégios do sistema |
+
+## Ferramentas de teste
+
+https://owasp.org/www-community/api_security_tools
+
+https://owasp.org/www-community/Free_for_Open_Source_Application_Security_Tools
+
+### 1. SAST
+
+### 2. DAST
+
+### 3. IAST
+
+https://www.contrastsecurity.com/contrast-community-edition
