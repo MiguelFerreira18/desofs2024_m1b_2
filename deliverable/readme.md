@@ -229,7 +229,7 @@ Ao analisar o diagrama de fluxo de dados, é possível identificar os diferentes
 
 O diagrama abaixo ilustra o diagrama de nível 1, que, por sua natureza mais abrangente, não apresenta detalhes específicos. Como podemos observar no diagrama, os utilizadores interagem com a aplicação web, ou frontend, onde também podem receber inputs de cookies, caso já existam. O percurso prossegue com a comunicação bidirecional com a API do backend, o que significa que ambos os lados recebem e enviam informações um para o outro. No backend, dependendo da operação, as informações podem ser recebidas do base de dados relacional ou do sistema de ficheiros, e todas essas operações são registradas nos logs. É importante destacar que as comunicações entre o utilizador, a aplicação web e a API do backend ocorrem através de HTTPS, garantindo segurança na transmissão de dados.
 
-![alt text](image.png)
+![alt text](./img/DataflowLvl1Dragon.png)
 
 ## DREAD
 
@@ -252,7 +252,7 @@ A Descoberta considera o quão fácil é para um atacante descobrir a vulnerabil
 
 Abaixo é possivel observar algumas das ameaças detetadas ao usar o software Microsft Thread Model Tool.
 
-![alt text](image-1.png)
+![alt text](./img/API-Web-communication.png)
 
 1. **Weak Authentication Scheme**
    - **D (Damage Potencial)**: Alto (a fraqueza na autenticação pode levar à divulgação não autorizada de informações confidenciais dos utilizadores).
@@ -289,7 +289,7 @@ Abaixo é possivel observar algumas das ameaças detetadas ao usar o software Mi
    - **A (Affected users)**: Todos os utilizadores do sistema podem ser afetados, especialmente se as ações realizadas com o fluxo de execução alterado comprometerem a segurança do sistema.
    - **D (Discoverability)**: A descoberta deste problema pode ser mais difícil, mas ainda é possível identificar através de testes de segurança e monitoramento de atividades suspeitas.
 
-![alt text](image-2.png)
+![alt text](./img/Web-Cookies-communication.png)
 
 1. **Spoofing of Source Data Store Cookies**
    - **D (Damage Potencial)**: Alto (cookies podem ser falsificados por um atacante e isso pode levar à entrega de dados incorretos para a Aplicação Web).
@@ -326,7 +326,7 @@ Abaixo é possivel observar algumas das ameaças detetadas ao usar o software Mi
    - **A (Affected users)**: Todos os utilizadores que dependem do fluxo de dados autenticado podem ser afetados, especialmente se as informações forem comprometidas.
    - **D (Discoverability)**: A descoberta deste problema pode ser difícil, pois pode exigir análise detalhada do sistema e monitoramento de atividades suspeitas.
 
-![alt text](image-3.png)
+![alt text](./img/API-DB-communication.png)
 
 1. **Spoofing of Source Data Store SQL Database**
    - **D (Damage Potencial)**: Alto (o base de dados SQL pode ser falsificado por um atacante e isso pode levar à entrega de dados incorretos para a API).
@@ -342,7 +342,7 @@ Abaixo é possivel observar algumas das ameaças detetadas ao usar o software Mi
    - **A (Affected users)**: Todos os utilizadores que interagem com a API podem ser afetados, especialmente se informações sensíveis forem acessadas indevidamente.
    - **D (Discoverability)**: A descoberta deste problema é relativamente fácil, especialmente se a API não tiver controles de acesso adequados.
 
-![alt text](image-4.png)
+![alt text](./img/Filesystem-API.png)
 
 1. **Spoofing of Source Data Store File System**
    - **D (Damage Potencial)**: Alto (o sistema de ficheiros pode ser falsificado por um atacante e isso pode levar à entrega de dados incorretos para a API).
