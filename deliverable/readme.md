@@ -227,7 +227,7 @@ O diagrama de fluxo de dados é uma representação visual que ilustra o percurs
 
 Ao analisar o diagrama de fluxo de dados, é possível identificar os diferentes elementos do sistema, como entidades externas, processos internos e armazenamento de dados. Cada seta representa o movimento de dados entre esses elementos, mostrando a direção e o tipo de informação sendo transmitida. Além disso, os processos de transformação de dados são representados por retângulos, enquanto os dados armazenados são mostrados em bases de dados ou repositórios.
 
-O diagrama abaixo ilustra o diagrama de nível 1, que, por sua natureza mais abrangente, não apresenta detalhes específicos. Como podemos observar no diagrama, os utilizadores interagem com a aplicação web, ou frontend, onde também podem receber inputs de cookies, caso já existam. O percurso prossegue com a comunicação bidirecional com a API do backend, o que significa que ambos os lados recebem e enviam informações um para o outro. No backend, dependendo da operação, as informações podem ser recebidas do base de dados relacional ou do sistema de ficheiros, e todas essas operações são registradas nos logs. É importante destacar que as comunicações entre o utilizador, a aplicação web e a API do backend ocorrem através de HTTPS, garantindo segurança na transmissão de dados.
+O diagrama abaixo ilustra o diagrama de nível 1, que, por sua natureza mais abrangente, não apresenta detalhes específicos. Como podemos observar no diagrama, os utilizadores interagem com a aplicação web, ou frontend, onde também podem receber inputs de cookies, caso já existam. O percurso prossegue com a comunicação bidirecional com a API do backend, o que significa que ambos os lados recebem e enviam informações um para o outro. No backend, dependendo da operação, as informações podem ser recebidas da base de dados relacional ou do sistema de ficheiros, e todas essas operações são registradas nos logs. É importante destacar que as comunicações entre o utilizador, a aplicação web e a API do backend ocorrem através de HTTPS, garantindo segurança na transmissão de dados.
 
 ![alt text](./img/DataflowLvl1Dragon.png)
 
@@ -329,15 +329,15 @@ Abaixo é possivel observar algumas das ameaças detetadas ao usar o software Mi
 ![alt text](./img/API-DB-communication.png)
 
 1. **Spoofing of Source Data Store SQL Database**
-   - **D (Damage Potencial)**: Alto (o base de dados SQL pode ser falsificado por um atacante e isso pode levar à entrega de dados incorretos para a API).
-   - **R (Reproducibility)**: A reprodução deste problema é provável, especialmente se o base de dados SQL não for adequadamente protegido contra spoofing.
-   - **E (Exploitability)**: A explorabilidade é alta, pois o spoofing de base de dados SQL é uma técnica bem conhecida e pode ser facilmente explorada.
-   - **A (Affected users)**: Todos os utilizadores que interagem com a API podem ser afetados, especialmente se dados incorretos forem entregues devido ao spoofing do base de dados SQL.
-   - **D (Discoverability)**: A descoberta deste problema é relativamente fácil, especialmente se o base de dados SQL não for adequadamente protegido contra spoofing.
+   - **D (Damage Potencial)**: Alto (a base de dados SQL pode ser falsificado por um atacante e isso pode levar à entrega de dados incorretos para a API).
+   - **R (Reproducibility)**: A reprodução deste problema é provável, especialmente se a base de dados SQL não for adequadamente protegido contra spoofing.
+   - **E (Exploitability)**: A explorabilidade é alta, pois o spoofing da base de dados SQL é uma técnica bem conhecida e pode ser facilmente explorada.
+   - **A (Affected users)**: Todos os utilizadores que interagem com a API podem ser afetados, especialmente se dados incorretos forem entregues devido ao spoofing da base de dados SQL.
+   - **D (Discoverability)**: A descoberta deste problema é relativamente fácil, especialmente se a base de dados SQL não for adequadamente protegido contra spoofing.
 
 2. **Weak Access Control for a Resource**
-   - **D (Damage Potencial)**: Alto (a proteção inadequada do base de dados SQL pode permitir que um atacante leia informações não destinadas à divulgação).
-   - **R (Reproducibility)**: A reprodução deste problema é provável, especialmente se a proteção do base de dados SQL não for adequadamente implementada.
+   - **D (Damage Potencial)**: Alto (a proteção inadequada da base de dados SQL pode permitir que um atacante leia informações não destinadas à divulgação).
+   - **R (Reproducibility)**: A reprodução deste problema é provável, especialmente se a proteção da base de dados SQL não for adequadamente implementada.
    - **E (Exploitability)**: A explorabilidade é alta, pois a leitura de informações não autorizadas é uma técnica comum de ataque.
    - **A (Affected users)**: Todos os utilizadores que interagem com a API podem ser afetados, especialmente se informações sensíveis forem acessadas indevidamente.
    - **D (Discoverability)**: A descoberta deste problema é relativamente fácil, especialmente se a API não tiver controles de acesso adequados.
@@ -441,7 +441,7 @@ Os requisitos de segurança são elementos essenciais para garantir a proteção
    - Todas as entradas do utilizador devem ser validadas e sanitizadas adequadamente para prevenir ataques de injeção de dados, como SQL injection e XSS (Cross-Site Scripting).
 
 5. **Segurança de Dados em Repouso e em Trânsito**:
-   - Os dados sensíveis devem ser criptografados adequadamente ao serem armazenados no base de dados e durante a transmissão pela rede.
+   - Os dados sensíveis devem ser criptografados adequadamente ao serem armazenados na base de dados e durante a transmissão pela rede.
    - Deve ser implementado SSL/TLS para proteger a comunicação entre o cliente e o servidor.
 
 6. **Monitorização e Registo de Atividades**:
