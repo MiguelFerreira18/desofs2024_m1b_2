@@ -115,22 +115,51 @@ devo conseguir remover receitas que não existam.
 ### 2.5 Requisitos de Segurança
 
 **RS1** - Uso de uma checklist de boas práticas de código
+
 **RS2** - Efetuar revisões de código
+
 **RS3** - Implementar um design seguro
+
 **RS4** - Implementar a arquitetura Onion para a API
+
 **RS5** - Fazer pseudo requests com o uso da api do sveltekit
+
 **RS6** - Usar o dependabot
+
 **RS7** - Usar o github actions para CI/CD
+
 **RS8** - Usar o DockerScout
+
 **RS9** - Usar o OWASP ASVS checklist
+
 **RS10** - Seguir uma semantica fixa para o controlo de versões
+
 **RS11** - Seguir normas para efetuar commits
+
 **RS12** - Usar Trunk Based Development
+
 **RS13** - Apenas efetuar o Release please após a revisão de código por parte de todos os membros da equipa
+
 **RS14** - Usar ferramentas de threat modeling como a Microsoft Threat Modeling Tool e o OWASP Threat Dragon
+
 **RS15** - Usar ferramentas de segurança como o OWASP ZAP
 
+### 2.6 Requisitos de Segurança não funcionais
+**RS1** - O sistema deve ser desenvolvido utilizando Java para o backend e Svelte para o frontend, a fim de garantir uma arquitetura robusta, escalável e eficiente.
 
+**RS2** - O sistema deve ser projetado e otimizado para garantir que o tempo de resposta médio para qualquer interação do utilizador seja inferior a 3 segundos, a fim de proporcionar uma experiência rápida e responsiva.
+
+**RS3** - O sistema deve ser intuitivo e fácil de usar (user-friendly), com uma interface de utilizador bem projetada, no intuito de abrangir utilizadores de todas as idades
+
+**RS4** - O sistema deve implementar mecanismos robustos de autenticação e autorização para garantir que apenas utilizadores autorizados tenham acesso aos recursos apropriados.
+
+**RS5** - O sistema deve manter logs detalhados para todas as atividades dos utilizadores, garantindo a conformidade com regulamentos e políticas de segurança.
+
+**RS6** - O sistema deve ser protegido contra ataques de injeção de SQL, garantindo que todas as consultas SQL sejam parametrizadas (sanitização dos inputs) e validadas para evitar a execução de comandos maliciosos.
+
+**RS7** - O sistema deve seguir uma abordagem positivista de controlo de acesso, onde os utilizadores só têm acesso a recursos específicos através de permissões explícitas concedidas pelos administradores, de forma a prevenir acessos indesejados.
+
+**RS8** - A aplicação não deve utilizar tecnologias client-side não suportadas, inseguras ou obsoletas, como plugins NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do cliente.
 # Exit Points
 
 | ID | Name                                 |
@@ -166,6 +195,44 @@ devo conseguir remover receitas que não existam.
 | Authentication           | **Threat 1**: Com o sistema simples que está em uso, é relativamente fácil de usar credenciais de outros utilizadores                                   |
 | Authorization            | **Threat 1**: Qualquer pessoa pode fazer download das receitas, criando um possivel ponto de entrada                                                    |
 | Configuration management | **Threat 1**: A aplicação está a correr com todas as permições, logo é uma possível ameaça                                                              |
+
+## 3. QUALITATIVE RISK MODEL
+Como forma de criar o "Qualitative Risk Model", determinou-se que a escala atribuída
+para o "Likehood" e o "Impact" varia entre 1 e 5, sendo que 1 seria o menor valor (menor impacto/probabilidade) e 5 seria o maior valor. 
+
+Para calcular o valor do risco, utilizou-se a fórmula: Risk = Likelihood * Impact ,definida em
+https://owasp.org/www-community/OWASP_Risk_Rating_Methodology .
+
+Desta forma, considerou-se os seguintes riscos:
+
+
+**R1** - Denial of Service
+
+**R2** - Information Disclosure
+
+**R3** - Spoofing
+
+**R4** - Tampering
+
+**R5** - Repudiation
+
+**R6** - Elevation of Privilege
+
+**R7** - Social Engineering
+
+| Risk | Likelihood | Impact | Risk Value |
+|------|------------|--------|------------|
+| R1   | 4          | 5      | 20         |
+| R2   | 4          | 5      | 20         |
+| R3   | 3          | 3      | 9          |
+| R4   | 2          | 2      | 4          |
+| R5   | 1          | 2      | 2          |
+| R6   | 2          | 5      | 10         |
+| R7   | 2          | 4      | 8          |
+
+Analisando a seguinte tabela, os riscos RS1 e RS2 apresentam um maior valor,
+sendo necessário prioritizar a mitigação dos mesmos, já os riscos RS4 e RS5, apresentam
+um valor mais reduzido, podendo exigir uma atenção menos imediata.
 
 # Countermeasures
 
