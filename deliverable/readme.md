@@ -254,7 +254,8 @@ https://owasp.org/www-community/api_security_tools
 https://owasp.org/www-community/Free_for_Open_Source_Application_Security_Tools
 
 ### 1. SAST
-
+De forma a analisar o código fonte da aplicação, é necessário utilizar ferramentas de Static Application Security Testing (SAST). Estas ferramentas permitem identificar vulnerabilidades de segurança no código fonte, como falhas de autenticação, injeção de SQL, cross-site scripting (XSS) e outras vulnerabilidades comuns.
+Optou-se por utilizar o SonarQube para realizar esta tarefa, pois é uma ferramenta open-source que suporta várias linguagens de programação e oferece uma análise abrangente do código fonte, identificando bugs, vulnerabilidades e "code smells" (https://www.sonarsource.com/products/sonarqube/).
 ### 2. DAST
 
 ### 3. IAST
