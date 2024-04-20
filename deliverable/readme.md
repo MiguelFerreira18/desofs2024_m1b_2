@@ -127,47 +127,46 @@ e implementados:
     - **RSf3** - As credenciais de autenticação devem ser protegidas adequadamente durante a transmissão e
       armazenamento.
 
-
-1. **Proteção de Dados Pessoais**:
+2. **Proteção de Dados Pessoais**:
     - **RSf4** - Dados pessoais dos utilizadores, como nomes, endereços de email e informações de contacto, devem ser
       protegidos de acordo com as leis de privacidade de dados locais (por exemplo, GDPR na Europa).
     - **RSf5** -Deve ser implementado um controlo de acesso rigoroso para garantir que apenas utilizadores autorizados
       possam visualizar ou modificar dados pessoais.
 
-2. **Segurança de Sessão**:
+3. **Segurança de Sessão**:
     - **RSf6** - Todas as sessões de utilizador devem ser adequadamente geridas e protegidas contra ataques de sessão,
       como sessões roubadas ou sequestro de sessão.
     - **RSf7** - Mecanismos como tokens de sessão, expiração de sessão e autenticação de dois fatores podem ser
       implementados para reforçar a segurança das sessões de utilizador.
 
-3. **Prevenção de Injeção de Dados**:
+4. **Prevenção de Injeção de Dados**:
     - **RSf8** - Todas as entradas do utilizador devem ser validadas e sanitizadas adequadamente para prevenir ataques
       de injeção de dados, como SQL injection e XSS (Cross-Site Scripting).
 
-4. **Segurança de Dados em Repouso e em Trânsito**:
+5. **Segurança de Dados em Repouso e em Trânsito**:
     - **RSf9** - Os dados sensíveis devem ser criptografados adequadamente ao serem armazenados na base de dados e
       durante a transmissão pela rede.
     - **RSf10** - Deve ser implementado SSL/TLS para proteger a comunicação entre o cliente e o servidor.
 
-5. **Monitorização e Registo de Atividades**:
+6. **Monitorização e Registo de Atividades**:
     - **RSf11** - Deve ser implementado um sistema de registo robusto para monitorizar e registar todas as atividades no
       sistema, incluindo tentativas de login, acessos a dados sensíveis e modificações importantes.
 
-6. **Gestão de Vulnerabilidades e Patches**:
+7. **Gestão de Vulnerabilidades e Patches**:
     - **RSf12** -Deve haver um processo formal para identificar, avaliar e corrigir vulnerabilidades de segurança no
       sistema, incluindo a aplicação oportuna de patches de segurança.
 
-7. **Segurança do Código**:
+8. **Segurança do Código**:
     - **RSf13** - O código-fonte do sistema deve ser escrito de acordo com práticas seguras de programação para evitar
       vulnerabilidades comuns, como injeção de SQL, XSS e CSRF (Cross-Site Request Forgery).
 
-8. **Proteção contra Ataques de DDoS**:
+9. **Proteção contra Ataques de DDoS**:
     - **RSf4** - Deve ser implementada uma solução de proteção contra ataques de negação de serviço distribuído (DDoS)
       para garantir a disponibilidade contínua do sistema, mesmo durante picos de tráfego malicioso.
 
-9. **Backup e Recuperação de Dados**:
-   - **RSf15** - Deve ser implementado um plano de backup regular e seguro para garantir a disponibilidade e
-     integridade dos dados em caso de falha do sistema, desastres naturais ou ataques cibernéticos.
+10. **Backup e Recuperação de Dados**:
+    - **RSf15** - Deve ser implementado um plano de backup regular e seguro para garantir a disponibilidade e
+      integridade dos dados em caso de falha do sistema, desastres naturais ou ataques cibernéticos.
 
 ### 2.6 Requisitos de Segurança não funcionais
 
@@ -246,6 +245,45 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 ## Administrator
 
 ![Administrator.png](./img/UseAndAbuseCase/Administrator.png)
+
+# Aquitetura
+
+## Domain model
+
+![domainModel.png](./img/UML/DomainModel/domainModel.png)
+
+## Diagrama de entidade relação 
+
+![domainModel.png](./img/UML/Erd/ERD.png)
+
+## Diagramas de implantanção
+
+### Diagrama de implantação de nível 1
+![FisicaNivel1.png](./img/UML/VistaFisica/FisicaNivel1.png)
+
+### Diagrama de implantação de nível 2
+![FisicaNivel2.png](./img/UML/VistaFisica/FisicaNivel2.png)
+
+## Diagrama de componentes
+
+### Diagrama de componentes de nível 2
+![logicaNivel2.png](./img/UML/VistaLogica/logicanivel2.png)
+
+### Diagrama de componentes de nível 3
+![logicaNivel2.png](./img/UML/VistaLogica/logicaNivel3.png)
+
+## Diagrama de pacotes
+
+![logicaNivel2.png](./img/UML/VistaLogica/Pacotes.png)
+
+# Pipeline Design
+
+![PipelineSchema.png](PipelineSchema/PipelineSchema.png)
+
+
+
+
+
 
 
 # Threat Analysis
