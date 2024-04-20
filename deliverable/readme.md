@@ -170,7 +170,7 @@ e implementados:
 
 ### 2.6 Requisitos de Segurança não funcionais
 
-**RSNF1** - O sistema deve ser desenvolvido utilizando Java para o backend e Svelte para o frontend, a fim de garantir
+**RSNF1** - O sistema deve ser desenvolvido utilizando Java para o backend e Sveltekit para o frontend, a fim de garantir
 uma arquitetura robusta, escalável e eficiente.
 
 **RSNF2** - O sistema deve ser projetado e otimizado para garantir que o tempo de resposta médio para qualquer interação
