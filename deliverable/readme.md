@@ -7,7 +7,15 @@ de refeições que serão confeccionadas pelos próprios. O propósito deste tem
 as pessoas que não têm tempo para comprar ingredientes e pensar numa receita para cozinhar, possam encomendar um pacote,
 que trará todos os ingredientes necessários para uma semana de refeições e as respetivas receitas.
 
-# 2 General guidelines
+# 2 guidelines
+
+### Coding checklist
+
+- Check for dependency vulnerabilities after adding one
+- Use a linter
+- Use a formatter
+- Verificar se está de acordo com o requisito
+- Verificar se os requisitos de segurança são cumpridos
 
 ### Commits
 
@@ -59,29 +67,24 @@ Os Pull Requests devem seguir as seguintes regras:
 O código deve ser revisto por todos os membros da equipa em caso de release, se for apenas um pull request para a branch
 de development será apenas necessário 1 reviwer.
 
-# 3. User Stories e requisitos
+# 3. User Stories
 
 ### 3.1. Utilizador
 
 **US1** - Eu como utilizador quero poder criar uma conta no website para poder fazer encomendas. Eu não devo criar um
-perfil
-com
-as mesmas credenciais que outra pessoa.
+perfil com as mesmas credenciais que outra pessoa.
 
 **US2** - Eu como utilizador quero poder fazer login no website para poder fazer encomendas. Eu não devo conseguir fazer
-login
-com credenciais inválidas ou de outros utilizadores.
+login com credenciais inválidas ou de outros utilizadores.
 
 **US3** - Eu como utilizador quero poder ver os pacotes dsiponíveis para encomenda, para poder escolher o que mais me
 agrada.
 
 **US4** - Eu como utilizador quero poder ver o conjunto de receitas disponíveis para cada pacote, para poder escolher o
-que
-mais me agrada.
+que mais me agrada.
 
 **US5** - Eu como utilizador quero poder fazer o download do conjunto de receitas disponíveis para cada pacote, para
-poder
-ter acesso às receitas mesmo que não tenha acesso à internet. Eu não devo conseguir fazer download de receitas de
+poder ter acesso às receitas mesmo que não tenha acesso à internet. Eu não devo conseguir fazer download de receitas de
 pacotes que não existam.
 
 **US6** - Eu como utilizador quero conseguir efetuar uma encomenda de um pacote, para poder receber os ingredientes e as
@@ -91,16 +94,13 @@ receitas em casa. Eu não devo conseguir encomendar pacotes que não existam ou 
 entregue. Eu não devo conseguir ver o estado de encomendas de outros utilizadores.
 
 **US8** - Eu como utilizador quero poder cancelar a minha encomenda, para poder receber o reembolso do valor pago. Eu
-não
-devo conseguir cancelar encomendas de outros utilizadores.
+não devo conseguir cancelar encomendas de outros utilizadores.
 
 **US9** - Eu como utilizador quero poder ver o histórico das minhas encomendas, para poder ver o que já encomendei. Eu
-não
-devo conseguir ver o histórico de encomendas de outros utilizadores.
+não devo conseguir ver o histórico de encomendas de outros utilizadores.
 
 **US10** - Eu como utilizador quero poder ver reviews sobre os pacotes, para poder saber a opinião de outros
-utilizadores
-sobre os mesmos. Eu não devo conseguir ver reviews de pacotes que não existam.
+utilizadores sobre os mesmos. Eu não devo conseguir ver reviews de pacotes que não existam.
 
 **US11** - Eu como utilizador quero poder fazer uma review sobre um pacote, para poder partilhar a minha opinião sobre o
 mesmo. Eu não devo conseguir fazer reviews de pacotes que não existam.
@@ -117,8 +117,7 @@ existam.
 Eu não devo conseguir adicionar métodos de pagamento que já existam.
 
 **US15** - Eu como utilizador quero poder alterar informações do perfil da minha conta, para poder atualizar a minha
-informação. Eu
-não devo conseguir alterar o perfil de outros utilizadores.
+informação. Eu não devo conseguir alterar o perfil de outros utilizadores.
 
 **US16** - Eu como utilizador quero poder alterar a minha password, para poder atualizar a minha password. Eu não devo
 conseguir alterar a password de outros utilizadores.
@@ -166,7 +165,7 @@ devo conseguir remover receitas que não existam.
 
 # 4. Requisitos 
 
-### Numemclatura
+### Numenclatura
 
 - RS - Requisito de Segurança
 - RSF - Requisito de Segurança Funcional
@@ -776,7 +775,7 @@ https://owasp.org/www-community/api_security_tools
 
 https://owasp.org/www-community/Free_for_Open_Source_Application_Security_Tools
 
-## 1. SAST
+## SAST
 
 De forma a analisar o código fonte da aplicação, é necessário utilizar ferramentas de Static Application Security
 Testing (SAST). Estas ferramentas permitem identificar vulnerabilidades de segurança no código fonte, como falhas de
@@ -787,23 +786,14 @@ smells" (https://www.sonarsource.com/products/sonarqube/).
 
 ## DAST (Dynamic testing)
 
-Os testes dinâmicos de segurança das aplicações (DAST) representam uma metodologia fundamental para a avaliação da
-segurança das aplicações Web em funcionamento. Ao contrário de outras metodologias, como os testes estáticos de
-segurança das aplicações (SAST), que analisam o código fonte, ou os testes de penetração manual, os DAST examinam a
-aplicação em tempo real, simulando ataques reais.
+Para este projeto vamos utilizar o OWASP ZAP, ferrameta essa que permite testar a segurança de aplicações web através de 
+testes dinâmicos. O ZAP é uma ferramenta open-source que oferece uma ampla gama de funcionalidades, incluindo varreduras
+automáticas a testar contra todo o tipo de vulnerabilidades, como injeção de SQL, cross-site scripting (XSS), e outras
+ameaças comuns. (https://www.zaproxy.org/)
 
-A DAST funciona interagindo com a aplicação web de forma análoga à de um atacante malévolo. Transmite pedidos HTTP à
-aplicação, explorando vários componentes, incluindo entradas de formulários, parâmetros de URL e cabeçalhos de pedidos.
-Em seguida, analisa as respostas da aplicação em busca de indicações de vulnerabilidades de segurança, como injecções de
-SQL, XSS (Cross-Site Scripting), CSRF (Cross-Site Request Forgery), entre outras.
+## SCA
 
-A DAST desempenha um papel fundamental na identificação e retificação de vulnerabilidades de segurança em aplicações
-Web. Ao simular ataques genuínos, permite que as organizações compreendam a sua suscetibilidade a ameaças e implementem
-medidas preventivas para reforçar a sua postura de segurança. Além disso, a DAST fornece relatórios completos sobre as
-vulnerabilidades identificadas, facilitando assim a definição de prioridades e a retificação dessas deficiências.
-
-### Aplicações com metodologia DAST
-
-Algumas das principais ferramentas de teste dinâmico de segurança de aplicações (DAST) incluem Burp Suite, OWASP ZAP,
-Acunetix e AppScan. Estas ferramentas oferecem recursos automatizados de verificação de vulnerabilidades para aplicações
-Web e relatórios detalhados sobre as vulnerabilidades encontradas.
+A ferramenta escolhida para realizar a análise de componentes de software é o OWASP Dependency-Check. Esta ferramenta
+open-source permite identificar vulnerabilidades em bibliotecas de terceiros usadas no projeto, ajudando a garantir que
+não existam componentes com falhas de segurança conhecidas. O Dependency-Check supporta todas as linguagens que temos no
+nosso projeto (Java e javascript/Typescript). (https://owasp.org/www-project-dependency-check/)
