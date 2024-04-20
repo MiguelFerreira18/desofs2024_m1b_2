@@ -190,7 +190,7 @@ e implementados:
 2. **Proteção de Dados Pessoais**:
     - **RSF4** - Dados pessoais dos utilizadores, como nomes, endereços de email e informações de contacto, devem ser
       protegidos de acordo com as leis de privacidade de dados locais (por exemplo, GDPR na Europa).
-    - **RSF5** -Deve ser implementado um controlo de acesso rigoroso para garantir que apenas utilizadores autorizados
+    - **RSF5** - Deve ser implementado um controlo de acesso rigoroso para garantir que apenas utilizadores autorizados
       possam visualizar ou modificar dados pessoais.
 
 3. **Segurança de Sessão**:
@@ -230,7 +230,7 @@ e implementados:
 
 ## 4.2 Requisitos de Segurança não funcionais
 
-**RSNF1** - O sistema deve ser desenvolvido utilizando Java para o backend e Svelte para o frontend, a fim de garantir
+**RSNF1** - O sistema deve ser desenvolvido utilizando Java para o backend e SvelteKit para o frontend, a fim de garantir
 uma arquitetura robusta, escalável e eficiente.
 
 **RSNF2** - O sistema deve ser projetado e otimizado para garantir que o tempo de resposta médio para qualquer interação
