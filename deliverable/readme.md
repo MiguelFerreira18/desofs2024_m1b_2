@@ -1,15 +1,67 @@
 # DESOFS deliverables
 
-## 1. Introduction
+# 1. Introduction
 
 O seguinte projeto tem como tema principal um *meal delivery service*, no qual utilizadores do website podem encomendar
 de refeições que serão confeccionadas pelos próprios. O propósito deste tema é essêncialmente permitir que,
 as pessoas que não têm tempo para comprar ingredientes e pensar numa receita para cozinhar, possam encomendar um pacote,
 que trará todos os ingredientes necessários para uma semana de refeições e as respetivas receitas.
 
-## 2. User Stories
+# 2 General guidelines
 
-### 2.1. Utilizador
+### Commits
+
+Para cada commit, teremos as seguintes regras:
+
+- O commit deve ser curto, até 50 caracteres
+- O commit deve ter o tipo do commit entre parenteses retos:
+    - [feat] - Para novas funcionalidades
+    - [fix] - Para correção de bugs
+    - [doc] - Para alterações na documentação
+    - [style] - Para alterações que não afetam o código (espaços, formatação, etc)
+    - [refactor] - Para refatoração de código
+    - [test] - Para adição de testes
+    - [chore] - Para alterações que não se encaixam em nenhuma das categorias anteriores
+    - [security] - Para correção de problemas de segurança
+    - [ci] - Para alterações em pipelines de CI/CD
+    - [perf] - Para melhorias de performance
+    - [revert] - Para reverter um commit anterior
+    - [build] - Para alterações que afetam o build system
+- Os commits devem ser escritos em inglês
+- O commit deve ser escrito na forma imperativa ( add feature, update documentation, create testA)
+
+### Branching
+
+Haverá apenas 4 branches, o arch, que serve para guardar a arquitetura e documentação do projeto, o main que é a branch
+para onde se faz merge das branches de features e architecture, a branch de development que é a branch onde se cria as
+features, esta branch pode ter multiplos subbranches, uma para cada feature e por fim um release branch que é
+criada quando se quer fazer um release.
+
+### Issues
+
+As issues serão cridas para cada tópico importante ao desenvolvimento do trabalho. Estas issues poderão coincidir com
+as labels do documento asvs.
+
+### Pull Requests
+
+Os Pull Requests devem seguir as seguintes regras:
+
+- O título do PR deve ser curto e conciso
+- O PR deve ter uma descrição detalhada do que foi feito
+- O PR deve ter uma checklist com os pontos que foram feitos
+- O PR deve ter um reviewer
+- O PR deve ter um assignee
+- O PR deve ter um label
+- O PR deve ser associado a uma issue
+
+### Code Review
+
+O código deve ser revisto por todos os membros da equipa em caso de release, se for apenas um pull request para a branch
+de development será apenas necessário 1 reviwer.
+
+# 3. User Stories e requisitos
+
+### 3.1. Utilizador
 
 **US1** - Eu como utilizador quero poder criar uma conta no website para poder fazer encomendas. Eu não devo criar um
 perfil
@@ -71,7 +123,7 @@ não devo conseguir alterar o perfil de outros utilizadores.
 **US16** - Eu como utilizador quero poder alterar a minha password, para poder atualizar a minha password. Eu não devo
 conseguir alterar a password de outros utilizadores.
 
-### 2.2. Administrador
+### 3.2. Administrador
 
 **US17** - Eu como administrador quero poder efetuar o login no website, para poder gerir as encomendas. Eu não devo
 conseguir fazer login com credenciais inválidas ou de outros utilizadores.
@@ -98,7 +150,7 @@ pacote.
 
 **US26** - Eu como Administrador quero poder remover reviews com conteúdo impróprio, para poder manter o website limpo.
 
-### 2.4 Gestor de Ficheiros
+### 3.4. Gestor de Ficheiros
 
 **US27** - Eu como Gestor de Ficheiros quero poder fazer login no website, para poder gerir as receitas. Eu não devo
 conseguir fazer login com credenciais inválidas ou de outros utilizadores.
@@ -112,7 +164,16 @@ não devo conseguir alterar receitas que não existam.
 **US30** - Eu como Gestor de Ficheiros quero poder remover uma receita, para poder remover receitas de um pacote. Eu não
 devo conseguir remover receitas que não existam.
 
-## 2.7 Requisitos de segurança funcionais
+# 4. Requisitos 
+
+### Numemclatura
+
+- RS - Requisito de Segurança
+- RSF - Requisito de Segurança Funcional
+- RSNF - Requisito de Segurança não funcional
+- RSD - Requisito de Segurança de Desenvolvimento
+
+## 4.1 Requisitos de segurança funcionais
 
 Os requisitos de segurança são elementos essenciais para garantir a proteção adequada dos sistemas de informação contra
 ameaças cibernéticas. Aqui estão alguns dos requisitos funcionais de segurança que detetamos que devem ser considerados
@@ -120,55 +181,55 @@ e implementados:
 
 1. **Autenticação e Autorização**:
 
-    - **RSf1** - Todos os utilizadores devem ser autenticados antes de acederem a qualquer funcionalidade do sistema
+    - **RSF1** - Todos os utilizadores devem ser autenticados antes de acederem a qualquer funcionalidade do sistema
       .
-    - **RSf2** - Deve haver diferentes níveis de acesso com base nos papéis dos utilizadores.
+    - **RSF2** - Deve haver diferentes níveis de acesso com base nos papéis dos utilizadores.
 
-    - **RSf3** - As credenciais de autenticação devem ser protegidas adequadamente durante a transmissão e
+    - **RSF3** - As credenciais de autenticação devem ser protegidas adequadamente durante a transmissão e
       armazenamento.
 
 2. **Proteção de Dados Pessoais**:
-    - **RSf4** - Dados pessoais dos utilizadores, como nomes, endereços de email e informações de contacto, devem ser
+    - **RSF4** - Dados pessoais dos utilizadores, como nomes, endereços de email e informações de contacto, devem ser
       protegidos de acordo com as leis de privacidade de dados locais (por exemplo, GDPR na Europa).
-    - **RSf5** -Deve ser implementado um controlo de acesso rigoroso para garantir que apenas utilizadores autorizados
+    - **RSF5** -Deve ser implementado um controlo de acesso rigoroso para garantir que apenas utilizadores autorizados
       possam visualizar ou modificar dados pessoais.
 
 3. **Segurança de Sessão**:
-    - **RSf6** - Todas as sessões de utilizador devem ser adequadamente geridas e protegidas contra ataques de sessão,
+    - **RSF6** - Todas as sessões de utilizador devem ser adequadamente geridas e protegidas contra ataques de sessão,
       como sessões roubadas ou sequestro de sessão.
-    - **RSf7** - Mecanismos como tokens de sessão, expiração de sessão e autenticação de dois fatores podem ser
+    - **RSF7** - Mecanismos como tokens de sessão, expiração de sessão e autenticação de dois fatores podem ser
       implementados para reforçar a segurança das sessões de utilizador.
 
 4. **Prevenção de Injeção de Dados**:
-    - **RSf8** - Todas as entradas do utilizador devem ser validadas e sanitizadas adequadamente para prevenir ataques
+    - **RSF8** - Todas as entradas do utilizador devem ser validadas e sanitizadas adequadamente para prevenir ataques
       de injeção de dados, como SQL injection e XSS (Cross-Site Scripting).
 
 5. **Segurança de Dados em Repouso e em Trânsito**:
-    - **RSf9** - Os dados sensíveis devem ser criptografados adequadamente ao serem armazenados na base de dados e
+    - **RSF9** - Os dados sensíveis devem ser criptografados adequadamente ao serem armazenados na base de dados e
       durante a transmissão pela rede.
-    - **RSf10** - Deve ser implementado SSL/TLS para proteger a comunicação entre o cliente e o servidor.
+    - **RSF10** - Deve ser implementado SSL/TLS para proteger a comunicação entre o cliente e o servidor.
 
 6. **Monitorização e Registo de Atividades**:
-    - **RSf11** - Deve ser implementado um sistema de registo robusto para monitorizar e registar todas as atividades no
+    - **RSF11** - Deve ser implementado um sistema de registo robusto para monitorizar e registar todas as atividades no
       sistema, incluindo tentativas de login, acessos a dados sensíveis e modificações importantes.
 
 7. **Gestão de Vulnerabilidades e Patches**:
-    - **RSf12** -Deve haver um processo formal para identificar, avaliar e corrigir vulnerabilidades de segurança no
+    - **RSF12** -Deve haver um processo formal para identificar, avaliar e corrigir vulnerabilidades de segurança no
       sistema, incluindo a aplicação oportuna de patches de segurança.
 
 8. **Segurança do Código**:
-    - **RSf13** - O código-fonte do sistema deve ser escrito de acordo com práticas seguras de programação para evitar
+    - **RSF13** - O código-fonte do sistema deve ser escrito de acordo com práticas seguras de programação para evitar
       vulnerabilidades comuns, como injeção de SQL, XSS e CSRF (Cross-Site Request Forgery).
 
 9. **Proteção contra Ataques de DDoS**:
-    - **RSf4** - Deve ser implementada uma solução de proteção contra ataques de negação de serviço distribuído (DDoS)
+    - **RSF4** - Deve ser implementada uma solução de proteção contra ataques de negação de serviço distribuído (DDoS)
       para garantir a disponibilidade contínua do sistema, mesmo durante picos de tráfego malicioso.
 
 10. **Backup e Recuperação de Dados**:
-    - **RSf15** - Deve ser implementado um plano de backup regular e seguro para garantir a disponibilidade e
+    - **RSF15** - Deve ser implementado um plano de backup regular e seguro para garantir a disponibilidade e
       integridade dos dados em caso de falha do sistema, desastres naturais ou ataques cibernéticos.
 
-### 2.6 Requisitos de Segurança não funcionais
+## 4.2 Requisitos de Segurança não funcionais
 
 **RSNF1** - O sistema deve ser desenvolvido utilizando Java para o backend e Svelte para o frontend, a fim de garantir
 uma arquitetura robusta, escalável e eficiente.
@@ -195,7 +256,7 @@ indesejados.
 **RSNF8** - A aplicação não deve utilizar tecnologias client-side não suportadas, inseguras ou obsoletas, como plugins
 NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do cliente.
 
-### 2.5 Requisitos de Segurança de desenvolvimento
+## 4.3 Requisitos de Segurança de desenvolvimento
 
 **RSD1** - Uso de uma checklist de boas práticas de código
 
@@ -227,10 +288,13 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 **RSD15** - Usar ferramentas de segurança como o OWASP ZAP
 
+**RSD16** - Usar ferramentas de análise estático de código
+
+**RSD17** - Usar ferramentas de análise de dependências como o OWASP Dependency-Check
+
 # Use And Abuse cases
 
 ## User Authentication
-
 
 ![UserAuth.png](./img/UseAndAbuseCase/UserAuth.png)
 
@@ -252,24 +316,28 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 ![domainModel.png](./img/UML/DomainModel/domainModel.png)
 
-## Diagrama de entidade relação 
+## Diagrama de entidade relação
 
 ![domainModel.png](./img/UML/Erd/ERD.png)
 
 ## Diagramas de implantanção
 
 ### Diagrama de implantação de nível 1
+
 ![FisicaNivel1.png](./img/UML/VistaFisica/FisicaNivel1.png)
 
 ### Diagrama de implantação de nível 2
+
 ![FisicaNivel2.png](./img/UML/VistaFisica/FisicaNivel2.png)
 
 ## Diagrama de componentes
 
 ### Diagrama de componentes de nível 2
+
 ![logicaNivel2.png](./img/UML/VistaLogica/logicanivel2.png)
 
 ### Diagrama de componentes de nível 3
+
 ![logicaNivel2.png](./img/UML/VistaLogica/logicaNivel3.png)
 
 ## Diagrama de pacotes
@@ -279,12 +347,6 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 # Pipeline Design
 
 ![PipelineSchema.png](PipelineSchema/PipelineSchema.png)
-
-
-
-
-
-
 
 # Threat Analysis
 
@@ -745,7 +807,3 @@ vulnerabilidades identificadas, facilitando assim a definição de prioridades e
 Algumas das principais ferramentas de teste dinâmico de segurança de aplicações (DAST) incluem Burp Suite, OWASP ZAP,
 Acunetix e AppScan. Estas ferramentas oferecem recursos automatizados de verificação de vulnerabilidades para aplicações
 Web e relatórios detalhados sobre as vulnerabilidades encontradas.
-
-### 3. IAST
-
-https://www.contrastsecurity.com/contrast-community-edition
