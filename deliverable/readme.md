@@ -413,14 +413,14 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 ## 6.1 STRIDE
 
-| Categoria              | Descrição                                                                                                                                                                                                                                                                                        |
-|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Categoria              | Descrição               |
+|------------------------|--------------------------|
 | Spoofing               | **Threat 1**: A aplicação tem de ser accessível aos utilizadores, consequentemente tem de ser fácil de usar, contudo não se pode introduzir uma ameaça<br/> **Threat 2**: Visto esta aplicação ser delivery service, implica que haja a possibilidade de alguem se fazer passar por outra pessoa |
 | Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor, é possivel que estas sejam editadas                     |
 | Repudiation            | Sem Ameaças                                                     |
 | Information disclosure | **Threat 1**: É possivel que haja XSS visto haver formas de inserir scripts de javascript, com isto é possivel adquirir informação de outros utilizadores  <br/> **Threat 2**: É possivel interceptar pedidos de Http, consequentemente obter informação que não era suposto                     |
 | Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS         |
-| Elevation of privilege | Sem Ameaças                                    |
+| Elevation of privilege | Sem Ameaças                            |
 
 ## 6.2 ASF
 
