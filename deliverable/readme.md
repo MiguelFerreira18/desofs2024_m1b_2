@@ -64,8 +64,7 @@
 
 # 1 Introduction
 
-O seguinte projeto tem como tema principal um *meal delivery service*, no qual utilizadores do website podem encomendar
-de refeições que serão confecionadas pelos próprios. O propósito deste tema é essêncialmente permitir que,
+O seguinte projeto tem como tema principal um *meal delivery service*, no qual os utilizadores do website podem encomendar refeições que serão confecionadas pelos próprios. O propósito deste tema é essêncialmente permitir que,
 as pessoas que não têm tempo para comprar ingredientes e pensar numa receita para cozinhar, possam encomendar um pacote,
 que trará todos os ingredientes necessários para uma semana de refeições e as respetivas receitas.
 
@@ -104,8 +103,7 @@ Para cada commit, teremos as seguintes regras:
 
 Haverá apenas 4 branches, o arch, que serve para guardar a arquitetura e documentação do projeto, o main que é a branch
 para onde se faz merge das branches de development e architecture, a branch de development que é a branch onde se cria
-as
-features, esta branch pode ter multiplos sub-branches, uma para cada feature e por fim um release branch que é
+as features em que esta branch pode ter multiplos sub-branches, uma para cada feature e por fim um release branch que é
 criado quando se quer fazer um release.
 
 ### 2.4 Issues
@@ -413,19 +411,19 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 ## 6.1 STRIDE
 
-| Categoria              | Descrição                                                                                                                                                                                                                                                                                        |
-|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Categoria              | Descrição                    |
+|------------------------|------------------------------|
 | Spoofing               | **Threat 1**: A aplicação tem de ser accessivel aos utilizadores, consequentemente tem de ser fácil de user, contudo não se pode introduzir uma ameaça<br/> **Threat 2**: Visto esta aplicação ser delivery service, implica que haja a possibilidade de alguem se fazer passar por outra pessoa |
-| Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor, é possivel que estas sejam editadas                                                                                                                                                                       |
-| Repudiation            | Sem Ameaças                                                                                                                                                                                                                                                                                      |
+| Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor, é possivel que estas sejam editadas                       |
+| Repudiation            | Sem Ameaças                  |
 | Information disclosure | **Threat 1**: É possivel que haja XSS visto haver formas de inserir scripts de javascript, com isto é possivel adquirir informação de outros utilizadores  <br/> **Threat 2**: É possivel interceptar pedidos de Http, consequentemente obter informação que não era suposto                     |
-| Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS                                                                                                                                                                                                                         |
-| Elevation of privilege | Sem Ameaças                                                                                                                                                                                                                                                                                      |
+| Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS         |
+| Elevation of privilege | Sem Ameaças                                    |
 
 ## 6.2 ASF
 
-| Category                 | Description                                                                                                                                             |
-|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Category                 | Description              |
+|--------------------------|--------------------------|
 | Auditing and Logging     | **Threat 1**: Como não existe sistema de logging, não é possivel saber quem fez o que e quando. <br/>**Threat 2**: Qualquer pessoa pode aceder aos logs |
 | Authentication           | **Threat 1**: Com o sistema simples que está em uso, é relativamente fácil de usar credenciais de outros utilizadores                                   |
 | Authorization            | **Threat 1**: Qualquer pessoa pode fazer download das receitas, criando um possivel ponto de entrada                                                    |
@@ -441,8 +439,8 @@ utilizadores.
 Abaixo está uma lista dos principais pontos de entrada do sistema, juntamente com uma breve descrição de suas
 funcionalidades e os níveis de confiança associados:
 
-| ID | Name                              | Description                                                                                                                          | Trust Level                                                                                                                                |
-|----|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| ID | Name        | Description                                             | Trust Level              |
+|----|-------------|---------------------------------------------------------|-------------------------|
 | 1  | HTTPS Port                        | O site da CozinhaNaCozinha é acessível apenas através do uso de TLS. Todas as páginas do site estão protegidas por esta camada.      | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
 | 2  | Página de Login                   | Membros e administradores devem fazer login para aceder a funcionalidades de aquisição de serviço ou gestão dos serviços adquiridos. | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
 | 3  | Página Inicial                    | Todos os visitantes podem aceder à página principal para visualizar planos, serviços, informações e tirar dúvidas.                   | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
@@ -517,13 +515,13 @@ um valor inferior, podendo exigir uma atenção menos imediata.
 
 ### STRIDE
 
-| Categoria              | Descrição                                                                                                                                                                                                                                                                                                                                                                                      |
-|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados                                                                                                                                                                 |
-| Tampering              | **Countermeasure 1**: Utilização de Hashing para as receitas<br/> **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos                                                                                                                                                               |
-| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                                                                                                                                                                                                                                                                                            |
-| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs                                                                                              |
-| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting                                                                                                                                                                                                                                |
+| Categoria              | Descrição               |
+|------------------------|--------------------------|
+| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados   |
+| Tampering              | **Countermeasure 1**: Utilização de Hashing para as receitas<br/> **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos         |
+| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                |
+| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs            |
+| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting       |
 | Elevation of privilege | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs <br/> **Countermeasure 4**: Ninguem deve ter a capacidade de mudar os privilégios do sistema |
 
 ## 6.7 Dataflow Diagram Lv1
