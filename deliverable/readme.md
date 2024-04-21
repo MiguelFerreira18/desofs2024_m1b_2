@@ -104,9 +104,8 @@ Para cada commit, teremos as seguintes regras:
 
 Haverá apenas 4 branches, o arch, que serve para armazenar a arquitetura e documentação do projeto, o main que é a branch
 para onde se faz merge das branches de development e architecture, a branch de development que é a branch onde se cria
-as
-features, sendo que esta branch pode ter múltiplas sub-branches (uma para cada feature) e por fim uma release branch que é
-criada quando se quer fazer um release.
+as features, sendo que esta branch pode ter múltiplas sub-branches (uma para cada feature) e por fim uma release branch 
+que é criada quando se quer fazer um release.
 
 ### 2.4 Issues
 
@@ -138,8 +137,8 @@ de development será apenas necessário pelo menos 1 reviwer.
 **US1** - Eu como utilizador quero poder criar uma conta no website para poder fazer encomendas. Eu não devo criar um
 perfil com as mesmas credenciais que outra pessoa.
 
-**US2** - Eu como utilizador quero poder fazer login no website para conseguir fazer encomendas. Eu não devo conseguir fazer
-login com credenciais inválidas ou de outros utilizadores.
+**US2** - Eu como utilizador quero poder fazer login no website para conseguir fazer encomendas. Eu não devo conseguir 
+fazer login com credenciais inválidas ou de outros utilizadores.
 
 **US3** - Eu como utilizador quero poder ver os pacotes disponíveis para encomenda, para poder escolher o que mais me
 agrada.
