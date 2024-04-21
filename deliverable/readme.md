@@ -64,7 +64,8 @@
 
 # 1 Introduction
 
-O seguinte projeto tem como tema principal um *meal delivery service*, no qual os utilizadores do website podem encomendar refeições que serão confecionadas pelos próprios. O propósito deste tema é essêncialmente permitir que,
+O seguinte projeto tem como tema principal um *meal delivery service*, no qual utilizadores do website podem encomendar
+refeições que serão confecionadas pelos próprios. O propósito deste tema é essencialmente permitir que,
 as pessoas que não têm tempo para comprar ingredientes e pensar numa receita para cozinhar, possam encomendar um pacote,
 que trará todos os ingredientes necessários para uma semana de refeições e as respetivas receitas.
 
@@ -101,10 +102,11 @@ Para cada commit, teremos as seguintes regras:
 
 ### 2.3 Branching
 
-Haverá apenas 4 branches, o arch, que serve para guardar a arquitetura e documentação do projeto, o main que é a branch
+Haverá apenas 4 branches, o arch, que serve para armazenar a arquitetura e documentação do projeto, o main que é a branch
 para onde se faz merge das branches de development e architecture, a branch de development que é a branch onde se cria
-as features em que esta branch pode ter multiplos sub-branches, uma para cada feature e por fim um release branch que é
-criado quando se quer fazer um release.
+as
+features, sendo que esta branch pode ter múltiplas sub-branches (uma para cada feature) e por fim uma release branch que é
+criada quando se quer fazer um release.
 
 ### 2.4 Issues
 
@@ -136,10 +138,10 @@ de development será apenas necessário pelo menos 1 reviwer.
 **US1** - Eu como utilizador quero poder criar uma conta no website para poder fazer encomendas. Eu não devo criar um
 perfil com as mesmas credenciais que outra pessoa.
 
-**US2** - Eu como utilizador quero poder fazer login no website para poder fazer encomendas. Eu não devo conseguir fazer
+**US2** - Eu como utilizador quero poder fazer login no website para conseguir fazer encomendas. Eu não devo conseguir fazer
 login com credenciais inválidas ou de outros utilizadores.
 
-**US3** - Eu como utilizador quero poder ver os pacotes dsiponíveis para encomenda, para poder escolher o que mais me
+**US3** - Eu como utilizador quero poder ver os pacotes disponíveis para encomenda, para poder escolher o que mais me
 agrada.
 
 **US4** - Eu como utilizador quero poder ver o conjunto de receitas disponíveis para cada pacote, para poder escolher o
@@ -167,7 +169,7 @@ utilizadores sobre os mesmos. Eu não devo conseguir ver reviews de pacotes que 
 **US11** - Eu como utilizador quero poder fazer uma review sobre um pacote, para poder partilhar a minha opinião sobre o
 mesmo. Eu não devo conseguir fazer reviews de pacotes que não existam.
 
-**US12** - Eu como utilizador quero poder faer uma alteração a uma review que fiz sobre um pacote, para poder corrigir
+**US12** - Eu como utilizador quero poder fazer uma alteração a uma review que fiz sobre um pacote, para poder corrigir
 algum erro que tenha cometido. Eu não devo conseguir alterar reviews de pacotes que não existam ou editar reviews de
 outros utilizadores.
 
@@ -192,7 +194,7 @@ conseguir fazer login com credenciais inválidas ou de outros utilizadores.
 **US18** - Eu como administrador quero poder ver o total de encomendas feitas, para poder saber quantas encomendas foram
 feitas. Eu não devo conseguir alterar os números de encomendas feitas.
 
-**US19** - Eu como Administrador quero ter uma dashboard com cada pacoote e o número de encomendas feitas para cada um,
+**US19** - Eu como Administrador quero ter uma dashboard com cada pacote e o número de encomendas feitas para cada um,
 para poder saber quais os pacotes mais populares. Eu não devo conseguir alterar o número de encomendas feitas.
 
 **US20** - Eu como Administrador quero poder criar um novo pacote, para poder adicionar novos pacotes ao website. Eu não
@@ -231,7 +233,7 @@ devo conseguir remover receitas que não existam.
 
 - RS - Requisito de Segurança
 - RSF - Requisito de Segurança Funcional
-- RSNF - Requisito de Segurança não funcional
+- RSNF - Requisito de Segurança não Funcional
 - RSD - Requisito de Segurança de Desenvolvimento
 
 ## 4.1 Requisitos de segurança funcionais
@@ -317,39 +319,39 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 ## 4.3 Requisitos de Segurança de desenvolvimento
 
-**RSD1** - Uso de uma checklist de boas práticas de código
+**RSD1** - Uso de uma checklist de boas práticas de código.
 
-**RSD2** - Efetuar revisões de código
+**RSD2** - Efetuar revisões de código.
 
-**RSD3** - Implementar um design seguro
+**RSD3** - Implementar um design seguro.
 
-**RSD4** - Implementar a arquitetura Onion para a API
+**RSD4** - Implementar a arquitetura Onion para a API.
 
-**RSD5** - Fazer pseudo requests com o uso da api do sveltekit
+**RSD5** - Fazer pseudo requests com o uso da api do sveltekit.
 
-**RSD6** - Usar o dependabot
+**RSD6** - Usar o dependabot.
 
-**RSD7** - Usar o github actions para CI/CD
+**RSD7** - Usar o github actions para CI/CD.
 
-**RSD8** - Usar o DockerScout
+**RSD8** - Usar o DockerScout.
 
-**RSD9** - Usar o OWASP ASVS checklist
+**RSD9** - Usar o OWASP ASVS checklist.
 
-**RSD10** - Seguir uma semantica fixa para o controlo de versões
+**RSD10** - Seguir uma semântica fixa para o controlo de versões.
 
-**RSD11** - Seguir normas para efetuar commits
+**RSD11** - Seguir normas para efetuar commits.
 
-**RSD12** - Usar Trunk Based Development
+**RSD12** - Usar Trunk Based Development.
 
-**RSD13** - Apenas efetuar o Release please após a revisão de código por parte de todos os membros da equipa
+**RSD13** - Apenas efetuar o Release please após a revisão de código por parte de todos os membros da equipa.
 
-**RSD14** - Usar ferramentas de threat modeling como a Microsoft Threat Modeling Tool e o OWASP Threat Dragon
+**RSD14** - Usar ferramentas de threat modeling como a Microsoft Threat Modeling Tool e o OWASP Threat Dragon.
 
-**RSD15** - Usar ferramentas de segurança como o OWASP ZAP
+**RSD15** - Usar ferramentas de segurança como o OWASP ZAP.
 
-**RSD16** - Usar ferramentas de análise estático de código
+**RSD16** - Usar ferramentas de análise estático de código.
 
-**RSD17** - Usar ferramentas de análise de dependências como o OWASP Dependency-Check
+**RSD17** - Usar ferramentas de análise de dependências como o OWASP Dependency-Check.
 
 # 5 Use And Abuse cases
 
@@ -411,20 +413,20 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 ## 6.1 STRIDE
 
-| Categoria              | Descrição                    |
-|------------------------|------------------------------|
-| Spoofing               | **Threat 1**: A aplicação tem de ser accessivel aos utilizadores, consequentemente tem de ser fácil de user, contudo não se pode introduzir uma ameaça<br/> **Threat 2**: Visto esta aplicação ser delivery service, implica que haja a possibilidade de alguem se fazer passar por outra pessoa |
-| Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor, é possivel que estas sejam editadas                       |
-| Repudiation            | Sem Ameaças                  |
+| Categoria              | Descrição                                                                                                                                                                                                                                                                                        |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spoofing               | **Threat 1**: A aplicação tem de ser accessível aos utilizadores, consequentemente tem de ser fácil de usar, contudo não se pode introduzir uma ameaça<br/> **Threat 2**: Visto esta aplicação ser delivery service, implica que haja a possibilidade de alguem se fazer passar por outra pessoa |
+| Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor, é possivel que estas sejam editadas                     |
+| Repudiation            | Sem Ameaças                                                     |
 | Information disclosure | **Threat 1**: É possivel que haja XSS visto haver formas de inserir scripts de javascript, com isto é possivel adquirir informação de outros utilizadores  <br/> **Threat 2**: É possivel interceptar pedidos de Http, consequentemente obter informação que não era suposto                     |
 | Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS         |
 | Elevation of privilege | Sem Ameaças                                    |
 
 ## 6.2 ASF
 
-| Category                 | Description              |
-|--------------------------|--------------------------|
-| Auditing and Logging     | **Threat 1**: Como não existe sistema de logging, não é possivel saber quem fez o que e quando. <br/>**Threat 2**: Qualquer pessoa pode aceder aos logs |
+| Category                 | Description                  |
+|--------------------------|-----------------------------------------------------------|
+| Auditing and Logging     | **Threat 1**: Como não existe sistema de logging, não é possivel saber quem fez o quê e quando. <br/>**Threat 2**: Qualquer pessoa pode aceder aos logs |
 | Authentication           | **Threat 1**: Com o sistema simples que está em uso, é relativamente fácil de usar credenciais de outros utilizadores                                   |
 | Authorization            | **Threat 1**: Qualquer pessoa pode fazer download das receitas, criando um possivel ponto de entrada                                                    |
 | Configuration management | **Threat 1**: A aplicação está a correr com todas as permições, logo é uma possível ameaça                                                              |
@@ -448,15 +450,15 @@ funcionalidades e os níveis de confiança associados:
 | 5  | Página de Receitas                | Oferece uma coleção de receitas para inspirar utilizadores na preparação de refeições.                                               | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
 | 6  | Página de Subscrição              | Permite aos utilizadores gerir as suas subscrições, atualizando informações de pagamento e preferências de entrega.                  | (2) Utilizador com credenciais de login válidas (4) Administrador                                                                          |
 | 7  | Página de Contacto                | Oferece informações de contacto para os utilizadores entrarem em contacto com o suporte ao cliente.                                  | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
-| 8  | Página Sobre Nós                  | Fornece informações sobre a empresa, sua missão, valores e equipa.                                                                   | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
+| 8  | Página Sobre Nós                  | Fornece informações sobre a empresa, sua missão, valores e equipa.                                 | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
 | 9  | Página de FAQ                     | Responde a perguntas frequentes sobre o serviço, procedimentos de entrega, políticas de cancelamento, etc.                           | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
-| 10 | Painel de Administração           | Interface exclusiva para administradores gerirem utilizadores, conteúdo do site e relatórios de vendas.                              | (4) Administrador                                                                                                                          |
-| 11 | Página de Perfil do Utilizador    | Permite aos utilizadores visualizar e editar as suas informações pessoais, histórico de pedidos e preferências de refeições.         | (2) Utilizador com credenciais de login válidas                                                                                            |
-| 12 | Página do Carrinho                | Mostra os itens selecionados pelos utilizadores para compra antes do checkout.                                                       | (2) Utilizador com credenciais de login válidas                                                                                            |
-| 13 | Página de Checkout                | Permite aos utilizadores rever e confirmar as suas compras antes do pagamento.                                                       | (2) Utilizador com credenciais de login válidas                                                                                            |
-| 14 | Página de Histórico de Encomendas | Exibe o histórico de encomendas dos utilizadores, incluindo detalhes da compra e estado de entrega.                                  | (2) Utilizador com credenciais de login válidas                                                                                            |
-| 15 | Página de upload às receitas      | Permite ao administrador dar upload às receitas e aos packs                                                                          | (4) Administrador                                                                                                                          |
-| 16 | Página de download das receitas   | Permite aos utilizadores registrados fazerem download das receitas do pack da semana                                                 | (2) Utilizador com credenciais de login válidas                                                                                            |
+| 10 | Painel de Administração           | Interface exclusiva para administradores gerirem utilizadores, conteúdo do site e relatórios de vendas.                              | (4) Administrador            |
+| 11 | Página de Perfil do Utilizador    | Permite aos utilizadores visualizar e editar as suas informações pessoais, histórico de pedidos e preferências de refeições.         | (2) Utilizador com credenciais de login válidas       |
+| 12 | Página do Carrinho                | Mostra os itens selecionados pelos utilizadores para compra antes do checkout.                                                       | (2) Utilizador com credenciais de login válidas       |
+| 13 | Página de Checkout                | Permite aos utilizadores rever e confirmar as suas compras antes do pagamento.                         | (2) Utilizador com credenciais de login válidas               |
+| 14 | Página de Histórico de Encomendas | Exibe o histórico de encomendas dos utilizadores, incluindo detalhes da compra e estado de entrega.                 | (2) Utilizador com credenciais de login válidas               |
+| 15 | Página de upload às receitas      | Permite ao administrador dar upload às receitas e aos packs                        | (4) Administrador              |
+| 16 | Página de download das receitas   | Permite aos utilizadores registrados fazerem download das receitas do pack da semana           | (2) Utilizador com credenciais de login  |
 
 ## 6.4 Exit Points
 
@@ -472,7 +474,7 @@ funcionalidades e os níveis de confiança associados:
 | 8  | Término da Sessão                    |
 | 9  | Interação dos utilizadores           |
 
-## 6.5 Qualittative Risk Model
+## 6.5 Qualitative Risk Model
 
 Como forma de criar o "Qualitative Risk Model", determinou-se que a escala atribuída
 para o "Likelihood" e o "Impact" varia entre 1 e 5, sendo que 1 seria o menor valor (menor impacto/probabilidade) e 5
@@ -842,7 +844,7 @@ smells" (https://www.sonarsource.com/products/sonarqube/).
 
 ## 7.2 DAST (Dynamic testing)
 
-Para este projeto vamos utilizar o OWASP ZAP, ferrameta essa que permite testar a segurança de aplicações web através de
+Para este projeto vamos utilizar o OWASP ZAP, ferramenta essa que permite testar a segurança de aplicações web através de
 testes dinâmicos. O ZAP é uma ferramenta open-source que oferece uma ampla gama de funcionalidades, incluindo varreduras
 automáticas a testar contra todo o tipo de vulnerabilidades, como injeção de SQL, cross-site scripting (XSS), e outras
 ameaças comuns. (https://www.zaproxy.org/)
