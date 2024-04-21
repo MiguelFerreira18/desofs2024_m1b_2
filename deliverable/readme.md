@@ -1,23 +1,85 @@
 # DESOFS deliverables
 
-# 1. Introduction
+
+
+* [1 Introduction](#1-introduction)
+* [2 guidelines](#2-guidelines)
+    * [2.1 Coding checklist](#21-coding-checklist)
+    * [2.2 Commits](#22-commits)
+    * [2.3 Branching](#23-branching)
+    * [2.4 Issues](#24-issues)
+    * [2.5 Pull Requests](#25-pull-requests)
+    * [2.6 Code Review](#26-code-review)
+* [3. User Stories](#3-user-stories)
+    * [3.1 Utilizador](#31-utilizador)
+    * [3.2 Administrador](#32-administrador)
+    * [3.4 Gestor de Ficheiros](#34-gestor-de-ficheiros)
+* [4 Requisitos](#4-requisitos)
+    * [Numenclatura](#numenclatura)
+  * [4.1 Requisitos de segurança funcionais](#41-requisitos-de-segurança-funcionais)
+  * [4.2 Requisitos de Segurança não funcionais](#42-requisitos-de-segurança-não-funcionais)
+  * [4.3 Requisitos de Segurança de desenvolvimento](#43-requisitos-de-segurança-de-desenvolvimento)
+* [5 Use And Abuse cases](#5-use-and-abuse-cases)
+  * [User Authentication](#user-authentication)
+  * [User Order](#user-order)
+  * [File manager](#file-manager)
+  * [Administrator](#administrator)
+* [Aquitetura](#aquitetura)
+  * [Domain model](#domain-model)
+  * [Diagrama de entidade relação](#diagrama-de-entidade-relação)
+  * [Diagramas de implantanção](#diagramas-de-implantanção)
+    * [Diagrama de implantação de nível 1](#diagrama-de-implantação-de-nível-1)
+    * [Diagrama de implantação de nível 2](#diagrama-de-implantação-de-nível-2)
+  * [Diagrama de componentes](#diagrama-de-componentes)
+    * [Diagrama de componentes de nível 2](#diagrama-de-componentes-de-nível-2)
+    * [Diagrama de componentes de nível 3](#diagrama-de-componentes-de-nível-3)
+  * [Diagrama de pacotes](#diagrama-de-pacotes)
+* [Pipeline Design](#pipeline-design)
+* [6 Threat Analysis](#6-threat-analysis)
+  * [6.1 STRIDE](#61-stride)
+  * [6.2 ASF](#62-asf)
+  * [6.3 Entry Points](#63-entry-points)
+  * [6.4 Exit Points](#64-exit-points)
+  * [6.5 Qualittative Risk Model](#65-qualittative-risk-model)
+  * [6.6 Countermeasures](#66-countermeasures)
+    * [STRIDE](#stride)
+  * [6.7 Dataflow Diagram Lv1](#67-dataflow-diagram-lv1)
+  * [6.8 DREAD](#68-dread)
+  * [6.9 Attack Tree](#69-attack-tree)
+    * [Ataque 1: Fraca Autenticação](#ataque-1-fraca-autenticação)
+    * [Ataque 2: Vulnerabilidades na Validação do Input](#ataque-2-vulnerabilidades-na-validação-do-input)
+    * [Ataque 3: Exploração de Configurações Incorretas do Servidor](#ataque-3-exploração-de-configurações-incorretas-do-servidor)
+    * [Ataque 4: Vulnerabilidades nos Componentes de Terceiros](#ataque-4-vulnerabilidades-nos-componentes-de-terceiros)
+    * [Ataque 5: Intercetação de Dados](#ataque-5-intercetação-de-dados)
+    * [Ataque 6: Denial of Service (DoS/DDoS)](#ataque-6-denial-of-service-dosddos)
+    * [Ataque 7: Ataques de Sessão](#ataque-7-ataques-de-sessão)
+    * [Ataque 8: Vulnerabilidades no Upload de ficheiros](#ataque-8-vulnerabilidades-no-upload-de-ficheiros)
+    * [Ataque 9: Vulnerabilidades no Download de ficheiros](#ataque-9-vulnerabilidades-no-download-de-ficheiros)
+    * [Ataque 10: Fraudes em Pagamentos Bancários](#ataque-10-fraudes-em-pagamentos-bancários)
+* [7 Ferramentas de teste](#7-ferramentas-de-teste)
+  * [7.1 SAST](#71-sast)
+  * [7.2 DAST (Dynamic testing)](#72-dast-dynamic-testing)
+  * [7.3 SCA](#73-sca)
+<!-- TOC -->
+
+# 1 Introduction
 
 O seguinte projeto tem como tema principal um *meal delivery service*, no qual utilizadores do website podem encomendar
-de refeições que serão confeccionadas pelos próprios. O propósito deste tema é essêncialmente permitir que,
+de refeições que serão confecionadas pelos próprios. O propósito deste tema é essêncialmente permitir que,
 as pessoas que não têm tempo para comprar ingredientes e pensar numa receita para cozinhar, possam encomendar um pacote,
 que trará todos os ingredientes necessários para uma semana de refeições e as respetivas receitas.
 
 # 2 guidelines
 
-### Coding checklist
+### 2.1 Coding checklist
 
-- Check for dependency vulnerabilities after adding one
-- Use a linter
-- Use a formatter
+- Check for dependency vulnerabilities após adicionar uma nova dependência
+- Usar um linter no código
+- Usar um formatter no código
 - Verificar se está de acordo com o requisito
 - Verificar se os requisitos de segurança são cumpridos
 
-### Commits
+### 2.2 Commits
 
 Para cada commit, teremos as seguintes regras:
 
@@ -27,49 +89,51 @@ Para cada commit, teremos as seguintes regras:
     - [fix] - Para correção de bugs
     - [doc] - Para alterações na documentação
     - [style] - Para alterações que não afetam o código (espaços, formatação, etc)
-    - [refactor] - Para refatoração de código
+    - [refactor] - Para refactoring de código
     - [test] - Para adição de testes
     - [chore] - Para alterações que não se encaixam em nenhuma das categorias anteriores
     - [security] - Para correção de problemas de segurança
     - [ci] - Para alterações em pipelines de CI/CD
-    - [perf] - Para melhorias de performance
+    - [perf] - Para melhorias de desempenho
     - [revert] - Para reverter um commit anterior
     - [build] - Para alterações que afetam o build system
 - Os commits devem ser escritos em inglês
 - O commit deve ser escrito na forma imperativa ( add feature, update documentation, create testA)
 
-### Branching
+### 2.3 Branching
 
 Haverá apenas 4 branches, o arch, que serve para guardar a arquitetura e documentação do projeto, o main que é a branch
-para onde se faz merge das branches de features e architecture, a branch de development que é a branch onde se cria as
-features, esta branch pode ter multiplos subbranches, uma para cada feature e por fim um release branch que é
-criada quando se quer fazer um release.
+para onde se faz merge das branches de development e architecture, a branch de development que é a branch onde se cria
+as
+features, esta branch pode ter multiplos sub-branches, uma para cada feature e por fim um release branch que é
+criado quando se quer fazer um release.
 
-### Issues
+### 2.4 Issues
 
 As issues serão cridas para cada tópico importante ao desenvolvimento do trabalho. Estas issues poderão coincidir com
 as labels do documento asvs.
 
-### Pull Requests
+### 2.5 Pull Requests
 
 Os Pull Requests devem seguir as seguintes regras:
 
+PR - Pull Request
+
 - O título do PR deve ser curto e conciso
-- O PR deve ter uma descrição detalhada do que foi feito
+- O PR deve ter uma descrição do que foi feito
 - O PR deve ter uma checklist com os pontos que foram feitos
-- O PR deve ter um reviewer
-- O PR deve ter um assignee
-- O PR deve ter um label
+- O PR deve ter pelo menos um reviewer
+- O PR deve ter uma label
 - O PR deve ser associado a uma issue
 
-### Code Review
+### 2.6 Code Review
 
 O código deve ser revisto por todos os membros da equipa em caso de release, se for apenas um pull request para a branch
-de development será apenas necessário 1 reviwer.
+de development será apenas necessário pelo menos 1 reviwer.
 
 # 3. User Stories
 
-### 3.1. Utilizador
+### 3.1 Utilizador
 
 **US1** - Eu como utilizador quero poder criar uma conta no website para poder fazer encomendas. Eu não devo criar um
 perfil com as mesmas credenciais que outra pessoa.
@@ -122,7 +186,7 @@ informação. Eu não devo conseguir alterar o perfil de outros utilizadores.
 **US16** - Eu como utilizador quero poder alterar a minha password, para poder atualizar a minha password. Eu não devo
 conseguir alterar a password de outros utilizadores.
 
-### 3.2. Administrador
+### 3.2 Administrador
 
 **US17** - Eu como administrador quero poder efetuar o login no website, para poder gerir as encomendas. Eu não devo
 conseguir fazer login com credenciais inválidas ou de outros utilizadores.
@@ -149,7 +213,7 @@ pacote.
 
 **US26** - Eu como Administrador quero poder remover reviews com conteúdo impróprio, para poder manter o website limpo.
 
-### 3.4. Gestor de Ficheiros
+### 3.4 Gestor de Ficheiros
 
 **US27** - Eu como Gestor de Ficheiros quero poder fazer login no website, para poder gerir as receitas. Eu não devo
 conseguir fazer login com credenciais inválidas ou de outros utilizadores.
@@ -163,7 +227,7 @@ não devo conseguir alterar receitas que não existam.
 **US30** - Eu como Gestor de Ficheiros quero poder remover uma receita, para poder remover receitas de um pacote. Eu não
 devo conseguir remover receitas que não existam.
 
-# 4. Requisitos 
+# 4 Requisitos
 
 ### Numenclatura
 
@@ -180,16 +244,14 @@ e implementados:
 
 1. **Autenticação e Autorização**:
 
-    - **RSF1** - Todos os utilizadores devem ser autenticados antes de acederem a qualquer funcionalidade do sistema
-      .
+    - **RSF1** - Todos os utilizadores devem ser autenticados antes de acederem a qualquer funcionalidade do sistema.
     - **RSF2** - Deve haver diferentes níveis de acesso com base nos papéis dos utilizadores.
-
     - **RSF3** - As credenciais de autenticação devem ser protegidas adequadamente durante a transmissão e
       armazenamento.
 
 2. **Proteção de Dados Pessoais**:
     - **RSF4** - Dados pessoais dos utilizadores, como nomes, endereços de email e informações de contacto, devem ser
-      protegidos de acordo com as leis de privacidade de dados locais (por exemplo, GDPR na Europa).
+      protegidos conforme as leis de privacidade de dados locais (por exemplo, RGPD em Portugal).
     - **RSF5** - Deve ser implementado um controlo de acesso rigoroso para garantir que apenas utilizadores autorizados
       possam visualizar ou modificar dados pessoais.
 
@@ -213,7 +275,7 @@ e implementados:
       sistema, incluindo tentativas de login, acessos a dados sensíveis e modificações importantes.
 
 7. **Gestão de Vulnerabilidades e Patches**:
-    - **RSF12** -Deve haver um processo formal para identificar, avaliar e corrigir vulnerabilidades de segurança no
+    - **RSF12** - Deve haver um processo formal para identificar, avaliar e corrigir vulnerabilidades de segurança no
       sistema, incluindo a aplicação oportuna de patches de segurança.
 
 8. **Segurança do Código**:
@@ -221,7 +283,7 @@ e implementados:
       vulnerabilidades comuns, como injeção de SQL, XSS e CSRF (Cross-Site Request Forgery).
 
 9. **Proteção contra Ataques de DDoS**:
-    - **RSF4** - Deve ser implementada uma solução de proteção contra ataques de negação de serviço distribuído (DDoS)
+    - **RSF4** - Deve ser implementada uma solução de proteção contra ataques de negação de serviço (DoS)
       para garantir a disponibilidade contínua do sistema, mesmo durante picos de tráfego malicioso.
 
 10. **Backup e Recuperação de Dados**:
@@ -230,14 +292,14 @@ e implementados:
 
 ## 4.2 Requisitos de Segurança não funcionais
 
-**RSNF1** - O sistema deve ser desenvolvido utilizando Java para o backend e SvelteKit para o frontend, a fim de garantir
-uma arquitetura robusta, escalável e eficiente.
+**RSNF1** - O sistema deve ser desenvolvido utilizando SpringBoot(Java) para o backend e SvelteKit(Typescript) para o
+frontend, a fim de garantir uma arquitetura robusta, escalável e eficiente.
 
 **RSNF2** - O sistema deve ser projetado e otimizado para garantir que o tempo de resposta médio para qualquer interação
 do utilizador seja inferior a 3 segundos, a fim de proporcionar uma experiência rápida e responsiva.
 
 **RSNF3** - O sistema deve ser intuitivo e fácil de usar (user-friendly), com uma interface de utilizador bem projetada,
-no intuito de abrangir utilizadores de todas as idades
+no intuito de abrangir utilizadores de todas as idades e com deficiencias.
 
 **RSNF4** - O sistema deve implementar mecanismos robustos de autenticação e autorização para garantir que apenas
 utilizadores autorizados tenham acesso aos recursos apropriados.
@@ -291,7 +353,7 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 **RSD17** - Usar ferramentas de análise de dependências como o OWASP Dependency-Check
 
-# Use And Abuse cases
+# 5 Use And Abuse cases
 
 ## User Authentication
 
@@ -347,9 +409,9 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 ![PipelineSchema.png](PipelineSchema/PipelineSchema.png)
 
-# Threat Analysis
+# 6 Threat Analysis
 
-## STRIDE
+## 6.1 STRIDE
 
 | Categoria              | Descrição                                                                                                                                                                                                                                                                                        |
 |------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -360,7 +422,7 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 | Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS                                                                                                                                                                                                                         |
 | Elevation of privilege | Sem Ameaças                                                                                                                                                                                                                                                                                      |
 
-## ASF
+## 6.2 ASF
 
 | Category                 | Description                                                                                                                                             |
 |--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -369,7 +431,7 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 | Authorization            | **Threat 1**: Qualquer pessoa pode fazer download das receitas, criando um possivel ponto de entrada                                                    |
 | Configuration management | **Threat 1**: A aplicação está a correr com todas as permições, logo é uma possível ameaça                                                              |
 
-## Entry Points
+## 6.3 Entry Points
 
 Os Entry points são os diferentes locais de acesso e interação dos utilizadores com o sistema da Cozinha na Cozinha.
 Cada ponto de entrada oferece uma funcionalidade específica e define o nível de acesso necessário. Eles são essenciais
@@ -398,7 +460,7 @@ funcionalidades e os níveis de confiança associados:
 | 15 | Página de upload às receitas      | Permite ao administrador dar upload às receitas e aos packs                                                                          | (4) Administrador                                                                                                                          |
 | 16 | Página de download das receitas   | Permite aos utilizadores registrados fazerem download das receitas do pack da semana                                                 | (2) Utilizador com credenciais de login válidas                                                                                            |
 
-## Exit Points
+## 6.4 Exit Points
 
 | ID | Name                                 |
 |----|--------------------------------------|
@@ -412,7 +474,7 @@ funcionalidades e os níveis de confiança associados:
 | 8  | Término da Sessão                    |
 | 9  | Interação dos utilizadores           |
 
-## QUALITATIVE RISK MODEL
+## 6.5 Qualittative Risk Model
 
 Como forma de criar o "Qualitative Risk Model", determinou-se que a escala atribuída
 para o "Likelihood" e o "Impact" varia entre 1 e 5, sendo que 1 seria o menor valor (menor impacto/probabilidade) e 5
@@ -451,7 +513,7 @@ Analisando a seguinte tabela, os riscos RS1 e RS2 apresentam um maior valor,
 sendo necessário prioritizar a mitigação dos mesmos, já os riscos RS4 e RS5, apresentam
 um valor inferior, podendo exigir uma atenção menos imediata.
 
-## Countermeasures
+## 6.6 Countermeasures
 
 ### STRIDE
 
@@ -464,7 +526,7 @@ um valor inferior, podendo exigir uma atenção menos imediata.
 | Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting                                                                                                                                                                                                                                |
 | Elevation of privilege | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs <br/> **Countermeasure 4**: Ninguem deve ter a capacidade de mudar os privilégios do sistema |
 
-## Dataflow Diagram Lv1
+## 6.7 Dataflow Diagram Lv1
 
 O diagrama de fluxo de dados é uma representação visual que ilustra o percurso e processamento dos dados dentro do
 sistema da CozinhaNaCozinha. Ele descreve como os dados são obtidos, manipulados e transformados ao longo de diferentes
@@ -486,7 +548,7 @@ API do backend ocorrem via HTTPS, garantindo segurança na transmissão de dados
 
 ![alt text](./img/DataflowLvl1Dragon.png)
 
-## DREAD
+## 6.8 DREAD
 
 O modelo DREAD é uma estrutura de avaliação de riscos comumente usada para identificar e priorizar vulnerabilidades em
 sistemas de software. Cada letra no acrônimo DREAD representa um critério específico usado para avaliar o impacto das
@@ -702,7 +764,7 @@ Abaixo é possivel observar algumas das ameaças detetadas ao usar o software Mi
     - **D (Discoverability)**: A descoberta deste problema pode ser difícil, pois pode exigir análise detalhada do
       sistema e monitoramento de atividades suspeitas.
 
-## Attack Tree
+## 6.9 Attack Tree
 
 A attack tree é uma representação de possíveis vias de ataque que um utilizador malicioso pode usar para comprometer um
 sistema. Cada nó na árvore representa um ponto de decisão para o atacante, e os ramos indicam diferentes caminhos que
@@ -769,13 +831,9 @@ podem ser seguidos para alcançar um objetivo malicioso. Vamos explorar brevemen
 - **Sub-ataque 10.2**: Man-in-the-Middle (MitM) em Transações
 - **Sub-ataque 10.3**: Roubo de Credenciais de Conta Bancária
 
-# Ferramentas de teste
+# 7 Ferramentas de teste
 
-https://owasp.org/www-community/api_security_tools
-
-https://owasp.org/www-community/Free_for_Open_Source_Application_Security_Tools
-
-## SAST
+## 7.1 SAST
 
 De forma a analisar o código fonte da aplicação, é necessário utilizar ferramentas de Static Application Security
 Testing (SAST). Estas ferramentas permitem identificar vulnerabilidades de segurança no código fonte, como falhas de
@@ -784,14 +842,14 @@ Optou-se por utilizar o SonarQube para realizar esta tarefa, pois é uma ferrame
 linguagens de programação e oferece uma análise abrangente do código fonte, identificando bugs, vulnerabilidades e "code
 smells" (https://www.sonarsource.com/products/sonarqube/).
 
-## DAST (Dynamic testing)
+## 7.2 DAST (Dynamic testing)
 
-Para este projeto vamos utilizar o OWASP ZAP, ferrameta essa que permite testar a segurança de aplicações web através de 
+Para este projeto vamos utilizar o OWASP ZAP, ferrameta essa que permite testar a segurança de aplicações web através de
 testes dinâmicos. O ZAP é uma ferramenta open-source que oferece uma ampla gama de funcionalidades, incluindo varreduras
 automáticas a testar contra todo o tipo de vulnerabilidades, como injeção de SQL, cross-site scripting (XSS), e outras
 ameaças comuns. (https://www.zaproxy.org/)
 
-## SCA
+## 7.3 SCA
 
 A ferramenta escolhida para realizar a análise de componentes de software é o OWASP Dependency-Check. Esta ferramenta
 open-source permite identificar vulnerabilidades em bibliotecas de terceiros usadas no projeto, ajudando a garantir que
