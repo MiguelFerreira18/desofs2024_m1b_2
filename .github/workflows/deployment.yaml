@@ -23,6 +23,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
         working-directory: ./desofs_svelte_front_end
+
+      - name: Run build
+        run: npm run build
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run format
+        run: npm run format
+        working-directory: ./desofs_svelte_front_end
       
       - name: Run linter
         run: npm run lint
