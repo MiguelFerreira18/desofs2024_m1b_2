@@ -16,7 +16,7 @@
 	</div>
 
 	<ul class="flex justify-center self-center flex-row gap-8 mr-auto">
-		<li><a href="#planos">Planos</a></li>
+		<li><a href="#">Planos</a></li>
 		<li><a href="/planos">Sobre nós</a></li>
 	</ul>
 
