@@ -49,7 +49,7 @@ jobs:
         working-directory: ./desofs_svelte_front_end
       
       - name: Run Check
-        run: npm run chek
+        run: npm run check
         working-directory: ./desofs_svelte_front_end
   
   buildBackEnd:
