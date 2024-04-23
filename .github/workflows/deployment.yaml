@@ -36,8 +36,16 @@ jobs:
         run: npm run lint
         working-directory: ./desofs_svelte_front_end
 
-      - name: Run tests
-        run: npm run test
+      - name: Install conffeti
+        run: npx playwright install --with-deps
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run unit tests
+        run: npm run test:unit
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run Integration tests
+        run: npx playwright test
         working-directory: ./desofs_svelte_front_end
       
       - name: Run Check
