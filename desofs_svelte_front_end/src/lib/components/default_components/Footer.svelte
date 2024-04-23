@@ -1,19 +1,19 @@
 <script lang="ts">
-    export let year:String;
+	export let year: string;
 </script>
 
 <footer>
-    <p>&copy; {year} My App</p>
+	<p>&copy; {year} Cozinha na cozinha</p>
 </footer>
 
 <style>
-    footer {
-        background-color: #f5f5f5;
-        padding: 20px;
-        text-align: center;
-    }
+	footer {
+		background-color: #f5f5f5;
+		padding: 20px;
+		text-align: center;
+	}
 
-    p {
-        margin: 0;
-    }
+	p {
+		margin: 0;
+	}
 </style>
