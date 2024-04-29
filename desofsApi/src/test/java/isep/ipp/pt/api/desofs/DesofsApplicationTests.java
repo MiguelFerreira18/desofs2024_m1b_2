@@ -1,17 +1,19 @@
 package isep.ipp.pt.api.desofs;
 
-import org.junit.jupiter.api.MethodOrderer;
+import jdk.jfr.Description;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.boot.test.context.SpringBootTest;
 
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class DesofsApplicationTests {
 
-//	@Test
-//	void contextLoads() {
-//        assert(1 == 1);
-//	}
+
+	@Test
+	@DisplayName("Simple test")
+	void simpleTest(){
+		assertEquals(1,1);
+	}
 
 }
