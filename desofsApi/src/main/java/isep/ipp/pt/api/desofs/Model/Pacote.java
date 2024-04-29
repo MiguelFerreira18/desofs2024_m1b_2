@@ -29,7 +29,7 @@ public class Pacote {
     @ManyToOne(cascade = CascadeType.ALL)
     private TipoPacote tipoPacote;
 
-    protected Pacote() {
+    public Pacote() {
     }
 
     public Pacote(Long pacoteId, String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, TipoPacote tipoPacote) {

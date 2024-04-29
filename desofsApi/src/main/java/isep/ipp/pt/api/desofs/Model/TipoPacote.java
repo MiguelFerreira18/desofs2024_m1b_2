@@ -14,7 +14,7 @@ public class TipoPacote {
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Nome do pacote inválido")
     private String nome;
 
-    protected TipoPacote() {
+    public TipoPacote() {
     }
 
     public TipoPacote(Long tipoPacoteId, String nome) {

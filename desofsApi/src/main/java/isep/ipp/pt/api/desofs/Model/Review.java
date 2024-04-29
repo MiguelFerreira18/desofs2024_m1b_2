@@ -20,7 +20,7 @@ public class Review {
     @Positive
     private int rating;
 
-    protected Review() {
+    public Review() {
     }
 
     public Review(Long reviewId, String reviewText, int rating) {

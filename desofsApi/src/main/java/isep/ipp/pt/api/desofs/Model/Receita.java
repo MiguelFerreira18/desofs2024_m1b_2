@@ -20,7 +20,7 @@ public class Receita {
     @ManyToOne
     private TipoReceita tipoReceita;
 
-    protected Receita() {
+    public Receita() {
     }
 
     public Receita(Long receitaId, String path, String nome, Pacote pacote, TipoReceita tipoReceita) {

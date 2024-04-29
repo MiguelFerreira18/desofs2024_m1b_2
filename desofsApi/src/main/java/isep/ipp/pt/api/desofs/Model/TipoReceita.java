@@ -12,7 +12,7 @@ public class TipoReceita {
 
     private String nome;
 
-    protected TipoReceita() {
+    public TipoReceita() {
     }
 
     public TipoReceita(Long tipoReceitaId, String nome) {
