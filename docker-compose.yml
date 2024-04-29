@@ -12,6 +12,10 @@ services:
       - MYSQL_DATABASE=${DESOFS_DB_DEV_DB_NAME}
       - MYSQL_USER=${DESOFS_DB_USER}
       - MYSQL_PASSWORD=${DESOFS_DB_PASS}
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
     # adminer:
     #   image: adminer
@@ -19,16 +23,34 @@ services:
     #     - mysql
     #   ports:
     #     - 8080:8080
+
   phpmyadmin:
-      depends_on:
-        - mysql
-      image: phpmyadmin/phpmyadmin
-      ports:
-        - 8090:80
-      environment:
-        PMA_HOST: mysql
-        MYSQL_ROOT_PASSWORD: rootpwd 
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8090:80
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: rootpwd
+
+  desof-api:
+    container_name: desofs-api
+    build: ./desofsApi
+    ports:
+    - "9092:9092"
+    depends_on:
+      mysql:
+        condition: service_healthy
+  desof-web:
+    container_name: desofs-web
+    build: ./desofs_svelte_front_end
+    ports:
+    - "5173:5173"
+    depends_on:
+    - desof-api
+  
+
 networks:
   cozinha_na_cozinha:
-    name: cozinha_na_cozinha
     driver: bridge

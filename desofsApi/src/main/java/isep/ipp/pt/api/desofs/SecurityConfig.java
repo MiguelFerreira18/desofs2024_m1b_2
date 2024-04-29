@@ -70,14 +70,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
-                auth -> auth
-                        .requestMatchers("/auth/public/**").permitAll()
-                        .requestMatchers("/auth/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/auth/user/**").hasRole("USER")
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/**").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
+                auth -> auth.requestMatchers("/**").permitAll()
+
                 ).authenticationManager(authenticationManager(http));
         return http.build();
 
