@@ -1,10 +1,7 @@
 package isep.ipp.pt.api.desofs.Model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Pacote {
@@ -26,24 +23,29 @@ public class Pacote {
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Descrição do pacote inválida")
     private String pacoteDescription;
 
+    @NotNull
+    private boolean disabled;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private TipoPacote tipoPacote;
 
     protected Pacote() {
     }
 
-    public Pacote(Long pacoteId, String nome, double pacoteBasePrice, String pacoteDescription, TipoPacote tipoPacote) {
+    public Pacote(Long pacoteId, String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, TipoPacote tipoPacote) {
         this.pacoteId = pacoteId;
         this.nome = nome;
         this.pacoteBasePrice = pacoteBasePrice;
         this.pacoteDescription = pacoteDescription;
+        this.disabled = disabled;
         this.tipoPacote = tipoPacote;
     }
 
-    public Pacote(String nome, double pacoteBasePrice, String pacoteDescription, TipoPacote tipoPacote) {
+    public Pacote(String nome, double pacoteBasePrice, String pacoteDescription,boolean disabled, TipoPacote tipoPacote) {
         this.nome = nome;
         this.pacoteBasePrice = pacoteBasePrice;
         this.pacoteDescription = pacoteDescription;
+        this.disabled = disabled;
         this.tipoPacote = tipoPacote;
     }
 
@@ -85,5 +87,18 @@ public class Pacote {
 
     public void setTipoPacote(TipoPacote tipoPacote) {
         this.tipoPacote = tipoPacote;
+    }
+
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public Pacote setDisabled() {
+        this.disabled = true;
+        return this;
+    }
+    public Pacote setEnabled() {
+        this.disabled = false;
+        return this;
     }
 }
