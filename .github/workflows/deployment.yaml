@@ -86,10 +86,19 @@ jobs:
           name: desofsApi
           path: ./desofsApi/target/desofsApi-0.0.1-SNAPSHOT.jar
 
-
-
-
-      
-
-    
-        
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: 'test'
+          path: '.'
+          format: 'HTML'
+          out: 'reports' # this is the default, no need to specify unless you wish to override it
+          args: >
+            --failOnCVSS 7
+            --enableRetired
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+           name: Depcheck report
+           path: ${{github.workspace}}/reports
