@@ -18,8 +18,24 @@ public class ListaEncomenda {
     @ManyToOne
     private Pacote pacote;
 
-    protected ListaEncomenda() {
+    public ListaEncomenda() {
     }
+
+    public ListaEncomenda(Long listaEncomendaId, LocalDateTime dataEncomenda, Pacote pacote) {
+        this.listaEncomendaId = listaEncomendaId;
+        this.dataEncomenda = dataEncomenda;
+        this.pacote = pacote;
+    }
+
+    public ListaEncomenda(LocalDateTime dataEncomenda, Pacote pacote) {
+        this.dataEncomenda = dataEncomenda;
+        this.pacote = pacote;
+    }
+    public ListaEncomenda(Pacote pacote) {
+        this.dataEncomenda = LocalDateTime.now();
+        this.pacote = pacote;
+    }
+
 
 
 }

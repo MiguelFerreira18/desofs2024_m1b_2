@@ -29,7 +29,7 @@ public class DetalhesEncomenda {
     @ManyToOne
     private ListaEncomenda listaEncomenda;
 
-    protected DetalhesEncomenda() {
+    public DetalhesEncomenda() {
     }
 
     public DetalhesEncomenda(Long detalhesEncomendaId, int mealsPerWeek, int numberOfPeople, double price, TipoPacote tipoPacote, ListaEncomenda listaEncomenda) {

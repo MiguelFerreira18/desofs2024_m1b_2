@@ -1,5 +1,8 @@
 package isep.ipp.pt.api.desofs.Controllers;
 
+import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOResponse;
+import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOSaveRequest;
+import isep.ipp.pt.api.desofs.Mapper.PacoteMapper.PacoteMapper;
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
 import jakarta.validation.Valid;
@@ -15,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class PacoteController {
     @Autowired
     private PacoteService pacoteService;
-
+    @Autowired
+    private PacoteMapper pacoteMapper;
 
     @PostMapping("/save")
-    public ResponseEntity savePacote(@Valid @RequestBody Pacote pacote){
-        return ResponseEntity.ok(pacoteService.save(pacote));
+    public ResponseEntity<PacoteDTOResponse> savePacote(@Valid @RequestBody PacoteDTOSaveRequest pacote){
+        return ResponseEntity.ok(pacoteMapper.fromPacoteToDto(pacoteService.save(pacoteMapper.toPacoteFromSaveDTO(pacote))));
     }
-
 
 }

@@ -33,8 +33,23 @@ public class PacoteDTOSaveRequest {
         this.tipoPacote = tipoPacote;
     }
 
+    public String getNome() {
+        return nome;
+    }
 
+    public double getPacoteBasePrice() {
+        return pacoteBasePrice;
+    }
 
+    public String getPacoteDescription() {
+        return pacoteDescription;
+    }
 
+    public boolean isDisabled() {
+        return disabled;
+    }
 
+    public TipoPacote getTipoPacote() {
+        return tipoPacote;
+    }
 }
