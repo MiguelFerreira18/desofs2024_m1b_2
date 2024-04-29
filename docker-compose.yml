@@ -53,5 +53,4 @@ services:
 
 networks:
   cozinha_na_cozinha:
-    name: cozinha_na_cozinha
     driver: bridge
