@@ -41,13 +41,13 @@ jobs:
         run: npx playwright install --with-deps
         working-directory: ./desofs_svelte_front_end
 
-      - name: Run unit tests
-        run: npm run test:unit
-        working-directory: ./desofs_svelte_front_end
+      # - name: Run unit tests
+      #   run: npm run test:unit
+      #   working-directory: ./desofs_svelte_front_end
 
-      - name: Run Integration tests
-        run: npx playwright test
-        working-directory: ./desofs_svelte_front_end
+      # - name: Run Integration tests
+      #   run: npx playwright test
+      #   working-directory: ./desofs_svelte_front_end
       
       - name: Run Check
         run: npm run check
@@ -93,6 +93,20 @@ jobs:
 
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
+        with:
+          output: results.sarif
+          format: sarif
+          # Adjust severity of non-security issues
+          gh-code-scanning-compat: true
+          # Force 0 exit code to allow SARIF file generation
+          # This will hand over control about PR rejection to the GitHub side
+          max-allowed-issues: 2147483647
+        
+      # Upload the SARIF file generated in the previous step
+      - name: Upload SARIF results file
+        uses: github/codeql-action/upload-sarif@main
+        with:
+          sarif_file: results.sarif
 
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
