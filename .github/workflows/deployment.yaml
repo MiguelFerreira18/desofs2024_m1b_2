@@ -72,20 +72,27 @@ jobs:
       - name: Maven Clean
         run: mvn clean
         working-directory: ./desofsApi
+
       - name: Maven Install
         run: mvn install
         working-directory: ./desofsApi
+
       - name: Maven Test
         run: mvn test
         working-directory: ./desofsApi
+
       - name: Maven Package
         run: mvn package
         working-directory: ./desofsApi
+
       - name: Upload Jar
         uses: actions/upload-artifact@v4
         with:
           name: desofsApi
           path: ./desofsApi/target/desofsApi-0.0.1-SNAPSHOT.jar
+
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@master
 
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
