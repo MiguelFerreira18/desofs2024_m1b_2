@@ -93,39 +93,20 @@ jobs:
 
 
       # Initializes the CodeQL tools for scanning.
-      # - name: Initialize CodeQL
-      #   uses: github/codeql-action/init@v2
-      #   with:
-      #     languages: java
-  
-      # - name: Autobuild
-      #   uses: github/codeql-action/autobuild@v2
-
-
-      # - name: Perform CodeQL Analysis
-      #   uses: github/codeql-action/analyze@v2
-      #   with:
-      #     token: ${{ secrets.MIGUEL_TOKEN }}
-
-      - name: Cache SonarQube packages
-        uses: actions/cache@v1
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.MIGUEL_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONARGRAPH }}
-          SONAR_HOST_URL: ${{ secrets.HOST }}
-        run: mvn -B -f ./desofsApi/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          languages: java
   
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          token: ${{ secrets.MIGUEL_TOKEN }}
+
 
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
