@@ -105,7 +105,7 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
         with:
-          token: ${{ secrets.RODRI_TOKEN }}
+          token: ${{ secrets.MIGUEL_TOKEN }}
 
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
