@@ -18,7 +18,11 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
 
     @Override
     public Pacote findbyId(Long id) {
-        return pacoteRepo.findById(id).get();
+        if (pacoteRepo.findById(id).isPresent()){
+            return pacoteRepo.findById(id).get();
+        }else {
+            return null;
+        }
     }
 
     @Override
