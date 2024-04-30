@@ -124,7 +124,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.MIGUEL_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONARGRAPH }}
           SONAR_HOST_URL: ${{ secrets.HOST }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: mvn -B -f ./desofsApi/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
   
 
       - name: Depcheck
