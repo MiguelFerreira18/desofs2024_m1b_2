@@ -71,7 +71,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                 auth -> auth.requestMatchers("/**").permitAll()
-
                 ).authenticationManager(authenticationManager(http));
         return http.build();
 

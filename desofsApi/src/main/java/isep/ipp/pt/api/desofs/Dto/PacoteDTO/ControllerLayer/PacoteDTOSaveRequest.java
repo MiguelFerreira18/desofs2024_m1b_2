@@ -14,7 +14,8 @@ public class PacoteDTOSaveRequest {
     private final String nome;
 
     @NotBlank
-    @Pattern(regexp = "^[0-9]*$", message = "Preço base do pacote inválido")
+    @Min(value = 0, message = "Preço base do pacote inválido")
+    @Max(value = 500, message = "Preço base do pacote inválido")
     private final double pacoteBasePrice;
 
     @Min(value = 0, message = "Descrição do pacote inválida")

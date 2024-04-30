@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"isep.ipp.pt.api.desofs.Mapper"})
 public class DesofsApplication {
 
 	private static final Logger logger = LoggerFactory.getLogger(DesofsApplication.class);

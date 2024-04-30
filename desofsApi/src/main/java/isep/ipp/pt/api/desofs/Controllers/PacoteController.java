@@ -7,6 +7,7 @@ import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +23,12 @@ public class PacoteController {
     private PacoteMapper pacoteMapper;
 
     @PostMapping("/save")
-    public ResponseEntity<PacoteDTOResponse> savePacote(@Valid @RequestBody PacoteDTOSaveRequest pacote){
-        return ResponseEntity.ok(pacoteMapper.fromPacoteToDto(pacoteService.save(pacoteMapper.toPacoteFromSaveDTO(pacote))));
+    public ResponseEntity<PacoteDTOResponse> savePacote(@RequestBody PacoteDTOSaveRequest pacote){
+        try {
+            return ResponseEntity.ok(pacoteMapper.fromPacoteToDto(pacoteService.save(pacoteMapper.toPacoteFromSaveDTO(pacote))));
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
