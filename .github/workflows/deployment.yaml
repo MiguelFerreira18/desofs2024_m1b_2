@@ -93,7 +93,6 @@ jobs:
 
 
       # Initializes the CodeQL tools for scanning.
-      ##teste
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
@@ -102,12 +101,8 @@ jobs:
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
 
-
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
-        with:
-          token: ${{ secrets.CODEQL_SECRET }}
-
 
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
