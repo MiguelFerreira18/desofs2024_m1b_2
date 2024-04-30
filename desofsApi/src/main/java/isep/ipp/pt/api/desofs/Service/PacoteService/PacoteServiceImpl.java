@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PacoteServiceImpl implements PacoteService{
+public class PacoteServiceImpl implements PacoteService {
 
     @Autowired
     private PacoteServiceRepo pacoteRepo;

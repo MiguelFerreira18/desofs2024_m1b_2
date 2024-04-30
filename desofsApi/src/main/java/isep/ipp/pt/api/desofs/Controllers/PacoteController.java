@@ -9,10 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pacote")
@@ -22,6 +19,7 @@ public class PacoteController {
     @Autowired
     private PacoteMapper pacoteMapper;
 
+
     @PostMapping("/save")
     public ResponseEntity<PacoteDTOResponse> savePacote(@RequestBody PacoteDTOSaveRequest pacote){
         try {
@@ -29,6 +27,25 @@ public class PacoteController {
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/{pacoteId}")
+    public ResponseEntity<PacoteDTOResponse> getPacote(@PathVariable Long pacoteId){
+        if(pacoteId < 0) return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(pacoteMapper.fromPacoteToDto(pacoteService.findbyId(pacoteId)));
+    }
+
+    @PatchMapping("/disable/{pacoteId}")
+    public ResponseEntity disablePacote(@PathVariable Long pacoteId){
+        if(pacoteId < 0) return ResponseEntity.badRequest().build();
+        pacoteService.disable(pacoteId);
+        return ResponseEntity.ok().build();
+    }
+    @PatchMapping("/enable/{pacoteId}")
+    public ResponseEntity enablePacote(@PathVariable Long pacoteId){
+        if(pacoteId < 0) return ResponseEntity.badRequest().build();
+        pacoteService.enable(pacoteId);
+        return ResponseEntity.ok().build();
     }
 
 }

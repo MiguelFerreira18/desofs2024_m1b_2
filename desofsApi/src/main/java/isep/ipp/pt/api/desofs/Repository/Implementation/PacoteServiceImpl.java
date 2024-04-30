@@ -23,17 +23,21 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
 
     @Override
     public void disable(Long id) {
-        Pacote pacote = pacoteRepo.findById(id).get();
-        pacote.setDisabled();
-        pacoteRepo.save(pacote);
+        if (pacoteRepo.findById(id).isPresent()) {
+            Pacote pacote = pacoteRepo.findById(id).get();
+            pacote.setDisabled();
+            pacoteRepo.save(pacote);
+        }
 
     }
 
     @Override
     public void enable(Long id) {
-        Pacote pacote = pacoteRepo.findById(id).get();
-        pacote.setEnabled();
-        pacoteRepo.save(pacote);
+        if (pacoteRepo.findById(id).isPresent()) {
+            Pacote pacote = pacoteRepo.findById(id).get();
+            pacote.setEnabled();
+            pacoteRepo.save(pacote);
+        }
 
     }
 }
