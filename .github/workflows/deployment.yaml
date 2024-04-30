@@ -94,8 +94,10 @@ jobs:
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
         with:
+          tool: checkstyle
           output: results.sarif
           format: sarif
+          directory: ./desofsApi/src
           # Adjust severity of non-security issues
           gh-code-scanning-compat: true
           # Force 0 exit code to allow SARIF file generation
