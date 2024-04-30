@@ -1,10 +1,7 @@
 package isep.ipp.pt.api.desofs.Model;
 
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +9,7 @@ import java.time.LocalDateTime;
 public class ListaEncomenda {
 
     @Id
+    @GeneratedValue
     private Long listaEncomendaId;
     private LocalDateTime dataEncomenda;
 

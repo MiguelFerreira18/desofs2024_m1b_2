@@ -1,6 +1,7 @@
 package isep.ipp.pt.api.desofs.Model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.Positive;
 public class Review {
 
     @Id
+    @GeneratedValue
     private Long reviewId;
     @NotBlank
     private String reviewText;
