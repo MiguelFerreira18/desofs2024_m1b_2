@@ -91,22 +91,19 @@ jobs:
           name: desofsApi
           path: ./desofsApi/target/desofsApi-0.0.1-SNAPSHOT.jar
 
-      - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@master
+
+      # Initializes the CodeQL tools for scanning.
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
         with:
-          output: results.sarif
-          format: sarif
-          # Adjust severity of non-security issues
-          gh-code-scanning-compat: true
-          # Force 0 exit code to allow SARIF file generation
-          # This will hand over control about PR rejection to the GitHub side
-          max-allowed-issues: 2147483647
-        
-      # Upload the SARIF file generated in the previous step
-      - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@main
-        with:
-          sarif_file: results.sarif
+          languages: ${{ matrix.language }}
+  
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
 
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
