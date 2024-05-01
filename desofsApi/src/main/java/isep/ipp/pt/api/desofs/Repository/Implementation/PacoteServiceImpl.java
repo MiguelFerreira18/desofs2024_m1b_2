@@ -42,6 +42,9 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
             pacote.setEnabled();
             pacoteRepo.save(pacote);
         }
-
+    }
+    @Override
+    public void deleteAll() {
+        pacoteRepo.deleteAll();
     }
 }

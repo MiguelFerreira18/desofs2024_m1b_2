@@ -7,4 +7,5 @@ public interface PacoteServiceRepo {
     Pacote findbyId(Long id);
     void disable(Long id);
     void enable(Long id);
+    void deleteAll();
 }
