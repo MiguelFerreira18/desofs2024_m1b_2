@@ -11,6 +11,8 @@ import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PacoteServiceImpl implements PacoteService {
 
@@ -42,6 +44,11 @@ public class PacoteServiceImpl implements PacoteService {
     @Override
     public void enable(Long id) {
         pacoteRepo.enable(id);
+    }
+
+    @Override
+    public List<PacoteDTOServiceResponse> findAll() {
+        return pacoteMapper.toPacoteDTOServiceResponseListFromPacoteList(pacoteRepo.findAll());
     }
 
     @Override

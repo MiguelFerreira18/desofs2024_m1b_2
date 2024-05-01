@@ -18,11 +18,10 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
     public Pacote save(Pacote pacoteService) {
         return pacoteRepo.save(pacoteService);
     }
+
     @Override
     public Pacote findbyName(String name) {
-        Pacote pacote = pacoteRepo.findByName(name);
-        System.out.println(pacote.getNome());
-        return pacote;
+        return pacoteRepo.findByName(name);
     }
 
     @Override
@@ -36,9 +35,9 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
 
     @Override
     public Pacote findbyId(Long id) {
-        if (pacoteRepo.findById(id).isPresent()){
+        if (pacoteRepo.findById(id).isPresent()) {
             return pacoteRepo.findById(id).get();
-        }else {
+        } else {
             return null;
         }
     }
@@ -61,6 +60,7 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
             pacoteRepo.save(pacote);
         }
     }
+
     @Override
     public void deleteAll() {
         pacoteRepo.deleteAll();

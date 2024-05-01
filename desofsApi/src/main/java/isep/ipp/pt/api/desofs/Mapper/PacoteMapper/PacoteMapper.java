@@ -9,6 +9,8 @@ import isep.ipp.pt.api.desofs.Model.Pacote;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 @Component
 public interface PacoteMapper {
@@ -23,6 +25,7 @@ public interface PacoteMapper {
     PacoteDTOServiceRequest ToPacoteDtoServiceRequestFromPacoteDtoResponse(PacoteDTOResponse pacoteDTOResponse);
     PacoteDTOServiceResponse toPacoteDTOServiceResponseFromPacote(Pacote pacote);
     Pacote toPacotefromPacoteSaveDtoService(PacoteSaveDTOService pacoteDTOServiceRequest);
-    
+    List<PacoteDTOServiceResponse> toPacoteDTOServiceResponseListFromPacoteList(List<Pacote> all);
+
 
 }
