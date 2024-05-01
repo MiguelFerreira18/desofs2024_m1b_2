@@ -1,4 +1,4 @@
-package isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer;
+package isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -6,7 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 
-public class PacoteDTOResponse {
+
+public class PacoteDTOServiceResponse {
+
 
     @NotNull
     @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
@@ -18,7 +20,7 @@ public class PacoteDTOResponse {
     @Max(value = 500, message = "Preço base do pacote inválido")
     private final double pacoteBasePrice;
 
-    public PacoteDTOResponse(String nome, String pacoteDescription, double pacoteBasePrice) {
+    public PacoteDTOServiceResponse(String nome, String pacoteDescription, double pacoteBasePrice) {
         this.nome = nome;
         this.pacoteDescription = pacoteDescription;
         this.pacoteBasePrice = pacoteBasePrice;

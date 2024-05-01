@@ -1,11 +1,12 @@
-package isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer;
+package isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer;
 
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
-
-public class PacoteDTOSaveRequest {
-
+public class PacoteSaveDTOService {
 
     @NotBlank
     @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
@@ -24,9 +25,9 @@ public class PacoteDTOSaveRequest {
     private final String pacoteDescription;
 
     private final boolean disabled;
-    private final Long tipoPacote;
+    private final TipoPacote tipoPacote;
 
-    public PacoteDTOSaveRequest(String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, Long tipoPacote) {
+    public PacoteSaveDTOService(String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, TipoPacote tipoPacote) {
         this.nome = nome;
         this.pacoteBasePrice = pacoteBasePrice;
         this.pacoteDescription = pacoteDescription;
@@ -50,7 +51,7 @@ public class PacoteDTOSaveRequest {
         return disabled;
     }
 
-    public Long getTipoPacote() {
+    public TipoPacote getTipoPacote() {
         return tipoPacote;
     }
 }

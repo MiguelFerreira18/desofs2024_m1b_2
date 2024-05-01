@@ -2,9 +2,11 @@ package isep.ipp.pt.api.desofs.Controllers;
 
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOResponse;
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOSaveRequest;
-import isep.ipp.pt.api.desofs.Model.Pacote;
-import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
+import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
+import org.apache.catalina.core.ApplicationContext;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,14 +21,18 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class PacoteControllerTest {
     @Autowired
-    private PacoteController pacoteService;
+    private PacoteController pacoteController;
+
+    @Autowired
+    private PacoteService pacoteServiceRepo;
+
 
     @Test
     @Order(1)
     public void testSavePacote_ValidRequest() {
-        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest("Pacote1", 10.0, "Pacote1 Description", true, null);
+        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest("Pacote1", 10.0, "Pacote1 Description", true, 1L);
 
-        ResponseEntity<PacoteDTOResponse> response = pacoteService.savePacote(pacoteDTOSaveRequest);
+        ResponseEntity<PacoteDTOResponse> response = pacoteController.savePacote(pacoteDTOSaveRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -34,17 +40,17 @@ class PacoteControllerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "Pacote1, 10.0, Pacote1 Description, true, null",
-            "Pacote2, 20.0, Pacote2 Description, false, null",
-            "Pacote3, 30.0, Pacote3 Description, true, null",
-            "Pacote4, 40.0, Pacote4 Description, false, null",
-            "Pacote5, 50.0, Pacote5 Description, true, null",
+            "Pacote1, 10.0, Pacote1 Description, true, 1",
+            "Pacote2, 20.0, Pacote2 Description, false, 1",
+            "Pacote3, 30.0, Pacote3 Description, true, 1",
+            "Pacote4, 40.0, Pacote4 Description, false, 1",
+            "Pacote5, 50.0, Pacote5 Description, true, 1",
     })
     @Order(2)
     public void testSavePacote_ValidRequest_Parameterized(String nome, double preco, String descricao, boolean ativo, String pacote) {
-        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest(nome, preco, descricao, ativo, null);
+        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest(nome, preco, descricao, ativo, 1L);
 
-        ResponseEntity<PacoteDTOResponse> response = pacoteService.savePacote(pacoteDTOSaveRequest);
+        ResponseEntity<PacoteDTOResponse> response = pacoteController.savePacote(pacoteDTOSaveRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -53,9 +59,9 @@ class PacoteControllerTest {
     @Test
     @Order(3)
     public void testSavePacote_InvalidRequest() {
-        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest("a", -1, "Pacote1 Description", true, null);
+        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest("a", -1, "Pacote1 Description", true, 1L);
 
-        ResponseEntity<PacoteDTOResponse> response = pacoteService.savePacote(pacoteDTOSaveRequest);
+        ResponseEntity<PacoteDTOResponse> response = pacoteController.savePacote(pacoteDTOSaveRequest);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -63,17 +69,17 @@ class PacoteControllerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "a, -1,x, true, null",
-            "b, -2, y, false, null",
-            "c, -3,, true, null",
-            "d, -4, f, false, null",
-            "e, -5, 8, true, null",
+            "a, -1,x, true, 1",
+            "b, -2, y, false, 1",
+            "c, -3,, true, 1",
+            "d, -4, f, false, 1",
+            "e, -5, 8, true, 1",
     })
     @Order(4)
     public void testSavePacote_InvalidRequest_Parameterized(String nome, double preco, String descricao, boolean ativo, String pacote) {
-        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest(nome, preco, descricao, ativo, null);
+        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest(nome, preco, descricao, ativo, 1L);
 
-        ResponseEntity<PacoteDTOResponse> response = pacoteService.savePacote(pacoteDTOSaveRequest);
+        ResponseEntity<PacoteDTOResponse> response = pacoteController.savePacote(pacoteDTOSaveRequest);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -83,7 +89,7 @@ class PacoteControllerTest {
     @Test
     @Order(5)
     public void testGetPacote_ValidRequest() {
-        ResponseEntity<PacoteDTOResponse> response = pacoteService.getPacote(1L);
+        ResponseEntity<PacoteDTOResponse> response = pacoteController.getPacote(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -99,7 +105,7 @@ class PacoteControllerTest {
     })
     @Order(6)
     public void testGetPacote_ValidRequest_Parameterized(Long id) {
-        ResponseEntity<PacoteDTOResponse> response = pacoteService.getPacote(id);
+        ResponseEntity<PacoteDTOResponse> response = pacoteController.getPacote(id);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -109,7 +115,7 @@ class PacoteControllerTest {
     @Test
     @Order(7)
     public void testGetPacote_InvalidRequest() {
-        ResponseEntity<PacoteDTOResponse> response = pacoteService.getPacote(-1L);
+        ResponseEntity<PacoteDTOResponse> response = pacoteController.getPacote(-1L);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -126,7 +132,7 @@ class PacoteControllerTest {
     })
     @Order(8)
     public void testGetPacote_InvalidRequest_Parameterized(Long id) {
-        ResponseEntity<PacoteDTOResponse> response = pacoteService.getPacote(id);
+        ResponseEntity<PacoteDTOResponse> response = pacoteController.getPacote(id);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -137,7 +143,7 @@ class PacoteControllerTest {
     @Test
     @Order(9)
     public void testDisablePacote_ValidRequest() {
-        ResponseEntity response = pacoteService.disablePacote(1L);
+        ResponseEntity response = pacoteController.disablePacote(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
@@ -154,7 +160,7 @@ class PacoteControllerTest {
     })
     @Order(10)
     public void testDisablePacote_ValidRequest_Parameterized(Long id) {
-        ResponseEntity response = pacoteService.disablePacote(id);
+        ResponseEntity response = pacoteController.disablePacote(id);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
@@ -166,7 +172,7 @@ class PacoteControllerTest {
     @Test
     @Order(11)
     public void testDisablePacote_InvalidRequest() {
-        ResponseEntity response = pacoteService.disablePacote(-1L);
+        ResponseEntity response = pacoteController.disablePacote(-1L);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -183,7 +189,7 @@ class PacoteControllerTest {
     })
     @Order(12)
     public void testDisablePacote_InvalidRequest_Parameterized(Long id) {
-        ResponseEntity response = pacoteService.disablePacote(id);
+        ResponseEntity response = pacoteController.disablePacote(id);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -193,7 +199,7 @@ class PacoteControllerTest {
     @Test
     @Order(13)
     public void testEnablePacote_ValidRequest() {
-        ResponseEntity response = pacoteService.enablePacote(1L);
+        ResponseEntity response = pacoteController.enablePacote(1L);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
@@ -210,7 +216,7 @@ class PacoteControllerTest {
     })
     @Order(14)
     public void testEnablePacote_ValidRequest_Parameterized(Long id) {
-        ResponseEntity response = pacoteService.enablePacote(id);
+        ResponseEntity response = pacoteController.enablePacote(id);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNull(response.getBody());
@@ -221,7 +227,7 @@ class PacoteControllerTest {
     @Test
     @Order(15)
     public void testEnablePacote_InvalidRequest() {
-        ResponseEntity response = pacoteService.enablePacote(-1L);
+        ResponseEntity response = pacoteController.enablePacote(-1L);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
@@ -237,10 +243,11 @@ class PacoteControllerTest {
     })
     @Order(16)
     public void testEnablePacote_InvalidRequest_Parameterized(Long id) {
-        ResponseEntity response = pacoteService.enablePacote(id);
-
+        ResponseEntity response = pacoteController.enablePacote(id);
+        pacoteServiceRepo.deleteAll();
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
+
     }
 
 
