@@ -68,6 +68,7 @@ jobs:
 
       - name: Start database
         run: docker-compose up -d
+        working-directory: ./desofsApi
       
       # Setup java version
       - name: Set up Java 17
