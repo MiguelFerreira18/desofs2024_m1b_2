@@ -45,9 +45,6 @@ import java.security.interfaces.RSAPublicKey;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig {
 
-    @Autowired
-    private UserServiceImpl userDetailsService;
-
     @Value("${jwt.public.key}")
     private RSAPublicKey rsaPublicKey;
 

@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,6 +15,7 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
+@ToString
 public class User implements UserDetails {
 
     @Id
@@ -43,7 +45,7 @@ public class User implements UserDetails {
     @OneToMany
     private List<Review> reviews;
 
-    protected User(){
+    public User(){
 
     }
 

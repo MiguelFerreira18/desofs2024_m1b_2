@@ -12,4 +12,5 @@ public interface UserServiceRepo {
 
     public User saveUser(User user);
 
+    public User validateUser(String username, String password);
 }

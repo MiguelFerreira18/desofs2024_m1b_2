@@ -25,7 +25,5 @@ public class UserBootstrapper implements CommandLineRunner {
             userRepo.saveUser(admin1);
 
         }
-
-
     }
 }
