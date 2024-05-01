@@ -90,9 +90,9 @@ jobs:
         run: mvn clean
         working-directory: ./desofsApi
 
-      - name: Maven Install
-        run: mvn install
-        working-directory: ./desofsApi
+      # - name: Maven Install
+      #   run: mvn install
+      #   working-directory: ./desofsApi
 
       - name: Maven Test
         run: mvn test
