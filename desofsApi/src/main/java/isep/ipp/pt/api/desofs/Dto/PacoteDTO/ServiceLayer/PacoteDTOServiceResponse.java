@@ -6,6 +6,9 @@ import lombok.Getter;
 
 public class PacoteDTOServiceResponse {
 
+    @NotNull
+    @Min(value = 0, message = "Id do pacote inválido")
+    private final Long pacoteId;
 
     @NotBlank
     @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
@@ -21,10 +24,11 @@ public class PacoteDTOServiceResponse {
     @Max(value = 500, message = "Preço base do pacote inválido")
     private final double pacoteBasePrice;
 
-    public PacoteDTOServiceResponse(String nome, String pacoteDescription, double pacoteBasePrice) {
+    public PacoteDTOServiceResponse(String nome, String pacoteDescription, double pacoteBasePrice,Long pacoteId) {
         this.nome = nome;
         this.pacoteDescription = pacoteDescription;
         this.pacoteBasePrice = pacoteBasePrice;
+        this.pacoteId = pacoteId;
     }
 
     public String getNome() {
@@ -37,5 +41,9 @@ public class PacoteDTOServiceResponse {
 
     public double getPacoteBasePrice() {
         return pacoteBasePrice;
+    }
+
+    public Long getPacoteId() {
+        return pacoteId;
     }
 }
