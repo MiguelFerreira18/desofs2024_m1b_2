@@ -56,9 +56,18 @@ jobs:
   buildBackEnd:
     runs-on: ubuntu-latest
 
+    env:
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_DATABASE: ${{ secrets.DESOFS_DB_DEV_DB_NAME }}
+      MYSQL_USER: ${{ secrets.DESOFS_DB_USER }}
+      MYSQL_PASSWORD: ${{ secrets.DESOFS_DB_PASS }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Start database
+        run: docker-compose up -d
       
       # Setup java version
       - name: Set up Java 17
@@ -91,7 +100,10 @@ jobs:
           name: desofsApi
           path: ./desofsApi/target/desofsApi-0.0.1-SNAPSHOT.jar
 
+      - name: Stop database
+        run: docker-compose down
 
+        
       # Initializes the CodeQL tools for scanning.
       # - name: Initialize CodeQL
       #   uses: github/codeql-action/init@v2
