@@ -87,8 +87,7 @@ jobs:
 
           pwd
           ls -la
-          cd ./desofsApi 
-          docker-compose up -d
+          docker-compose up -f ./desofsApi/docker-compose.yml -d
         working-directory: ./desofsApi
       
       # Setup java version
