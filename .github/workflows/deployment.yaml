@@ -83,11 +83,7 @@ jobs:
       
 
       - name: Start database
-        run: |
-
-          pwd
-          ls -la
-          docker-compose up -f ./Docker-compose.yml -d
+        run: docker-compose -f "./Docker-compose.yml" up -d
         working-directory: ./desofsApi
       
       # Setup java version
@@ -122,7 +118,9 @@ jobs:
           path: ./desofsApi/target/desofsApi-0.0.1-SNAPSHOT.jar
 
       - name: Stop database
-        run: docker-compose down
+        if: always()
+        run:  docker-compose -f "./Docker-compose.yml" down
+        working-directory: ./desofsApi
 
         
       # Initializes the CodeQL tools for scanning.
