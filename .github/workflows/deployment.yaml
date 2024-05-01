@@ -73,6 +73,7 @@ jobs:
 
       - name: Create .env
         run: |
+
           touch .env
           echo "MYSQL_ROOT_PASSWORD=${{ env.MYSQL_ROOT_PASSWORD }}" >> .env
           echo "DESOFS_DB_DEV_DB_NAME=${{ env.MYSQL_DATABASE }}" >> .env
@@ -82,7 +83,12 @@ jobs:
       
 
       - name: Start database
-        run: docker-compose up -d
+        run: |
+
+          pwd
+          ls -la
+          cd ./desofsApi 
+          docker-compose up -d
         working-directory: ./desofsApi
       
       # Setup java version
