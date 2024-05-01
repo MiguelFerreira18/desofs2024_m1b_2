@@ -66,10 +66,12 @@ jobs:
         run: |
 
           touch .env
-          echo "MYSQL_ROOT_PASSWORD=${{ env.MYSQL_ROOT_PASSWORD }}" >> .env
-          echo "DESOFS_DB_DEV_DB_NAME=${{ env.MYSQL_DATABASE }}" >> .env
-          echo "DESOFS_DB_USER=${{ env.MYSQL_USER }}" >> .env
-          echo "DESOFS_DB_PASS=${{ env.MYSQL_PASSWORD }}" >> .env
+          echo "MYSQL_ROOT_PASSWORD=rootpwd" >> .env
+          echo "DESOFS_DB_DEV_DB_NAME=data_desofs" >> .env
+          echo "DESOFS_DB_USER=cozinha" >> .env
+          echo "DESOFS_DB_PASS=123456789" >> .env
+          echo "DESOFS_DB_HOST=desofs_mysql_db" >> .env
+          echo "DESOFS_APP_SECRET=defaultappsecret" >> .env
         working-directory: ./desofsApi
       
 
