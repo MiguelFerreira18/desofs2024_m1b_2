@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PacoteRepo extends CrudRepository<Pacote, Long> {
 
+    @Query("SELECT p FROM Pacote p WHERE p.nome = ?1")
+    Pacote findByName(String name);
+
 }
