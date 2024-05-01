@@ -36,8 +36,6 @@ import static org.mockito.Mockito.when;
 class PacoteServiceImplTest {
 
     @Autowired
-    private PacoteMapper pacoteMapper;
-    @Autowired
     private PacoteServiceRepo pacoteRepo;
     @Autowired
     private TipoPacoteServiceRepo tipoPacoteRepo;
@@ -47,11 +45,13 @@ class PacoteServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        Pacote p1 = new Pacote(1L, "Pacote1", 10.0, "Pacote1 Description", true, new TipoPacote(1L, "Mediteraneo"));
-        Pacote p2 = new Pacote(2L, "Pacote2", 10.0, "Pacote2 Description", true, new TipoPacote(1L, "Mediteraneo"));
-        Pacote p3 = new Pacote(3L, "Pacote3", 10.0, "Pacote3 Description", true, new TipoPacote(1L, "Mediteraneo"));
-        Pacote p4 = new Pacote(4L, "Pacote4", 10.0, "Pacote4 Description", true, new TipoPacote(1L, "Mediteraneo"));
-        Pacote p5 = new Pacote(5L, "Pacote5", 10.0, "Pacote5 Description", true, new TipoPacote(1L, "Mediteraneo"));
+        TipoPacote tp1 = new TipoPacote("TugaTube");
+        TipoPacote tp = tipoPacoteRepo.save(tp1);
+        Pacote p1 = new Pacote(1L, "Pacote1", 10.0, "Pacote1 Description", true, tp);
+        Pacote p2 = new Pacote(2L, "Pacote2", 10.0, "Pacote2 Description", true, tp);
+        Pacote p3 = new Pacote(3L, "Pacote3", 10.0, "Pacote3 Description", true, tp);
+        Pacote p4 = new Pacote(4L, "Pacote4", 10.0, "Pacote4 Description", true, tp);
+        Pacote p5 = new Pacote(5L, "Pacote5", 10.0, "Pacote5 Description", true, tp);
         pacoteRepo.save(p1);
         pacoteRepo.save(p2);
         pacoteRepo.save(p3);
@@ -191,6 +191,13 @@ class PacoteServiceImplTest {
         pacoteService.enable(id);
         Pacote pacoteResponse = pacoteRepo.findbyId(id);
         assertNull(pacoteResponse);
+    }
+
+    @Test
+    public void testServiceFindAll() {
+        List<PacoteDTOServiceResponse> pacotes = pacoteService.findAll();
+        assertFalse(pacotes.isEmpty());
+        assertEquals(5, pacotes.size());
     }
 
     @Test
