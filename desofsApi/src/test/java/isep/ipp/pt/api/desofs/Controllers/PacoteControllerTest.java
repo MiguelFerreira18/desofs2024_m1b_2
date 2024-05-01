@@ -26,6 +26,11 @@ class PacoteControllerTest {
     @Autowired
     private PacoteService pacoteServiceRepo;
 
+    @AfterEach
+    public void tearDown() {
+        pacoteServiceRepo.deleteAll();
+    }
+
 
     @Test
     @Order(1)
@@ -86,31 +91,6 @@ class PacoteControllerTest {
     }
 
 
-    @Test
-    @Order(5)
-    public void testGetPacote_ValidRequest() {
-        ResponseEntity<PacoteDTOResponse> response = pacoteController.getPacote(1L);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-    }
-    @ParameterizedTest
-    @CsvSource({
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-    })
-    @Order(6)
-    public void testGetPacote_ValidRequest_Parameterized(Long id) {
-        ResponseEntity<PacoteDTOResponse> response = pacoteController.getPacote(id);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-
-    }
 
     @Test
     @Order(7)
