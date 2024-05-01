@@ -6,8 +6,12 @@ import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.TipoPacoteRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class TipoPacoteServiceImpl implements TipoPacoteServiceRepo {
+
     @Autowired
     private TipoPacoteRepo tipoPacoteRepo;
 
@@ -23,5 +27,24 @@ public class TipoPacoteServiceImpl implements TipoPacoteServiceRepo {
         }else {
             return null;
         }
+    }
+
+    @Override
+    public List<TipoPacote> findAll() {
+        List<TipoPacote> lista = new LinkedList<>();
+        for (TipoPacote tipoPacote : tipoPacoteRepo.findAll()) {
+            lista.add(tipoPacote);
+        }
+        return lista;
+    }
+
+    @Override
+    public void deleteAll() {
+        tipoPacoteRepo.deleteAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        tipoPacoteRepo.deleteById(id);
     }
 }
