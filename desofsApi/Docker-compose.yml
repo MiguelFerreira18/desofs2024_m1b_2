@@ -12,6 +12,7 @@ services:
       - MYSQL_DATABASE=${DESOFS_DB_DEV_DB_NAME}
       - MYSQL_USER=${DESOFS_DB_USER}
       - MYSQL_PASSWORD=${DESOFS_DB_PASS}
+      - MYSQL_ROOT_HOST=${DESOFS_DB_HOST}
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
