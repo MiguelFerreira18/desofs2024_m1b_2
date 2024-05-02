@@ -85,6 +85,9 @@ jobs:
       - name: Start database
         run: docker-compose -f "./Docker-compose.yml" up -d
         working-directory: ./desofsApi
+
+      - name: Wait for 20 seconds
+        run: sleep 20
       
       # Setup java version
       - name: Set up Java 17
