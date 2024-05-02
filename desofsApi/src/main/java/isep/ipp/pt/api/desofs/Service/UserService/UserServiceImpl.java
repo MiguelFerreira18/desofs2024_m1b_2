@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 User newUser  = new User(user.getUsername(), encoder.encode(user.getPassword()), user.getFullName(), user.getNif(), user.getMorada());
                 newUser.addAuthority(new Role(Role.User));
                 userRepo.saveUser(newUser);
-                return new UserView(newUser.getUserId(), newUser.getUsername(), newUser.getFullName());
+                return new UserView(newUser.getUserId(), newUser.getUsername(), newUser.getFullName(), newUser.getAuthorities());
             }
         }
         return null;

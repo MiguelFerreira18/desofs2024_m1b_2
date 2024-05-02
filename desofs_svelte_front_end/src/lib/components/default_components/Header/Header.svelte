@@ -2,8 +2,9 @@
 	import Button from './Button.svelte';
 	import { goto } from '$app/navigation';
 	import { loggedIn } from 'C:/Users/rodri/OneDrive/Documents/Mestrado/2Semestre/SISMD/PL3/desofs2024_m1b_2/desofs_svelte_front_end/src/routes/auth/store';
-	let isAdmin = false;
-	let isDocumentManager = false;
+	import { isAdmin } from 'C:/Users/rodri/OneDrive/Documents/Mestrado/2Semestre/SISMD/PL3/desofs2024_m1b_2/desofs_svelte_front_end/src/routes/auth/store';
+	import { isDocumentManager } from 'C:/Users/rodri/OneDrive/Documents/Mestrado/2Semestre/SISMD/PL3/desofs2024_m1b_2/desofs_svelte_front_end/src/routes/auth/store';
+
 
 	// let isMenuOpen = false;
 </script>

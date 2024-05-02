@@ -1,4 +1,44 @@
 <script lang="ts">
+	import { loggedIn } from '../store';
+	import { goto } from '$app/navigation';
+	let email = "";
+	let password = "";
+	let repeatPassword = "";
+	let fullname = "";
+	let nif = "";
+	let morada = "";
+
+	$: if ($loggedIn) {
+        goto('/');
+    }
+
+    const signup = async () => {
+        if (password !== repeatPassword) { // check if password and repeat password are the same
+            alert('Password and repeat password must be the same');
+            return;
+        }
+
+        const response = await fetch('http://localhost:9092/auth/public/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': '*/*'
+            },
+            body: JSON.stringify({
+                username: email,
+                password: password,
+                fullName: fullname,
+                nif: nif,
+                morada: morada
+            })
+        });
+
+		const data = await response.json();
+		if (response.ok) {
+			console.log("sucesso");
+			console.log(data);
+		}
+	}
 </script>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -8,7 +48,7 @@
 				Sign in to your account
 			</h2>
 		</div>
-		<form class="mt-8 space-y-6 flex flex-col">
+		<form class="mt-8 space-y-6 flex flex-col" on:submit|preventDefault={signup}>
 			<div class="rounded-md shadow-sm -space-y-px">
 				<div>
 					<label for="email-address" class="sr-only">Email address</label>
@@ -17,6 +57,7 @@
 						name="email"
 						type="email"
 						required
+						bind:value={email}
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Email"
 					/>
@@ -28,6 +69,7 @@
 						name="fullname"
 						type="text"
 						required
+						bind:value={fullname}
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Full name"
 					/>
@@ -41,6 +83,7 @@
 						name="nif"
 						type="text"
 						required
+						bind:value={nif}
 						class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="NIF"
 					/>
@@ -52,6 +95,7 @@
 						name="morada"
 						type="text"
 						required
+						bind:value={morada}
 						class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Morada"
 					/>
@@ -65,6 +109,7 @@
 						name="password"
 						type="password"
 						required
+						bind:value={password}
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password"
 					/>
@@ -76,6 +121,7 @@
 						name="repeat-password"
 						type="password"
 						required
+						bind:value={repeatPassword}
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Repeat password"
 					/>

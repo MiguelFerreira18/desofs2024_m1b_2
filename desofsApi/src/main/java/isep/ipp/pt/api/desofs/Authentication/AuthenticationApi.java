@@ -71,7 +71,7 @@ public class AuthenticationApi {
         }
     }
     private UserView mapToUSerView(User user) {
-        return new UserView(user.getUserId(), user.getUsername(), user.getFullName());
+        return new UserView(user.getUserId(), user.getUsername(), user.getFullName(), user.getAuthorities());
     }
 
     @PostMapping("signup")

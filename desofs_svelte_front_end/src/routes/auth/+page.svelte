@@ -1,5 +1,13 @@
 <script lang="ts">
 	import { loggedIn } from './store';
+	import { isAdmin } from './store';
+	import { isDocumentManager } from './store';
+	import { goto } from '$app/navigation';
+
+	$: if ($loggedIn) {
+        goto('/');
+    }
+
 	let email = '';
 	let password = '';
 
@@ -21,6 +29,14 @@
 
 		if (response.ok) {
 			loggedIn.set(true);
+			const authorities = data.authorities.map(a => a.authority);
+			console.log(authorities);
+			if (authorities.includes('ADMIN')) {
+				isAdmin.set(true);
+			} else if (authorities.includes('DOCUMENT_MANAGER')) {
+				isDocumentManager.set(true);
+			};
+			goto('/');
 		}
     };
 </script>
