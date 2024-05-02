@@ -52,11 +52,11 @@ jobs:
   buildBackEnd:
     runs-on: ubuntu-latest
 
-    env:
-      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-      MYSQL_DATABASE: ${{ secrets.DESOFS_DB_DEV_DB_NAME }}
-      MYSQL_USER: ${{ secrets.DESOFS_DB_USER }}
-      MYSQL_PASSWORD: ${{ secrets.DESOFS_DB_PASS }}
+    # env:
+    #   MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+    #   MYSQL_DATABASE: ${{ secrets.DESOFS_DB_DEV_DB_NAME }}
+    #   MYSQL_USER: ${{ secrets.DESOFS_DB_USER }}
+    #   MYSQL_PASSWORD: ${{ secrets.DESOFS_DB_PASS }}
 
     steps:
       - name: Checkout Code
@@ -72,6 +72,10 @@ jobs:
           echo "DESOFS_DB_PASS=123456789" >> .env
           echo "DESOFS_DB_HOST=desofs_mysql_db" >> .env
           echo "DESOFS_APP_SECRET=defaultappsecret" >> .env
+        working-directory: ./desofsApi
+
+      - name: Echo .env
+        run: cat .env
         working-directory: ./desofsApi
       
 

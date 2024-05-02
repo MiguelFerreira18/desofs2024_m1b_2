@@ -40,6 +40,11 @@ public class MysqlConfig {
     //Datasource
     @Bean
     public DataSource dataSource(){
+        logger.info("Datasource created");
+        logger.info(url);
+        logger.info( username);
+        logger.info( password);
+        
         return DataSourceBuilder.create()
                 .url(url)
                 .username(username)
