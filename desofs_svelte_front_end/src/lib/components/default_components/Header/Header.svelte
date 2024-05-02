@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Button from './Button.svelte';
 	import { goto } from '$app/navigation';
-	let loggedIn = false;
+	import { loggedIn } from 'C:/Users/rodri/OneDrive/Documents/Mestrado/2Semestre/SISMD/PL3/desofs2024_m1b_2/desofs_svelte_front_end/src/routes/auth/store';
 	let isAdmin = false;
 	let isDocumentManager = false;
 
@@ -20,21 +20,21 @@
 	</ul>
 
 	<div class="self-center">
-		{#if loggedIn}
-			<Button on:click={() => goto('/profile')} className="profile-button" text="Perfil" />
-			<Button on:click={() => goto('/Carrinho')} className="order-button" text="Carrinho" />
+		{#if $loggedIn}
+			<Button onClick={() => goto('/profile')} className="profile-button" text="Perfil" />
+			<Button onClick={() => goto('/Carrinho')} className="order-button" text="Carrinho" />
 
 			{#if isDocumentManager || isAdmin}
 				<Button
-					on:click={() => goto('/packages')}
+					onClick={() => goto('/packages')}
 					className="package-management-button"
 					text="Gestão de pacotes"
 				/>
 			{/if}
 			{#if isAdmin}
-				<Button on:click={() => goto('/dashboard')} className="dashboard-button" text="Dashboard" />
+				<Button onClick={() => goto('/dashboard')} className="dashboard-button" text="Dashboard" />
 			{/if}
-			<Button className="logout-button" text="Sair">Sair</Button>
+			<Button onClick={() => loggedIn.set(false)} className="logout-button" text="Sair">Sair</Button>
 		{:else}
 			<Button onClick={() => goto('/auth')} text="Junta-te" />
 		{/if}

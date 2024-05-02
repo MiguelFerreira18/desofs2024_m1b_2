@@ -1,10 +1,28 @@
 <script lang="ts">
+	import { loggedIn } from './store';
 	let email = '';
 	let password = '';
 
-	const login = async () => {
-		// Implement your login logic here
-	};
+    const login = async () => {
+        const response = await fetch('http://localhost:9092/auth/public/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+				'Accept': '*/*'
+            },
+            body: JSON.stringify({
+                username: email,
+                password: password
+            })
+		});
+
+        const data = await response.json();
+        console.log(data);
+
+		if (response.ok) {
+			loggedIn.set(true);
+		}
+    };
 </script>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
