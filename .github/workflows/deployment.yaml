@@ -90,7 +90,7 @@ jobs:
         run: sleep 20
       
       - name: Check Database Health
-        run: nc -zvw 1 desofs_mysql_db 3306
+        run: nc -zvw 1 localhost 3306
         continue-on-error: true
       # Setup java version
       - name: Set up Java 17
