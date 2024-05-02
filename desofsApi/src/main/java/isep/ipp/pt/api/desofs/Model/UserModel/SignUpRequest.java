@@ -15,7 +15,7 @@ public record SignUpRequest(
         String password,
 
         @NotBlank(message = "Nome cannot be blank")
-        String nome,
+        String fullName,
 
         @NotBlank(message = "Nif cannot be blank")
         String nif,

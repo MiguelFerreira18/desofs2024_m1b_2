@@ -1,6 +1,7 @@
 package isep.ipp.pt.api.desofs.Service.UserService;
 
 import isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer.UserDTOSignup;
+import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
@@ -60,7 +61,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user.getUsername() != null || user.getPassword() != null) {
             UserDetails existingUser = userRepo.findByUsername(user.getUsername());
             if (existingUser == null) {
-                User newUser = userRepo.saveUser(new User(user.getUsername(), encoder.encode(user.getPassword()), user.getNome(), user.getNif(), user.getMorada()));
+                User newUser  = new User(user.getUsername(), encoder.encode(user.getPassword()), user.getFullName(), user.getNif(), user.getMorada());
+                newUser.addAuthority(new Role(Role.User));
+                userRepo.saveUser(newUser);
                 return new UserView(newUser.getUserId(), newUser.getUsername(), newUser.getFullName());
             }
         }
