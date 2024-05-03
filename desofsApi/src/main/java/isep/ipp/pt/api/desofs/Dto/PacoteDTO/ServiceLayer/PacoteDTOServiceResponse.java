@@ -1,7 +1,7 @@
 package isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer;
 
+import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
 
 
 public class PacoteDTOServiceResponse {
@@ -24,11 +24,17 @@ public class PacoteDTOServiceResponse {
     @Max(value = 500, message = "Preço base do pacote inválido")
     private final double pacoteBasePrice;
 
-    public PacoteDTOServiceResponse(String nome, String pacoteDescription, double pacoteBasePrice,Long pacoteId) {
+    private final boolean disabled;
+
+    private final TipoPacote tipoPacote;
+
+    public PacoteDTOServiceResponse(String nome, String pacoteDescription, double pacoteBasePrice,Long pacoteId, boolean disabled,TipoPacote tipoPacote) {
         this.nome = nome;
         this.pacoteDescription = pacoteDescription;
         this.pacoteBasePrice = pacoteBasePrice;
         this.pacoteId = pacoteId;
+        this.disabled = disabled;
+        this.tipoPacote = tipoPacote;
     }
 
     public String getNome() {
@@ -45,5 +51,13 @@ public class PacoteDTOServiceResponse {
 
     public Long getPacoteId() {
         return pacoteId;
+    }
+
+    public boolean getDisabled() {
+        return disabled;
+    }
+
+    public TipoPacote getTipoPacote() {
+        return tipoPacote;
     }
 }

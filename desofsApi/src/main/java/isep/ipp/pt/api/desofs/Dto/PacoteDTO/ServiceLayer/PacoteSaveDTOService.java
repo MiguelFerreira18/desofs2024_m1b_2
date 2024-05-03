@@ -43,7 +43,7 @@ public class PacoteSaveDTOService {
         return pacoteDescription;
     }
 
-    public boolean isDisabled() {
+    public boolean getDisabled() {
         return disabled;
     }
 

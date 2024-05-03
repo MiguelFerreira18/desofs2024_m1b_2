@@ -91,6 +91,11 @@ public class Pacote {
         return disabled;
     }
 
+    public Pacote setDisabled(boolean disabled) {
+        this.disabled = disabled;
+        return this;
+    }
+
     public Pacote setDisabled() {
         this.disabled = true;
         return this;

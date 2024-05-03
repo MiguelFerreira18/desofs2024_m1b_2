@@ -1,8 +1,6 @@
 package isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer;
 
-import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import jakarta.validation.constraints.*;
-import lombok.Getter;
 
 
 public class PacoteDTOServiceRequest {
@@ -43,7 +41,7 @@ public class PacoteDTOServiceRequest {
         return pacoteDescription;
     }
 
-    public boolean isDisabled() {
+    public boolean getDisabled() {
         return disabled;
     }
 
