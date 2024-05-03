@@ -13,7 +13,7 @@ public class ReviewServiceImpl implements ReviewServiceRepo {
     @Autowired
     private ReviewRepo reviewRepo;
     @Override
-    public Review addReview(Review review) {
+    public Review save(Review review) {
        return reviewRepo.save(review);
     }
 

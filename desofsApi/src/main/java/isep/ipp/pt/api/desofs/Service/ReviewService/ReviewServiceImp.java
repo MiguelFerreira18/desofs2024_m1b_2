@@ -1,10 +1,13 @@
 package isep.ipp.pt.api.desofs.Service.ReviewService;
 
-import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServicePatchRequest;
-import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceResponse;
-import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceSaveRequest;
+import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.*;
+import isep.ipp.pt.api.desofs.Mapper.ReviewMapper.ReviewMapper;
+import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.Review;
+import isep.ipp.pt.api.desofs.Model.UserModel.User;
+import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,40 +17,52 @@ import java.util.List;
 public class ReviewServiceImp implements ReviewService{
     @Autowired
     private ReviewServiceRepo reviewServiceRepo;
+    @Autowired
+    private UserServiceRepo userServiceRepo;
+    @Autowired
+    private PacoteServiceRepo pacoteServiceRepo;
+    @Autowired
+    private ReviewMapper reviewMapper;
 
 
     @Override
     public ReviewDTOServiceResponse addReview(ReviewDTOServiceSaveRequest review) {
-        return null;
+        User user = userServiceRepo.getUserById(review.getUser());
+        Pacote pacote = pacoteServiceRepo.findbyId(review.getPacote());
+        ReviewDTOSaveService reviewDTOSaveService = new ReviewDTOSaveService(review.getReviewText(), review.getRating(), user, pacote);
+        return reviewMapper.toReviewDTOServiceResponseFromReview(reviewServiceRepo.save(reviewMapper.toReviewFromReviewSaveDtoService(reviewDTOSaveService)));
     }
 
     @Override
     public ReviewDTOServiceResponse updateReview(ReviewDTOServicePatchRequest review) {
-        return null;
+        User user = userServiceRepo.getUserById(review.getUser());
+        Pacote pacote = pacoteServiceRepo.findbyId(review.getPacote());
+        ReviewDTOPatchService reviewDTOPatchService = new ReviewDTOPatchService(review.getReviewId(), review.getReviewText(), review.getRating(),user, pacote);
+        return reviewMapper.toReviewDTOServiceResponseFromReview(reviewServiceRepo.save(reviewMapper.toReviewFromReviewPatchDtoService(reviewDTOPatchService)));
     }
 
     @Override
     public void deleteReview(Long reviewId) {
-
+        reviewServiceRepo.deleteReview(reviewId);
     }
 
     @Override
     public List<ReviewDTOServiceResponse> getReviews() {
-        return List.of();
+        return reviewMapper.toReviewDTOServiceResponseListFromReviewList(reviewServiceRepo.getReviews());
     }
 
     @Override
     public ReviewDTOServiceResponse getReviewById(Long reviewId) {
-        return null;
+        return reviewMapper.toReviewDTOServiceResponseFromReview(reviewServiceRepo.getReviewById(reviewId));
     }
 
     @Override
     public List<ReviewDTOServiceResponse> getReviewsByPacoteId(Long pacoteId) {
-        return List.of();
+        return reviewMapper.toReviewDTOServiceResponseListFromReviewList(reviewServiceRepo.getReviewsByPacoteId(pacoteId));
     }
 
     @Override
     public List<ReviewDTOServiceResponse> getReviewsByUserId(Long userId) {
-        return List.of();
+        return reviewMapper.toReviewDTOServiceResponseListFromReviewList(reviewServiceRepo.getReviewsByUserId(userId));
     }
 }
