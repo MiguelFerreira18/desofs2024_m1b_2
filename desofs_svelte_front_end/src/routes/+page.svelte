@@ -1,7 +1,13 @@
-<script>
+<script lang="ts">
+	import type { PageData } from './$types';
 	import Hero from '$lib/components/main_page_components/Hero.svelte';
 	import MenuCards from '$lib/components/main_page_components/MenuCards.svelte';
 	import Reviews from '$lib/components/main_page_components/Reviews.svelte';
+	import type { Package } from '$lib/Types/types';
+
+	export let data: PageData;
+	const pacote: Package[] = data.enabledPackages;
+	console.log(pacote);
 </script>
 
 <svelte:head>
@@ -11,7 +17,7 @@
 
 <section class="bg-gray-100 px-20">
 	<Hero />
-	<MenuCards />
+	<MenuCards packages={data.enabledPackages} />
 	<span class="relative flex justify-center">
 		<div
 			class="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-transparent bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-75"

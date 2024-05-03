@@ -14,15 +14,15 @@ class PacoteMapperTest {
     @Autowired
     PacoteMapper pacoteMapper;
     @Test
-    void toPacoteFromSaveDTO() {
+    void toPacoteDtoServiceRequestFromPacoteDtoSaveRequest() {
         TipoPacote tipoPacote = new TipoPacote(1L, "tipoPacote");
         PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest("nome", 10.0, "description", false, null);
 
-        assertEquals(pacoteMapper.toPacoteFromSaveDTO(pacoteDTOSaveRequest).getNome(), pacoteDTOSaveRequest.getNome());
-        assertEquals(pacoteMapper.toPacoteFromSaveDTO(pacoteDTOSaveRequest).getPacoteBasePrice(), pacoteDTOSaveRequest.getPacoteBasePrice());
-        assertEquals(pacoteMapper.toPacoteFromSaveDTO(pacoteDTOSaveRequest).getPacoteDescription(), pacoteDTOSaveRequest.getPacoteDescription());
-        assertEquals(pacoteMapper.toPacoteFromSaveDTO(pacoteDTOSaveRequest).isDisabled(), pacoteDTOSaveRequest.isDisabled());
-        assertNull(pacoteMapper.toPacoteFromSaveDTO(pacoteDTOSaveRequest).getTipoPacote());
+        assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getNome(), pacoteDTOSaveRequest.getNome());
+        assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getPacoteBasePrice(), pacoteDTOSaveRequest.getPacoteBasePrice());
+        assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getPacoteDescription(), pacoteDTOSaveRequest.getPacoteDescription());
+        assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getDisabled(), pacoteDTOSaveRequest.getDisabled());
+        assertNull(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getTipoPacote());
 
 
     }

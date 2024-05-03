@@ -1,12 +1,14 @@
 package isep.ipp.pt.api.desofs.Model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
 public class TipoReceita {
     @Id
+    @GeneratedValue
     private Long tipoReceitaId;
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Nome da receita inválido")
 

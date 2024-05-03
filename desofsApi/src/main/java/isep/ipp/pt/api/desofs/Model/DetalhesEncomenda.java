@@ -1,6 +1,7 @@
 package isep.ipp.pt.api.desofs.Model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
@@ -10,6 +11,7 @@ import jakarta.validation.constraints.Positive;
 @Entity
 public class DetalhesEncomenda {
     @Id
+    @GeneratedValue
     private Long detalhesEncomendaId;
     @Min(value = 1, message = "Número de refeições por semana inválido")
     @Max(value = 7, message = "Número de refeições por semana inválido")
