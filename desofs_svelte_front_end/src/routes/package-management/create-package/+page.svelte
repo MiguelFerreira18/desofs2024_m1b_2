@@ -4,7 +4,6 @@
 	import { goto } from '$app/navigation';
 	export let data: PageData;
 
-
 	const apiUrl = apiConfig.baseUrl;
 
 	let name = '';
@@ -50,7 +49,6 @@
 		console.log('cancel');
 		goto('/package-management');
 	}
-
 </script>
 
 <div class="bg-gray-100 px-20 pt-10 min-h-screen">

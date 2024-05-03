@@ -34,7 +34,7 @@
 			{#if isAdmin}
 				<Button gotoName="/dashboard" className="dashboard-button" text="Dashboard" />
 			{/if}
-			<Button gotoName="/logout" className="logout-button" text="Sair" >Sair</Button>
+			<Button gotoName="/logout" className="logout-button" text="Sair">Sair</Button>
 		{:else}
 			<Button gotoName="/login" className="login-button" text="Junta-te" />
 		{/if}

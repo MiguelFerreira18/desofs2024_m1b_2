@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	import type { Package } from "$lib/Types/types";
+	import { goto } from '$app/navigation';
+	import type { Package } from '$lib/Types/types';
 
-
-	export let singlePackage:Package;
-
-
+	export let singlePackage: Package;
 </script>
 
-<div class="bg-white rounded shadow-lg border hover:shadow-2xl hover:scale-105 transition duration-300 ">
-	<div class="px-10 py-6  text-center flex flex-col items-center justify-center content-center">
+<div
+	class="bg-white rounded shadow-lg border hover:shadow-2xl hover:scale-105 transition duration-300"
+>
+	<div class="px-10 py-6 text-center flex flex-col items-center justify-center content-center">
 		<h1>{singlePackage.tipoPacote.nome}</h1>
 		<div class="text-2xl font-bold text-green-400 mb-4">{singlePackage.nome}</div>
 		<span class="text-sm">

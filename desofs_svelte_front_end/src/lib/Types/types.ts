@@ -1,26 +1,25 @@
 // Type
 type Package = {
-    "pacoteId": number,
-    "nome": string,
-    "pacoteDescription": string,
-    "pacoteBasePrice": number
-    "disabled": boolean
-    "tipoPacote": TipoPacote
-}
+	pacoteId: number;
+	nome: string;
+	pacoteDescription: string;
+	pacoteBasePrice: number;
+	disabled: boolean;
+	tipoPacote: TipoPacote;
+};
 
 type TipoPacote = {
-    "tipoPacoteId": number,
-    "nome": string
-}
+	tipoPacoteId: number;
+	nome: string;
+};
 
 type PackageDTOSend = {
-    "nome": string,
-    "pacoteDescription": string,
-    "pacoteBasePrice": number
-    "disabled": boolean
-    "tipoPacoteId": number
-}
-
+	nome: string;
+	pacoteDescription: string;
+	pacoteBasePrice: number;
+	disabled: boolean;
+	tipoPacoteId: number;
+};
 
 // Export
-export type {Package, TipoPacote,PackageDTOSend};
+export type { Package, TipoPacote, PackageDTOSend };

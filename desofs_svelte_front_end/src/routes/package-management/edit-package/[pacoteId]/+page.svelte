@@ -1,71 +1,65 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { apiConfig } from '../../../config/api';
-    import type { PageData } from './$types';
-    export let data: PageData;
+	import type { PageData } from './$types';
+	export let data: PageData;
 
+	const apiUrl = apiConfig.baseUrl;
+	type PackageDTOPatchSend = {
+		pacoteId: number;
+		nome: string;
+		pacoteDescription: string;
+		pacoteBasePrice: number;
+		disabled: boolean;
+		tipoPacote: number;
+	};
 
-    const apiUrl = apiConfig.baseUrl;
-    type PackageDTOPatchSend = {
-        pacoteId: number;
-        nome: string;
-        pacoteDescription: string;
-        pacoteBasePrice: number;
-        disabled: boolean;
-        tipoPacote: number;
-    };
-    
-
-
-    let packageId = data.pacote.pacoteId;
-    let name = data.pacote.nome;
+	let packageId = data.pacote.pacoteId;
+	let name = data.pacote.nome;
 	let price = data.pacote.pacoteBasePrice;
 	let description = data.pacote.pacoteDescription;
 	let disabled = data.pacote.disabled;
-	let tipoPacote = data.tipoPacotes.find((type) => type.tipoPacoteId === data.pacote.tipoPacote.tipoPacoteId)?.tipoPacoteId;
+	let tipoPacote = data.tipoPacotes.find(
+		(type) => type.tipoPacoteId === data.pacote.tipoPacote.tipoPacoteId
+	)?.tipoPacoteId;
 
+	$: console.log(disabled);
 
-    $: console.log(disabled);
+	async function handleSubmit() {
+		if (tipoPacote === undefined) {
+			tipoPacote = 0;
+		}
+		const packageData: PackageDTOPatchSend = {
+			pacoteId: packageId,
+			nome: name,
+			pacoteDescription: description,
+			pacoteBasePrice: price,
+			disabled: disabled,
+			tipoPacote: tipoPacote
+		};
 
-    async function handleSubmit() {
-        if(tipoPacote === undefined) {
-            tipoPacote = 0
-        }
-        const packageData: PackageDTOPatchSend = {
-            pacoteId: packageId,
-            nome: name,
-            pacoteDescription: description,
-            pacoteBasePrice: price,
-            disabled: disabled,
-            tipoPacote: tipoPacote
-        };
+		console.log(packageData);
 
-        console.log(packageData);
+		const response = await fetch(`${apiUrl}/pacote/update`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(packageData)
+		});
 
-        
+		if (response.ok) {
+			goto('/package-management');
+		} else {
+			console.error('Failed to save package');
+		}
+	}
 
-        const response = await fetch(`${apiUrl}/pacote/update`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(packageData)
-        });
-
-        if (response.ok) {
-            goto('/package-management');
-        } else {
-            console.error('Failed to save package');
-        }
-    }
-
-    function handleCancel() {
-        console.log('cancel');
-        goto('/package-management');
-    }
-
+	function handleCancel() {
+		console.log('cancel');
+		goto('/package-management');
+	}
 </script>
-
 
 <div class="bg-gray-100 px-20 pt-10 min-h-screen">
 	<h1 class="text-5xl font-bold mb-8 text-center">Create Package</h1>
@@ -132,12 +126,12 @@
 		<div class="flex flex-row gap-2 justify-center max-h-12">
 			<!-- 2 buttons -->
 			<button
-                on:click={handleCancel}
+				on:click={handleCancel}
 				class="inline-block rounded border px-4 py-2 bg-rose-600 hover:bg-red-600 transition-colors duration-300"
 				>Cancel</button
 			>
 			<button
-                on:click={handleSubmit}
+				on:click={handleSubmit}
 				class="inline-block rounded border px-4 py-2 bg-sky-600 hover:bg-blue-600 transition-colors duration-300"
 				>Add</button
 			>

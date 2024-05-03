@@ -5,9 +5,8 @@ import type { TipoPacote } from '$lib/Types/types';
 const { baseUrl } = apiConfig;
 
 export const load = (async () => {
+	const response = await fetch(`${baseUrl}/tipoPacote/list`);
+	const tipoPacotes: TipoPacote[] = await response.json();
 
-    const response = await fetch(`${baseUrl}/tipoPacote/list`);
-    const tipoPacotes: TipoPacote[] = await response.json();
-    
-    return {tipoPacotes};
+	return { tipoPacotes };
 }) satisfies PageLoad;

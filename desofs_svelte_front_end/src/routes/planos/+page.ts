@@ -4,12 +4,12 @@ import type { PageLoad } from './$types';
 const { baseUrl } = apiConfig;
 
 export const load = (async (LoadEvent) => {
-    const {fetch} = LoadEvent;
+	const { fetch } = LoadEvent;
 
-    const response = await fetch(`${baseUrl}/pacote/all`);
-    const packages: Package[] = await response.json();
+	const response = await fetch(`${baseUrl}/pacote/all`);
+	const packages: Package[] = await response.json();
 
-    const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);
+	const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);
 
-    return {enabledPackages};
+	return { enabledPackages };
 }) satisfies PageLoad;

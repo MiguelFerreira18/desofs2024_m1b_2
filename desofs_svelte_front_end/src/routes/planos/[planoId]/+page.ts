@@ -5,11 +5,10 @@ import type { Package } from '$lib/Types/types';
 const { baseUrl } = apiConfig;
 
 export const load = (async ({ params }) => {
-    const planosId = params.planoId;
+	const planosId = params.planoId;
 
-    const response = await fetch(`${baseUrl}/pacote/${planosId}`);
-	const pacote:Package = await response.json();
-    
+	const response = await fetch(`${baseUrl}/pacote/${planosId}`);
+	const pacote: Package = await response.json();
 
-    return {pacote};
+	return { pacote };
 }) satisfies PageLoad;
