@@ -61,6 +61,17 @@ jobs:
     #   MYSQL_USER: ${{ secrets.DESOFS_DB_USER }}
     #   MYSQL_PASSWORD: ${{ secrets.DESOFS_DB_PASS }}
 
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: rootpwd
+          MYSQL_DATABASE: data_desofs
+          MYSQL_USER: cozinha
+          MYSQL_PASSWORD: 123456789
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -82,12 +93,12 @@ jobs:
         working-directory: ./desofsApi
       
 
-      - name: Start database
-        run: docker-compose -f "./Docker-compose.yml" up -d
-        working-directory: ./desofsApi
+      # - name: Start database
+      #   run: docker-compose -f "./Docker-compose.yml" up -d
+      #   working-directory: ./desofsApi
 
       - name: Wait for 20 seconds
-        run: sleep 20
+        run: sleep 10
       
       - name: Check Database Health
         run: nc -zvw 1 cozinha_na_cozinha_mysql 3306
