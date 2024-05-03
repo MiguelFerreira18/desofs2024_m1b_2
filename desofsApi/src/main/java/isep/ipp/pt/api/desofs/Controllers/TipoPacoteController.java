@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/tipoPacote")
+@RestController
+@RequestMapping("/tipoPacote")
 public class TipoPacoteController {
     @Autowired
     TipoPacoteService tipoPacoteService;
