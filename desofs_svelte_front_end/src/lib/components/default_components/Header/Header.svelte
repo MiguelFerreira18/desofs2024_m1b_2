@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Button from './Button.svelte';
 	import { goto } from '$app/navigation';
-	let loggedIn = false;
-	let isAdmin = false;
-	let isDocumentManager = false;
+	let loggedIn = true;
+	let isAdmin = true;
+	let isDocumentManager = true;
 
 	// let isMenuOpen = false;
 </script>
@@ -21,22 +21,22 @@
 
 	<div class="self-center">
 		{#if loggedIn}
-			<Button on:click={() => goto('/profile')} className="profile-button" text="Perfil" />
-			<Button on:click={() => goto('/Carrinho')} className="order-button" text="Carrinho" />
+			<Button gotoName="/profile" className="profile-button" text="Perfil" />
+			<Button gotoName="/carrinho" className="order-button" text="Carrinho" />
 
 			{#if isDocumentManager || isAdmin}
 				<Button
-					on:click={() => goto('/packages')}
 					className="package-management-button"
 					text="Gestão de pacotes"
+					gotoName="/package-management"
 				/>
 			{/if}
 			{#if isAdmin}
-				<Button on:click={() => goto('/dashboard')} className="dashboard-button" text="Dashboard" />
+				<Button gotoName="/dashboard" className="dashboard-button" text="Dashboard" />
 			{/if}
-			<Button className="logout-button" text="Sair">Sair</Button>
+			<Button gotoName="/logout" className="logout-button" text="Sair" >Sair</Button>
 		{:else}
-			<Button onClick={() => goto('/auth')} text="Junta-te" />
+			<Button gotoName="/login" className="login-button" text="Junta-te" />
 		{/if}
 	</div>
 </nav>
