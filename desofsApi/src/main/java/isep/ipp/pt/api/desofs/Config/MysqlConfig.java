@@ -1,7 +1,9 @@
 package isep.ipp.pt.api.desofs.Config;
 
 import isep.ipp.pt.api.desofs.DesofsApplication;
+import isep.ipp.pt.api.desofs.Repository.Implementation.PacoteServiceImpl;
 import isep.ipp.pt.api.desofs.Repository.Implementation.UserRepoImpl;
+import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,10 @@ public class MysqlConfig {
     @Bean
     public UserServiceRepo mysqlUser(){
         return new UserRepoImpl();
+    }
+    @Bean
+    public PacoteServiceRepo mysqlPacote(){
+        return new PacoteServiceImpl();
     }
 
 
