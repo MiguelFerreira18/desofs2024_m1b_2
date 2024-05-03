@@ -11,5 +11,6 @@ public interface PacoteServiceRepo {
     List<Pacote> findAll();
     void disable(Long id);
     void enable(Long id);
+    void deleteById(Long id);
     void deleteAll();
 }

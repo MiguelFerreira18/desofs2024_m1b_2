@@ -62,6 +62,11 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
     }
 
     @Override
+    public void deleteById(Long id) {
+        pacoteRepo.deleteById(id);
+    }
+
+    @Override
     public void deleteAll() {
         pacoteRepo.deleteAll();
     }
