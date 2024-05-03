@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Button from './Button.svelte';
-	import { goto } from '$app/navigation';
 	let loggedIn = true;
 	let isAdmin = true;
 	let isDocumentManager = true;

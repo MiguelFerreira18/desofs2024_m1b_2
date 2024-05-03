@@ -2,8 +2,6 @@
 	import type { Package } from '$lib/Types/types';
 	import Card from './Card.svelte';
 	export let packages: Package[];
-
-	let array = [1, 2, 3, 4];
 </script>
 
 <div id="planos" class="flex flex-col items-center py-5">
