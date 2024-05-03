@@ -1,10 +1,9 @@
 package isep.ipp.pt.api.desofs.Mapper.PacoteMapper;
 
+import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOPatchRequest;
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOResponse;
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOSaveRequest;
-import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceRequest;
-import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceResponse;
-import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteSaveDTOService;
+import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.*;
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
@@ -19,13 +18,16 @@ public interface PacoteMapper {
     //Controller Layr
     PacoteDTOServiceRequest toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(PacoteDTOSaveRequest pacoteDTOSaveRequest);
     PacoteDTOResponse fromPacoteToDto(PacoteDTOServiceResponse pacote);
+    List<PacoteDTOResponse> fromPacoteDtoServiceResponseListToPacoteDToResponseList(List<PacoteDTOServiceResponse> all);
+    PacoteDTOServicePatchRequest toPacoteDTOServicePAtchRequestFromPacoteDTOPatchRequest(PacoteDTOPatchRequest pacote);
 
 
     //Service Layer
-    PacoteDTOServiceRequest ToPacoteDtoServiceRequestFromPacoteDtoResponse(PacoteDTOResponse pacoteDTOResponse);
+//    PacoteDTOServiceRequest ToPacoteDtoServiceRequestFromPacoteDtoResponse(PacoteDTOResponse pacoteDTOResponse);
     PacoteDTOServiceResponse toPacoteDTOServiceResponseFromPacote(Pacote pacote);
     Pacote toPacotefromPacoteSaveDtoService(PacoteSaveDTOService pacoteDTOServiceRequest);
     List<PacoteDTOServiceResponse> toPacoteDTOServiceResponseListFromPacoteList(List<Pacote> all);
+    Pacote toPacotefromPacotePatchDtoService(PacotePatchDTOService pacotePatchDTOService);
 
 
 }

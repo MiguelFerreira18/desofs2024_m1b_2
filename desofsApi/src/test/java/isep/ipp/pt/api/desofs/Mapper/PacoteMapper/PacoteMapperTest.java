@@ -21,7 +21,7 @@ class PacoteMapperTest {
         assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getNome(), pacoteDTOSaveRequest.getNome());
         assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getPacoteBasePrice(), pacoteDTOSaveRequest.getPacoteBasePrice());
         assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getPacoteDescription(), pacoteDTOSaveRequest.getPacoteDescription());
-        assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).isDisabled(), pacoteDTOSaveRequest.isDisabled());
+        assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getDisabled(), pacoteDTOSaveRequest.getDisabled());
         assertNull(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getTipoPacote());
 
 
