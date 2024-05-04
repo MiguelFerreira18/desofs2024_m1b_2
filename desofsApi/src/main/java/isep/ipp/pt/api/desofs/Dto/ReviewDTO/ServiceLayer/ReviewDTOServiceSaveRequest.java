@@ -16,8 +16,10 @@ public class ReviewDTOServiceSaveRequest {
     private final int rating;
 
     @NotNull
+    @Min(value = 0, message = "User inválido")
     private final Long user;
     @NotNull
+    @Min(value = 0, message = "Pacote inválido")
     private final Long pacote;
 
     public ReviewDTOServiceSaveRequest(String reviewText, int rating, Long user, Long pacote) {

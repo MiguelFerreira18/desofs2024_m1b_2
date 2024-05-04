@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 public class ReviewDTOPatchRequest {
 
     @NotNull
+    @Min(value = 0, message = "Id inválido")
     private final Long reviewId;
 
     @NotBlank

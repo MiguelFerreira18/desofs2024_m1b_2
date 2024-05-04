@@ -1,5 +1,7 @@
 package isep.ipp.pt.api.desofs.Dto.ReviewDTO.ControllerLayer;
 
+import isep.ipp.pt.api.desofs.Model.Pacote;
+import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import jakarta.validation.constraints.*;
 
 public class ReviewDTOResponse {
@@ -7,6 +9,7 @@ public class ReviewDTOResponse {
 
 
     @NotNull
+    @Min(value = 0, message = "Id inválido")
     private final Long reviewId;
 
     @NotBlank
@@ -19,15 +22,13 @@ public class ReviewDTOResponse {
     @Max(value = 5, message = "Rating inválido")
     private final int rating;
 
-    @NotNull
-    private final Long user;
-    @NotNull
-    private final Long pacote;
 
-    public ReviewDTOResponse(Long reviewId,String reviewText, int rating, Long user, Long pacote) {
+    @NotNull
+    private final Pacote pacote;
+
+    public ReviewDTOResponse(Long reviewId,String reviewText, int rating, Pacote pacote) {
         this.reviewText = reviewText;
         this.rating = rating;
-        this.user = user;
         this.pacote = pacote;
         this.reviewId = reviewId;
     }
@@ -40,11 +41,9 @@ public class ReviewDTOResponse {
         return rating;
     }
 
-    public Long getUser() {
-        return user;
-    }
 
-    public Long getPacote() {
+
+    public Pacote getPacote() {
         return pacote;
     }
 
