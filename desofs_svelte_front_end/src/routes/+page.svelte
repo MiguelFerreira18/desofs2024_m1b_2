@@ -8,7 +8,6 @@
 	export let data: PageData;
 	const pacotes: Package[] = data.enabledPackages;
 	const reviews: Review[] = data.reviews;
-	
 </script>
 
 <svelte:head>
@@ -25,5 +24,5 @@
 		></div>
 		<span class="relative z-10 text-2xl bg-gray-100 px-6">Opinião dos consumidores</span>
 	</span>
-	<Reviews reviews={reviews} />
+	<Reviews {reviews} />
 </section>

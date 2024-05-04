@@ -4,13 +4,11 @@ import { apiConfig } from '../../config/api';
 
 const { baseUrl } = apiConfig;
 
-export const load = (async ({params}) => {
-
-    const planoId = params.planoId;
+export const load = (async ({ params }) => {
+	const planoId = params.planoId;
 
 	const response = await fetch(`${baseUrl}/pacote/${planoId}`);
 	const pacote: Package = await response.json();
 
-
-    return {pacote};
+	return { pacote };
 }) satisfies PageLoad;

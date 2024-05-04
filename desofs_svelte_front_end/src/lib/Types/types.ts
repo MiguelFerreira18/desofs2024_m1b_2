@@ -23,23 +23,19 @@ type PackageDTOSend = {
 
 //Reviews
 
-type Review={
-	reviewId:number;
-	reviewText:string;
-	rating:number;
-	pacote:Package;
-}
-
-
+type Review = {
+	reviewId: number;
+	reviewText: string;
+	rating: number;
+	pacote: Package;
+};
 
 type ReviewDTOSend = {
 	reviewText: string;
 	rating: number;
 	user: number;
 	pacote: number;
-}
-
-
+};
 
 // Export
-export type { Package, TipoPacote, PackageDTOSend,Review,ReviewDTOSend };
+export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend };

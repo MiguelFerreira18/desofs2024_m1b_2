@@ -9,14 +9,11 @@ export const load = (async () => {
 	const reviews: Review[] = await responseReviews.json();
 	const packages: Package[] = await response.json();
 
-
 	//Do reviews request here to
 	const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);
 	//only send four packages
-	enabledPackages.length = 4
-	reviews.length = 5
+	enabledPackages.length = 4;
+	reviews.length = 5;
 
-	
-
-	return { enabledPackages,reviews };
+	return { enabledPackages, reviews };
 }) satisfies PageLoad;

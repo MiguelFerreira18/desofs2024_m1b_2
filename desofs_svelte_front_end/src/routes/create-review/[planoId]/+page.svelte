@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { apiConfig } from '../../config/api';
 	import type { PageData } from './$types';
-    import type { ReviewDTOSend } from '$lib/Types/types';
+	import type { ReviewDTOSend } from '$lib/Types/types';
 
 	const apiUrl = apiConfig.baseUrl;
 	let planoId = $page.params.planoId;
@@ -11,25 +11,22 @@
 	let review = '';
 
 	async function handleSubmit() {
-
-        const reviewData: ReviewDTOSend = {
-            rating: rating,
-            reviewText: review,
-            pacote: parseInt(planoId),
-            user: 1 //TODO Mudar isto para quando se tiver o login feito
-        };
-
+		const reviewData: ReviewDTOSend = {
+			rating: rating,
+			reviewText: review,
+			pacote: parseInt(planoId),
+			user: 1 //TODO Mudar isto para quando se tiver o login feito
+		};
 
 		const response = await fetch(`${apiUrl}/review/save`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-            body: JSON.stringify(reviewData)
+			body: JSON.stringify(reviewData)
 		});
 
 		if (response.ok) {
-			const data = await response.json();
 			goto('/planos/' + planoId);
 		} else {
 			console.error('Failed to create review');

@@ -2,28 +2,6 @@
 	import type { Review } from '$lib/Types/types';
 
 	export let review: Review;
-	type Review = {
-		reviewId: number;
-		reviewText: string;
-		rating: number;
-		pacote: Package;
-	};
-
-	type Package = {
-		pacoteId: number;
-		nome: string;
-		pacoteDescription: string;
-		pacoteBasePrice: number;
-		disabled: boolean;
-		tipoPacote: TipoPacote;
-	};
-
-	type TipoPacote = {
-		tipoPacoteId: number;
-		nome: string;
-	};
-
-	console.log(review);
 </script>
 
 <div class="py-10">
@@ -44,6 +22,7 @@
 			<hr class="h-px bg-gray-300 border-0 dark:bg-gray-700" />
 			<div class="flex justify-center items-center pt-4">
 				{#if review}
+					<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 					{#each { length: review.rating } as _}
 						<i class="fa-solid fa-star"></i>
 					{/each}
