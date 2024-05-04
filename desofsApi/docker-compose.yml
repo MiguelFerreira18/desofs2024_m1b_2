@@ -8,12 +8,12 @@ services:
     ports:
       - 3306:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=rootpwd
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${DESOFS_DB_DEV_DB_NAME}
       - MYSQL_USER=${DESOFS_DB_USER}
       - MYSQL_PASSWORD=${DESOFS_DB_PASS}
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
       retries: 10
 
@@ -26,7 +26,8 @@ services:
     environment:
       PMA_HOST: mysql
       MYSQL_ROOT_PASSWORD: rootpwd
-      
+
+
 networks:
   cozinha_na_cozinha:
     driver: bridge
