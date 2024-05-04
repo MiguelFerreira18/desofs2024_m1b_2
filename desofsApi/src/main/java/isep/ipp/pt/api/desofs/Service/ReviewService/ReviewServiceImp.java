@@ -65,4 +65,9 @@ public class ReviewServiceImp implements ReviewService{
     public List<ReviewDTOServiceResponse> getReviewsByUserId(Long userId) {
         return reviewMapper.toReviewDTOServiceResponseListFromReviewList(reviewServiceRepo.getReviewsByUserId(userId));
     }
+
+    @Override
+    public void deleteAll() {
+        reviewServiceRepo.deleteAll();
+    }
 }

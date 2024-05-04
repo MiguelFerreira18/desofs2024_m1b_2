@@ -44,4 +44,9 @@ public class ReviewServiceImpl implements ReviewServiceRepo {
     public List<Review> getReviewsByUserId(Long userId) {
         return new LinkedList<>(reviewRepo.getReviewsByUserId(userId));
     }
+
+    @Override
+    public void deleteAll() {
+        reviewRepo.deleteAll();
+    }
 }

@@ -11,4 +11,5 @@ public interface ReviewServiceRepo {
     public Review getReviewById(Long reviewId);
     public List<Review> getReviewsByPacoteId(Long pacoteId);
     public List<Review> getReviewsByUserId(Long userId);
+    public void deleteAll();
 }
