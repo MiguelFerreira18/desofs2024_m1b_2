@@ -5,6 +5,7 @@ import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ControllerLayer.TipoPacoteDTOSav
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
 import isep.ipp.pt.api.desofs.Service.TipoPacoteService.TipoPacoteService;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,6 +30,12 @@ class TipoPacoteControllerTest {
     public void tearDown() {
         tipoPacoteService.deleteAll();
     }
+
+    @BeforeEach
+    public void setUp() {
+        tipoPacoteService.deleteAll();
+    }
+
 
 
     @Test

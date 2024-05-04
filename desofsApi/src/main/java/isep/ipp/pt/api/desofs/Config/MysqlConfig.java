@@ -2,9 +2,11 @@ package isep.ipp.pt.api.desofs.Config;
 
 import isep.ipp.pt.api.desofs.DesofsApplication;
 import isep.ipp.pt.api.desofs.Repository.Implementation.PacoteServiceImpl;
+import isep.ipp.pt.api.desofs.Repository.Implementation.ReviewServiceImpl;
 import isep.ipp.pt.api.desofs.Repository.Implementation.TipoPacoteServiceImpl;
 import isep.ipp.pt.api.desofs.Repository.Implementation.UserRepoImpl;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import org.slf4j.Logger;
@@ -47,16 +49,14 @@ public class MysqlConfig {
     public TipoPacoteServiceRepo mysqlTipoPacote(){
         return new TipoPacoteServiceImpl();
     }
-
+    @Bean
+    public ReviewServiceRepo mysqlReview(){
+        return new ReviewServiceImpl();
+    }
 
     //Datasource
     @Bean
     public DataSource dataSource(){
-        logger.info("Datasource created");
-        logger.info(url);
-        logger.info( username);
-        logger.info( password);
-        
         return DataSourceBuilder.create()
                 .url(url)
                 .username(username)

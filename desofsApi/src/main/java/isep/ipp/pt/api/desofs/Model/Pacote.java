@@ -11,7 +11,7 @@ public class Pacote {
     private Long pacoteId;
 
 
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Nome do pacote inválido")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
     private String nome;
 
     @Min(value = 0, message = "Peço do pacote inválido")

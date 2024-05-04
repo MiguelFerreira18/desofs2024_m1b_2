@@ -38,6 +38,8 @@ class TipoPacoteServiceImplTest {
 
     @BeforeEach
     public void setUp() {
+        tipoPacoteServiceRepo.deleteAll();
+
         TipoPacote tp1 = new TipoPacote(1L, "Mediteraneo");
         TipoPacote tp2 = new TipoPacote(2L, "Tropical");
         TipoPacote tp3 = new TipoPacote(3L, "Tuga");

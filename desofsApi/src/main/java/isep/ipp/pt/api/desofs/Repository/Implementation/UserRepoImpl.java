@@ -19,7 +19,7 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Override
     public User getUserById(Long userId) {
-        return null;
+        return userRepo.findById(userId).orElse(null);
     }
 
     @Override
@@ -30,6 +30,11 @@ public class UserRepoImpl implements UserServiceRepo {
     @Override
     public UserDetails findByUsername(String username) {
         return userRepo.findByUsername(username);
+    }
+
+    @Override
+    public void deleteAll() {
+        userRepo.deleteAll();
     }
 
     @Override

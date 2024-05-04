@@ -1,12 +1,11 @@
 package isep.ipp.pt.api.desofs.Model;
 
+import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Review {
@@ -15,6 +14,7 @@ public class Review {
     @GeneratedValue
     private Long reviewId;
     @NotBlank
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Texto inválido")
     private String reviewText;
 
     @Min(value = 0, message = "Rating inválido")
@@ -22,18 +22,28 @@ public class Review {
     @Positive
     private int rating;
 
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Pacote pacote;
+
     public Review() {
     }
 
-    public Review(Long reviewId, String reviewText, int rating) {
+    public Review(Long reviewId, String reviewText, int rating, User user, Pacote pacote) {
         this.reviewId = reviewId;
         this.reviewText = reviewText;
         this.rating = rating;
+        this.user = user;
+        this.pacote = pacote;
     }
 
-    public Review(String reviewText, int rating) {
+    public Review(String reviewText, int rating, User user, Pacote pacote) {
         this.reviewText = reviewText;
         this.rating = rating;
+        this.user = user;
+        this.pacote = pacote;
     }
 
     public Long getReviewId() {
@@ -58,5 +68,21 @@ public class Review {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Pacote getPacote() {
+        return pacote;
+    }
+
+    public void setPacote(Pacote pacote) {
+        this.pacote = pacote;
     }
 }
