@@ -1,5 +1,12 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import Reviews from '$lib/components/main_page_components/Reviews.svelte';
 	import type { PageData } from './$types';
+
+
+	const planoId = parseInt($page.params.planoId);
+	
 	export let data: PageData;
 </script>
 
@@ -35,6 +42,9 @@
 			</div>
 			<div class="w-1/2 flex flex-col gap-10">
 				<div class="flex justify-center ml-auto">
+					<button on:click={() => goto(`/create-review/${planoId}`)} class="inline-block rounded border border-current px-4 py-2 text-sm">Review</button>
+				</div>
+				<div class="flex justify-center ml-auto">
 					<button class="inline-block rounded border border-current px-4 py-2 text-sm"
 						>Receitas</button
 					>
@@ -46,6 +56,9 @@
 				</div>
 			</div>
 		</div>
+		{#if data.reviews}
+		<Reviews reviews={data.reviews} />
+		{/if}
 	</div>
 {:else}
 	<h1>Esse pacote foi não existe</h1>
