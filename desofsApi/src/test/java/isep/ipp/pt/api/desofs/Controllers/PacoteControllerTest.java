@@ -2,13 +2,13 @@ package isep.ipp.pt.api.desofs.Controllers;
 
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOResponse;
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOSaveRequest;
+import isep.ipp.pt.api.desofs.Model.Pacote;
+import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
 import org.apache.catalina.core.ApplicationContext;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,24 @@ class PacoteControllerTest {
     @Autowired
     private PacoteService pacoteServiceRepo;
 
+
+    @Autowired
+    private TipoPacoteServiceRepo tipoPacoteServiceRepo;
+
+
+
+    @BeforeEach
+    public void setUp() {
+        pacoteServiceRepo.deleteAll();
+        TipoPacote tp1 = new TipoPacote(1L,"TugaTube");
+        tipoPacoteServiceRepo.save(tp1);
+    }
+
+
     @AfterEach
     public void tearDown() {
         pacoteServiceRepo.deleteAll();
+        tipoPacoteServiceRepo.deleteAll();
     }
 
 
@@ -228,7 +243,11 @@ class PacoteControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
 
+
+
     }
+
+
 
 
 }

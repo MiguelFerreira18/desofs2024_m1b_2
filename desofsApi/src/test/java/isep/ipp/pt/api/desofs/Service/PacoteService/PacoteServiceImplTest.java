@@ -45,7 +45,10 @@ class PacoteServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-        TipoPacote tp1 = new TipoPacote("TugaTube");
+        pacoteRepo.deleteAll();
+        tipoPacoteRepo.deleteAll();
+
+        TipoPacote tp1 = new TipoPacote(1L,"TugaTube");
         TipoPacote tp = tipoPacoteRepo.save(tp1);
         Pacote p1 = new Pacote(1L, "Pacote1", 10.0, "Pacote1 Description", true, tp);
         Pacote p2 = new Pacote(2L, "Pacote2", 10.0, "Pacote2 Description", true, tp);
@@ -67,6 +70,7 @@ class PacoteServiceImplTest {
     @AfterEach
     public void tearDown() {
         pacoteRepo.deleteAll();
+        tipoPacoteRepo.deleteAll();
     }
 
 
