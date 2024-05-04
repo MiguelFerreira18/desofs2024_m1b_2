@@ -16,5 +16,6 @@ public interface ReviewService {
     public ReviewDTOServiceResponse getReviewById(Long reviewId);
     public List<ReviewDTOServiceResponse> getReviewsByPacoteId(Long pacoteId);
     public List<ReviewDTOServiceResponse> getReviewsByUserId(Long userId);
+    public void deleteAll();
 
 }
