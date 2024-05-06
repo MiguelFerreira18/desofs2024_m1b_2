@@ -1,12 +1,10 @@
 <script lang="ts">
 	import Button from './Button.svelte';
 	import { goto } from '$app/navigation';
-	import { loggedIn } from 'C:/Users/rodri/OneDrive/Documents/Mestrado/2Semestre/SISMD/PL3/desofs2024_m1b_2/desofs_svelte_front_end/src/routes/auth/store';
-	import { isAdmin } from 'C:/Users/rodri/OneDrive/Documents/Mestrado/2Semestre/SISMD/PL3/desofs2024_m1b_2/desofs_svelte_front_end/src/routes/auth/store';
-	import { isDocumentManager } from 'C:/Users/rodri/OneDrive/Documents/Mestrado/2Semestre/SISMD/PL3/desofs2024_m1b_2/desofs_svelte_front_end/src/routes/auth/store';
+    import { page } from '$app/stores';
 
-
-	// let isMenuOpen = false;
+	// console.log(page.data.user);
+	
 </script>
 
 <nav class="flex justify-evenly flex-row bg-white border-gray-200 px-24 py-4">
@@ -21,21 +19,21 @@
 	</ul>
 
 	<div class="self-center">
-		{#if $loggedIn}
+        {#if $page.data.user}
 			<Button onClick={() => goto('/profile')} className="profile-button" text="Perfil" />
-			<Button onClick={() => goto('/Carrinho')} className="order-button" text="Carrinho" />
+			<Button onClick={() => goto('/carrinho')} className="order-button" text="Carrinho" />
 
-			{#if isDocumentManager || isAdmin}
+			{#if $page.data.user.isAdmin || $page.data.user.isDocumentManager}
 				<Button
 					onClick={() => goto('/packages')}
 					className="package-management-button"
 					text="Gestão de pacotes"
 				/>
 			{/if}
-			{#if isAdmin}
+			{#if $page.data.user}
 				<Button onClick={() => goto('/dashboard')} className="dashboard-button" text="Dashboard" />
 			{/if}
-			<Button onClick={() => loggedIn.set(false)} className="logout-button" text="Sair">Sair</Button>
+			<Button onClick={() => goto("/auth/logout")} className="logout-button" text="Sair">Sair</Button>
 		{:else}
 			<Button onClick={() => goto('/auth')} text="Junta-te" />
 		{/if}

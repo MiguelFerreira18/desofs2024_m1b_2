@@ -1,44 +1,8 @@
 <script lang="ts">
-	import { loggedIn } from './store';
-	import { isAdmin } from './store';
-	import { isDocumentManager } from './store';
-	import { goto } from '$app/navigation';
+	import { enhance } from '$app/forms';
+	import type { ActionData } from './$types';
 
-	$: if ($loggedIn) {
-        goto('/');
-    }
-
-	let email = '';
-	let password = '';
-
-    const login = async () => {
-        const response = await fetch('http://localhost:9092/auth/public/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-				'Accept': '*/*'
-            },
-            body: JSON.stringify({
-                username: email,
-                password: password
-            })
-		});
-
-        const data = await response.json();
-        console.log(data);
-
-		if (response.ok) {
-			loggedIn.set(true);
-			const authorities = data.authorities.map(a => a.authority);
-			console.log(authorities);
-			if (authorities.includes('ADMIN')) {
-				isAdmin.set(true);
-			} else if (authorities.includes('DOCUMENT_MANAGER')) {
-				isDocumentManager.set(true);
-			};
-			goto('/');
-		}
-    };
+	export let form: ActionData;
 </script>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -48,7 +12,7 @@
 				Sign in to your account
 			</h2>
 		</div>
-		<form class="mt-8 space-y-6 flex flex-col" on:submit|preventDefault={login}>
+		<form class="mt-8 space-y-6 flex flex-col" use:enhance method="post" action="?/login">
 			<div class="rounded-md shadow-sm -space-y-px">
 				<div>
 					<label for="email-address" class="sr-only">Email address</label>
@@ -57,7 +21,6 @@
 						name="email"
 						type="email"
 						required
-						bind:value={email}
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Email address"
 					/>
@@ -69,7 +32,6 @@
 						name="password"
 						type="password"
 						required
-						bind:value={password}
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password"
 					/>
@@ -84,7 +46,7 @@
 					Sign in
 				</button>
 			</div>
-			<a href="/auth/criar-conta" class="self-center text-orange-400 hover:text-orange-500"
+			<a href="/auth/signup" class="self-center text-orange-400 hover:text-orange-500"
 				>Ainda não tens conta?</a
 			>
 		</form>

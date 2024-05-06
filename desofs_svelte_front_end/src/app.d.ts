@@ -10,4 +10,16 @@ declare global {
 	}
 }
 
+declare namespace App {
+	interface Locals {
+		user: {
+            userId: number;
+			email: string;
+			token: string;
+			isAdmin: boolean;
+			isDocumentManager: boolean;
+		}
+	}
+}
+
 export {};
