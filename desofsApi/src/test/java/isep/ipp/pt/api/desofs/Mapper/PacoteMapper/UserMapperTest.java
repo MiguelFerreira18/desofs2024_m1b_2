@@ -23,7 +23,7 @@ public class UserMapperTest {
     user.addAuthority(new Role("Admin"));
     user.addAuthority(new Role("User"));
 
-    assertEquals(userMapper.fromUserToUserDTOResponse(user).getUserId(), user.getUserId());
-    assertEquals(userMapper.fromUserToUserDTOResponse(user).getAuthorities(), user.getAuthorities());
+    assertEquals(userMapper.fromUserToUserDTOResponse(user).userId(), user.getUserId());
+    assertEquals(userMapper.fromUserToUserDTOResponse(user).authorities(), user.getAuthorities());
     }
 }

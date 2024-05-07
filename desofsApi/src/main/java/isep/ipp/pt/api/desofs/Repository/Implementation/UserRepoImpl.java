@@ -19,7 +19,7 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Override
     public User getUserById(Long userId) {
-        return null;
+        return userRepo.getUserById(userId);
     }
 
     @Override

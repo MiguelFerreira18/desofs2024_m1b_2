@@ -7,17 +7,14 @@ declare global {
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
-	}
-}
-
-declare namespace App {
-	interface Locals {
-		user: {
-            userId: number;
-			email: string;
-			token: string;
-			isAdmin: boolean;
-			isDocumentManager: boolean;
+		interface Locals {
+			user: {
+				userId: number;
+				email: string;
+				token: string;
+				isAdmin: boolean;
+				isDocumentManager: boolean;
+			}
 		}
 	}
 }

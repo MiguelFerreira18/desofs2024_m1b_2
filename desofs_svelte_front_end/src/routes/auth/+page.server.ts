@@ -46,7 +46,7 @@ const login: Actions = async ({ cookies, request }) => {
     if (authorities.includes('Admin')) {
         isAdmin = true;
     } else if (authorities.includes('DocumentManager')) {
-        isDocumentManager = true; // Remove the `const` keyword
+        isDocumentManager = true;
     }
 
     const cookie = {

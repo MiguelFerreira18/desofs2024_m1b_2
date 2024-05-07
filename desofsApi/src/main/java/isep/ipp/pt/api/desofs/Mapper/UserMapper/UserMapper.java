@@ -14,5 +14,4 @@ public interface UserMapper {
     UserDTOResponse fromUserToUserDTOResponse(User user);
 
     UserDTOSignup fromSignUpRequestToUserDTOSignup(SignUpRequest signUpRequest);
-
 }

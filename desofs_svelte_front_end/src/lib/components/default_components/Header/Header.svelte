@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
     import { page } from '$app/stores';
 
-	// console.log(page.data.user);
+	// console.log($page.data.user)
 	
 </script>
 
