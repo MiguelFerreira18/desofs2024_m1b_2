@@ -45,7 +45,7 @@ public class User implements UserDetails {
     @OneToMany
     private List<Review> reviews;
 
-    public User(){
+    protected User(){
 
     }
 
@@ -60,6 +60,17 @@ public class User implements UserDetails {
         this.morada = morada;
         this.listaEncomendas = listaEncomendas;
     }
+    //WITHOUT AUTHORITIES AND LISTAENCOMENDAS
+    public User(Long userId, String username, String password, String fullName, String nif, String morada) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.nif = nif;
+        this.morada = morada;
+        this.listaEncomendas = new LinkedList<>();
+    }
+
     // WITHOUT ID BUT WHIT AUTHORITIES
     public User(String username, String password, String fullName, Set<Role> authorities, String nif, String morada, List<ListaEncomenda> listaEncomendas) {
         this.username = username;

@@ -3,6 +3,7 @@ package isep.ipp.pt.api.desofs.bootstrapper;
 import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Repository.Implementation.UserRepoImpl;
+import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserBootstrapper implements CommandLineRunner {
     @Autowired
-    private UserRepoImpl userRepo;
+    private UserServiceRepo userRepo;
     @Autowired
     private PasswordEncoder encoder;
 

@@ -25,9 +25,9 @@
 
 			{#if $page.data.user.isAdmin || $page.data.user.isDocumentManager}
 				<Button
-					onClick={() => goto('/packages')}
 					className="package-management-button"
 					text="Gestão de pacotes"
+					gotoName="/package-management"
 				/>
 			{/if}
 			{#if $page.data.user}
@@ -35,7 +35,7 @@
 			{/if}
 			<Button onClick={() => goto("/auth/logout")} className="logout-button" text="Sair">Sair</Button>
 		{:else}
-			<Button onClick={() => goto('/auth')} text="Junta-te" />
+			<Button gotoName="/login" className="login-button" text="Junta-te" />
 		{/if}
 	</div>
 </nav>

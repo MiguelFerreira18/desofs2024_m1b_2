@@ -7,28 +7,26 @@ import lombok.ToString;
 @Entity
 @ToString
 public class Pacote {
+
     @Id
+    @GeneratedValue
     private Long pacoteId;
 
-    @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Nome do pacote inválido")
-    @Min(value = 0, message = "Nome do pacote inválido")
-    @Max(value = 32, message = "Nome do pacote inválido")
+
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
     private String nome;
 
-    @NotBlank
-    @Pattern(regexp = "^[0-9]*$", message = "Preço base do pacote inválido")
+    @Min(value = 0, message = "Peço do pacote inválido")
+    @Max(value = 400, message = "Peço do pacote inválido")
     private double pacoteBasePrice;
 
-    @Min(value = 0, message = "Descrição do pacote inválida")
-    @Max(value = 64, message = "Descrição do pacote inválida")
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Descrição do pacote inválida")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
     private String pacoteDescription;
 
     @NotNull
     private boolean disabled;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private TipoPacote tipoPacote;
 
     public Pacote() {
@@ -93,6 +91,11 @@ public class Pacote {
 
     public boolean isDisabled() {
         return disabled;
+    }
+
+    public Pacote setDisabled(boolean disabled) {
+        this.disabled = disabled;
+        return this;
     }
 
     public Pacote setDisabled() {

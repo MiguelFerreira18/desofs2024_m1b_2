@@ -33,6 +33,11 @@ public class UserRepoImpl implements UserServiceRepo {
     }
 
     @Override
+    public void deleteAll() {
+        userRepo.deleteAll();
+    }
+
+    @Override
     public User saveUser(User user) {
         return userRepo.save(user);
     }

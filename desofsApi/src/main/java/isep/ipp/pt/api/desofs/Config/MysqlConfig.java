@@ -2,8 +2,12 @@ package isep.ipp.pt.api.desofs.Config;
 
 import isep.ipp.pt.api.desofs.DesofsApplication;
 import isep.ipp.pt.api.desofs.Repository.Implementation.PacoteServiceImpl;
+import isep.ipp.pt.api.desofs.Repository.Implementation.ReviewServiceImpl;
+import isep.ipp.pt.api.desofs.Repository.Implementation.TipoPacoteServiceImpl;
 import isep.ipp.pt.api.desofs.Repository.Implementation.UserRepoImpl;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +45,14 @@ public class MysqlConfig {
     public PacoteServiceRepo mysqlPacote(){
         return new PacoteServiceImpl();
     }
-
+    @Bean
+    public TipoPacoteServiceRepo mysqlTipoPacote(){
+        return new TipoPacoteServiceImpl();
+    }
+    @Bean
+    public ReviewServiceRepo mysqlReview(){
+        return new ReviewServiceImpl();
+    }
 
     //Datasource
     @Bean

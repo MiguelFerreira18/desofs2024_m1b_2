@@ -1,6 +1,7 @@
 package isep.ipp.pt.api.desofs.Model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Pattern;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.Pattern;
 public class Receita {
 
     @Id
+    @GeneratedValue
     private Long receitaId;
     @Pattern(regexp = "^(\\.\\/[\\w-]+(\\/[\\w-]+)*\\/[\\w-]+\\.[\\w-]+)$", message = "Invalid path")
     private String path;
