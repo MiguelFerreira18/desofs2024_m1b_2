@@ -19,7 +19,7 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Override
     public User getUserById(Long userId) {
-        return null;
+        return userRepo.findById(userId).get();
     }
 
     @Override
@@ -35,6 +35,20 @@ public class UserRepoImpl implements UserServiceRepo {
     @Override
     public User saveUser(User user) {
         return userRepo.save(user);
+    }
+
+    @Override
+    public void deleteAll() {
+        userRepo.deleteAll();
+    }
+
+    @Override
+    public User findbyId(Long id) {
+        if (userRepo.findById(id).isPresent()) {
+            return userRepo.findById(id).get();
+        } else {
+            return null;
+        }
     }
 
 }

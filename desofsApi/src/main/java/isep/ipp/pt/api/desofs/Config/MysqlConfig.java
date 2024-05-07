@@ -4,6 +4,8 @@ import isep.ipp.pt.api.desofs.DesofsApplication;
 import isep.ipp.pt.api.desofs.Repository.Implementation.PacoteServiceImpl;
 import isep.ipp.pt.api.desofs.Repository.Implementation.TipoPacoteServiceImpl;
 import isep.ipp.pt.api.desofs.Repository.Implementation.UserRepoImpl;
+import isep.ipp.pt.api.desofs.Repository.Implementation.EncomendaServiceImpl;
+import isep.ipp.pt.api.desofs.Repository.Interface.EncomendaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
@@ -47,7 +49,10 @@ public class MysqlConfig {
     public TipoPacoteServiceRepo mysqlTipoPacote(){
         return new TipoPacoteServiceImpl();
     }
-
+    @Bean
+    public EncomendaServiceRepo mysqlEncomenda(){
+        return new EncomendaServiceImpl();
+    }
 
     //Datasource
     @Bean

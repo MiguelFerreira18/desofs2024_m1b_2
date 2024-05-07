@@ -1,12 +1,11 @@
 package isep.ipp.pt.api.desofs.Model.UserModel;
 
-import isep.ipp.pt.api.desofs.Model.ListaEncomenda;
+import isep.ipp.pt.api.desofs.Model.Encomenda;
 import isep.ipp.pt.api.desofs.Model.Review;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
@@ -37,18 +36,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String morada;
 
-    @OneToMany
-    private List<ListaEncomenda> listaEncomendas;
-
-    @OneToMany
-    private List<Review> reviews;
-
     protected User(){
 
     }
 
     //WITH ALL
-    public User(Long userId, String username, String password, String fullName, Set<Role> authorities, String nif, String morada, List<ListaEncomenda> listaEncomendas) {
+    public User(Long userId, String username, String password, String fullName, Set<Role> authorities, String nif, String morada) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -56,36 +49,35 @@ public class User implements UserDetails {
         this.authorities = authorities;
         this.nif = nif;
         this.morada = morada;
-        this.listaEncomendas = listaEncomendas;
     }
     // WITHOUT ID BUT WHIT AUTHORITIES
-    public User(String username, String password, String fullName, Set<Role> authorities, String nif, String morada, List<ListaEncomenda> listaEncomendas) {
+    public User(String username, String password, String fullName, Set<Role> authorities, String nif, String morada) {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
         this.authorities = authorities;
         this.nif = nif;
         this.morada = morada;
-        this.listaEncomendas = listaEncomendas;
+
     }
     //WITHOUT ID AND AUTHORITIES
-    public User(String username, String password, String fullName, String nif, String morada, List<ListaEncomenda> listaEncomendas) {
-        this.username = username;
-        this.password = password;
-        this.fullName = fullName;
-        this.nif = nif;
-        this.morada = morada;
-        this.listaEncomendas = listaEncomendas;
-    }
-
     public User(String username, String password, String fullName, String nif, String morada) {
         this.username = username;
         this.password = password;
         this.fullName = fullName;
         this.nif = nif;
         this.morada = morada;
-        listaEncomendas = new LinkedList<>();
     }
+
+    public User(Long userId,String username, String password, String fullName, String nif, String morada) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.nif = nif;
+        this.morada = morada;
+    }
+
 
     public void addAuthority(Role r){
         authorities.add(r);

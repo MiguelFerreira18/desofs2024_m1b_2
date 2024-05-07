@@ -12,4 +12,7 @@ public interface UserServiceRepo {
 
     public User saveUser(User user);
 
+    void deleteAll();
+
+    User findbyId(Long id);
 }
