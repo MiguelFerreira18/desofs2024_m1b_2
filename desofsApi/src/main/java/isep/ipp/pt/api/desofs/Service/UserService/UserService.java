@@ -12,7 +12,7 @@ public interface UserService {
     public List<User> getAllUsers();
     public UserDetails findByUsername(final String username);
 
-    public boolean saveUser(User user);
+    UserDetails loadUserByUsername(String username);
 
     public User validateUser(User user);
 

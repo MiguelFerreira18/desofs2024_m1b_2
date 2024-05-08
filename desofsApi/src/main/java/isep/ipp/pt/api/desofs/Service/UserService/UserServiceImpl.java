@@ -8,7 +8,6 @@ import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,21 +32,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return userRepo.getAllUsers();
     }
 
     @Override
     public UserDetails findByUsername(String username) {
-        return null;
+        return userRepo.findByUsername(username);
     }
 
     @Override
-    public boolean saveUser(User user) {
-        return false;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         return userRepo.findByUsername(username);
     }
 
