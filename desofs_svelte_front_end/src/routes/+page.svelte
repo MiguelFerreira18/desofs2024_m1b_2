@@ -8,6 +8,7 @@
 	export let data: PageData;
 	const pacotes: Package[] = data.enabledPackages;
 	const reviews: Review[] = data.reviews;
+
 </script>
 
 <svelte:head>

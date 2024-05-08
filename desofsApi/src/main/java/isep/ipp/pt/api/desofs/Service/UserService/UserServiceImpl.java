@@ -5,7 +5,6 @@ import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserView registerUser(UserDTOSignup user) {
-        if (user.getUsername() != null || user.getPassword() != null) {
+        if (!Objects.equals(user.getUsername(), "") && !Objects.equals(user.getPassword(), "")) {
             UserDetails existingUser = userRepo.findByUsername(user.getUsername());
             if (existingUser == null) {
                 User newUser  = new User(user.getUsername(), encoder.encode(user.getPassword()), user.getFullName(), user.getNif(), user.getMorada());

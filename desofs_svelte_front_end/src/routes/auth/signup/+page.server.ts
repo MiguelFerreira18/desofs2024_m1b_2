@@ -48,7 +48,7 @@ const signup: Action = async ({ request}) => {
         })
     });
 
-    redirect(303, '/auth/login')
+    redirect(303, '/auth')
 }
 
 export const actions: Actions = { signup }

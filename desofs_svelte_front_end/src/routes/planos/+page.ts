@@ -3,8 +3,10 @@ import { apiConfig } from '../config/api';
 import type { PageLoad } from './$types';
 const { baseUrl } = apiConfig;
 
-export const load = (async (LoadEvent) => {
-	const { fetch } = LoadEvent;
+export const load: PageLoad = async ({locals}) => {
+	if (locals.user) {
+		redirect(302, '/');
+	}
 
 	const response = await fetch(`${baseUrl}/pacote/all`);
 	const packages: Package[] = await response.json();
@@ -12,4 +14,4 @@ export const load = (async (LoadEvent) => {
 	const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);
 
 	return { enabledPackages };
-}) satisfies PageLoad;
+}

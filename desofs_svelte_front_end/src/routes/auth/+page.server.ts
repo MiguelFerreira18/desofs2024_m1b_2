@@ -1,5 +1,8 @@
 import { fail, redirect } from '@sveltejs/kit'
 import type { Action, Actions, PageServerLoad } from './$types'
+import { apiConfig } from '../config/api';
+
+const { baseUrl } = apiConfig;
 
 export const load: PageServerLoad = async ({ locals }) => {
     if (locals.user) {
@@ -21,7 +24,7 @@ const login: Actions = async ({ cookies, request }) => {
         return fail(400, { invalid: true });
     }
 
-    const response = await fetch('http://localhost:9092/auth/public/login', {
+    const response = await fetch(`${baseUrl}/auth/public/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

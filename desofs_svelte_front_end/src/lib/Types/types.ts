@@ -18,7 +18,7 @@ type PackageDTOSend = {
 	pacoteDescription: string;
 	pacoteBasePrice: number;
 	disabled: boolean;
-	tipoPacoteId: number;
+	tipoPacote: number;
 };
 
 //Reviews

@@ -12,7 +12,7 @@ export const load = (async () => {
 	//Do reviews request here to
 	const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);
 	//only send four packages
-	enabledPackages.length = 4;
+	// enabledPackages.length = 4;
 	reviews.length = 5;
 
 	return { enabledPackages, reviews };

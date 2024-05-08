@@ -81,7 +81,6 @@ public class AuthenticationApi {
         if (userView == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } else {
-            System.out.println(userView.toString());
             return ResponseEntity.ok(userView);
         }
     }

@@ -24,4 +24,5 @@ public record SignUpRequest(
         String morada
 
 ) {
+
 }

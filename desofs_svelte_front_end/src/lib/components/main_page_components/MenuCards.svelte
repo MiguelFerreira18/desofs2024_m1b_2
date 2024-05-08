@@ -2,6 +2,7 @@
 	import type { Package } from '$lib/Types/types';
 	import Card from './Card.svelte';
 	export let packages: Package[];
+
 </script>
 
 <div id="planos" class="flex flex-col items-center py-5">

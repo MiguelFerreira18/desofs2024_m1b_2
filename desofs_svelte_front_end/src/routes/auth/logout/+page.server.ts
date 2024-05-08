@@ -8,16 +8,3 @@ export const load: PageServerLoad = async ( locals ) => {
       })
     redirect(302, '/')
 }
-
-// export const actions: Actions = {
-//   default({ cookies }) {
-//     // eat the cookie
-//     cookies.set('authToken', '', {
-//       path: '/',
-//       expires: new Date(0),
-//     })
-
-//     // redirect the user
-//     redirect(302, '/auth')
-//   },
-// }

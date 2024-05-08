@@ -8,7 +8,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     // if there is no session load page as normal
     return await resolve(event)
   } else {
-    // console.log(session)
     event.locals.user = JSON.parse(session)
   }
 

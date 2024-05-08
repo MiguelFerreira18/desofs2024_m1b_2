@@ -26,14 +26,6 @@ public class AuthenticationControllerTest {
 
     @Autowired
     private AuthenticationApi authenticationApi;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtEncoder jwtEncoder;
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private UserService userService;
 
     @Test
     @Transactional

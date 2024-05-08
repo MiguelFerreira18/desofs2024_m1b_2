@@ -7,7 +7,6 @@
 	const apiUrl = apiConfig.baseUrl;
 
 	export let data: PageData;
-	console.log(data);
 
 	let searchTerm = '';
 	let isDisabled = false;

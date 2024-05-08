@@ -8,7 +8,6 @@
     let nif: string
 
     export let data: PageServerData;
-    console.log(data.fullName)
     
     onMount(() => {
         fullname = data.fullName
