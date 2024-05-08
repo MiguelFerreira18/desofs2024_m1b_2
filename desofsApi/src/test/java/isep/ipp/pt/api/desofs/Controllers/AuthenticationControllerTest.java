@@ -18,8 +18,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 
 import java.beans.Transient;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class AuthenticationControllerTest {
@@ -64,8 +63,8 @@ public class AuthenticationControllerTest {
     public void testSignup_InvalidRequest() {
         SignUpRequest signUpRequest = new SignUpRequest("", "validPassword", "validFullName", "213123123", "rua das ruas");
 
-        ResponseEntity<UserView> response = authenticationApi.signup(signUpRequest);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertThrows(IllegalArgumentException.class, () -> {
+            authenticationApi.signup(signUpRequest);
+        });
     }
 }

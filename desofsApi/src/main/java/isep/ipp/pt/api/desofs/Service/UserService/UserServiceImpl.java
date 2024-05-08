@@ -26,6 +26,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User getUserById(Long userId) {
+        User user = userRepo.getUserById(userId);
+        if (user == null) throw new IllegalArgumentException("User not found");
         return userRepo.getUserById(userId);
     }
 
@@ -52,7 +54,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User validateUser(User user) {
         if(user.getUsername() == null || user.getPassword() == null) return null;
-        System.out.println(encoder.encode(user.getPassword()));
         return userRepo.validateUser(user.getUsername(), encoder.encode(user.getPassword()));
     }
 
@@ -65,8 +66,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 newUser.addAuthority(new Role(Role.User));
                 userRepo.saveUser(newUser);
                 return new UserView(newUser.getUserId(), newUser.getUsername(), newUser.getFullName(), newUser.getAuthorities());
+            } else {
+                throw new IllegalArgumentException("User already exists");
             }
+        } else {
+            throw new IllegalArgumentException("Username and password must not be empty");
         }
-        return null;
     }
 }
