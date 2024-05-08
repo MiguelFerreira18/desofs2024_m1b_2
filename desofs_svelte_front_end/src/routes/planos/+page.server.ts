@@ -1,9 +1,10 @@
 import type { Package } from '$lib/Types/types';
+import { redirect } from '@sveltejs/kit'
 import { apiConfig } from '../config/api';
-import type { PageLoad } from './$types';
+import type { PageServerLoad } from './$types';
 const { baseUrl } = apiConfig;
 
-export const load: PageLoad = async ({locals}) => {
+export const load: PageServerLoad = async ({locals}) => {
 	if (locals.user) {
 		redirect(302, '/');
 	}

@@ -22,8 +22,6 @@
 			tipoPacote: tipoPacote
 		};
 
-		console.log(packageData);
-
 		const response = await fetch(`${apiUrl}/pacote/save`, {
 			method: 'POST',
 			headers: {
@@ -41,7 +39,7 @@
 
 	$: console.log({ name, price, description, disabled, tipoPacote });
 
-	function handleCancel() {
+	async function handleCancel() {
 		goto('/package-management');
 	}
 </script>

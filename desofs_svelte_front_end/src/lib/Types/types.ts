@@ -16,6 +16,13 @@ type User = {
     isDocumentManager: boolean;
 };
 
+type UserInfo = {
+	fullName: string;
+	username: string;
+	morada: string;
+	nif: string;
+}
+
 type TipoPacote = {
 	tipoPacoteId: number;
 	nome: string;
@@ -46,4 +53,4 @@ type ReviewDTOSend = {
 };
 
 // Export
-export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend, User };
+export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend, User, UserInfo };

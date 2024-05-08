@@ -1,9 +1,8 @@
 <script lang="ts">
     import Button from './Button.svelte';
-    import type { User } from '../../../Types/types';
 
-	export let data: User;
-
+	export let data: any;
+    
 </script>
 
 <nav class="flex justify-evenly flex-row bg-white border-gray-200 px-24 py-4">
