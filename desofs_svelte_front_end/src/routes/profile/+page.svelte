@@ -31,10 +31,10 @@
                 <div class="lg:col-span-1 shadow-xl p-2 rounded-md">
                     <div class="lg:flex content-center">
                         <img
-                            class="rounded-full h-48 w-48"
-                            src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
-                            alt="image"
-                        />
+                        class="rounded-full h-48 w-48"
+                        src="https://www.generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg"
+                        alt="User profile"
+                    />
                     </div>
                     <h1 class="text-pretty font-bold">
                         Nome

@@ -8,6 +8,14 @@ type Package = {
 	tipoPacote: TipoPacote;
 };
 
+type User = {
+    userId: number;
+    email: string;
+    token: string;
+    isAdmin: boolean;
+    isDocumentManager: boolean;
+};
+
 type TipoPacote = {
 	tipoPacoteId: number;
 	nome: string;
@@ -38,4 +46,4 @@ type ReviewDTOSend = {
 };
 
 // Export
-export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend };
+export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend, User };

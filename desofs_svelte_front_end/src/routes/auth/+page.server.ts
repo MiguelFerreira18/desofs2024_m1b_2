@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit'
-import type { Action, Actions, PageServerLoad } from './$types'
+import type { Actions, PageServerLoad } from './$types'
 import { apiConfig } from '../config/api';
 
 const { baseUrl } = apiConfig;

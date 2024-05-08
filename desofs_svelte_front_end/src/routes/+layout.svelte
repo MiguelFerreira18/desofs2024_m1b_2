@@ -3,7 +3,6 @@
 	import Footer from '$lib/components/default_components/Footer.svelte';
 	import Header from '$lib/components/default_components/Header/Header.svelte';
 	import type { LayoutServerData } from './$types';
-	import { onMount } from 'svelte';
 
 	export let data: LayoutServerData
 

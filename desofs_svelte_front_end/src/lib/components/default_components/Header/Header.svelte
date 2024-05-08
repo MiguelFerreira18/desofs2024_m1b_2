@@ -1,7 +1,8 @@
 <script lang="ts">
     import Button from './Button.svelte';
+    import type { User } from '../../../Types/types';
 
-	export let data: any;
+	export let data: User;
 
 </script>
 
