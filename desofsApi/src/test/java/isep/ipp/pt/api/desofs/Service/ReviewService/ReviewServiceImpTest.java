@@ -48,6 +48,8 @@ class ReviewServiceImpTest {
 
     private Validator validator;
 
+    private int randomAdminNum = (int) (Math.random() * 90000000) + 10000000;
+
     @BeforeEach
     void setUp() {
         reviewRepo.deleteAll();
@@ -56,7 +58,6 @@ class ReviewServiceImpTest {
         tipoPacoteRepo.deleteAll();
 
         int randomNum = (int) (Math.random() * 900000000) + 100000000;
-        int randomAdminNum = (int) (Math.random() * 90000000) + 10000000;
         TipoPacote tp1 = new TipoPacote("TugaTube");
         TipoPacote tp = tipoPacoteRepo.save(tp1);
         User admin1 = new User(1L, "admin" + randomAdminNum + "@mail.com", "adminpw1", "miguel", "" + randomNum, "RUA cena");
@@ -91,15 +92,20 @@ class ReviewServiceImpTest {
 
     @ParameterizedTest
     @CsvSource({
-            "MyReview6, 5, 1, 1",
-            "MyReview7, 4, 1, 1",
-            "MyReview8, 3, 1, 1",
-            "MyReview9, 2, 1, 1",
-            "MyReview10, 1, 1, 1",
+            "MyReview6, 5",
+            "MyReview7, 4",
+            "MyReview8, 3",
+            "MyReview9, 2",
+            "MyReview10, 1",
     })
-    void testSaveReviewSuccess(String review, int rating, Long user, Long pacote) {
+    void testSaveReviewSuccess(String review, int rating) {
         reviewRepo.deleteAll();
-        ReviewDTOServiceSaveRequest reviewDTOServiceRequest = new ReviewDTOServiceSaveRequest(review, rating, user, pacote);
+
+        User user = userRepo.findByUserByEmail("admin" + randomAdminNum + "@mail.com");
+        Pacote pacote = pacoteRepo.findbyName("Pacote1");
+
+
+        ReviewDTOServiceSaveRequest reviewDTOServiceRequest = new ReviewDTOServiceSaveRequest(review, rating, user.getUserId(), pacote.getPacoteId());
 
         Set<ConstraintViolation<ReviewDTOServiceSaveRequest>> violations = validator.validate(reviewDTOServiceRequest);
 
@@ -156,7 +162,7 @@ class ReviewServiceImpTest {
             "-5141,NewReviewText,3,1,1",
             "-5,NewReviewText,3,1,1",
     })
-    void testUpdateReviewSuccess(Long reviewId, String review, int rating, Long user, Long pacote) {
+    void testUpdateReviewFail(Long reviewId, String review, int rating, Long user, Long pacote) {
         ReviewDTOServicePatchRequest reviewDTOServiceRequest = new ReviewDTOServicePatchRequest(reviewId, review, rating, user, pacote);
         Set<ConstraintViolation<ReviewDTOServicePatchRequest>> violations = validator.validate(reviewDTOServiceRequest);
         ReviewDTOServiceResponse reviewDTOServiceResponse = null;

@@ -2,8 +2,6 @@ package isep.ipp.pt.api.desofs.Service.PacoteService;
 
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceRequest;
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceResponse;
-import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteSaveDTOService;
-import isep.ipp.pt.api.desofs.Mapper.PacoteMapper.PacoteMapper;
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
@@ -14,23 +12,17 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 class PacoteServiceImplTest {
@@ -76,15 +68,18 @@ class PacoteServiceImplTest {
 
     @ParameterizedTest
     @CsvSource({
-            "Pacote1, 10.0, Pacote20 Description, true, 1",
-            "Pacote2, 20.0, Pacote30 Description, false, 1",
-            "Pacote3, 30.0, Pacote3 Description, true, 1",
-            "Pacote4, 40.0, Pacote4 Description, false, 1",
-            "Pacote5, 50.0, Pacote5 Description, true, 1",
+            "Pacote1, 10.0, Pacote20 Description, true, TugaTube",
+            "Pacote2, 20.0, Pacote30 Description, false, TugaTube",
+            "Pacote3, 30.0, Pacote3 Description, true, TugaTube",
+            "Pacote4, 40.0, Pacote4 Description, false, TugaTube",
+            "Pacote5, 50.0, Pacote5 Description, true, TugaTube",
     })
-    public void testServiceSaveSuccess(String nome, double preco, String descricao, boolean ativo, Long tipoPacoteId) {
+    @Order(1)
+    public void testServiceSaveSuccess(String nome, double preco, String descricao, boolean ativo, String tipoPacote) {
         pacoteRepo.deleteAll();
-        PacoteDTOServiceRequest pacoteDTOServiceRequest = new PacoteDTOServiceRequest(nome, preco, descricao, ativo, tipoPacoteId);
+
+        TipoPacote tp1 = tipoPacoteRepo.findbyName(tipoPacote);
+        PacoteDTOServiceRequest pacoteDTOServiceRequest = new PacoteDTOServiceRequest(nome, preco, descricao, ativo, tp1.getTipoPacoteId());
 
         Set<ConstraintViolation<PacoteDTOServiceRequest>> violations = validator.validate(pacoteDTOServiceRequest);
 
@@ -109,6 +104,7 @@ class PacoteServiceImplTest {
             "Pasac Vscote4, 40.0, Pacote4 asd asd <>Description, false, 1",
             "PacZ<<><ote5, -1.0, Pacote5 Descri 289tu89fjuew98mvfc8v2nv n89 f892 89r2nnption, true, 1",
     })
+    @Order(2)
     public void testServiceSaveFail(String nome, double preco, String descricao, boolean ativo, Long tipoPacoteId) {
         PacoteDTOServiceRequest pacoteDTOServiceRequest = new PacoteDTOServiceRequest(nome, preco, descricao, ativo, tipoPacoteId);
         Set<ConstraintViolation<PacoteDTOServiceRequest>> violations = validator.validate(pacoteDTOServiceRequest);
@@ -131,6 +127,7 @@ class PacoteServiceImplTest {
             "-34525679",
             "-100000000",
     })
+    @Order(3)
     public void testServicefindbyIdFail(Long id) {
         PacoteDTOServiceResponse pacoteResponse = pacoteService.findbyId(id);
         assertNull(pacoteResponse);
@@ -145,6 +142,7 @@ class PacoteServiceImplTest {
             "Pacote4",
             "Pacote5",
     })
+    @Order(4)
     public void testServiceDisableSuccess(String name) {
         Pacote pacoteResponse = pacoteRepo.findbyName(name);
         pacoteService.disable(pacoteResponse.getPacoteId());
@@ -161,6 +159,7 @@ class PacoteServiceImplTest {
             "999999999",
             "-100000000",
     })
+    @Order(5)
     public void testServiceDisableFail(Long id) {
         pacoteService.disable(id);
         Pacote pacoteResponse = pacoteRepo.findbyId(id);
@@ -175,6 +174,7 @@ class PacoteServiceImplTest {
             "Pacote4",
             "Pacote5",
     })
+    @Order(6)
     public void testServiceEnableSuccess(String name) {
         Pacote pacoteResponse = pacoteRepo.findbyName(name);
         pacoteService.enable(pacoteResponse.getPacoteId());
@@ -191,6 +191,7 @@ class PacoteServiceImplTest {
             "999999999",
             "-100000000",
     })
+    @Order(7)
     public void testServiceEnableFail(Long id) {
         pacoteService.enable(id);
         Pacote pacoteResponse = pacoteRepo.findbyId(id);
@@ -198,6 +199,7 @@ class PacoteServiceImplTest {
     }
 
     @Test
+    @Order(8)
     public void testServiceFindAll() {
         List<PacoteDTOServiceResponse> pacotes = pacoteService.findAll();
         assertFalse(pacotes.isEmpty());
@@ -205,6 +207,7 @@ class PacoteServiceImplTest {
     }
 
     @Test
+    @Order(9)
     public void testServiceDeleteAll() {
         pacoteService.deleteAll();
         List<Pacote> pacotes = pacoteRepo.findAll();
