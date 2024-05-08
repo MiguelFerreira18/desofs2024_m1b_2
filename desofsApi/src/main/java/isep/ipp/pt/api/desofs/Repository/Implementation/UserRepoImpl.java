@@ -28,6 +28,11 @@ public class UserRepoImpl implements UserServiceRepo {
     }
 
     @Override
+    public User findByUserByEmail(String email) {
+        return userRepo.findByUsername(email);
+    }
+
+    @Override
     public UserDetails findByUsername(String username) {
         return userRepo.findByUsername(username);
     }

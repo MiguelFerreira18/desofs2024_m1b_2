@@ -39,6 +39,11 @@ public class TipoPacoteServiceImpl implements TipoPacoteServiceRepo {
     }
 
     @Override
+    public TipoPacote findbyName(String name) {
+        return tipoPacoteRepo.findByNome(name);
+    }
+
+    @Override
     public void deleteAll() {
         tipoPacoteRepo.deleteAll();
     }
