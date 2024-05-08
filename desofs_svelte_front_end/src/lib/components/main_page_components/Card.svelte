@@ -3,7 +3,6 @@
 	import type { Package } from '$lib/Types/types';
 
 	export let singlePackage: Package;
-	console.log(singlePackage);
 </script>
 
 <div

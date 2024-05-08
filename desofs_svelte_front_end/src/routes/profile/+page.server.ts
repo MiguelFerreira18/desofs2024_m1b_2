@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
     const perfil = await response.json();
 
-    console.log(perfil)
+    // console.log(perfil)
 
     return perfil;
 
