@@ -4,10 +4,12 @@ import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.ToString;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.*;
 
 @Entity
+@ToString
 public class Review {
 
     @Id

@@ -18,7 +18,7 @@ services:
 
   phpmyadmin:
     depends_on:
-      - cozinha_na_cozinha_mysql
+      - mysql
     image: phpmyadmin/phpmyadmin
     ports:
       - 8090:80

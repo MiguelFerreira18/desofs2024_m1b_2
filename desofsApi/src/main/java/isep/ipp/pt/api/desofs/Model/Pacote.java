@@ -2,8 +2,10 @@ package isep.ipp.pt.api.desofs.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.ToString;
 
 @Entity
+@ToString
 public class Pacote {
 
     @Id
