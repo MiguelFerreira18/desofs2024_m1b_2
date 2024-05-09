@@ -1,13 +1,14 @@
 import { apiConfig } from '../../config/api';
-import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { Package, Review } from '$lib/Types/types';
 
 const { baseUrl } = apiConfig;
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-	if (locals.user) {
-		redirect(302, '/');
+	let user = null;
+
+	if (locals.user != undefined) {
+		user = await getUser(locals.user.userId).catch((err) => console.log(err));
 	}
 	const planosId = params.planoId;
 
@@ -17,5 +18,24 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const reviews: Review[] = await responseReviews.json();
 	reviews.length = 4;
 
-	return { pacote, reviews };
+	return { pacote, reviews, user };
+};
+
+const getUser = async (id: number) => {
+	if (!id) return null;
+	const userResponse = await fetch(`${baseUrl}/user/info/${id}`, {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: '*/*'
+		}
+	});
+	let user = null;
+	if (!userResponse.ok) {
+		user = null;
+	} else {
+		user = await userResponse.json();
+	}
+
+	return user;
 };

@@ -2,17 +2,10 @@
 	import { goto } from '$app/navigation';
 	import { apiConfig } from '../../../config/api';
 	import type { PageData } from './$types';
+	import type { PackageDTOPatchSend } from '../../../../lib/Types/types';
 	export let data: PageData;
 
 	const apiUrl = apiConfig.baseUrl;
-	type PackageDTOPatchSend = {
-		pacoteId: number;
-		nome: string;
-		pacoteDescription: string;
-		pacoteBasePrice: number;
-		disabled: boolean;
-		tipoPacote: number;
-	};
 
 	let packageId = data.pacote.pacoteId;
 	let name = data.pacote.nome;

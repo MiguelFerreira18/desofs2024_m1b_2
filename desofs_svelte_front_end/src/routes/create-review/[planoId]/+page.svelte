@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { apiConfig } from '../../config/api';
 	import type { PageData } from './$types';
-	import type { ReviewDTOSend } from '$lib/Types/types';
+	import type { ReviewDTOSaveSend } from '$lib/Types/types';
 
 	const apiUrl = apiConfig.baseUrl;
 	let planoId = $page.params.planoId;
@@ -11,11 +11,11 @@
 	let review = '';
 
 	async function handleSubmit() {
-		const reviewData: ReviewDTOSend = {
+		const reviewData: ReviewDTOSaveSend = {
 			rating: rating,
 			reviewText: review,
 			pacote: parseInt(planoId),
-			user: 1 //TODO Mudar isto para quando se tiver o login feito
+			user: data.user.userId
 		};
 
 		const response = await fetch(`${apiUrl}/review/save`, {
