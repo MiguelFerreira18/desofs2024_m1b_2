@@ -1,7 +1,13 @@
 package isep.ipp.pt.api.desofs.Authentication;
 
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer.UserDTOResponse;
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer.UserDTOSignup;
+import isep.ipp.pt.api.desofs.Mapper.UserMapper.UserMapper;
+import isep.ipp.pt.api.desofs.Model.UserModel.SignInRequest;
+import isep.ipp.pt.api.desofs.Model.UserModel.SignUpRequest;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
+import isep.ipp.pt.api.desofs.Service.UserService.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,13 +40,17 @@ public class AuthenticationApi {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtEncoder jwtEncoder;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationApi.class);
 
 
     @PostMapping("login")
-    public ResponseEntity<UserView> login(@RequestBody @Valid final SignUpRequest request) {
+    public ResponseEntity<UserView> login(@RequestBody @Valid final SignInRequest request) {
         try {
-            final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.name(), request.password()));
+            final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
             System.out.println("AUTHENTICATED");
             final User user = (User) authentication.getPrincipal();
             final Instant now = Instant.now();
@@ -54,15 +64,24 @@ public class AuthenticationApi {
                     .claim("roles", scope).build();
 
             final String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-            System.out.println(token);//MANDAR ESTE TOKEN PARA
+            System.out.println(token);
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(mapToUSerView(user));
         } catch (final BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
     private UserView mapToUSerView(User user) {
-        return new UserView(user.getUserId().toString(), user.getUsername(), user.getFullName());
+        return new UserView(user.getUserId(), user.getUsername(), user.getFullName(), user.getAuthorities());
     }
 
-
+    @PostMapping("signup")
+    public ResponseEntity<UserView> signup(@RequestBody @Valid final SignUpRequest request) {
+        UserDTOSignup u = userMapper.fromSignUpRequestToUserDTOSignup(request);
+        UserView userView = userService.registerUser(u);
+        if (userView == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        } else {
+            return ResponseEntity.ok(userView);
+        }
+    }
 }

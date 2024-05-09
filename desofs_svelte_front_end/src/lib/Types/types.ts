@@ -8,6 +8,21 @@ type Package = {
 	tipoPacote: TipoPacote;
 };
 
+type User = {
+	userId: number;
+	email: string;
+	token: string;
+	isAdmin: boolean;
+	isDocumentManager: boolean;
+};
+
+type UserInfo = {
+	fullName: string;
+	username: string;
+	morada: string;
+	nif: string;
+};
+
 type TipoPacote = {
 	tipoPacoteId: number;
 	nome: string;
@@ -18,7 +33,7 @@ type PackageDTOSend = {
 	pacoteDescription: string;
 	pacoteBasePrice: number;
 	disabled: boolean;
-	tipoPacoteId: number;
+	tipoPacote: number;
 };
 
 //Reviews
@@ -38,4 +53,4 @@ type ReviewDTOSend = {
 };
 
 // Export
-export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend };
+export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend, User, UserInfo };

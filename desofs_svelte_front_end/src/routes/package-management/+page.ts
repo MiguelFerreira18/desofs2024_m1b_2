@@ -4,11 +4,9 @@ import type { Package } from '$lib/Types/types';
 
 const { baseUrl } = apiConfig;
 
-export const load = (async (LoadEvent) => {
-	const { fetch } = LoadEvent;
-
+export const load: PageLoad = async () => {
 	const response = await fetch(`${baseUrl}/pacote/all`);
 	const packages: Package[] = await response.json();
 
 	return { packages };
-}) satisfies PageLoad;
+};

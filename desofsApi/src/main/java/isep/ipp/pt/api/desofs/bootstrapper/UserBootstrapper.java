@@ -19,14 +19,12 @@ public class UserBootstrapper implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(userRepo.findByUsername("admin1@mail.com") == null){
-            User admin1 = new User("admin1@mail.com",encoder.encode("adminpw1"),"miguel","123456789","RUA cena");
-
-            admin1.addAuthority(new Role(Role.Admin));
-            userRepo.saveUser(admin1);
-
-        }
-
-
+//        if(userRepo.findByUsername("admin1@mail.com") == null){
+//            User admin1 = new User("admin1@mail.com",encoder.encode("adminpw1"),"miguel","123456789","RUA cena");
+//
+//            admin1.addAuthority(new Role(Role.Admin));
+//            userRepo.saveUser(admin1);
+//
+//        }
     }
 }

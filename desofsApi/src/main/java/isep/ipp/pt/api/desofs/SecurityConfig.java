@@ -6,23 +6,16 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import isep.ipp.pt.api.desofs.Repository.Implementation.UserRepoImpl;
-import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
-import isep.ipp.pt.api.desofs.Service.UserService.UserService;
-import isep.ipp.pt.api.desofs.Service.UserService.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,11 +36,8 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
-
-    @Autowired
-    private UserServiceImpl userDetailsService;
 
     @Value("${jwt.public.key}")
     private RSAPublicKey rsaPublicKey;
@@ -118,6 +108,7 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
         config.setAllowedOriginPatterns(Arrays.asList("*"));
         config.addAllowedHeader("*");
+        config.addExposedHeader(HttpHeaders.AUTHORIZATION);
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
@@ -128,5 +119,4 @@ public class SecurityConfig {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .build();
     }
-
 }

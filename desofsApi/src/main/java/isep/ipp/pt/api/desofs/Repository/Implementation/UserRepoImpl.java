@@ -5,8 +5,6 @@ import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Override
     public User getUserById(Long userId) {
-        return userRepo.findById(userId).orElse(null);
+        return userRepo.getUserById(userId);
     }
 
     @Override
@@ -45,6 +43,11 @@ public class UserRepoImpl implements UserServiceRepo {
     @Override
     public User saveUser(User user) {
         return userRepo.save(user);
+    }
+
+    @Override
+    public User validateUser(String username, String password) {
+        return userRepo.validateUser(username, password);
     }
 
 }

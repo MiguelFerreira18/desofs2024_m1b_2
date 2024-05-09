@@ -1,10 +1,14 @@
 import { apiConfig } from '../../config/api';
-import type { PageLoad } from './$types';
+import { redirect } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 import type { Package, Review } from '$lib/Types/types';
 
 const { baseUrl } = apiConfig;
 
-export const load = (async ({ params }) => {
+export const load: PageServerLoad = async ({ params, locals }) => {
+	if (locals.user) {
+		redirect(302, '/');
+	}
 	const planosId = params.planoId;
 
 	const response = await fetch(`${baseUrl}/pacote/${planosId}`);
@@ -14,4 +18,4 @@ export const load = (async ({ params }) => {
 	reviews.length = 4;
 
 	return { pacote, reviews };
-}) satisfies PageLoad;
+};

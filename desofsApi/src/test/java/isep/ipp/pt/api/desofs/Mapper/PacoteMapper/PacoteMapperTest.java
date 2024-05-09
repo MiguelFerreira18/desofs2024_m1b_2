@@ -24,6 +24,5 @@ class PacoteMapperTest {
         assertEquals(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getDisabled(), pacoteDTOSaveRequest.getDisabled());
         assertNull(pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacoteDTOSaveRequest).getTipoPacote());
 
-
     }
 }
