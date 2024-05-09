@@ -47,7 +47,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User validateUser(User user) {
-        if(user.getUsername() == null || user.getPassword() == null) return null;
+        if(user.getUsername() == null || user.getPassword() == null) {
+            return null;
+        }
         return userRepo.validateUser(user.getUsername(), encoder.encode(user.getPassword()));
     }
 
