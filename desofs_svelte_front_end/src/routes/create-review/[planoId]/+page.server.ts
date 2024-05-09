@@ -3,7 +3,6 @@ import type { Package } from '$lib/Types/types';
 import { apiConfig } from '../../config/api';
 import { redirect } from '@sveltejs/kit';
 
-
 const { baseUrl } = apiConfig;
 
 export const load: PageServerLoad = async ({ params, locals }) => {
@@ -16,4 +15,4 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const pacote: Package = await response.json();
 
 	return { pacote };
-}
+};

@@ -14,7 +14,7 @@ declare global {
 				token: string;
 				isAdmin: boolean;
 				isDocumentManager: boolean;
-			}
+			};
 		}
 	}
 }

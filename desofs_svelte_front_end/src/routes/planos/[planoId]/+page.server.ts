@@ -18,4 +18,4 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	reviews.length = 4;
 
 	return { pacote, reviews };
-}
+};

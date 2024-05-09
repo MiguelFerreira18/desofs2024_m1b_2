@@ -2,7 +2,6 @@
 	import Button from './Button.svelte';
 
 	export let data;
-
 </script>
 
 <nav class="flex justify-evenly flex-row bg-white border-gray-200 px-24 py-4">

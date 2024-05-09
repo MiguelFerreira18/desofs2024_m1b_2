@@ -9,4 +9,4 @@ export const load: PageLoad = async () => {
 	const tipoPacotes: TipoPacote[] = await response.json();
 
 	return { tipoPacotes };
-}
+};

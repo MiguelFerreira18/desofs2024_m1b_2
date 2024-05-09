@@ -9,11 +9,11 @@ type Package = {
 };
 
 type User = {
-    userId: number;
-    email: string;
-    token: string;
-    isAdmin: boolean;
-    isDocumentManager: boolean;
+	userId: number;
+	email: string;
+	token: string;
+	isAdmin: boolean;
+	isDocumentManager: boolean;
 };
 
 type UserInfo = {
@@ -21,7 +21,7 @@ type UserInfo = {
 	username: string;
 	morada: string;
 	nif: string;
-}
+};
 
 type TipoPacote = {
 	tipoPacoteId: number;
