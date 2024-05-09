@@ -17,4 +17,8 @@ public interface UserService {
     public User validateUser(User user);
 
     public UserView registerUser(UserDTOSignup user);
+
+    public void deleteAll();
+
+    public void saveUser(User user);
 }

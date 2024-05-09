@@ -69,4 +69,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new IllegalArgumentException("Username and password must not be empty");
         }
     }
+
+    @Override
+    public void deleteAll() {
+        userRepo.deleteAll();
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userRepo.saveUser(user);
+    }
 }
