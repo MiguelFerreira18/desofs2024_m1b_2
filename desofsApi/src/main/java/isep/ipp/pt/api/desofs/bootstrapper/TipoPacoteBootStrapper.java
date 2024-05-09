@@ -14,7 +14,7 @@ public class TipoPacoteBootStrapper implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (tipoPacoteRepo.findbyId(1L) == null) {
+        if (tipoPacoteRepo.findbyName("Mediteraneo") == null) {
             TipoPacote tipoPacote = new TipoPacote("Mediteraneo");
             tipoPacoteRepo.save(tipoPacote);
         }

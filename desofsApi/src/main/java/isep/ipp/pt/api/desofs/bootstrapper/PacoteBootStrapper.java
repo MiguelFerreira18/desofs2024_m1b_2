@@ -2,6 +2,7 @@ package isep.ipp.pt.api.desofs.bootstrapper;
 
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
+import isep.ipp.pt.api.desofs.Repository.Implementation.TipoPacoteServiceImpl;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
@@ -22,7 +23,15 @@ public class PacoteBootStrapper implements CommandLineRunner {
     public void run(String... args) throws Exception {
         System.out.println("PacoteBootStrapper");
         if (pacoteRepo.findbyId(1L) == null) {
-            TipoPacote tipoPacote = tipoPacoteRepo.findbyId(1L);
+            TipoPacote tipoPacote= null;
+            if (tipoPacoteRepo.findbyName("Mediteraneo") == null) {
+                tipoPacote = new TipoPacote("Mediteraneo");
+                tipoPacoteRepo.save(tipoPacote);
+            }else{
+                tipoPacote = tipoPacoteRepo.findbyName("Mediteraneo");
+
+            }
+
             Pacote pacote = new Pacote("pacote", 10.0, "pacotedescription", true ,tipoPacote);
 
             pacoteRepo.save(pacote);

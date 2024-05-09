@@ -7,6 +7,7 @@
 
 	export let data: PageData;
 	const pacotes: Package[] = data.enabledPackages;
+	
 	const reviews: Review[] = data.reviews;
 
 </script>
@@ -18,6 +19,7 @@
 
 <section class="bg-gray-100 px-20">
 	<Hero />
+	{#if pacotes.length > 0}
 	<MenuCards packages={pacotes} />
 	<span class="relative flex justify-center">
 		<div
@@ -25,5 +27,13 @@
 		></div>
 		<span class="relative z-10 text-2xl bg-gray-100 px-6">Opinião dos consumidores</span>
 	</span>
+	{:else}
+	<h3 class="text-2xl text-center">Em breve teremos novos pacotes</h3>
+	{/if}
+	{#if reviews.length > 0}
 	<Reviews {reviews} />
+	{:else}
+		<div class="flex justify-center">Seja o primeiro a adicionar a sua opinião</div>
+	{/if}
+	
 </section>

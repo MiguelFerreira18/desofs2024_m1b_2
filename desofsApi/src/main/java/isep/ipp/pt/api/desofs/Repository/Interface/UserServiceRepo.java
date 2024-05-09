@@ -8,6 +8,7 @@ import java.util.List;
 public interface UserServiceRepo {
     public User getUserById(Long userId);
     public List<User> getAllUsers();
+    public User findByUserByEmail(String email);
     public UserDetails findByUsername(final String username);
     public void deleteAll();
     public User saveUser(User user);

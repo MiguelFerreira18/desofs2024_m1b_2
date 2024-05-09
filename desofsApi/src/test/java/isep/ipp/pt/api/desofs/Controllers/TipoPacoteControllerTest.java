@@ -2,6 +2,7 @@ package isep.ipp.pt.api.desofs.Controllers;
 
 import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ControllerLayer.TipoPacoteDTOResponse;
 import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ControllerLayer.TipoPacoteDTOSaveRequest;
+import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
 import isep.ipp.pt.api.desofs.Service.TipoPacoteService.TipoPacoteService;
 import org.junit.jupiter.api.AfterEach;
@@ -26,13 +27,18 @@ class TipoPacoteControllerTest {
     @Autowired
     private TipoPacoteService tipoPacoteService;
 
+    @Autowired
+    private PacoteServiceRepo pacoteServiceRepo;
+
     @AfterEach
     public void tearDown() {
+        pacoteServiceRepo.deleteAll();
         tipoPacoteService.deleteAll();
     }
 
     @BeforeEach
     public void setUp() {
+        pacoteServiceRepo.deleteAll();
         tipoPacoteService.deleteAll();
     }
 
