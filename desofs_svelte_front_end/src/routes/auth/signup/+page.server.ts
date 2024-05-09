@@ -18,7 +18,6 @@ const signup: Action = async ({ request }) => {
 	const morada = data.get('morada');
 	const password = data.get('password');
 	const repeatPassword = data.get('repeat-password');
-	console.log(email, fullname, nif, morada, password, repeatPassword);
 	if (
 		typeof email !== 'string' ||
 		typeof fullname !== 'string' ||
