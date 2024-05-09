@@ -27,6 +27,7 @@ public class Pacote {
     private boolean disabled;
 
     @ManyToOne
+    @NotNull
     private TipoPacote tipoPacote;
 
     public Pacote() {

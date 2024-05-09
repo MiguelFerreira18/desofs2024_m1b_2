@@ -31,11 +31,10 @@ class PacoteControllerTest {
     private TipoPacoteServiceRepo tipoPacoteServiceRepo;
 
 
-
     @BeforeEach
     public void setUp() {
         pacoteServiceRepo.deleteAll();
-        TipoPacote tp1 = new TipoPacote(1L,"TugaTube");
+        TipoPacote tp1 = new TipoPacote(1L, "TugaTube");
         tipoPacoteServiceRepo.save(tp1);
     }
 
@@ -50,7 +49,8 @@ class PacoteControllerTest {
     @Test
     @Order(1)
     public void testSavePacote_ValidRequest() {
-        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest("Pacote1", 10.0, "Pacote1 Description", true, 1L);
+        TipoPacote tp = tipoPacoteServiceRepo.findbyName("TugaTube");
+        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest("Pacote1", 10.0, "Pacote1 Description", true, tp.getTipoPacoteId());
 
         ResponseEntity<PacoteDTOResponse> response = pacoteController.savePacote(pacoteDTOSaveRequest);
 
@@ -68,7 +68,8 @@ class PacoteControllerTest {
     })
     @Order(2)
     public void testSavePacote_ValidRequest_Parameterized(String nome, double preco, String descricao, boolean ativo, String pacote) {
-        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest(nome, preco, descricao, ativo, 1L);
+        TipoPacote tp = tipoPacoteServiceRepo.findbyName("TugaTube");
+        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest(nome, preco, descricao, ativo, tp.getTipoPacoteId());
 
         ResponseEntity<PacoteDTOResponse> response = pacoteController.savePacote(pacoteDTOSaveRequest);
 
@@ -104,7 +105,6 @@ class PacoteControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
     }
-
 
 
     @Test
@@ -161,7 +161,6 @@ class PacoteControllerTest {
         assertNull(response.getBody());
 
     }
-
 
 
     @Test
@@ -244,10 +243,7 @@ class PacoteControllerTest {
         assertNull(response.getBody());
 
 
-
     }
-
-
 
 
 }

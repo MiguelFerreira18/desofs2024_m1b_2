@@ -9,6 +9,7 @@ public interface TipoPacoteServiceRepo {
     TipoPacote save(TipoPacote pacoteService);
     TipoPacote findbyId(Long id);
     List<TipoPacote> findAll();
+    TipoPacote findbyName(String name);
     void deleteAll();
     void deleteById(Long id);
 

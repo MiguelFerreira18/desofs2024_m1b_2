@@ -25,9 +25,11 @@ public class Review {
     private int rating;
 
     @ManyToOne
+    @NotNull
     private User user;
 
     @ManyToOne
+    @NotNull
     private Pacote pacote;
 
     public Review() {
