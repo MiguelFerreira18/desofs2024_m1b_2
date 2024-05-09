@@ -3,7 +3,7 @@ import type { PageLoad } from './$types';
 import { apiConfig } from './config/api';
 const { baseUrl } = apiConfig;
 
-export const load : PageLoad = async () => {
+export const load: PageLoad = async () => {
 	const response = await fetch(`${baseUrl}/pacote/all`);
 	const responseReviews = await fetch(`${baseUrl}/review/all`);
 	const reviews: Review[] = await responseReviews.json();
@@ -14,11 +14,12 @@ export const load : PageLoad = async () => {
 		//only send four packages
 		enabledPackages.length = 4;
 	}
-	if(reviews.length !== 0 && reviews.length >= 5){
-	//Do reviews request here to
-	const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);
-	//only send four packages
-	// enabledPackages.length = 4;
-    
-	return { enabledPackages, reviews };
+	if (reviews.length !== 0 && reviews.length >= 5) {
+		//Do reviews request here to
+		const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);
+		//only send four packages
+		// enabledPackages.length = 4;
+
+		return { enabledPackages, reviews };
+	}
 };
