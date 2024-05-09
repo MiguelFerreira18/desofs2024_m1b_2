@@ -3,7 +3,7 @@ import type { PageLoad } from './$types';
 import { apiConfig } from './config/api';
 const { baseUrl } = apiConfig;
 
-export const load = (async () => {
+export const load : PageLoad = async () => {
 	const response = await fetch(`${baseUrl}/pacote/all`);
 	const responseReviews = await fetch(`${baseUrl}/review/all`);
 	const reviews: Review[] = await responseReviews.json();
@@ -16,4 +16,4 @@ export const load = (async () => {
 	reviews.length = 5;
 
 	return { enabledPackages, reviews };
-}) satisfies PageLoad;
+};
