@@ -62,7 +62,7 @@ public class AuthenticationControllerTest {
     @Test
     @Transactional
     public void testLogin_InvalidRequest() {
-        SignInRequest signInRequest = new SignInRequest("admin1@mail.com", "oweuroweuir");
+        SignInRequest signInRequest = new SignInRequest("username1@mail.com", "oweuroweuir");
 
         ResponseEntity<UserView> response = authenticationApi.login(signInRequest);
 
