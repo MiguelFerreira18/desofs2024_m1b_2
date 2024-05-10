@@ -1,11 +1,10 @@
 <script lang="ts">
 	import type { ReviewDTOPatchSend } from '$lib/Types/types';
-	import { apiConfig } from '../../../../config/api';
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
+	import { sendRequest } from '$lib/scripts';
 
 	export let data: PageData;
-	const apiUrl = apiConfig.baseUrl;
 
 	async function handleSubmit() {
 		const reviewData: ReviewDTOPatchSend = {
@@ -16,13 +15,12 @@
 			user: data.user.userId
 		};
 
-		const response = await fetch(`${apiUrl}/review/update`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(reviewData)
-		});
+		const response = await sendRequest(
+			`review/update`,
+			'PATCH',
+			JSON.stringify(reviewData),
+			data.user.token
+		);
 
 		if (response.ok) {
 			goto('/profile/reviews');

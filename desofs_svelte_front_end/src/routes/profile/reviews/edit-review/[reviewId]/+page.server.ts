@@ -1,9 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from '../../$types';
-import { apiConfig } from '../../../../config/api';
 import type { Package, User, Review } from '$lib/Types/types';
-
-const { baseUrl } = apiConfig;
+import { sendRequest } from '$lib/scripts';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	if (!locals.user) {
@@ -11,13 +9,11 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	}
 	const reviewId = params.reviewId;
 
-	const getReview = await fetch(`${baseUrl}/review/${reviewId}`);
+	const getReview = await sendRequest(`review/get/${reviewId}`, 'GET', '', locals.user.token);
 	const review: Review = await getReview.json();
 
-	const getPacote = await fetch(`${baseUrl}/pacote/${review.pacote.pacoteId}`);
+	const getPacote = await sendRequest(`pacote/get/${review.pacote.pacoteId}`, 'GET', '', '');
 	const pacote: Package = await getPacote.json();
-
-	console.log(review);
 
 	const user: User = locals.user;
 	return { review, pacote, user };

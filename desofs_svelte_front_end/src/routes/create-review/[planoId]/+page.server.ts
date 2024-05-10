@@ -1,9 +1,7 @@
 import type { PageServerLoad } from './$types';
 import type { Package, User } from '$lib/Types/types';
-import { apiConfig } from '../../config/api';
 import { redirect } from '@sveltejs/kit';
-
-const { baseUrl } = apiConfig;
+import { sendRequest } from '$lib/scripts';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	if (!locals.user) {
@@ -11,7 +9,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	}
 	const planoId = params.planoId;
 
-	const response = await fetch(`${baseUrl}/pacote/${planoId}`);
+	const response = await sendRequest(`pacote/get/${planoId}`, 'GET', '', '');
 	const pacote: Package = await response.json();
 	const user: User = locals.user;
 	return { pacote, user };

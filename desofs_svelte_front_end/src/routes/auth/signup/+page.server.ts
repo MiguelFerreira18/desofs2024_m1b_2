@@ -1,8 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Action, Actions, PageServerLoad } from './$types';
-import { apiConfig } from '../../config/api';
-
-const { baseUrl } = apiConfig;
+import { sendRequest } from '$lib/scripts';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) {
@@ -34,21 +32,15 @@ const signup: Action = async ({ request }) => {
 	) {
 		return fail(400, { invalid: true });
 	}
-
-	await fetch(`${baseUrl}/auth/public/signup`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: '*/*'
-		},
-		body: JSON.stringify({
-			username: email,
-			password: password,
-			fullName: fullname,
-			nif: nif,
-			morada: morada
-		})
+	const userData: string = JSON.stringify({
+		username: email,
+		password: password,
+		fullName: fullname,
+		nif: nif,
+		morada: morada
 	});
+
+	await sendRequest(`auth/public/signup`, 'POST', userData, '');
 
 	redirect(303, '/auth');
 };

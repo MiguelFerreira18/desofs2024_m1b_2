@@ -1,16 +1,14 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
-	import { apiConfig } from '../../config/api';
+	import { sendRequest } from '$lib/scripts';
 	import type { PageData } from './$types';
 	export let data: PageData;
 
 	async function deleteReview(pacoteId: number) {
-		const res = await fetch(`${apiConfig.baseUrl}/review/delete/${pacoteId}`, {
-			method: 'DELETE'
-		});
+		const res = await sendRequest(`review/delete/${pacoteId}`, 'DELETE', '', data.user.token);
 
 		if (res.ok) {
-			goto('/reviews');
+			goto('reviews');
 		} else {
 			alert('Failed to delete pacote');
 		}

@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { apiConfig } from '../../config/api';
 	import type { PageData } from './$types';
 	import type { ReviewDTOSaveSend } from '$lib/Types/types';
+	import { sendRequest } from '$lib/scripts';
 
-	const apiUrl = apiConfig.baseUrl;
 	let planoId = $page.params.planoId;
 	let rating = 0;
 	let review = '';
@@ -18,13 +17,12 @@
 			user: data.user.userId
 		};
 
-		const response = await fetch(`${apiUrl}/review/save`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(reviewData)
-		});
+		const response = await sendRequest(
+			`review/save`,
+			'POST',
+			JSON.stringify(reviewData),
+			data.user.token
+		);
 
 		if (response.ok) {
 			goto('/planos/' + planoId);
