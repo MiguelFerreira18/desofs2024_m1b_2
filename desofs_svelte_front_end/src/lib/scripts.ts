@@ -7,6 +7,15 @@ type RequestOptions = {
 	body?: string;
 };
 
+/**
+ * Sends an asynchronous HTTP request to the specified path with the given method, data, and token.
+ *
+ * @param {string} path - The path of the request.
+ * @param {string} method - The HTTP method of the request.
+ * @param {string} data - The data to be sent in the request body.
+ * @param {string} token - The token to be included in the request headers for authentication.
+ * @return {Promise<Response>} - A Promise that resolves to the Response object representing the server's response to the request.
+ */
 async function sendRequest(path: string, method: string, data: string, token: string) {
 	const headers: { [key: string]: string } = {
 		'Content-Type': 'application/json'
