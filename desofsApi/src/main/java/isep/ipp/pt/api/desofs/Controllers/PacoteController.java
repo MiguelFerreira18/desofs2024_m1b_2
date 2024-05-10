@@ -27,7 +27,6 @@ public class PacoteController {
     @PostMapping("/save")
     public ResponseEntity<PacoteDTOResponse> savePacote(@RequestBody PacoteDTOSaveRequest pacote) {
         try {
-            System.out.println(pacote.toString());
             PacoteDTOServiceRequest pacoteRequestService = pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacote);
             PacoteDTOServiceResponse pacoteServiceResponse = pacoteService.save(pacoteRequestService);
             PacoteDTOResponse pacoteDTOResponse = pacoteMapper.fromPacoteToDto(pacoteServiceResponse);
@@ -53,7 +52,6 @@ public class PacoteController {
 
     @PatchMapping("/update")
     public ResponseEntity<PacoteDTOResponse> updatePacote(@RequestBody PacoteDTOPatchRequest pacote) {
-        System.out.println("update pacote");
         try {
             PacoteDTOServicePatchRequest pacoteRequestService = pacoteMapper.toPacoteDTOServicePAtchRequestFromPacoteDTOPatchRequest(pacote);
             PacoteDTOServiceResponse pacoteServiceResponse = pacoteService.update(pacoteRequestService);
