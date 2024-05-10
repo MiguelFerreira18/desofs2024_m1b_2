@@ -58,7 +58,7 @@ public class ReviewController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{reviewId}")
+    @GetMapping("/get/{reviewId}")
     public ResponseEntity<ReviewDTOResponse> getReview(@PathVariable Long reviewId) {
         if (reviewId < 0) return ResponseEntity.badRequest().build();
         ReviewDTOServiceResponse reviewServiceResponse = reviewService.getReviewById(reviewId);
