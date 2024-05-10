@@ -84,10 +84,12 @@ public class SecurityConfig {
                     config.setAllowCredentials(true);
                     return config;
                 }))
-                .csrf(Customizer.withDefaults())
+                .csrf(Customizer.withDefaults()).csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/auth/public/**"))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         auth -> auth
+                                .requestMatchers("/auth/public/signup").permitAll()
+                                .requestMatchers("/auth/public/login").permitAll()
                                 .requestMatchers("/pacote/all").permitAll()
                                 .requestMatchers("/pacote/get/**").permitAll()
                                 .requestMatchers("/pacote/**").hasRole(Role.Admin)
@@ -97,7 +99,6 @@ public class SecurityConfig {
                                 .requestMatchers("/review/**").authenticated()
                                 .requestMatchers("/tipoPacote/**").authenticated()
                                 .requestMatchers("/user/info/**").authenticated()
-                                .requestMatchers("/auth/public/**").permitAll()
                                 .requestMatchers("/api-docs/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
                 )

@@ -26,6 +26,7 @@ public class PacoteDTOServiceResponse {
 
     private final boolean disabled;
 
+    @NotNull
     private final TipoPacote tipoPacote;
 
     public PacoteDTOServiceResponse(String nome, String pacoteDescription, double pacoteBasePrice,Long pacoteId, boolean disabled,TipoPacote tipoPacote) {

@@ -12,7 +12,6 @@ public class PacoteDTOSaveRequest {
     @Size(max = 16, message = "Nome do pacote inválido")
     private final String nome;
 
-    @NotBlank
     @Min(value = 0, message = "Preço base do pacote inválido")
     @Max(value = 500, message = "Preço base do pacote inválido")
     private final double pacoteBasePrice;
