@@ -21,21 +21,19 @@ public class PacoteBootStrapper implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("PacoteBootStrapper");
-        if (pacoteRepo.findbyId(1L) == null) {
-            TipoPacote tipoPacote= null;
-            if (tipoPacoteRepo.findbyName("Mediteraneo") == null) {
-                tipoPacote = new TipoPacote("Mediteraneo");
-                tipoPacoteRepo.save(tipoPacote);
-            }else{
-                tipoPacote = tipoPacoteRepo.findbyName("Mediteraneo");
-
-            }
-
-            Pacote pacote = new Pacote("pacote", 10.0, "pacotedescription", true ,tipoPacote);
-
-            pacoteRepo.save(pacote);
-        }
-
+//        if (pacoteRepo.findbyId(1L) == null) {
+//            TipoPacote tipoPacote= null;
+//            if (tipoPacoteRepo.findbyName("Mediteraneo") == null) {
+//                tipoPacote = new TipoPacote("Mediteraneo");
+//                tipoPacoteRepo.save(tipoPacote);
+//            }else{
+//                tipoPacote = tipoPacoteRepo.findbyName("Mediteraneo");
+//
+//            }
+//
+//            Pacote pacote = new Pacote("pacote", 10.0, "pacotedescription", true ,tipoPacote);
+//
+//            pacoteRepo.save(pacote);
+//        }
     }
 }
