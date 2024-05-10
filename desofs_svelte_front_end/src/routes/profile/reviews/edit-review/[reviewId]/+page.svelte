@@ -1,37 +1,36 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import type { ReviewDTOPatchSend } from '$lib/Types/types';
 	import type { PageData } from './$types';
-	import type { ReviewDTOSaveSend } from '$lib/Types/types';
+	import { goto } from '$app/navigation';
 	import { sendRequest } from '$lib/scripts';
 
-	let planoId = $page.params.planoId;
-	let rating = 0;
-	let review = '';
+	export let data: PageData;
 
 	async function handleSubmit() {
-		const reviewData: ReviewDTOSaveSend = {
+		const reviewData: ReviewDTOPatchSend = {
+			reviewId: data.review.reviewId,
 			rating: rating,
 			reviewText: review,
-			pacote: parseInt(planoId),
+			pacote: data.pacote.pacoteId,
 			user: data.user.userId
 		};
 
 		const response = await sendRequest(
-			`review/save`,
-			'POST',
+			`review/update`,
+			'PATCH',
 			JSON.stringify(reviewData),
 			data.user.token
 		);
 
 		if (response.ok) {
-			goto('/planos/' + planoId);
+			goto('/profile/reviews');
 		} else {
-			console.error('Failed to create review');
+			console.error('Failed to edit review');
 		}
 	}
 
-	export let data: PageData;
+	let rating = data.review.rating;
+	let review = data.review.reviewText;
 </script>
 
 <div class="bg-gray-100 px-20 pt-10 min-h-screen">
@@ -74,7 +73,7 @@
 
 			<button
 				on:click={handleSubmit}
-				class="inline-block rounded border border-current px-4 py-2 text-sm">Create Review</button
+				class="inline-block rounded border border-current px-4 py-2 text-sm">Save Review</button
 			>
 		</div>
 	</div>

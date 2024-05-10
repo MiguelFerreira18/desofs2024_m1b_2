@@ -35,7 +35,14 @@ type PackageDTOSend = {
 	disabled: boolean;
 	tipoPacote: number;
 };
-
+type PackageDTOPatchSend = {
+	pacoteId: number;
+	nome: string;
+	pacoteDescription: string;
+	pacoteBasePrice: number;
+	disabled: boolean;
+	tipoPacote: number;
+};
 //Reviews
 
 type Review = {
@@ -45,7 +52,14 @@ type Review = {
 	pacote: Package;
 };
 
-type ReviewDTOSend = {
+type ReviewDTOSaveSend = {
+	reviewText: string;
+	rating: number;
+	user: number;
+	pacote: number;
+};
+type ReviewDTOPatchSend = {
+	reviewId: number;
 	reviewText: string;
 	rating: number;
 	user: number;
@@ -53,4 +67,14 @@ type ReviewDTOSend = {
 };
 
 // Export
-export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend, User, UserInfo };
+export type {
+	Package,
+	TipoPacote,
+	PackageDTOSend,
+	PackageDTOPatchSend,
+	Review,
+	ReviewDTOSaveSend,
+	ReviewDTOPatchSend,
+	User,
+	UserInfo
+};

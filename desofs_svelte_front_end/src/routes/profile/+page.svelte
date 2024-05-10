@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { UserInfo } from '../../lib/Types/types';
+	import Button from '$lib/components/default_components/Header/Button.svelte';
 
 	let fullname: string;
 	let email: string;
@@ -26,7 +27,7 @@
 	<header class="border rounded bg-white py-4 px-4">
 		<h2 class="text-3xl font-bold sm:text-5xl">Profile</h2>
 		<div class="mx-auto max-w-screen-xl lg:items-center max-h-screen-xl">
-			<div class="mx-auto lg:grid lg:grid-cols-3">
+			<div class="mx-auto lg:grid lg:grid-cols-3 gap-5">
 				<!-- Lado Esquerdo -->
 				<div class="lg:col-span-1 shadow-xl p-2 rounded-md">
 					<div class="lg:flex content-center">
@@ -51,13 +52,17 @@
 
 				<!-- Lado Direito -->
 				<div class="lg:col-span-2">
-					<!-- Conteúdo do lado direito aqui -->
-					<ul>
-						<li>Item 1</li>
-						<li>Item 2</li>
-						<li>Item 3</li>
-						<!-- Adicione mais itens conforme necessário -->
-					</ul>
+					<!-- Cria-se um card para o lado direito. -->
+					<div class="shadow-xl p-2 rounded-md h-full w-1/3">
+						<div class="flex flex-col p-9 justify-evenly h-full">
+							<Button className="review-button" text="review" gotoName="/profile/reviews" />
+							<Button
+								className="Encomendas-button"
+								text="encomendas"
+								gotoName="/profile/encomendas"
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

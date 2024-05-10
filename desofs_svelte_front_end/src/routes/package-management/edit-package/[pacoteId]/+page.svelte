@@ -1,24 +1,16 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { apiConfig } from '../../../config/api';
 	import type { PageData } from './$types';
+	import type { PackageDTOPatchSend } from '../../../../lib/Types/types';
+	import { sendRequest } from '$lib/scripts';
 	export let data: PageData;
-
-	const apiUrl = apiConfig.baseUrl;
-	type PackageDTOPatchSend = {
-		pacoteId: number;
-		nome: string;
-		pacoteDescription: string;
-		pacoteBasePrice: number;
-		disabled: boolean;
-		tipoPacote: number;
-	};
 
 	let packageId = data.pacote.pacoteId;
 	let name = data.pacote.nome;
 	let price = data.pacote.pacoteBasePrice;
 	let description = data.pacote.pacoteDescription;
 	let disabled = data.pacote.disabled;
+
 	let tipoPacote = data.tipoPacotes.find(
 		(type) => type.tipoPacoteId === data.pacote.tipoPacote.tipoPacoteId
 	)?.tipoPacoteId;
@@ -36,16 +28,12 @@
 			tipoPacote: tipoPacote
 		};
 
-		console.log(packageData);
-
-		const response = await fetch(`${apiUrl}/pacote/update`, {
-			method: 'PATCH',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(packageData)
-		});
-
+		const response = await sendRequest(
+			`pacote/update`,
+			'PATCH',
+			JSON.stringify(packageData),
+			data.user.token
+		);
 		if (response.ok) {
 			goto('/package-management');
 		} else {

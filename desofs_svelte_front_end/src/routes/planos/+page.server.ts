@@ -1,15 +1,9 @@
+import { sendRequest } from '$lib/scripts';
 import type { Package } from '$lib/Types/types';
-import { redirect } from '@sveltejs/kit';
-import { apiConfig } from '../config/api';
 import type { PageServerLoad } from './$types';
-const { baseUrl } = apiConfig;
 
-export const load: PageServerLoad = async ({ locals }) => {
-	if (locals.user) {
-		redirect(302, '/');
-	}
-
-	const response = await fetch(`${baseUrl}/pacote/all`);
+export const load: PageServerLoad = async () => {
+	const response = await sendRequest('pacote/all', 'GET', '', '');
 	const packages: Package[] = await response.json();
 
 	const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);

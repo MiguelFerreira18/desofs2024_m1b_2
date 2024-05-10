@@ -51,7 +51,6 @@ public class AuthenticationApi {
     public ResponseEntity<UserView> login(@RequestBody @Valid final SignInRequest request) {
         try {
             final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
-            System.out.println("AUTHENTICATED");
             final User user = (User) authentication.getPrincipal();
             final Instant now = Instant.now();
             final long expiry = 36000L;
@@ -64,7 +63,6 @@ public class AuthenticationApi {
                     .claim("roles", scope).build();
 
             final String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-            System.out.println(token);
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(mapToUSerView(user));
         } catch (final BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

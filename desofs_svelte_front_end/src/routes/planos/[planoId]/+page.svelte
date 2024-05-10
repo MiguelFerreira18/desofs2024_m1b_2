@@ -41,10 +41,12 @@
 			</div>
 			<div class="w-1/2 flex flex-col gap-10">
 				<div class="flex justify-center ml-auto">
-					<button
-						on:click={() => goto(`/create-review/${planoId}`)}
-						class="inline-block rounded border border-current px-4 py-2 text-sm">Review</button
-					>
+					{#if data.user}
+						<button
+							on:click={() => goto(`/create-review/${planoId}`)}
+							class="inline-block rounded border border-current px-4 py-2 text-sm">Review</button
+						>
+					{/if}
 				</div>
 				<div class="flex justify-center ml-auto">
 					<button class="inline-block rounded border border-current px-4 py-2 text-sm"
@@ -58,7 +60,7 @@
 				</div>
 			</div>
 		</div>
-		{#if data.reviews}
+		{#if data.reviews && data.reviews.length > 0}
 			<Reviews reviews={data.reviews} />
 		{/if}
 	</div>
