@@ -5,6 +5,7 @@ import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOSaveRequest
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
 import org.apache.catalina.core.ApplicationContext;
@@ -29,10 +30,13 @@ class PacoteControllerTest {
 
     @Autowired
     private TipoPacoteServiceRepo tipoPacoteServiceRepo;
+    @Autowired
+    private ReviewServiceRepo reviewServiceRepo;
 
 
     @BeforeEach
     public void setUp() {
+        reviewServiceRepo.deleteAll();
         pacoteServiceRepo.deleteAll();
         TipoPacote tp1 = new TipoPacote(1L, "TugaTube");
         tipoPacoteServiceRepo.save(tp1);
