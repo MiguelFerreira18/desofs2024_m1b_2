@@ -6,6 +6,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,7 +62,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
-                auth -> auth.requestMatchers("/**").permitAll()
+                auth -> auth.requestMatchers("/pacote/all").hasAnyRole(Role.Admin,Role.User,Role.GestorFicheiros)
+                        .requestMatchers("/pacote/**").hasRole(Role.Admin)
+                        .requestMatchers("/pacote/**").hasRole(Role.GestorFicheiros)
+                        .requestMatchers("/review/**").hasAnyRole(Role.Admin,Role.User,Role.GestorFicheiros)
+                        .requestMatchers("/tipoPacote/**").hasAnyRole(Role.Admin,Role.User,Role.GestorFicheiros)
+                        .requestMatchers("/user/**").hasAnyRole(Role.Admin,Role.User,Role.GestorFicheiros)
+                        .requestMatchers("/auth/public/**").permitAll()
                 ).authenticationManager(authenticationManager(http));
         return http.build();
 
