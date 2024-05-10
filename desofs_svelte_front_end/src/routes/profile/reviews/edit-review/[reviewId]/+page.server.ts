@@ -7,7 +7,8 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	if (!locals.user) {
 		redirect(302, '/');
 	}
-	const reviewId = params.reviewId;
+
+	const { reviewId } = params as { reviewId?: string };
 
 	const getReview = await sendRequest(`review/get/${reviewId}`, 'GET', '', locals.user.token);
 	const review: Review = await getReview.json();
