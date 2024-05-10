@@ -38,7 +38,7 @@ public class PacoteController {
         }
     }
 
-    @GetMapping("/{pacoteId}")
+    @GetMapping("/get/{pacoteId}")
     public ResponseEntity<PacoteDTOResponse> getPacote(@PathVariable Long pacoteId) {
         if (pacoteId < 0) return ResponseEntity.badRequest().build();
         try {
