@@ -52,5 +52,16 @@ type ReviewDTOSend = {
 	pacote: number;
 };
 
+type DadosNutricionais = {
+	receitaId: number;
+	porcao: string;
+	valorEnergetico: string;
+	carboidratos: string;
+	proteinas: string;
+	gordura: string;
+	sal: string;
+	acucar: string;
+}
+
 // Export
-export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend, User, UserInfo };
+export type { Package, TipoPacote, PackageDTOSend, Review, ReviewDTOSend, User, UserInfo, DadosNutricionais };
