@@ -81,10 +81,10 @@ public class EncomendaController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<EncomendaDTOResponse>> getAllEncomendas() {
+    @GetMapping("/all/${userId}")
+    public ResponseEntity<List<EncomendaDTOResponse>> getAllEncomendas(@PathVariable Long userId) {
         try {
-            return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findAll()));
+            return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findAll(userId)));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

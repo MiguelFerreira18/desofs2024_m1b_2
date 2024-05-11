@@ -13,7 +13,7 @@ public interface EncomendaServiceRepo {
 
     Encomenda findByDateUserPackage(Long userId, Long pacoteId, LocalDateTime dataEncomenda);
 
-    List<Encomenda> findAll();
+    List<Encomenda> findAll(Long userId);
 
     void deleteById(Long id);
 
