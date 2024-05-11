@@ -8,6 +8,7 @@ import java.util.List;
 public interface EncomendaService {
     EncomendaDTOServiceResponse save(EncomendaDTOServiceRequest encomendaDTOServiceRequest);
     EncomendaDTOServiceResponse findbyId(Long encomendaId);
+
     EncomendaDTOServiceResponse update(EncomendaDTOServicePatchRequest encomendaDTOServicePatchRequest);
     List<EncomendaDTOServiceResponse> findAll();
 

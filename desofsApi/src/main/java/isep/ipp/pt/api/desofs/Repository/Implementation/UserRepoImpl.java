@@ -51,4 +51,9 @@ public class UserRepoImpl implements UserServiceRepo {
         }
     }
 
+    @Override
+    public User getUserByName(String name) {
+        return userRepo.findByUsername(name);
+    }
+
 }

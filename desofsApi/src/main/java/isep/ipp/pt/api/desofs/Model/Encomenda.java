@@ -5,10 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
 
@@ -34,6 +31,7 @@ public class Encomenda {
     @NotNull(message = "Pacote inválido")
     private Pacote pacote;
 
+    @Pattern(regexp = "^[A-Za-z]+$", message = "Estado da encomenda inválido")
     private String estado;
 
     @ManyToOne

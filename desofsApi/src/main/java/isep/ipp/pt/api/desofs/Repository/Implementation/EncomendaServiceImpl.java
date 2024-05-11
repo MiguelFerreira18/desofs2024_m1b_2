@@ -5,6 +5,7 @@ import isep.ipp.pt.api.desofs.Repository.Interface.EncomendaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.EncomendaRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +26,11 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Encomenda findByDateUserPackage(Long userId, Long pacoteId, LocalDateTime dataEncomenda) {
+        return encomendaRepo.findByDateUserPackage(userId,pacoteId,dataEncomenda);
     }
 
     @Override

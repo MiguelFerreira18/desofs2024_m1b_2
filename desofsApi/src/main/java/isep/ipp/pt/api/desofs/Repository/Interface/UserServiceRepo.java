@@ -15,4 +15,6 @@ public interface UserServiceRepo {
     void deleteAll();
 
     User findbyId(Long id);
+
+    User getUserByName(String name);
 }
