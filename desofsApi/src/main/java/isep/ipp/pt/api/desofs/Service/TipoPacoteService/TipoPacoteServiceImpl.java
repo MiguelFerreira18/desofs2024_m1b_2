@@ -5,6 +5,7 @@ import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServic
 import isep.ipp.pt.api.desofs.Mapper.TipoPacoteMapper.TipoPacoteMapper;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,16 @@ public class TipoPacoteServiceImpl implements  TipoPacoteService {
     private TipoPacoteServiceRepo tipoPacoteServiceRepo;
     @Autowired
     private TipoPacoteMapper tipoPacoteMapper;
+    @Autowired
+    private PersonalValidation validation;
 
 
 
     @Override
     public TipoPacoteDTOServiceResponse save(TipoPacoteDTOServiceRequest tipoPacote) {
+        if (!validation.validate(tipoPacote)) {
+            return null;
+        }
         TipoPacote tipoPacoteMapped = tipoPacoteMapper.toTipoPacoteFromTipoPacoteDTOServiceRequest(tipoPacote);
         return tipoPacoteMapper.toTipoPacoteDTOServiceResponseFromTipoPacote(tipoPacoteServiceRepo.save(tipoPacoteMapped));
     }

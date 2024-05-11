@@ -6,6 +6,7 @@ import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServic
 import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.TipoPacoteMapper.TipoPacoteMapper;
 import isep.ipp.pt.api.desofs.Service.TipoPacoteService.TipoPacoteService;
+import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,22 @@ public class TipoPacoteController {
     @Autowired
     TipoPacoteMapper tipoPacoteMapper;
 
+    @Autowired
+    private PersonalValidation validation;
+
+
 
     @PostMapping("/save")
     public ResponseEntity<TipoPacoteDTOResponse> save(@RequestBody TipoPacoteDTOSaveRequest tipoPacoteRequest) {
+        if (!validation.validate(tipoPacoteRequest)) {
+            return ResponseEntity.badRequest().build();
+        }
         try {
             TipoPacoteDTOServiceRequest tipoPacoteServiceRequest = tipoPacoteMapper.toTipoPacoteDTOServiceRequestFromTipoPacoteDTOSaveRequest(tipoPacoteRequest);
+            if (!validation.validate(tipoPacoteServiceRequest)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
             TipoPacoteDTOResponse tipoPacoteDTOResponse = tipoPacoteMapper.toTipoPacoteDTOResponseFromTipoPacoteDTOServiceResponse(tipoPacoteService.save(tipoPacoteServiceRequest));
             return ResponseEntity.ok(tipoPacoteDTOResponse);
         } catch (Exception e) {

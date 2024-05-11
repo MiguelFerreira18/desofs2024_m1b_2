@@ -9,6 +9,7 @@ import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceRespons
 import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceSaveRequest;
 import isep.ipp.pt.api.desofs.Mapper.ReviewMapper.ReviewMapper;
 import isep.ipp.pt.api.desofs.Service.ReviewService.ReviewService;
+import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,20 @@ public class ReviewController {
     private ReviewService reviewService;
     @Autowired
     private ReviewMapper reviewMapper;
+    @Autowired
+    private PersonalValidation validation;
 
     @PostMapping("/save")
     public ResponseEntity<ReviewDTOResponse> saveReview(@RequestBody ReviewDTOSaveRequest review) {
+        if (review == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         try {
             ReviewDTOServiceSaveRequest reviewRequestService = reviewMapper.toReviewDtoServiceSaveRequestFromReviewDtoSaveRequest(review);
+            if (!validation.validate(reviewRequestService)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
             ReviewDTOServiceResponse reviewServiceResponse = reviewService.addReview(reviewRequestService);
             ReviewDTOResponse reviewDTOResponse = reviewMapper.fromReviewDTOServiceResponseToReviewDTOResponse(reviewServiceResponse);
             return ResponseEntity.ok(reviewDTOResponse);
@@ -39,8 +49,15 @@ public class ReviewController {
 
     @PatchMapping("/update")
     public ResponseEntity<ReviewDTOResponse> updateReview(@RequestBody ReviewDTOPatchRequest review) {
+        if (review == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         try {
             ReviewDTOServicePatchRequest reviewRequestService = reviewMapper.toReviewDTOServiceSaveRequestFromReviewDTOPatchRequest(review);
+            if (!validation.validate(reviewRequestService)) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+
             ReviewDTOServiceResponse reviewServiceResponse = reviewService.updateReview(reviewRequestService);
             ReviewDTOResponse reviewDTOResponse = reviewMapper.fromReviewDTOServiceResponseToReviewDTOResponse(reviewServiceResponse);
             return ResponseEntity.ok(reviewDTOResponse);

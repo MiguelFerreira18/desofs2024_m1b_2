@@ -8,13 +8,14 @@ import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ReviewServiceImp implements ReviewService{
+public class ReviewServiceImp implements ReviewService {
     @Autowired
     private ReviewServiceRepo reviewServiceRepo;
     @Autowired
@@ -23,6 +24,8 @@ public class ReviewServiceImp implements ReviewService{
     private PacoteServiceRepo pacoteServiceRepo;
     @Autowired
     private ReviewMapper reviewMapper;
+    @Autowired
+    private PersonalValidation validation;
 
 
     @Override
@@ -30,6 +33,9 @@ public class ReviewServiceImp implements ReviewService{
         User user = userServiceRepo.getUserById(review.getUser());
         Pacote pacote = pacoteServiceRepo.findbyId(review.getPacote());
         ReviewDTOSaveService reviewDTOSaveService = new ReviewDTOSaveService(review.getReviewText(), review.getRating(), user, pacote);
+        if (!validation.validate(reviewDTOSaveService)) {
+            return null;
+        }
         return reviewMapper.toReviewDTOServiceResponseFromReview(reviewServiceRepo.save(reviewMapper.toReviewFromReviewSaveDtoService(reviewDTOSaveService)));
     }
 
@@ -37,7 +43,11 @@ public class ReviewServiceImp implements ReviewService{
     public ReviewDTOServiceResponse updateReview(ReviewDTOServicePatchRequest review) {
         User user = userServiceRepo.getUserById(review.getUser());
         Pacote pacote = pacoteServiceRepo.findbyId(review.getPacote());
-        ReviewDTOPatchService reviewDTOPatchService = new ReviewDTOPatchService(review.getReviewId(), review.getReviewText(), review.getRating(),user, pacote);
+        ReviewDTOPatchService reviewDTOPatchService = new ReviewDTOPatchService(review.getReviewId(), review.getReviewText(), review.getRating(), user, pacote);
+        if (!validation.validate(reviewDTOPatchService)) {
+            return null;
+        }
+
         return reviewMapper.toReviewDTOServiceResponseFromReview(reviewServiceRepo.save(reviewMapper.toReviewFromReviewPatchDtoService(reviewDTOPatchService)));
     }
 
