@@ -66,6 +66,29 @@ type ReviewDTOPatchSend = {
 	pacote: number;
 };
 
+// Encomenda
+type DeliveryDTOSend = {
+	mealsPerWeek: number;
+	numberOfPeople: number;
+	price: number;
+	pacoteId: number;
+	dataEncomenda: string;
+	estado: string;
+	userId: number;
+};
+
+type Delivery = {
+	encomendaId: number;
+	mealsPerWeek: number;
+	numberOfPeople: number;
+	price: number;
+	pacote: Package;
+	dataEncomenda: string;
+	estado: string;
+	user: User;
+};
+
+
 // Export
 export type {
 	Package,
@@ -76,5 +99,7 @@ export type {
 	ReviewDTOSaveSend,
 	ReviewDTOPatchSend,
 	User,
-	UserInfo
+	UserInfo,
+	DeliveryDTOSend,
+	Delivery
 };
