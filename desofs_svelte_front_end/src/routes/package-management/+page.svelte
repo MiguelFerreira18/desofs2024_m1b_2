@@ -2,12 +2,9 @@
 	import type { PageData } from './$types';
 	import Tags from '$lib/components/Tags.svelte';
 	import { goto, invalidateAll } from '$app/navigation';
-	import { apiConfig } from '../config/api';
-
-	const apiUrl = apiConfig.baseUrl;
+	import { sendRequest } from '$lib/scripts';
 
 	export let data: PageData;
-	console.log(data);
 
 	let searchTerm = '';
 	let isDisabled = false;
@@ -24,12 +21,7 @@
 	});
 
 	async function deletePacote(pacoteId: number) {
-		const response = await fetch(`${apiUrl}/pacote/delete/${pacoteId}`, {
-			method: 'DELETE',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
+		const response = await sendRequest(`pacote/delete/${pacoteId}`, 'DELETE', '', data.user.token);
 
 		if (response.ok) {
 			goto('/package-management');

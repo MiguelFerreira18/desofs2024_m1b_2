@@ -2,13 +2,14 @@ package isep.ipp.pt.api.desofs.Controllers;
 
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOResponse;
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOSaveRequest;
+import isep.ipp.pt.api.desofs.Model.Pacote;
+import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
 import org.apache.catalina.core.ApplicationContext;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +27,34 @@ class PacoteControllerTest {
     @Autowired
     private PacoteService pacoteServiceRepo;
 
+
+    @Autowired
+    private TipoPacoteServiceRepo tipoPacoteServiceRepo;
+    @Autowired
+    private ReviewServiceRepo reviewServiceRepo;
+
+
+    @BeforeEach
+    public void setUp() {
+        reviewServiceRepo.deleteAll();
+        pacoteServiceRepo.deleteAll();
+        TipoPacote tp1 = new TipoPacote(1L, "TugaTube");
+        tipoPacoteServiceRepo.save(tp1);
+    }
+
+
     @AfterEach
     public void tearDown() {
         pacoteServiceRepo.deleteAll();
+        tipoPacoteServiceRepo.deleteAll();
     }
 
 
     @Test
     @Order(1)
     public void testSavePacote_ValidRequest() {
-        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest("Pacote1", 10.0, "Pacote1 Description", true, 1L);
+        TipoPacote tp = tipoPacoteServiceRepo.findbyName("TugaTube");
+        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest("Pacote1", 10.0, "Pacote1 Description", true, tp.getTipoPacoteId());
 
         ResponseEntity<PacoteDTOResponse> response = pacoteController.savePacote(pacoteDTOSaveRequest);
 
@@ -53,7 +72,8 @@ class PacoteControllerTest {
     })
     @Order(2)
     public void testSavePacote_ValidRequest_Parameterized(String nome, double preco, String descricao, boolean ativo, String pacote) {
-        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest(nome, preco, descricao, ativo, 1L);
+        TipoPacote tp = tipoPacoteServiceRepo.findbyName("TugaTube");
+        PacoteDTOSaveRequest pacoteDTOSaveRequest = new PacoteDTOSaveRequest(nome, preco, descricao, ativo, tp.getTipoPacoteId());
 
         ResponseEntity<PacoteDTOResponse> response = pacoteController.savePacote(pacoteDTOSaveRequest);
 
@@ -89,7 +109,6 @@ class PacoteControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
     }
-
 
 
     @Test
@@ -146,7 +165,6 @@ class PacoteControllerTest {
         assertNull(response.getBody());
 
     }
-
 
 
     @Test
@@ -227,6 +245,7 @@ class PacoteControllerTest {
         pacoteServiceRepo.deleteAll();
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertNull(response.getBody());
+
 
     }
 

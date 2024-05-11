@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 </script>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -8,7 +9,7 @@
 				Sign in to your account
 			</h2>
 		</div>
-		<form class="mt-8 space-y-6 flex flex-col">
+		<form class="mt-8 space-y-6 flex flex-col" use:enhance action="?/signup" method="POST">
 			<div class="rounded-md shadow-sm -space-y-px">
 				<div>
 					<label for="email-address" class="sr-only">Email address</label>
@@ -90,9 +91,6 @@
 					Sign in
 				</button>
 			</div>
-			<a href="/auth/criar-conta" class="self-center text-orange-400 hover:text-orange-500"
-				>Ainda não tens conta?</a
-			>
 		</form>
 	</div>
 </div>

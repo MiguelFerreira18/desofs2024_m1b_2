@@ -1,10 +1,9 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { apiConfig } from '../../config/api';
 	import { goto } from '$app/navigation';
+	import type { PackageDTOSend } from '$lib/Types/types';
+	import { sendRequest } from '$lib/scripts';
 	export let data: PageData;
-
-	const apiUrl = apiConfig.baseUrl;
 
 	let name = '';
 	let price = 0;
@@ -12,13 +11,6 @@
 	let disabled = false;
 	let tipoPacote = 0;
 
-	type PackageDTOSend = {
-		nome: string;
-		pacoteDescription: string;
-		pacoteBasePrice: number;
-		disabled: boolean;
-		tipoPacote: number;
-	};
 	async function handleSubmit() {
 		const packageData: PackageDTOSend = {
 			nome: name,
@@ -28,13 +20,12 @@
 			tipoPacote: tipoPacote
 		};
 
-		const response = await fetch(`${apiUrl}/pacote/save`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(packageData)
-		});
+		const response = await sendRequest(
+			`pacote/save`,
+			'POST',
+			JSON.stringify(packageData),
+			data.user.token
+		);
 
 		if (response.ok) {
 			goto('/package-management');
@@ -43,10 +34,7 @@
 		}
 	}
 
-	$: console.log({ name, price, description, disabled, tipoPacote });
-
-	function handleCancel() {
-		console.log('cancel');
+	async function handleCancel() {
 		goto('/package-management');
 	}
 </script>

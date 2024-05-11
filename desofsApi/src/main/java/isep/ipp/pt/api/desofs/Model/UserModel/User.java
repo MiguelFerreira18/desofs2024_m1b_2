@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
@@ -13,6 +15,7 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
+@ToString
 public class User implements UserDetails {
 
     @Id
@@ -50,6 +53,17 @@ public class User implements UserDetails {
         this.nif = nif;
         this.morada = morada;
     }
+    //WITHOUT AUTHORITIES AND LISTAENCOMENDAS
+    public User(Long userId, String username, String password, String fullName, String nif, String morada) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.nif = nif;
+        this.morada = morada;
+        this.listaEncomendas = new LinkedList<>();
+    }
+
     // WITHOUT ID BUT WHIT AUTHORITIES
     public User(String username, String password, String fullName, Set<Role> authorities, String nif, String morada) {
         this.username = username;

@@ -2,8 +2,10 @@ package isep.ipp.pt.api.desofs.Model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.ToString;
 
 @Entity
+@ToString
 public class Pacote {
 
     @Id
@@ -11,7 +13,7 @@ public class Pacote {
     private Long pacoteId;
 
 
-    @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Nome do pacote inválido")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
     private String nome;
 
     @Min(value = 0, message = "Peço do pacote inválido")
@@ -25,6 +27,7 @@ public class Pacote {
     private boolean disabled;
 
     @ManyToOne
+    @NotNull
     private TipoPacote tipoPacote;
 
     public Pacote() {

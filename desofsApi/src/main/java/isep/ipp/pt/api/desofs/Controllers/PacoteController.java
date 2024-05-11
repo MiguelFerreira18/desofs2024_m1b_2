@@ -37,7 +37,7 @@ public class PacoteController {
         }
     }
 
-    @GetMapping("/{pacoteId}")
+    @GetMapping("/get/{pacoteId}")
     public ResponseEntity<PacoteDTOResponse> getPacote(@PathVariable Long pacoteId) {
         if (pacoteId < 0) return ResponseEntity.badRequest().build();
         try {
@@ -52,7 +52,6 @@ public class PacoteController {
 
     @PatchMapping("/update")
     public ResponseEntity<PacoteDTOResponse> updatePacote(@RequestBody PacoteDTOPatchRequest pacote) {
-        System.out.println("update pacote");
         try {
             PacoteDTOServicePatchRequest pacoteRequestService = pacoteMapper.toPacoteDTOServicePAtchRequestFromPacoteDTOPatchRequest(pacote);
             PacoteDTOServiceResponse pacoteServiceResponse = pacoteService.update(pacoteRequestService);

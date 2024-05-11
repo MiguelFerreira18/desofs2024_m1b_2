@@ -11,4 +11,9 @@ public interface UserRepo extends CrudRepository<User,Long> {
 
     public User findByUsername(String username);
 
+    @Query("SELECT u FROM User u WHERE u.username = ?1 AND u.password = ?2")
+    public User validateUser(String username, String password);
+
+    @Query("SELECT u FROM User u WHERE u.userId = ?1")
+    public User getUserById(Long userId);
 }

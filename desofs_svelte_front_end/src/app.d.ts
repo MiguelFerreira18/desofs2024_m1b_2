@@ -7,6 +7,15 @@ declare global {
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
+		interface Locals {
+			user: {
+				userId: number;
+				email: string;
+				token: string;
+				isAdmin: boolean;
+				isDocumentManager: boolean;
+			};
+		}
 	}
 }
 
