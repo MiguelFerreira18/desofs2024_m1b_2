@@ -69,7 +69,7 @@ class EncomendaControllerTest {
     @Order(1)
     public void testSaveEncomenda_ValidRequest() {
         Pacote p = pacoteRepo.findbyName("pacote");
-        User u = userRepo.getUserByName("admin@mail.com");
+        User u = userRepo.findByUserByEmail("admin@mail.com");
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(5, 4, 50,LocalDateTime.now(), p.getPacoteId(),"Registado",u.getUserId());
 
         ResponseEntity<EncomendaDTOResponse> response = encomendaController.save(encomendaDTOSaveRequest);
@@ -87,7 +87,7 @@ class EncomendaControllerTest {
     @Order(2)
     public void testSaveEncomenda_Invalid_Meal_Request_Parametrized(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
-        User u = userRepo.getUserByName(userName);
+        User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(mealsPerWeek, numberOfPeople, price,LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
 
         ResponseEntity<EncomendaDTOResponse> response = encomendaController.save(encomendaDTOSaveRequest);
@@ -104,7 +104,7 @@ class EncomendaControllerTest {
     @Order(3)
     public void testSaveEncomenda_Invalid_People_Request(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
-        User u = userRepo.getUserByName(userName);
+        User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(mealsPerWeek, numberOfPeople, price,LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
 
         ResponseEntity<EncomendaDTOResponse> response = encomendaController.save(encomendaDTOSaveRequest);
@@ -120,7 +120,7 @@ class EncomendaControllerTest {
     @Order(4)
     public void testSaveEncomenda_Invalid_Price_Request(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
-        User u = userRepo.getUserByName(userName);
+        User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(mealsPerWeek, numberOfPeople, price,LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
 
         ResponseEntity<EncomendaDTOResponse> response = encomendaController.save(encomendaDTOSaveRequest);
@@ -132,7 +132,7 @@ class EncomendaControllerTest {
     @Order(5)
     public void testSaveEncomenda_Invalid_Package_Request() {
         Pacote p = pacoteRepo.findbyName("pacoteInvalido");
-        User u = userRepo.getUserByName("admin@mail.com");
+        User u = userRepo.findByUserByEmail("admin@mail.com");
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = null ;
         try{
             encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(4, 4, 50,LocalDateTime.now(), p.getPacoteId(),"Registado",u.getUserId());
@@ -146,7 +146,7 @@ class EncomendaControllerTest {
     @Order(6)
     public void testSaveEncomenda_Invalid_User_Request() {
         Pacote p = pacoteRepo.findbyName("pacote");
-        User u = userRepo.getUserByName("adminInvalido@mail.com");
+        User u = userRepo.findByUserByEmail("adminInvalido@mail.com");
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = null;
         try{
             encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(4, 4, 50,LocalDateTime.now(), p.getPacoteId(),"Registado",u.getUserId());
@@ -164,7 +164,7 @@ class EncomendaControllerTest {
     @Order(7)
     public void testSaveEncomenda_Invalid_State_Request(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
-        User u = userRepo.getUserByName(userName);
+        User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(mealsPerWeek, numberOfPeople, price,LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
 
         ResponseEntity<EncomendaDTOResponse> response = encomendaController.save(encomendaDTOSaveRequest);

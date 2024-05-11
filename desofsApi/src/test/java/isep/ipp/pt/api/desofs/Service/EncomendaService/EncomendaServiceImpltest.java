@@ -86,7 +86,7 @@ public class EncomendaServiceImpltest {
     @Order(1)
     public void testServiceSaveSuccess(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName, LocalDateTime dataEncomenda) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
-        User u = userRepo.getUserByName(userName);
+        User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOServiceRequest encomendaDTOServiceRequest = new EncomendaDTOServiceRequest(mealsPerWeek, numberOfPeople, price, dataEncomenda, p.getPacoteId(),estado,u.getUserId());
 
         Set<ConstraintViolation<EncomendaDTOServiceRequest>> violations = validator.validate(encomendaDTOServiceRequest);
@@ -117,7 +117,7 @@ public class EncomendaServiceImpltest {
     @Order(2)
     public void testServiceSaveInvalid(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
-        User u = userRepo.getUserByName(userName);
+        User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOServiceRequest encomendaDTOServiceRequest = new EncomendaDTOServiceRequest(mealsPerWeek, numberOfPeople, price, LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
         Set<ConstraintViolation<EncomendaDTOServiceRequest>> violations = validator.validate(encomendaDTOServiceRequest);
         EncomendaDTOServiceResponse encomendaResponse = null;
