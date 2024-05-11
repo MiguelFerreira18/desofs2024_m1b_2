@@ -19,7 +19,7 @@ public class UserMapperTest {
 
     @Test
     void fromUserToUserDTOResponse() {
-    User user = new User("username1", "password1", "fullname1", "nif123", "morada", new LinkedList<>());
+    User user = new User("username1", "password1", "fullname1", "nif123", "morada");
     user.addAuthority(new Role("Admin"));
     user.addAuthority(new Role("User"));
 

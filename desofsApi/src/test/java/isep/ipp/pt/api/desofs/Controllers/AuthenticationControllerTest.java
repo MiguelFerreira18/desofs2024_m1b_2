@@ -1,7 +1,6 @@
 package isep.ipp.pt.api.desofs.Controllers;
 
 import isep.ipp.pt.api.desofs.Authentication.AuthenticationApi;
-import isep.ipp.pt.api.desofs.Model.ListaEncomenda;
 import isep.ipp.pt.api.desofs.Model.UserModel.*;
 import isep.ipp.pt.api.desofs.Service.UserService.UserService;
 import jakarta.transaction.Transactional;
@@ -34,11 +33,11 @@ public class AuthenticationControllerTest {
     @BeforeEach
     public void setUp() {
         Set<Role> authorities = new HashSet<>();
-        User user = new User(1L, "username1@mail.com", encoder.encode("password1"), "fullName1", authorities, "nif1", "morada1", null);
+        User user = new User(1L, "username1@mail.com", encoder.encode("password1"), "fullName1", authorities, "nif1", "morada1");
         user.addAuthority(new Role(Role.Admin));
         userService.saveUser(user);
 
-        User user2 = new User(2L, "username2@mail.com", encoder.encode("password2"), "fullName2", authorities, "nif2", "morada2", null);
+        User user2 = new User(2L, "username2@mail.com", encoder.encode("password2"), "fullName2", authorities, "nif2", "morada2");
         user2.addAuthority(new Role(Role.User));
         userService.saveUser(user2);
         }

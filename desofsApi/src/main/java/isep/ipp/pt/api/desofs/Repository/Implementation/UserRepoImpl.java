@@ -44,7 +44,7 @@ public class UserRepoImpl implements UserServiceRepo {
     public User saveUser(User user) {
         return userRepo.save(user);
     }
-
+  
     @Override
     public User validateUser(String username, String password) {
         return userRepo.validateUser(username, password);

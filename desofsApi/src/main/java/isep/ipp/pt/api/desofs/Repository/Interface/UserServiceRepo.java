@@ -12,6 +12,6 @@ public interface UserServiceRepo {
     public UserDetails findByUsername(final String username);
     public void deleteAll();
     public User saveUser(User user);
-
     public User validateUser(String username, String password);
+
 }
