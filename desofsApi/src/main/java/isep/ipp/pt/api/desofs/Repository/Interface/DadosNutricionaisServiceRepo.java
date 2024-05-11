@@ -2,13 +2,19 @@ package isep.ipp.pt.api.desofs.Repository.Interface;
 
 import isep.ipp.pt.api.desofs.Model.DadosNutricionais;
 
+import java.util.List;
+
 public interface DadosNutricionaisServiceRepo {
 
     DadosNutricionais getDadosNutricionaisByReceitaId(Long receitaId);
 
-    void save(DadosNutricionais dadosNutricionais);
+    boolean save(DadosNutricionais dadosNutricionais);
 
-    void saveByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais);
+    boolean saveByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais);
 
-    void updateByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais);
+    boolean updateByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais);
+
+    List<DadosNutricionais> getAllDadosNutricionais();
+
+    void deleteAll();
 }

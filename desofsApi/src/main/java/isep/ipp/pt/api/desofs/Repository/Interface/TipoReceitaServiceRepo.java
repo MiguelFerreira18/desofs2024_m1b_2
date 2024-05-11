@@ -7,4 +7,6 @@ public interface TipoReceitaServiceRepo {
     TipoReceita findbyName(String name);
 
     void save(TipoReceita tipoReceita);
+
+    void deleteAll();
 }

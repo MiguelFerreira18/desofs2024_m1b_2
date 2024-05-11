@@ -18,4 +18,9 @@ public class TipoReceitaRepoImpl implements TipoReceitaServiceRepo {
     public void save(TipoReceita tipoReceita) {
         tipoReceitaRepo.save(tipoReceita);
     }
+
+    @Override
+    public void deleteAll() {
+        tipoReceitaRepo.deleteAll();
+    }
 }

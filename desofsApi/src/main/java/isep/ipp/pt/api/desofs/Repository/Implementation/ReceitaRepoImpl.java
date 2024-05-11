@@ -19,4 +19,9 @@ public class ReceitaRepoImpl implements ReceitaServiceRepo {
     public void save(Receita receita) {
         receitaRepo.save(receita);
     }
+
+    @Override
+    public void deleteAll() {
+        receitaRepo.deleteAll();
+    }
 }

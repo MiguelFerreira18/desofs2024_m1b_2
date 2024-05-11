@@ -8,4 +8,5 @@ public interface ReceitaServiceRepo {
 
     void save(Receita receita);
 
+    void deleteAll();
 }

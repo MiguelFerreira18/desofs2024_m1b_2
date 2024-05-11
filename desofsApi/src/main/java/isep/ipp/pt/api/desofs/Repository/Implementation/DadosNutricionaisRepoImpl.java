@@ -2,9 +2,10 @@ package isep.ipp.pt.api.desofs.Repository.Implementation;
 
 import isep.ipp.pt.api.desofs.Model.DadosNutricionais;
 import isep.ipp.pt.api.desofs.Repository.Interface.DadosNutricionaisServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.ReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.DadosNutricionaisRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 public class DadosNutricionaisRepoImpl implements DadosNutricionaisServiceRepo {
 
@@ -17,28 +18,41 @@ public class DadosNutricionaisRepoImpl implements DadosNutricionaisServiceRepo {
     }
 
     @Override
-    public void save(DadosNutricionais dadosNutricionais) {
+    public boolean save(DadosNutricionais dadosNutricionais) {
         dadosNutricionaisRepo.save(dadosNutricionais);
+        return true;
     }
 
     @Override
-    public void saveByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
+    public boolean saveByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
         DadosNutricionais dados = dadosNutricionaisRepo.getDadosNutricionaisByReceitaId(receitaId);
         if (dados == null) {
             dadosNutricionaisRepo.save(dadosNutricionais);
+            return true;
         } else {
-            throw new IllegalArgumentException("Receita já tem dados nutricionais associados!");
+            return false;
         }
     }
 
     @Override
-    public void updateByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
+    public boolean updateByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
         DadosNutricionais dados = dadosNutricionaisRepo.getDadosNutricionaisByReceitaId(receitaId);
         if (dados != null) {
             dadosNutricionaisRepo.deleteById(dados.getDadosNutricionaisId());
             dadosNutricionaisRepo.save(dadosNutricionais);
+            return true;
         } else {
-            throw new IllegalArgumentException("Receita não tem dados nutricionais associados!");
+            return false;
         }
+    }
+
+    @Override
+    public List<DadosNutricionais> getAllDadosNutricionais() {
+        return (List<DadosNutricionais>) dadosNutricionaisRepo.findAll();
+    }
+
+    @Override
+    public void deleteAll() {
+        dadosNutricionaisRepo.deleteAll();
     }
 }

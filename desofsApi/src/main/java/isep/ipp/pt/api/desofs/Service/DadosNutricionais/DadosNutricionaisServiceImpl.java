@@ -5,6 +5,8 @@ import isep.ipp.pt.api.desofs.Repository.Interface.DadosNutricionaisServiceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DadosNutricionaisServiceImpl implements DadosNutricionaisService {
 
@@ -17,12 +19,22 @@ public class DadosNutricionaisServiceImpl implements DadosNutricionaisService {
     }
 
     @Override
-    public void saveByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
-        dadosNutricionaisServiceRepo.saveByReceitaId(receitaId, dadosNutricionais);
+    public boolean saveByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
+        return dadosNutricionaisServiceRepo.saveByReceitaId(receitaId, dadosNutricionais);
     }
 
     @Override
-    public void updateByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
-        dadosNutricionaisServiceRepo.updateByReceitaId(receitaId, dadosNutricionais);
+    public boolean updateByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
+        return dadosNutricionaisServiceRepo.updateByReceitaId(receitaId, dadosNutricionais);
+    }
+
+    @Override
+    public List<DadosNutricionais> getAllDadosNutricionais() {
+        return dadosNutricionaisServiceRepo.getAllDadosNutricionais();
+    }
+
+    @Override
+    public void deleteAll() {
+        dadosNutricionaisServiceRepo.deleteAll();
     }
 }
