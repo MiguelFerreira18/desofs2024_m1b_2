@@ -1,5 +1,6 @@
 package isep.ipp.pt.api.desofs.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ public class Encomenda {
     @Min(value = 1, message = "Preço inválido")
     @Positive
     private double price;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataEncomenda;
     @ManyToOne
     @NotNull(message = "Pacote inválido")

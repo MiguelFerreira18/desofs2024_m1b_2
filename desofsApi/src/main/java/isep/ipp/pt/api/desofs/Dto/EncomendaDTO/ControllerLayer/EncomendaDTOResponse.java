@@ -1,5 +1,6 @@
 package isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ControllerLayer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import jakarta.persistence.ManyToOne;
@@ -23,7 +24,7 @@ public class EncomendaDTOResponse {
     @Min(value = 1, message = "Preço inválido")
     @Positive
     private double price;
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataEncomenda;
     @NotNull
     private Pacote pacote;
