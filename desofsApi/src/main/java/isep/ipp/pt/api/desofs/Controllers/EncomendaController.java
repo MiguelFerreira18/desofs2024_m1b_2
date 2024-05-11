@@ -81,7 +81,7 @@ public class EncomendaController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/all/${userId}")
+    @GetMapping("/all/{userId}")
     public ResponseEntity<List<EncomendaDTOResponse>> getAllEncomendas(@PathVariable Long userId) {
         try {
             return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findAll(userId)));
