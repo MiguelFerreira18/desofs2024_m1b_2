@@ -100,6 +100,7 @@ public class SecurityConfig {
                                 .requestMatchers("/tipoPacote/**").authenticated()
                                 .requestMatchers("/user/info/**").authenticated()
                                 .requestMatchers("/encomenda/**").authenticated()
+                                .requestMatchers("/tipoReceita/**").authenticated()
                                 .requestMatchers("/api-docs/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
                 )

@@ -1,16 +1,8 @@
 package isep.ipp.pt.api.desofs.Config;
 
 import isep.ipp.pt.api.desofs.DesofsApplication;
-import isep.ipp.pt.api.desofs.Repository.Implementation.PacoteServiceImpl;
-import isep.ipp.pt.api.desofs.Repository.Implementation.ReviewServiceImpl;
-import isep.ipp.pt.api.desofs.Repository.Implementation.TipoPacoteServiceImpl;
-import isep.ipp.pt.api.desofs.Repository.Implementation.UserRepoImpl;
-import isep.ipp.pt.api.desofs.Repository.Implementation.EncomendaServiceImpl;
-import isep.ipp.pt.api.desofs.Repository.Interface.EncomendaServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Implementation.*;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,6 +50,10 @@ public class MysqlConfig {
     @Bean
     public ReviewServiceRepo mysqlReview(){
         return new ReviewServiceImpl();
+    }
+    @Bean
+    public TipoReceitaServiceRepo mysqlTipoReceita(){
+        return new TipoReceitaServiceImpl();
     }
 
     //Datasource

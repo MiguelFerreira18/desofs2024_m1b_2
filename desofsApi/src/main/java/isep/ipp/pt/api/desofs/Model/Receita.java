@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -15,11 +16,13 @@ public class Receita {
     @Pattern(regexp = "^(\\.\\/[\\w-]+(\\/[\\w-]+)*\\/[\\w-]+\\.[\\w-]+)$", message = "Invalid path")
     private String path;
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Invalid name")
+    @NotNull
     private String nome;
     @ManyToOne
     private Pacote pacote;
 
     @ManyToOne
+    @NotNull
     private TipoReceita tipoReceita;
 
     public Receita() {
