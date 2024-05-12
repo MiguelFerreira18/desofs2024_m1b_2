@@ -5,7 +5,7 @@ import { sendRequest } from '$lib/scripts';
 
 export const load: PageServerLoad = async ({ locals }) => {
     
-	const response = await sendRequest('encomenda/all', 'GET', '',locals.user.token);
+	const response = await sendRequest(`encomenda/all/${locals.user.userId}`, 'GET', '',locals.user.token);
 	const encomendas: Delivery[] = await response.json();
 
 	return { encomendas };

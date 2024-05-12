@@ -4,12 +4,14 @@ import { sendRequest } from '$lib/scripts';
 
 export const load: PageServerLoad = async ({params,locals}) => {
 	
-    //const encomendaId = params.encomendaId;
+    const encomendaId = params.encomendaId;
 
 	const responsePacotes = await sendRequest('pacote/all', 'GET', '','');
 	const pacotes: Package[] = await responsePacotes.json();
 
-    //const responseEncomenda = await sendRequest(`pacote/${encomendaId}`, 'GET', '', locals.user.token);
-    //const encomendas: Delivery[] = await responseEncomenda.json();
-	return {pacotes};
+    const responseEncomenda = await sendRequest(`encomenda/${encomendaId}`, 'GET', '', locals.user.token);
+    const encomendas: Delivery = await responseEncomenda.json();
+
+    console.log(pacotes,encomendas)
+	return {pacotes,encomendas};
 };

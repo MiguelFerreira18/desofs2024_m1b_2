@@ -3,11 +3,12 @@
 	import { goto } from '$app/navigation';
 	import type { DeliveryDTOSend } from '$lib/Types/types';
 	import { sendRequest } from '$lib/scripts';
-    
+    import { EstadoEncomenda } from '$lib/Enum/enums';
+
     export let data: PageData;
 
-    let meals = 0;
-	let people = 0;
+    let meals = 1;
+	let people = 1;
 	let price = 1;
 	let pacoteId = 0;
     
@@ -18,7 +19,7 @@
 			price: price,
 			pacoteId: pacoteId,
 			dataEncomenda: new Date().toISOString(),
-            estado: 'Registado',
+            estado: EstadoEncomenda.REGISTADO,
             userId: data.user.userId
 		};
 
@@ -37,7 +38,7 @@
 	}
 
     async function handleCancel() {
-		goto('/encomenda');
+		window.location.href = '/encomenda';
 	}
 
 </script>

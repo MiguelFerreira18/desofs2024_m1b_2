@@ -55,7 +55,7 @@
 						<td class="border py-5">
 							<button
 								class="inline-block rounded border px-4 py-2 bg-white hover:bg-gray-200 transition-colors duration-300"
-								on:click={() => goto(`/package-management/edit-encomenda/${item.encomendaId}`)}
+								on:click={() => goto(`/encomenda/edit-encomenda/${item.encomendaId}`)}
 								><i class="fa-solid fa-pen-to-square"></i></button
 							>
 							<button
