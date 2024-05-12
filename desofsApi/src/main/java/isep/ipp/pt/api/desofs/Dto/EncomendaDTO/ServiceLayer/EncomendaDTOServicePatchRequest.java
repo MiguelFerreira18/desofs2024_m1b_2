@@ -1,6 +1,7 @@
 package isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import isep.ipp.pt.api.desofs.Model.Estado;
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.*;
@@ -31,10 +32,10 @@ public class EncomendaDTOServicePatchRequest {
     @NotNull
     private Long userId;
 
-    @Pattern(regexp = "^[A-Za-z]+$", message = "Estado da encomenda inválido")
-    private String estado;
 
-    public EncomendaDTOServicePatchRequest(Long encomendaId, int mealsPerWeek, int numberOfPeople, double price, LocalDateTime dataEncomenda, Long pacoteId, String estado, Long userId) {
+    private Estado estado;
+
+    public EncomendaDTOServicePatchRequest(Long encomendaId, int mealsPerWeek, int numberOfPeople, double price, LocalDateTime dataEncomenda, Long pacoteId, Estado estado, Long userId) {
         this.encomendaId = encomendaId;
         this.mealsPerWeek = mealsPerWeek;
         this.numberOfPeople = numberOfPeople;
@@ -65,7 +66,7 @@ public class EncomendaDTOServicePatchRequest {
         return pacoteId;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 

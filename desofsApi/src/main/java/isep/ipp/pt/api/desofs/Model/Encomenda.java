@@ -2,10 +2,7 @@ package isep.ipp.pt.api.desofs.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
@@ -33,8 +30,8 @@ public class Encomenda {
     @NotNull(message = "Pacote inválido")
     private Pacote pacote;
 
-    @Pattern(regexp = "^[A-Za-z]+$", message = "Estado da encomenda inválido")
-    private String estado;
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 
     @ManyToOne
     @NotNull(message = "User inválido")
@@ -43,7 +40,7 @@ public class Encomenda {
     public Encomenda() {
     }
 
-    public Encomenda(Long encomendaId, int mealsPerWeek, int numberOfPeople, double price, Pacote pacote, LocalDateTime dataEncomenda, String estado, User user) {
+    public Encomenda(Long encomendaId, int mealsPerWeek, int numberOfPeople, double price, Pacote pacote, LocalDateTime dataEncomenda, Estado estado, User user) {
         this.encomendaId = encomendaId;
         this.mealsPerWeek = mealsPerWeek;
         this.numberOfPeople = numberOfPeople;
@@ -54,7 +51,7 @@ public class Encomenda {
         this.user = user;
     }
 
-    public Encomenda(int mealsPerWeek, int numberOfPeople, double price, Pacote pacote, LocalDateTime dataEncomenda, String estado, User user) {
+    public Encomenda(int mealsPerWeek, int numberOfPeople, double price, Pacote pacote, LocalDateTime dataEncomenda, Estado estado, User user) {
         this.mealsPerWeek = mealsPerWeek;
         this.numberOfPeople = numberOfPeople;
         this.price = price;
@@ -112,11 +109,11 @@ public class Encomenda {
         this.pacote = pacote;
     }
 
-    public String getEstado() {
+    public Estado getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 

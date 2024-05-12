@@ -6,6 +6,7 @@ import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer.EncomendaDTOServiceR
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceRequest;
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Model.Encomenda;
+import isep.ipp.pt.api.desofs.Model.Estado;
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Model.UserModel.Role;
@@ -77,14 +78,14 @@ public class EncomendaServiceImpltest {
 
     @ParameterizedTest
     @CsvSource({
-            "1, 5, 10, pacote, Registado, admin@mail.com,2024-05-07T08:30:00",
-            "2, 4, 20, pacote, Registado, admin@mail.com,2024-05-08T08:30:00",
-            "3, 3, 30, pacote, Registado, admin@mail.com,2024-05-09T08:30:00",
-            "4, 2, 40, pacote, Registado, admin@mail.com,2024-05-10T08:30:00",
-            "5, 1, 50, pacote, Registado, admin@mail.com,2024-05-11T08:30:00"
+            "1, 5, 10, pacote, REGISTADO, admin@mail.com,2024-05-07T08:30:00",
+            "2, 4, 20, pacote, REGISTADO, admin@mail.com,2024-05-08T08:30:00",
+            "3, 3, 30, pacote, REGISTADO, admin@mail.com,2024-05-09T08:30:00",
+            "4, 2, 40, pacote, REGISTADO, admin@mail.com,2024-05-10T08:30:00",
+            "5, 1, 50, pacote, REGISTADO, admin@mail.com,2024-05-11T08:30:00"
     })
     @Order(1)
-    public void testServiceSaveSuccess(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName, LocalDateTime dataEncomenda) {
+    public void testServiceSaveSuccess(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, Estado estado, String userName, LocalDateTime dataEncomenda) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
         User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOServiceRequest encomendaDTOServiceRequest = new EncomendaDTOServiceRequest(mealsPerWeek, numberOfPeople, price, dataEncomenda, p.getPacoteId(),estado,u.getUserId());
@@ -107,15 +108,14 @@ public class EncomendaServiceImpltest {
 
     @ParameterizedTest
     @CsvSource({
-            "-1, 2, 2, pacote, Registado, admin@mail.com",
-            "11, 2, 2, pacote, Registado, admin@mail.com",
-            "2, -3, 2, pacote, Registado, admin@mail.com",
-            "2, 10, 2, pacote, Registado, admin@mail.com",
-            "2, 2, -50, pacote, Registado, admin@mail.com",
-            "2, 2, 2, pacote, <script>, admin@mail.com",
+            "-1, 2, 2, pacote, REGISTADO, admin@mail.com",
+            "11, 2, 2, pacote, REGISTADO, admin@mail.com",
+            "2, -3, 2, pacote, REGISTADO, admin@mail.com",
+            "2, 10, 2, pacote, REGISTADO, admin@mail.com",
+            "2, 2, -50, pacote, REGISTADO, admin@mail.com",
     })
     @Order(2)
-    public void testServiceSaveInvalid(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
+    public void testServiceSaveInvalid(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, Estado estado, String userName) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
         User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOServiceRequest encomendaDTOServiceRequest = new EncomendaDTOServiceRequest(mealsPerWeek, numberOfPeople, price, LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
