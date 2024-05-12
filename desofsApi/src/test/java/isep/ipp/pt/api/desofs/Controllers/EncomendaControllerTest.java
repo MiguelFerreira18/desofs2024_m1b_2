@@ -2,6 +2,7 @@ package isep.ipp.pt.api.desofs.Controllers;
 
 import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ControllerLayer.EncomendaDTOResponse;
 import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ControllerLayer.EncomendaDTOSaveRequest;
+import isep.ipp.pt.api.desofs.Model.Estado;
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Model.UserModel.Role;
@@ -70,7 +71,7 @@ class EncomendaControllerTest {
     public void testSaveEncomenda_ValidRequest() {
         Pacote p = pacoteRepo.findbyName("pacote");
         User u = userRepo.findByUserByEmail("admin@mail.com");
-        EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(5, 4, 50,LocalDateTime.now(), p.getPacoteId(),"Registado",u.getUserId());
+        EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(5, 4, 50,LocalDateTime.now(), p.getPacoteId(), Estado.REGISTADO,u.getUserId());
 
         ResponseEntity<EncomendaDTOResponse> response = encomendaController.save(encomendaDTOSaveRequest);
 
@@ -80,12 +81,12 @@ class EncomendaControllerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "0, 4, 50, pacote, Registado, admin@mail.com",
-            "8, 4, 50, pacote, Registado, admin@mail.com",
-            "-1, 4, 50, pacote, Registado, admin@mail.com"
+            "0, 4, 50, pacote, REGISTADO, admin@mail.com",
+            "8, 4, 50, pacote, REGISTADO, admin@mail.com",
+            "-1, 4, 50, pacote, REGISTADO, admin@mail.com"
     })
     @Order(2)
-    public void testSaveEncomenda_Invalid_Meal_Request_Parametrized(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
+    public void testSaveEncomenda_Invalid_Meal_Request_Parametrized(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, Estado estado, String userName) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
         User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(mealsPerWeek, numberOfPeople, price,LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
@@ -97,12 +98,12 @@ class EncomendaControllerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "2, -4, 50, pacote, Registado, admin@mail.com",
-            "2, 0, 50, pacote, Registado, admin@mail.com",
-            "2, 8, 50, pacote, Registado, admin@mail.com"
+            "2, -4, 50, pacote, REGISTADO, admin@mail.com",
+            "2, 0, 50, pacote, REGISTADO, admin@mail.com",
+            "2, 8, 50, pacote, REGISTADO, admin@mail.com"
     })
     @Order(3)
-    public void testSaveEncomenda_Invalid_People_Request(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
+    public void testSaveEncomenda_Invalid_People_Request(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, Estado estado, String userName) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
         User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(mealsPerWeek, numberOfPeople, price,LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
@@ -114,11 +115,11 @@ class EncomendaControllerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "2, 2, -50, pacote, Registado, admin@mail.com",
-            "2, 2, 0, pacote, Registado, admin@mail.com",
+            "2, 2, -50, pacote, REGISTADO, admin@mail.com",
+            "2, 2, 0, pacote, REGISTADO, admin@mail.com",
     })
     @Order(4)
-    public void testSaveEncomenda_Invalid_Price_Request(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
+    public void testSaveEncomenda_Invalid_Price_Request(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, Estado estado, String userName) {
         Pacote p = pacoteRepo.findbyName(pacoteName);
         User u = userRepo.findByUserByEmail(userName);
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(mealsPerWeek, numberOfPeople, price,LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
@@ -135,7 +136,7 @@ class EncomendaControllerTest {
         User u = userRepo.findByUserByEmail("admin@mail.com");
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = null ;
         try{
-            encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(4, 4, 50,LocalDateTime.now(), p.getPacoteId(),"Registado",u.getUserId());
+            encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(4, 4, 50,LocalDateTime.now(), p.getPacoteId(),Estado.REGISTADO,u.getUserId());
         }
         catch(Exception e){
             assertNull(encomendaDTOSaveRequest);
@@ -149,28 +150,11 @@ class EncomendaControllerTest {
         User u = userRepo.findByUserByEmail("adminInvalido@mail.com");
         EncomendaDTOSaveRequest encomendaDTOSaveRequest = null;
         try{
-            encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(4, 4, 50,LocalDateTime.now(), p.getPacoteId(),"Registado",u.getUserId());
+            encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(4, 4, 50,LocalDateTime.now(), p.getPacoteId(),Estado.REGISTADO,u.getUserId());
         }
         catch(Exception e){
             assertNull(encomendaDTOSaveRequest);
         }
     }
-
-    @ParameterizedTest
-    @CsvSource({
-            "2, 2, 50, pacote, <script>, admin@mail.com",
-            "2, 2, 50, pacote, 12345, admin@mail.com",
-    })
-    @Order(7)
-    public void testSaveEncomenda_Invalid_State_Request(int mealsPerWeek, int numberOfPeople, double price, String pacoteName, String estado, String userName) {
-        Pacote p = pacoteRepo.findbyName(pacoteName);
-        User u = userRepo.findByUserByEmail(userName);
-        EncomendaDTOSaveRequest encomendaDTOSaveRequest = new EncomendaDTOSaveRequest(mealsPerWeek, numberOfPeople, price,LocalDateTime.now(), p.getPacoteId(),estado,u.getUserId());
-
-        ResponseEntity<EncomendaDTOResponse> response = encomendaController.save(encomendaDTOSaveRequest);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertNull(response.getBody());
-    }
-
 
     }

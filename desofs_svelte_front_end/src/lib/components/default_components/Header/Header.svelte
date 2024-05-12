@@ -19,7 +19,7 @@
 		{#if data.user}
 			<Button className="profile-button" text="Perfil" gotoName="/profile" />
 			<Button className="order-button" text="Carrinho" gotoName="/carrinho" />
-
+			<Button className="enc-button" text="Encomenda" gotoName="/encomenda" />
 			{#if data.user.isAdmin || data.user.isDocumentManager}
 				<Button
 					className="package-management-button"

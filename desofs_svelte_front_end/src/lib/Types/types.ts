@@ -1,3 +1,5 @@
+import { EstadoEncomenda } from '$lib/Enum/enums';
+
 // Type
 type Package = {
 	pacoteId: number;
@@ -66,6 +68,45 @@ type ReviewDTOPatchSend = {
 	pacote: number;
 };
 
+// Encomenda
+type DeliveryDTOSend = {
+	mealsPerWeek: number;
+	numberOfPeople: number;
+	price: number;
+	pacoteId: number;
+	dataEncomenda: string;
+	estado: EstadoEncomenda;
+	userId: number;
+};
+
+type DeliveryDTOPatch = {
+	encomendaId: number;
+	mealsPerWeek: number;
+	numberOfPeople: number;
+	price: number;
+	pacoteId: number;
+	dataEncomenda: string;
+	estado: EstadoEncomenda;
+	userId: number;
+};
+
+type Delivery = {
+	encomendaId: number;
+	mealsPerWeek: number;
+	numberOfPeople: number;
+	price: number;
+	pacote: Package;
+	dataEncomenda: string;
+	estado: EstadoEncomenda;
+	user: User;
+};
+
+enum StateDelivery {
+	REGISTADO,
+	ENTREGUE,
+	CANCELADO
+}
+
 // Export
 export type {
 	Package,
@@ -76,5 +117,9 @@ export type {
 	ReviewDTOSaveSend,
 	ReviewDTOPatchSend,
 	User,
-	UserInfo
+	UserInfo,
+	DeliveryDTOSend,
+	Delivery,
+	DeliveryDTOPatch,
+	StateDelivery
 };

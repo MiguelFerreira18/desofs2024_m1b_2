@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class EncomendaServiceImpl implements EncomendaServiceRepo {
 
@@ -34,10 +35,12 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
     }
 
     @Override
-    public List<Encomenda> findAll() {
+    public List<Encomenda> findAll(Long userId) {
         List<Encomenda> encomendas = new LinkedList<>();
         for (Encomenda encomenda : encomendaRepo.findAll()) {
-            encomendas.add(encomenda);
+            if(Objects.equals(encomenda.getUser().getUserId(), userId)) {
+                encomendas.add(encomenda);
+            }
         }
         return encomendas;
     }

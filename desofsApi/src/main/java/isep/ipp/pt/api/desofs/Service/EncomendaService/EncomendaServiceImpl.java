@@ -47,8 +47,8 @@ public class EncomendaServiceImpl implements EncomendaService{
     }
 
     @Override
-    public List<EncomendaDTOServiceResponse> findAll() {
-        return encomendaMapper.toEncomendaDTOServiceResponseListFromEncomendaList(encomendaServiceRepo.findAll());
+    public List<EncomendaDTOServiceResponse> findAll(Long userId) {
+        return encomendaMapper.toEncomendaDTOServiceResponseListFromEncomendaList(encomendaServiceRepo.findAll(userId));
     }
 
     @Override
