@@ -1,26 +1,26 @@
 <script lang="ts">
-    import type { PageData } from './$types';
+	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
 	import type { DeliveryDTOSend } from '$lib/Types/types';
 	import { sendRequest } from '$lib/scripts';
-    import { EstadoEncomenda } from '$lib/Enum/enums';
+	import { EstadoEncomenda } from '$lib/Enum/enums';
 
-    export let data: PageData;
+	export let data: PageData;
 
-    let meals = 1;
+	let meals = 1;
 	let people = 1;
 	let price = 1;
 	let pacoteId = 0;
-    
-    async function handleSubmit() {
+
+	async function handleSubmit() {
 		const encData: DeliveryDTOSend = {
 			mealsPerWeek: meals,
 			numberOfPeople: people,
 			price: price,
 			pacoteId: pacoteId,
 			dataEncomenda: new Date().toISOString(),
-            estado: EstadoEncomenda.REGISTADO,
-            userId: data.user.userId
+			estado: EstadoEncomenda.REGISTADO,
+			userId: data.user.userId
 		};
 
 		const response = await sendRequest(
@@ -37,10 +37,9 @@
 		}
 	}
 
-    async function handleCancel() {
+	async function handleCancel() {
 		window.location.href = '/encomenda';
 	}
-
 </script>
 
 <div class="bg-gray-100 px-20 pt-10 min-h-screen">
@@ -55,34 +54,34 @@
 					name="meals"
 					id="meals"
 					class="rounded border border-current p-1 min-w-80"
-                    min="1"
-                    max="7"
+					min="1"
+					max="7"
 				/>
 			</div>
 			<div class="flex flex-row gap-2 content-center items-center">
 				<label class="min-w-40" for="people">Number of People</label>
-				<input 
+				<input
 					bind:value={people}
 					type="number"
 					name="people"
 					id="people"
 					class="rounded border border-current p-1 min-w-80"
-                    min="1"
-                    max="5"
+					min="1"
+					max="5"
 				/>
 			</div>
 			<div class="flex flex-row gap-2 content-center items-center">
 				<label class="min-w-40" for="price">Price</label>
 				<input
 					bind:value={price}
-                    type= "number"
+					type="number"
 					name="price"
 					id="price"
 					class="rounded border border-current p-1 min-w-80"
-                    min="1"
+					min="1"
 				/>
 			</div>
-            <div class="flex flex-row gap-2 content-center items-center">
+			<div class="flex flex-row gap-2 content-center items-center">
 				<label class="min-w-40" for="pacote">Pacote</label>
 				<select
 					bind:value={pacoteId}

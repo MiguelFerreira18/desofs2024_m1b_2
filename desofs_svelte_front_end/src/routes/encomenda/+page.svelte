@@ -1,13 +1,17 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import Tags from '$lib/components/Tags.svelte';
 	import { goto, invalidateAll } from '$app/navigation';
 	import { sendRequest } from '$lib/scripts';
 
 	export let data: PageData;
 
 	async function deleteDelivery(encomendaId: number) {
-		const response = await sendRequest(`encomenda/delete/${encomendaId}`, 'DELETE', '', data.user.token);
+		const response = await sendRequest(
+			`encomenda/delete/${encomendaId}`,
+			'DELETE',
+			'',
+			data.user.token
+		);
 
 		if (response.ok) {
 			goto('/encomenda');
@@ -23,13 +27,14 @@
 <div class="bg-gray-100 px-20 pt-10 min-h-screen">
 	<div class="flex flex-col border rounded bg-white px-20 py-12 gap-5">
 		<div class="flex">
-                <div style="flex-grow: 1;text-align: end;">
-                    <button style="margin-left: auto;"
-                        class="ml-auto inline-block rounded border px-4 py-2 bg-white hover:bg-gray-200 transition-colors duration-300"
-                        on:click={() => goto('/encomenda/create-encomenda')}
-                        ><i class="fa-solid fa-plus"></i></button
-                    >
-                </div>
+			<div style="flex-grow: 1;text-align: end;">
+				<button
+					style="margin-left: auto;"
+					class="ml-auto inline-block rounded border px-4 py-2 bg-white hover:bg-gray-200 transition-colors duration-300"
+					on:click={() => goto('/encomenda/create-encomenda')}
+					><i class="fa-solid fa-plus"></i></button
+				>
+			</div>
 		</div>
 		<table class="table-auto text-center">
 			<thead>
@@ -39,12 +44,12 @@
 					<th class="border text-xl">Price</th>
 					<th class="border text-xl">Date</th>
 					<th class="border text-xl">Package Id</th>
-                    <th class="border text-xl">State</th>
+					<th class="border text-xl">State</th>
 					<th class="border text-xl">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				{#each  data.encomendas as item}
+				{#each data.encomendas as item}
 					<tr class="h-13">
 						<td class="border py-5">{item.mealsPerWeek}</td>
 						<td class="border py-5">{item.numberOfPeople}</td>

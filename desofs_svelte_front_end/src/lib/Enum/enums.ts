@@ -1,5 +1,7 @@
 enum EstadoEncomenda {
-	REGISTADO, ENTREGUE, CANCELADO
-};
+	REGISTADO,
+	ENTREGUE,
+	CANCELADO
+}
 
-export {EstadoEncomenda};
+export { EstadoEncomenda };

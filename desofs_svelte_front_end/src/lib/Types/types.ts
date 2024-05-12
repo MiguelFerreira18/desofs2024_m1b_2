@@ -102,8 +102,10 @@ type Delivery = {
 };
 
 enum StateDelivery {
-	REGISTADO, ENTREGUE, CANCELADO
-};
+	REGISTADO,
+	ENTREGUE,
+	CANCELADO
+}
 
 // Export
 export type {
