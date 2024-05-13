@@ -17,11 +17,6 @@ public class TipoPacoteDTOServiceRequest {
     public TipoPacoteDTOServiceRequest(String nome) {
         this.nome = nome;
     }
-
-    public TipoPacoteDTOServiceRequest() {
-        this.nome = "";
-    }
-
     public String getNome() {
         return nome;
     }

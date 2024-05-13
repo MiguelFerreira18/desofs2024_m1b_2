@@ -16,8 +16,6 @@ public class TipoPacoteDTOSaveRequest {
         this.nome = nome;
     }
 
-    public TipoPacoteDTOSaveRequest() {
-    }
 
     public String getNome() {
         return nome;

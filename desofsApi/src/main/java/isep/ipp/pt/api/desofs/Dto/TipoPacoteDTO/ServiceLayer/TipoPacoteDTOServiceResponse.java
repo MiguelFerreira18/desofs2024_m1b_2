@@ -19,11 +19,6 @@ public class TipoPacoteDTOServiceResponse {
         this.tipoPacoteId = tipoPacoteId;
     }
 
-    public TipoPacoteDTOServiceResponse() {
-        this.nome = "";
-        this.tipoPacoteId = 0L;
-
-    }
 
     public String getNome() {
         return nome;
