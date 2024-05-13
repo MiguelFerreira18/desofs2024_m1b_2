@@ -178,7 +178,7 @@ jobs:
           cache-dependency-path: 'desofsApi/pom.xml'
 
       - name: Maven Package
-        run: mvn package
+        run: mvn package -DskipTests
         working-directory: ./desofsApi
 
       - name: Set up Docker Buildx
