@@ -79,4 +79,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public void saveUser(User user) {
         userRepo.saveUser(user);
     }
+
+    @Override
+    public void deleteUser(String username) {
+        userRepo.deleteUser(username);
+    }
 }

@@ -12,4 +12,5 @@ public interface ReviewServiceRepo {
     public List<Review> getReviewsByPacoteId(Long pacoteId);
     public List<Review> getReviewsByUserId(Long userId);
     public void deleteAll();
+    public void deleteReviewsByUserName(String username);
 }
