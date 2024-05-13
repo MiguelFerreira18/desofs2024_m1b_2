@@ -210,11 +210,6 @@ jobs:
           ignore-unchanged: true
           write-comment: true
           github-token: ${{ secrets.TRIGGER_RP }}
-
-
-
-
-    if: ${{ always() }}
     needs: [buildFrontEnd, buildBackEnd]
 
 
