@@ -161,6 +161,10 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./desofs_svelte_front_end
+
       - name: Run build
         run: npm run build
         working-directory: ./desofs_svelte_front_end
