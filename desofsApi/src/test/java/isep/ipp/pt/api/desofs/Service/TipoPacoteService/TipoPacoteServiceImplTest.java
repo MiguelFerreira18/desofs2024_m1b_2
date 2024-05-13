@@ -5,8 +5,7 @@ import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServic
 import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.TipoPacoteMapper.TipoPacoteMapper;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
-import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -34,14 +33,23 @@ class TipoPacoteServiceImplTest {
     private TipoPacoteService tipoPacoteService;
 
 
+
     @Autowired
     private PacoteServiceRepo pacoteServiceRepo;
-
+    @Autowired
+    private ReviewServiceRepo reviewServiceRepo;
+    @Autowired
+    private UserServiceRepo userServiceRepo;
+    @Autowired
+    private EncomendaServiceRepo encomendaServiceRepo;
 
     private Validator validator;
 
     @BeforeEach
     public void setUp() {
+        reviewServiceRepo.deleteAll();
+        encomendaServiceRepo.deleteAll();
+        userServiceRepo.deleteAll();
         pacoteServiceRepo.deleteAll();
         tipoPacoteServiceRepo.deleteAll();
 
