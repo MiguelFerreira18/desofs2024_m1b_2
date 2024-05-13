@@ -1,10 +1,6 @@
 name: CI/CD Pipeline
 
 on:
-  push:
-    branches:
-      - pipeline
-      - ci_cd_improved
   pull_request:
     branches:
       - main
@@ -152,6 +148,53 @@ jobs:
         with:
            name: Depcheck report
            path: ${{github.workspace}}/reports
+  push-to-dockerhub:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+      - uses: actions/checkout@v4
+
+      - name: Set up node.js 20.11
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run build
+        run: npm run build
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+          cache-dependency-path: 'desofsApi/pom.xml'
+
+      - name: Maven Package
+        run: mvn package
+        working-directory: ./desofsApi
+
+
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/desofs-app:latest
+
+    needs: [buildFrontEnd, buildBackEnd]
 
 
 
