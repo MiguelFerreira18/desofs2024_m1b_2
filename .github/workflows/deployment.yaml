@@ -209,7 +209,7 @@ jobs:
           to: ${{ secrets.DOCKER_USERNAME }}/desofs-app:latest
           ignore-unchanged: true
           write-comment: true
-          github-token: ${{ secrets.TRIGGER_RP }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
     needs: [buildFrontEnd, buildBackEnd]
 
 
