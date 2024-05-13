@@ -177,23 +177,17 @@ jobs:
         working-directory: ./desofsApi
 
 
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - name: Docker Scout
+        id: docker-scout
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: docker/scout-action@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/desofs-app:latest
-
+          command: quickview
+          image: ${{ steps.meta.outputs.tags }}
+          to: ${{ secrets.DOCKER_USERNAME }}/desofs-app:latest
+          ignore-unchanged: true
+          write-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
     needs: [buildFrontEnd, buildBackEnd]
 
 
