@@ -107,6 +107,17 @@ enum StateDelivery {
 	CANCELADO
 }
 
+type DadosNutricionais = {
+	receitaId: number;
+	porcao: string;
+	valorEnergetico: string;
+	carboidratos: string;
+	proteinas: string;
+	gordura: string;
+	sal: string;
+	acucar: string;
+}
+
 // Export
 export type {
 	Package,
@@ -121,5 +132,6 @@ export type {
 	DeliveryDTOSend,
 	Delivery,
 	DeliveryDTOPatch,
-	StateDelivery
+	StateDelivery,
+	DadosNutricionais
 };

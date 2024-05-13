@@ -11,13 +11,15 @@ import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Model.TipoReceita;
+import isep.ipp.pt.api.desofs.Repository.Implementation.*;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -46,6 +48,18 @@ public class MysqlConfig {
     @Bean
     public PacoteServiceRepo mysqlPacote(){
         return new PacoteServiceImpl();
+    }
+    @Bean
+    public DadosNutricionaisServiceRepo mysqlDadosNutricionais(){
+        return new DadosNutricionaisRepoImpl();
+    }
+    @Bean
+    public ReceitaServiceRepo mysqlReceita(){
+        return new ReceitaRepoImpl();
+    }
+    @Bean
+    public TipoReceitaServiceRepo mysqlTipoReceita(){
+        return new TipoReceitaRepoImpl();
     }
     @Bean
     public TipoPacoteServiceRepo mysqlTipoPacote(){

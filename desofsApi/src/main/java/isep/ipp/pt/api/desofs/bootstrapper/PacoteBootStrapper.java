@@ -35,6 +35,5 @@ public class PacoteBootStrapper implements CommandLineRunner {
 
             pacoteRepo.save(pacote);
         }
-
     }
 }

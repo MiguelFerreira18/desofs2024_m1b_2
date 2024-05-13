@@ -1,6 +1,5 @@
 package isep.ipp.pt.api.desofs.Authentication;
 
-import isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer.UserDTOResponse;
 import isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer.UserDTOSignup;
 import isep.ipp.pt.api.desofs.Mapper.UserMapper.UserMapper;
 import isep.ipp.pt.api.desofs.Model.UserModel.SignInRequest;

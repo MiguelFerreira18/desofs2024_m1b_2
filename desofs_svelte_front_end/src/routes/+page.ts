@@ -13,6 +13,11 @@ export const load: PageLoad = async () => {
 		//only send four packages
 		enabledPackages.length = 4;
 	}
+	const responseDadosNutricionais = await fetch(`${baseUrl}/dadosNutricionais/info/103`);
+	console.log(await responseDadosNutricionais.json());
+	const responseDadosNutricionais2 = await fetch(`${baseUrl}/dadosNutricionais/info/102`);
+	console.log(await responseDadosNutricionais2.json());
+
 	if (reviews.length !== 0 && reviews.length >= 5) {
 		const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);
 
