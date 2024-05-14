@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - ci_cd_improved
+      - main
 jobs:
   buildFrontEnd:
     runs-on: ubuntu-latest
