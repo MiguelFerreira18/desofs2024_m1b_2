@@ -212,11 +212,12 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         uses: docker/scout-action@v1
         with:
-          command: quickview
-          image: ${{ steps.meta.outputs.tags }}
-          to: ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-api:latest
+          command: cves,recommendations,quickview
+          image: ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-api:latest
+          to-latest: true
           ignore-unchanged: true
           write-comment: true
+          only-fixed: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
 
