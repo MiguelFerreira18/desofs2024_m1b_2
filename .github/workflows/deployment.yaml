@@ -190,6 +190,10 @@ jobs:
       - name: Build docker compose file
         run: docker-compose build
 
+
+      - name: Print docker images
+        run: docker images
+
       # tag the frontend image
       - name: Tag Frontend image
         run: docker tag desofs2024_m1b_2-desofs-web:latest ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
