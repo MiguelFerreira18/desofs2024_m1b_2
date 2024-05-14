@@ -40,6 +40,10 @@ const signup: Action = async ({ request }) => {
 		morada: morada
 	});
 
+	if (password.length < 12) {
+		return fail(400, { passwordError: 'Password must be at least 12 characters long' });
+	}
+
 	await sendRequest(`auth/public/signup`, 'POST', userData, '');
 
 	redirect(303, '/auth');
