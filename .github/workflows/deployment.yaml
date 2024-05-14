@@ -207,19 +207,6 @@ jobs:
       - name: Build and push backend
         run: docker push ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-api:latest
 
-
-#      - name: Docker Scout
-#        id: docker-scout
-#        if: ${{ github.event_name == 'pull_request' }}
-#        uses: docker/scout-action@v1
-#        with:
-#          command: quickview
-#          image: ${{ steps.meta.outputs.tags }}
-#          to: ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
-#          ignore-unchanged: true
-#          write-comment: true
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
-#
       - name: Docker Scout
         id: docker-scout
         if: ${{ github.event_name == 'pull_request' }}
@@ -231,6 +218,8 @@ jobs:
           ignore-unchanged: true
           write-comment: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+
     needs: [buildFrontEnd, buildBackEnd]
 
 
