@@ -15,7 +15,7 @@ public class UserDTOSignup {
     private final String username;
 
     @NotBlank(message = "Password cannot be blank")
-    @Size(min = 12, max = 20, message = "Password must be between 12 and 128 characters")
+    @Size(min = 12, max = 128, message = "Password must be between 12 and 128 characters")
     private final String password;
 
     @NotBlank(message = "Nome cannot be blank")

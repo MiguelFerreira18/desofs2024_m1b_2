@@ -42,6 +42,8 @@ const signup: Action = async ({ request }) => {
 
 	if (password.length < 12) {
 		return fail(400, { passwordError: 'Password must be at least 12 characters long' });
+	} else if (password.length > 128) {
+		return fail(400, { passwordError: 'Password must be less than 128 characters long' });
 	}
 
 	await sendRequest(`auth/public/signup`, 'POST', userData, '');
