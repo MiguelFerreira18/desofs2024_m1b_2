@@ -1,6 +1,27 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	let password = '';
+	let passwordLength = 0;
+	let passwordStrength = 0;
+	let barColor = 'red';
 
+	const updatePasswordStrength = (password: string) => {
+		passwordLength = password.length;
+		passwordStrength = Math.min(passwordLength / 12, 1);
+
+		if (passwordStrength <= 1 / 3) {
+			barColor = 'red';
+		} else if (passwordStrength < 1) {
+			barColor = 'yellow';
+		} else {
+			barColor = 'green';
+		}
+	};
+
+	const handleInput = (event: Event) => {
+			const target = event.target as HTMLInputElement;
+			updatePasswordStrength(target.value);
+		};
 </script>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -48,7 +69,7 @@
 					/>
 				</div>
 				<div>
-					<label for="morada" class="sr-only">Password</label>
+					<label for="morada" class="sr-only">Morada</label>
 					<input
 						id="morada"
 						name="morada"
@@ -66,22 +87,27 @@
 						id="password"
 						name="password"
 						type="password"
-						required
 						minlength="12"
 						maxlength="128"
+						bind:value={password}
+						on:input={handleInput}
+						required
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password"
 					/>
 				</div>
+				<div class="strength-bar" style="margin-top: 0.5rem; margin-bottom: 0.5rem">
+					<div style="width: {passwordStrength * 100}%; background-color: {barColor};"></div>
+				</div>
 				<div>
-					<label for="repeat-password" class="sr-only">Password</label>
+					<label for="repeat-password" class="sr-only">Repeat Password</label>
 					<input
 						id="repeat-password"
 						name="repeat-password"
 						type="password"
-						required
 						minlength="12"
 						maxlength="128"
+						required
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Repeat password"
 					/>
@@ -92,10 +118,25 @@
 				<button
 					type="submit"
 					class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
-					>
+				>
 					Sign in
 				</button>
 			</div>
 		</form>
 	</div>
 </div>
+
+<style>
+	.strength-bar {
+		width: 100%;
+		height: 5px;
+		background-color: lightgray;
+		margin-top: 10px;
+	}
+	.strength-bar > div {
+		height: 100%;
+		transition:
+			width 0.3s ease,
+			background-color 0.3s ease;
+	}
+</style>
