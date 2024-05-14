@@ -219,6 +219,19 @@ jobs:
           only-fixed: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Docker Scout
+        id: docker-scout
+        uses: docker/scout-action@v1
+        with:
+          command: cves,recommendations,quickview
+          image: ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
+          to-latest: true
+          ignore-unchanged: true
+          write-comment: true
+          only-fixed: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+
 
     needs: [buildFrontEnd, buildBackEnd]
 
