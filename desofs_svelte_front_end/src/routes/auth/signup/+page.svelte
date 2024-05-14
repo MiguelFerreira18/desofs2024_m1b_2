@@ -32,17 +32,19 @@
 		hasNumber = /\d/.test(password);
 		hasUppercase = /[A-Z]/.test(password);
 		hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+		// Verificar se a senha contém apenas caracteres imprimíveis Unicode
 		if (password != '') {
 			passwordsMatch = password === repeatPassword;
 		}
+		// Calcular a força da senha, incluindo espaços na contagem de caracteres
 		const requirementsMet = [
 			hasMinLength,
 			hasNumber,
 			hasUppercase,
 			hasSpecialChar,
-			passwordsMatch
+			passwordsMatch,
 		].filter(Boolean).length;
-		passwordStrength = requirementsMet / 5;
+		passwordStrength = requirementsMet / 6;
 
 		if (passwordStrength <= 1 / 3) {
 			barColor = 'red';
