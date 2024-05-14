@@ -220,6 +220,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
       - name: Docker Scout
         id: docker-scout
+        if: ${{ github.event_name == 'pull_request' }}
         uses: docker/scout-action@v1
         with:
           command: cves,recommendations,quickview
@@ -231,6 +232,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
     needs:
       - push-to-dockerhub
+
 
 
 
