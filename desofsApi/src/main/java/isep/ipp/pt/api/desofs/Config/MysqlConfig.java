@@ -55,6 +55,10 @@ public class MysqlConfig {
     public TipoReceitaServiceRepo mysqlTipoReceita(){
         return new TipoReceitaServiceImpl();
     }
+    @Bean
+    public ReceitaServiceRepo mysqlReceita(){
+        return new ReceitaServiceImpl();
+    }
 
     //Datasource
     @Bean

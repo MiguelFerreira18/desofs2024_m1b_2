@@ -1,15 +1,15 @@
-package isep.ipp.pt.api.desofs.Model;
+package isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ControllerLayer;
 
-import jakarta.persistence.Entity;
+import isep.ipp.pt.api.desofs.Model.Pacote;
+import isep.ipp.pt.api.desofs.Model.Receita;
+import isep.ipp.pt.api.desofs.Model.TipoReceita;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-@Entity
-public class Receita {
-
+public class ReceitaDTOPatchRequest {
     @Id
     @GeneratedValue
     private Long receitaId;
@@ -19,16 +19,16 @@ public class Receita {
     @NotNull
     private String nome;
     @ManyToOne
-    private Pacote pacote;
+    private Long pacote;
 
     @ManyToOne
     @NotNull
-    private TipoReceita tipoReceita;
+    private Long tipoReceita;
 
-    public Receita() {
+    public ReceitaDTOPatchRequest() {
     }
 
-    public Receita(Long receitaId, String path, String nome, Pacote pacote, TipoReceita tipoReceita) {
+    public ReceitaDTOPatchRequest(Long receitaId, String path, String nome, Long pacote, Long tipoReceita) {
         this.receitaId = receitaId;
         this.path = path;
         this.nome = nome;
@@ -36,7 +36,7 @@ public class Receita {
         this.tipoReceita = tipoReceita;
     }
 
-    public Receita(String path, String nome, Pacote pacote, TipoReceita tipoReceita) {
+    public ReceitaDTOPatchRequest(String path, String nome, Long pacote, Long tipoReceita) {
         this.path = path;
         this.nome = nome;
         this.pacote = pacote;
@@ -47,39 +47,21 @@ public class Receita {
         return receitaId;
     }
 
-    public void setReceitaId(Long receitaId) {
-        this.receitaId = receitaId;
-    }
-
     public String getPath() {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
 
-    public Pacote getPacote() {
+    public Long getPacote() {
         return pacote;
     }
 
-    public void setPacote(Pacote pacote) {
-        this.pacote = pacote;
-    }
-
-    public TipoReceita getTipoReceita() {
+    public Long getTipoReceita() {
         return tipoReceita;
-    }
-
-    public void setTipoReceita(TipoReceita tipoReceita) {
-        this.tipoReceita = tipoReceita;
     }
 }
