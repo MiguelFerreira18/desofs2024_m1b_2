@@ -25,6 +25,8 @@ public record SignUpRequest(
 
 ) {
         public SignUpRequest {
+                password = password.replaceAll("\\s+", "");
+
                 if (!password.matches(".*\\d.*")) {
                         throw new IllegalArgumentException("Password must contain at least one digit");
                 }

@@ -37,6 +37,8 @@ public class UserDTOSignup {
     }
 
     private void validatePassword(String password) {
+        password = password.replaceAll("\\s+", "");
+
         if (!password.matches(".*\\d.*")) {
             throw new IllegalArgumentException("Password must contain at least one digit");
         }

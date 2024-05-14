@@ -56,11 +56,7 @@
 					<div class="shadow-xl p-2 rounded-md h-full w-1/3">
 						<div class="flex flex-col p-9 justify-evenly h-full">
 							<Button className="review-button" text="review" gotoName="/profile/reviews" />
-							<Button
-								className="Encomendas-button"
-								text="encomendas"
-								gotoName="/profile/reviews"
-							/>
+							<Button className="Encomendas-button" text="encomendas" gotoName="/profile/reviews" />
 						</div>
 					</div>
 				</div>

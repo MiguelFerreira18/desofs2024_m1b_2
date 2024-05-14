@@ -116,7 +116,7 @@ type DadosNutricionais = {
 	gordura: string;
 	sal: string;
 	acucar: string;
-}
+};
 
 // Export
 export type {

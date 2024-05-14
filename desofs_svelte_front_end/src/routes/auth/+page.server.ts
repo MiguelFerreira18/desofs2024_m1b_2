@@ -24,10 +24,9 @@ export const actions: Actions = {
 		const body = JSON.stringify({
 			username: email,
 			password
-		})
+		});
 
 		const response = await sendRequest('auth/public/login', 'POST', body, '');
-
 
 		if (!response.ok) {
 			return fail(400, { invalid: true });
