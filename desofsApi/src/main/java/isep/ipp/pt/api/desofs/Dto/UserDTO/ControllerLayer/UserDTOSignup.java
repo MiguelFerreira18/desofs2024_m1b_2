@@ -1,5 +1,4 @@
 package isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -33,5 +32,19 @@ public class UserDTOSignup {
         this.fullName = fullName;
         this.nif = nif;
         this.morada = morada;
+
+        validatePassword(password);
+    }
+
+    private void validatePassword(String password) {
+        if (!password.matches(".*\\d.*")) {
+            throw new IllegalArgumentException("Password must contain at least one digit");
+        }
+        if (!password.matches(".*[A-Z].*")) {
+            throw new IllegalArgumentException("Password must contain at least one uppercase letter");
+        }
+        if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            throw new IllegalArgumentException("Password must contain at least one special character");
+        }
     }
 }

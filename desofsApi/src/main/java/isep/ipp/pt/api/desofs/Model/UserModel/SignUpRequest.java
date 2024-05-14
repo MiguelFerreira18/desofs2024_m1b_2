@@ -24,5 +24,16 @@ public record SignUpRequest(
         String morada
 
 ) {
+        public SignUpRequest {
+                if (!password.matches(".*\\d.*")) {
+                        throw new IllegalArgumentException("Password must contain at least one digit");
+                }
+                if (!password.matches(".*[A-Z].*")) {
+                        throw new IllegalArgumentException("Password must contain at least one uppercase letter");
+                }
+                if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+                        throw new IllegalArgumentException("Password must contain at least one special character");
+                }
+        }
 
 }

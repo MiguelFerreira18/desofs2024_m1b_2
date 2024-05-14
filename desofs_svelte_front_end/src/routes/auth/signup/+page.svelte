@@ -1,27 +1,69 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+
 	let password = '';
-	let passwordLength = 0;
+	let repeatPassword = '';
 	let passwordStrength = 0;
 	let barColor = 'red';
 
-	const updatePasswordStrength = (password: string) => {
-		passwordLength = password.length;
-		passwordStrength = Math.min(passwordLength / 12, 1);
+	let hasMinLength = false;
+	let hasNumber = false;
+	let hasUppercase = false;
+	let hasSpecialChar = false;
+	let passwordsMatch = false;
+
+	let buttonClass = '';
+	let isDisabled = false;
+
+	$: {
+		if (hasMinLength && hasNumber && hasUppercase && hasSpecialChar && passwordsMatch) {
+			buttonClass =
+				'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500';
+			isDisabled = false;
+		} else {
+			buttonClass =
+				'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 cursor-not-allowed';
+			isDisabled = true;
+		}
+	}
+
+	const updatePasswordStrength = () => {
+		hasMinLength = password.length >= 12;
+		hasNumber = /\d/.test(password);
+		hasUppercase = /[A-Z]/.test(password);
+		hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+		if (password != '') {
+			passwordsMatch = password === repeatPassword;
+		}
+		const requirementsMet = [
+			hasMinLength,
+			hasNumber,
+			hasUppercase,
+			hasSpecialChar,
+			passwordsMatch
+		].filter(Boolean).length;
+		passwordStrength = requirementsMet / 5;
 
 		if (passwordStrength <= 1 / 3) {
 			barColor = 'red';
-		} else if (passwordStrength < 1) {
+		} else if (passwordStrength <= 2 / 3) {
 			barColor = 'yellow';
 		} else {
 			barColor = 'green';
 		}
 	};
 
-	const handleInput = (event: Event) => {
-			const target = event.target as HTMLInputElement;
-			updatePasswordStrength(target.value);
-		};
+	const handlePasswordInput = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		password = target.value;
+		updatePasswordStrength();
+	};
+
+	const handleRepeatPasswordInput = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		repeatPassword = target.value;
+		updatePasswordStrength();
+	};
 </script>
 
 <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
@@ -90,14 +132,11 @@
 						minlength="12"
 						maxlength="128"
 						bind:value={password}
-						on:input={handleInput}
+						on:input={handlePasswordInput}
 						required
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Password"
 					/>
-				</div>
-				<div class="strength-bar" style="margin-top: 0.5rem; margin-bottom: 0.5rem">
-					<div style="width: {passwordStrength * 100}%; background-color: {barColor};"></div>
 				</div>
 				<div>
 					<label for="repeat-password" class="sr-only">Repeat Password</label>
@@ -107,20 +146,35 @@
 						type="password"
 						minlength="12"
 						maxlength="128"
+						bind:value={repeatPassword}
+						on:input={handleRepeatPasswordInput}
 						required
 						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 						placeholder="Repeat password"
 					/>
 				</div>
+				<div class="strength-bar" style="margin-top: 0.5rem; margin-bottom: 0.5rem">
+					<div style="width: {passwordStrength * 100}%; background-color: {barColor};"></div>
+				</div>
+				<div style="margin-left: 1rem;">
+					<ul class="list-disc">
+						<li class={hasMinLength ? 'text-green-500' : ''}>
+							Password must have at least 12 characters
+						</li>
+						<li class={hasNumber ? 'text-green-500' : ''}>Password must have at least 1 number</li>
+						<li class={hasUppercase ? 'text-green-500' : ''}>
+							Password must have at least 1 uppercase letter
+						</li>
+						<li class={hasSpecialChar ? 'text-green-500' : ''}>
+							Password must have at least 1 special character
+						</li>
+						<li class={passwordsMatch ? 'text-green-500' : ''}>Passwords must match</li>
+					</ul>
+				</div>
 			</div>
 
 			<div>
-				<button
-					type="submit"
-					class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
-				>
-					Sign in
-				</button>
+				<button type="submit" class={buttonClass} disabled={isDisabled}> Sign in </button>
 			</div>
 		</form>
 	</div>
@@ -138,5 +192,9 @@
 		transition:
 			width 0.3s ease,
 			background-color 0.3s ease;
+	}
+
+	li {
+		font-size: 0.8em;
 	}
 </style>
