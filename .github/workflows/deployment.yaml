@@ -201,12 +201,11 @@ jobs:
       - name: Tag Backend image
         run: docker tag desofs2024_m1b_2_desof-api:latest ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-api:latest
 
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2_desof-web:latest
+      - name: Build and push frontend
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
+
+      - name: Build and push backend
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-api:latest
 
       - name: Build and push
         uses: docker/build-push-action@v2
