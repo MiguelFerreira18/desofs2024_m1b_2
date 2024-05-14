@@ -42,7 +42,7 @@
 			hasNumber,
 			hasUppercase,
 			hasSpecialChar,
-			passwordsMatch,
+			passwordsMatch
 		].filter(Boolean).length;
 		passwordStrength = requirementsMet / 6;
 
@@ -65,6 +65,14 @@
 		const target = event.target as HTMLInputElement;
 		repeatPassword = target.value;
 		updatePasswordStrength();
+	};
+
+	let passwordVisible = false;
+
+	const togglePasswordVisibility = () => {
+		const passwordInput = document.getElementById('password') as HTMLInputElement;
+		passwordVisible = !passwordVisible;
+		passwordInput.type = passwordVisible ? 'text' : 'password';
 	};
 </script>
 
@@ -127,19 +135,30 @@
 			<div class="rounded-md shadow-sm -space-y-px">
 				<div>
 					<label for="password" class="sr-only">Password</label>
-					<input
-						id="password"
-						name="password"
-						type="password"
-						minlength="12"
-						maxlength="128"
-						bind:value={password}
-						on:input={handlePasswordInput}
-						required
-						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-						placeholder="Password"
-					/>
+					<div class="flex">
+						<input
+							id="password"
+							name="password"
+							type="password"
+							minlength="12"
+							maxlength="128"
+							bind:value={password}
+							on:input={handlePasswordInput}
+							required
+							class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							placeholder="Password"
+						/>
+						<button
+							type="button"
+							class="ml-2 px-2 py-1 rounded-md bg-gray-200 text-gray-700"
+							on:click={togglePasswordVisibility}
+						>
+							{passwordVisible ? 'Hide' : 'Show'}
+						</button>
+					</div>
 				</div>
+			</div>
+			<div>
 				<div>
 					<label for="repeat-password" class="sr-only">Repeat Password</label>
 					<input
@@ -174,7 +193,6 @@
 					</ul>
 				</div>
 			</div>
-
 			<div>
 				<button type="submit" class={buttonClass} disabled={isDisabled}> Sign in </button>
 			</div>

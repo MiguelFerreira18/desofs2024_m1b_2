@@ -37,5 +37,4 @@ public record SignUpRequest(
                         throw new IllegalArgumentException("Password must contain at least one special character");
                 }
         }
-
 }
