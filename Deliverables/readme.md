@@ -853,4 +853,4 @@ ameaças comuns. (https://www.zaproxy.org/)
 A ferramenta escolhida para realizar a análise de componentes de software é o OWASP Dependency-Check. Esta ferramenta
 open-source permite identificar vulnerabilidades em bibliotecas de terceiros usadas no projeto, ajudando a garantir que
 não existam componentes com falhas de segurança conhecidas. O Dependency-Check supporta todas as linguagens que temos no
-nosso projeto (Java e javascript/Typescript). (https://owasp.org/www-project-dependency-check/)
+nosso projeto (Java e javascript/Typescript). (https://owasp.org/www-project-dependency-check/).

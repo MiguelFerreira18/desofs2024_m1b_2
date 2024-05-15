@@ -13,7 +13,6 @@ public class PacoteDTOServiceRequest {
     @Max(value = 500, message = "Preço base do pacote inválido")
     private final double pacoteBasePrice;
 
-    @NotBlank
     @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
     @Size(min = 1,max = 64, message = "Descrição do pacote inválida")
     private final String pacoteDescription;
