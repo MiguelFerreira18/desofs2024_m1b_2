@@ -18,6 +18,7 @@ public class TipoPacoteDTOResponse {
         this.tipoPacoteId = tipoPacoteId;
     }
 
+
     public String getNome() {
         return nome;
     }
