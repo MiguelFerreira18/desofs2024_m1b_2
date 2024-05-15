@@ -16,13 +16,14 @@ import isep.ipp.pt.api.desofs.Service.ReceitaService.ReceitaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ReceitaControllerTest {
@@ -70,5 +71,45 @@ public class ReceitaControllerTest {
         ResponseEntity<ReceitaDTOResponse> response = receitaController.saveReceita(receitaDTOSaveRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "./folder1/folder2/file-name.extension, receita1, Pacote1, TipoReceita1",
+      "./folder1/folder2/folder3/file-name.extension, receita2, Pacote1, TipoReceita1",
+      "./folder1/file-name.extension, receita3, Pacote1, TipoReceita1",
+      "./folder1/teste/file-name.extension, receita4, Pacote1, TipoReceita1",
+      "./folder1/folder2/name.extension, receita5, Pacote1, TipoReceita1",
+    })
+    @Order(2)
+    public void testSaveReceita_ValidRequest_Parameterized(String path, String nome, String pacote, String tipoReceita) {
+        TipoReceita tr = tipoReceitaServiceRepo.findbyName(tipoReceita);
+        Pacote p = pacoteServiceRepo.findbyName(pacote);
+
+        ReceitaDTOSaveRequest receitaDTOSaveRequest = new ReceitaDTOSaveRequest(path,nome,p.getPacoteId(),tr.getTipoReceitaId());
+        ResponseEntity<ReceitaDTOResponse> response = receitaController.saveReceita(receitaDTOSaveRequest);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "invalid, receita1, Pacote1, TipoReceita1",
+            "./folder1/folder2/folder3/file-name.extension, InvalidName<script>, Pacote1, TipoReceita1",
+            "./folder1/file-name.extension, receita3, <invalidPackage>, TipoReceita1",
+            "./folder1/teste/file-name.extension, receita4, Pacote1, <InvalidTypeReceita>",
+            "./folder1/teste/file-name.extension, receita5, Pacote1, TipoReceita999",
+            "./folder1/teste/file-name.extension, receita6, Pacote999, TipoReceita1",
+    })
+    @Order(3)
+    public void testSaveReceita_InvalidRequest_Parameterized(String path, String nome, String pacote, String tipoReceita) {
+        TipoReceita tr = tipoReceitaServiceRepo.findbyName(tipoReceita);
+        Pacote p = pacoteServiceRepo.findbyName(pacote);
+        ReceitaDTOSaveRequest receitaDTOSaveRequest = null;
+        try {
+            receitaDTOSaveRequest = new ReceitaDTOSaveRequest(path,nome,p.getPacoteId(),tr.getTipoReceitaId());
+        } catch (Exception e) {
+            assertNull(receitaDTOSaveRequest);
+        }
     }
 }

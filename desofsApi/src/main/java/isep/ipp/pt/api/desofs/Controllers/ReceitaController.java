@@ -35,7 +35,6 @@ public class ReceitaController {
         }
 
         try {
-            //TODO fica null???
             ReceitaDTOServiceRequest receitaRequestService = receitaMapper.toReceitaDtoServiceRequestFromReceitaDtoSaveRequest(receita);
             if (!validation.validate(receitaRequestService)) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -45,4 +45,19 @@ public class ReceitaDTOServiceRequest {
         return tipoReceita;
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setPacote(Long pacote) {
+        this.pacote = pacote;
+    }
+
+    public void setTipoReceita(Long tipoReceita) {
+        this.tipoReceita = tipoReceita;
+    }
 }
