@@ -1,10 +1,12 @@
 package isep.ipp.pt.api.desofs.Repository.Implementation;
 
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ServiceLayer.UserDTOPasswordChange;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -14,6 +16,9 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Override
     public User getUserById(Long userId) {
@@ -50,4 +55,14 @@ public class UserRepoImpl implements UserServiceRepo {
         return userRepo.validateUser(username, password);
     }
 
+    @Override
+    public boolean changePassword(Long user, UserDTOPasswordChange password) {
+        String newPassword = password.getNewPassword();
+        newPassword = encoder.encode(newPassword);
+        User u = userRepo.getUserById(user);
+        u.setPassword(newPassword);
+        userRepo.deleteById(user);
+        userRepo.save(u);
+        return true;
+    }
 }

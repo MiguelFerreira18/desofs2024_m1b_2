@@ -1,6 +1,7 @@
 package isep.ipp.pt.api.desofs.Service.UserService;
 
 import isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer.UserDTOSignup;
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ServiceLayer.UserDTOPasswordChange;
 import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
@@ -78,5 +79,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void saveUser(User user) {
         userRepo.saveUser(user);
+    }
+
+    @Override
+    public boolean changePassword(Long user, UserDTOPasswordChange password) {
+        return userRepo.changePassword(user, password);
     }
 }

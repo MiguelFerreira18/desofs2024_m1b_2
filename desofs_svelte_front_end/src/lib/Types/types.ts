@@ -19,6 +19,7 @@ type User = {
 };
 
 type UserInfo = {
+	userId: number;
 	fullName: string;
 	username: string;
 	morada: string;

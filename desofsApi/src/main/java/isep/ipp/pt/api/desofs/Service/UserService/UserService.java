@@ -1,6 +1,7 @@
 package isep.ipp.pt.api.desofs.Service.UserService;
 
 import isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer.UserDTOSignup;
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ServiceLayer.UserDTOPasswordChange;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,4 +22,6 @@ public interface UserService {
     public void deleteAll();
 
     public void saveUser(User user);
+
+    public boolean changePassword(Long user, UserDTOPasswordChange password);
 }

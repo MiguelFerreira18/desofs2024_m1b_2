@@ -7,14 +7,17 @@
 	let email: string;
 	let morada: string;
 	let nif: string;
+	let userId: number;
 
 	export let data: UserInfo;
 
 	onMount(() => {
+		console.log(data);
 		fullname = data.fullName;
 		email = data.username;
 		morada = data.morada;
 		nif = data.nif;
+		userId = data.userId;
 	});
 </script>
 
@@ -57,6 +60,7 @@
 						<div class="flex flex-col p-9 justify-evenly h-full">
 							<Button className="review-button" text="review" gotoName="/profile/reviews" />
 							<Button className="Encomendas-button" text="encomendas" gotoName="/profile/reviews" />
+							<Button className="change-password-button" text="change password" gotoName="/profile/change-password/{userId}" />
 						</div>
 					</div>
 				</div>

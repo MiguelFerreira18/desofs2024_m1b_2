@@ -26,5 +26,13 @@ public class UserBootstrapper implements CommandLineRunner {
             userRepo.saveUser(admin1);
 
         }
+
+//        if(userRepo.findByUsername("admin2mail.com") == null){
+//            User admin1 = new User("admin2@mail.com",encoder.encode("123456789?qwE"),"rodrigo","987654321","RUA das moradas");
+//
+//            admin1.addAuthority(new Role(Role.Admin));
+//            userRepo.saveUser(admin1);
+//
+//        }
     }
 }
