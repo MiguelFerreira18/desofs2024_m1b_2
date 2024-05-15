@@ -5,6 +5,7 @@ import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceRespons
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.ReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -32,11 +33,14 @@ class PacoteServiceImplTest {
     @Autowired
     private TipoPacoteServiceRepo tipoPacoteRepo;
     @Autowired
+    private ReceitaServiceRepo receitaRepo;
+    @Autowired
     private PacoteService pacoteService;
     private Validator validator;
 
     @BeforeEach
     public void setUp() {
+        receitaRepo.deleteAll();
         pacoteRepo.deleteAll();
         tipoPacoteRepo.deleteAll();
 
@@ -61,6 +65,7 @@ class PacoteServiceImplTest {
 
     @AfterEach
     public void tearDown() {
+        receitaRepo.deleteAll();
         pacoteRepo.deleteAll();
         tipoPacoteRepo.deleteAll();
     }
@@ -77,7 +82,6 @@ class PacoteServiceImplTest {
     @Order(1)
     public void testServiceSaveSuccess(String nome, double preco, String descricao, boolean ativo, String tipoPacote) {
         pacoteRepo.deleteAll();
-
         TipoPacote tp1 = tipoPacoteRepo.findbyName(tipoPacote);
         PacoteDTOServiceRequest pacoteDTOServiceRequest = new PacoteDTOServiceRequest(nome, preco, descricao, ativo, tp1.getTipoPacoteId());
 
