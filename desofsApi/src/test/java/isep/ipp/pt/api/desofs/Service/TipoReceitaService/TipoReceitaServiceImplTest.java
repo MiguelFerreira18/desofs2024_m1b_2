@@ -3,6 +3,7 @@ package isep.ipp.pt.api.desofs.Service.TipoReceitaService;
 import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServiceRequest;
 import isep.ipp.pt.api.desofs.Model.TipoReceita;
+import isep.ipp.pt.api.desofs.Repository.Interface.ReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoReceitaServiceRepo;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -28,11 +29,13 @@ public class TipoReceitaServiceImplTest {
     private TipoReceitaServiceRepo tipoReceitaServiceRepo;
     @Autowired
     private TipoReceitaService tipoReceitaService;
-
+    @Autowired
+    private ReceitaServiceRepo receitaRepo;
     private Validator validator;
 
     @BeforeEach
     public void setUp() {
+        receitaRepo.deleteAll();
         tipoReceitaServiceRepo.deleteAll();
 
         TipoReceita tr1 = new TipoReceita(1L, "TipoReceita1");
@@ -52,6 +55,7 @@ public class TipoReceitaServiceImplTest {
 
     @AfterEach
     public void tearDown() {
+        receitaRepo.deleteAll();
         tipoReceitaServiceRepo.deleteAll();
     }
 
