@@ -8,10 +8,7 @@ import isep.ipp.pt.api.desofs.Model.Review;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
-import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -45,6 +42,8 @@ class ReviewServiceImpTest {
     private PacoteServiceRepo pacoteRepo;
     @Autowired
     private TipoPacoteServiceRepo tipoPacoteRepo;
+    @Autowired
+    private ReceitaServiceRepo receitaRepo;
 
     private Validator validator;
 
@@ -52,6 +51,7 @@ class ReviewServiceImpTest {
 
     @BeforeEach
     void setUp() {
+        receitaRepo.deleteAll();
         reviewRepo.deleteAll();
         pacoteRepo.deleteAll();
         userRepo.deleteAll();
@@ -84,6 +84,7 @@ class ReviewServiceImpTest {
 
     @AfterEach
     void tearDown() {
+        receitaRepo.deleteAll();
         reviewRepo.deleteAll();
         pacoteRepo.deleteAll();
         userRepo.deleteAll();

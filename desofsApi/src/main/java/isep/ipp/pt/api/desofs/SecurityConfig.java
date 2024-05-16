@@ -114,6 +114,7 @@ public class SecurityConfig {
                                 .requestMatchers("/user/info/**").authenticated()
                                 .requestMatchers("/encomenda/**").authenticated()
                                 .requestMatchers("/user/delete/data").authenticated()
+                                .requestMatchers("/tipoReceita/**").authenticated()
                                 .requestMatchers("/api-docs/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
 
