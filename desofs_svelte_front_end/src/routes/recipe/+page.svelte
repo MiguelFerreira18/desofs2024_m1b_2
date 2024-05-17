@@ -6,12 +6,7 @@
 	export let data: PageData;
 
 	async function deleteRecipe(recipeId: number) {
-		const response = await sendRequest(
-			`receita/delete/${recipeId}`,
-			'DELETE',
-			'',
-			data.user.token
-		);
+		const response = await sendRequest(`receita/delete/${recipeId}`, 'DELETE', '', data.user.token);
 
 		if (response.ok) {
 			goto('/recipe');
@@ -31,8 +26,7 @@
 				<button
 					style="margin-left: auto;"
 					class="ml-auto inline-block rounded border px-4 py-2 bg-white hover:bg-gray-200 transition-colors duration-300"
-					on:click={() => goto('/recipe/create-recipe')}
-					><i class="fa-solid fa-plus"></i></button
+					on:click={() => goto('/recipe/create-recipe')}><i class="fa-solid fa-plus"></i></button
 				>
 			</div>
 		</div>

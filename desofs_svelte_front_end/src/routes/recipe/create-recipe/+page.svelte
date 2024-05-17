@@ -7,16 +7,16 @@
 	export let data: PageData;
 
 	let packageId = 0;
-	let path = "";
-	let name = "";
+	let path = '';
+	let name = '';
 	let recipeTypeId = 0;
 
 	async function handleSubmit() {
 		const recipe: RecipeDTOSend = {
 			path: path,
-            nome: name,
-            tipoReceita: recipeTypeId,
-            pacote: packageId
+			nome: name,
+			tipoReceita: recipeTypeId,
+			pacote: packageId
 		};
 
 		const response = await sendRequest(
@@ -70,10 +70,10 @@
 					id="tipoReceita"
 					class="rounded border border-current p-2 bg-white min-w-80"
 				>
-                    {#each data.tipoReceitas as type}
+					{#each data.tipoReceitas as type}
 						<option value={type.tipoReceitaId}>{type.nome}</option>
 					{/each}
-                </select>
+				</select>
 			</div>
 			<div class="flex flex-row gap-2 content-center items-center">
 				<label class="min-w-40" for="pacote">Package</label>

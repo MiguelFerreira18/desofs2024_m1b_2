@@ -14,9 +14,9 @@
 		const encData: RecipePatchSend = {
 			receitaId: data.recipe.receitaId,
 			nome: name,
-            path: path,
-            pacote: pacoteId,
-            tipoReceita: recipeTypeId
+			path: path,
+			pacote: pacoteId,
+			tipoReceita: recipeTypeId
 		};
 
 		const response = await sendRequest(
@@ -45,11 +45,11 @@
 			<div class="flex flex-row gap-2 content-center items-center">
 				<label class="min-w-40" for="meals">Name</label>
 				<input
-                    bind:value={name}
-                    type="text"
-                    name="name"
-                    id="name"
-                    class="rounded border border-current p-1 min-w-80"
+					bind:value={name}
+					type="text"
+					name="name"
+					id="name"
+					class="rounded border border-current p-1 min-w-80"
 				/>
 			</div>
 			<div class="flex flex-row gap-2 content-center items-center">
@@ -70,10 +70,10 @@
 					id="tipoReceita"
 					class="rounded border border-current p-2 bg-white min-w-80"
 				>
-                    {#each data.tipoReceitas as type}
+					{#each data.tipoReceitas as type}
 						<option value={type.tipoReceitaId}>{type.nome}</option>
 					{/each}
-                </select>
+				</select>
 			</div>
 			<div class="flex flex-row gap-2 content-center items-center">
 				<label class="min-w-40" for="pacote">Pacote</label>
