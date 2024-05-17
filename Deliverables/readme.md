@@ -1,7 +1,5 @@
 # DESOFS deliverables
 
-
-
 * [1 Introduction](#1-introduction)
 * [2 guidelines](#2-guidelines)
     * [2.1 Coding checklist](#21-coding-checklist)
@@ -16,50 +14,51 @@
     * [3.4 Gestor de Ficheiros](#34-gestor-de-ficheiros)
 * [4 Requisitos](#4-requisitos)
     * [Numenclatura](#numenclatura)
-  * [4.1 Requisitos de segurança funcionais](#41-requisitos-de-segurança-funcionais)
-  * [4.2 Requisitos de Segurança não funcionais](#42-requisitos-de-segurança-não-funcionais)
-  * [4.3 Requisitos de Segurança de desenvolvimento](#43-requisitos-de-segurança-de-desenvolvimento)
+    * [4.1 Requisitos de segurança funcionais](#41-requisitos-de-segurança-funcionais)
+    * [4.2 Requisitos de Segurança não funcionais](#42-requisitos-de-segurança-não-funcionais)
+    * [4.3 Requisitos de Segurança de desenvolvimento](#43-requisitos-de-segurança-de-desenvolvimento)
 * [5 Use And Abuse cases](#5-use-and-abuse-cases)
-  * [User Authentication](#user-authentication)
-  * [User Order](#user-order)
-  * [File manager](#file-manager)
-  * [Administrator](#administrator)
+    * [User Authentication](#user-authentication)
+    * [User Order](#user-order)
+    * [File manager](#file-manager)
+    * [Administrator](#administrator)
 * [Aquitetura](#aquitetura)
-  * [Domain model](#domain-model)
-  * [Diagrama de entidade relação](#diagrama-de-entidade-relação)
-  * [Diagramas de implantanção](#diagramas-de-implantanção)
-    * [Diagrama de implantação de nível 1](#diagrama-de-implantação-de-nível-1)
-    * [Diagrama de implantação de nível 2](#diagrama-de-implantação-de-nível-2)
-  * [Diagrama de componentes](#diagrama-de-componentes)
-    * [Diagrama de componentes de nível 2](#diagrama-de-componentes-de-nível-2)
-    * [Diagrama de componentes de nível 3](#diagrama-de-componentes-de-nível-3)
-  * [Diagrama de pacotes](#diagrama-de-pacotes)
+    * [Domain model](#domain-model)
+    * [Diagrama de entidade relação](#diagrama-de-entidade-relação)
+    * [Diagramas de implantanção](#diagramas-de-implantanção)
+        * [Diagrama de implantação de nível 1](#diagrama-de-implantação-de-nível-1)
+        * [Diagrama de implantação de nível 2](#diagrama-de-implantação-de-nível-2)
+    * [Diagrama de componentes](#diagrama-de-componentes)
+        * [Diagrama de componentes de nível 2](#diagrama-de-componentes-de-nível-2)
+        * [Diagrama de componentes de nível 3](#diagrama-de-componentes-de-nível-3)
+    * [Diagrama de pacotes](#diagrama-de-pacotes)
 * [Pipeline Design](#pipeline-design)
 * [6 Threat Analysis](#6-threat-analysis)
-  * [6.1 STRIDE](#61-stride)
-  * [6.2 ASF](#62-asf)
-  * [6.3 Entry Points](#63-entry-points)
-  * [6.4 Exit Points](#64-exit-points)
-  * [6.5 Qualittative Risk Model](#65-qualittative-risk-model)
-  * [6.6 Countermeasures](#66-countermeasures)
-    * [STRIDE](#stride)
-  * [6.7 Dataflow Diagram Lv1](#67-dataflow-diagram-lv1)
-  * [6.8 DREAD](#68-dread)
-  * [6.9 Attack Tree](#69-attack-tree)
-    * [Ataque 1: Fraca Autenticação](#ataque-1-fraca-autenticação)
-    * [Ataque 2: Vulnerabilidades na Validação do Input](#ataque-2-vulnerabilidades-na-validação-do-input)
-    * [Ataque 3: Exploração de Configurações Incorretas do Servidor](#ataque-3-exploração-de-configurações-incorretas-do-servidor)
-    * [Ataque 4: Vulnerabilidades nos Componentes de Terceiros](#ataque-4-vulnerabilidades-nos-componentes-de-terceiros)
-    * [Ataque 5: Intercetação de Dados](#ataque-5-intercetação-de-dados)
-    * [Ataque 6: Denial of Service (DoS/DDoS)](#ataque-6-denial-of-service-dosddos)
-    * [Ataque 7: Ataques de Sessão](#ataque-7-ataques-de-sessão)
-    * [Ataque 8: Vulnerabilidades no Upload de ficheiros](#ataque-8-vulnerabilidades-no-upload-de-ficheiros)
-    * [Ataque 9: Vulnerabilidades no Download de ficheiros](#ataque-9-vulnerabilidades-no-download-de-ficheiros)
-    * [Ataque 10: Fraudes em Pagamentos Bancários](#ataque-10-fraudes-em-pagamentos-bancários)
+    * [6.1 STRIDE](#61-stride)
+    * [6.2 ASF](#62-asf)
+    * [6.3 Entry Points](#63-entry-points)
+    * [6.4 Exit Points](#64-exit-points)
+    * [6.5 Qualittative Risk Model](#65-qualittative-risk-model)
+    * [6.6 Countermeasures](#66-countermeasures)
+        * [STRIDE](#stride)
+    * [6.7 Dataflow Diagram Lv1](#67-dataflow-diagram-lv1)
+    * [6.8 DREAD](#68-dread)
+    * [6.9 Attack Tree](#69-attack-tree)
+        * [Ataque 1: Fraca Autenticação](#ataque-1-fraca-autenticação)
+        * [Ataque 2: Vulnerabilidades na Validação do Input](#ataque-2-vulnerabilidades-na-validação-do-input)
+        * [Ataque 3: Exploração de Configurações Incorretas do Servidor](#ataque-3-exploração-de-configurações-incorretas-do-servidor)
+        * [Ataque 4: Vulnerabilidades nos Componentes de Terceiros](#ataque-4-vulnerabilidades-nos-componentes-de-terceiros)
+        * [Ataque 5: Intercetação de Dados](#ataque-5-intercetação-de-dados)
+        * [Ataque 6: Denial of Service (DoS/DDoS)](#ataque-6-denial-of-service-dosddos)
+        * [Ataque 7: Ataques de Sessão](#ataque-7-ataques-de-sessão)
+        * [Ataque 8: Vulnerabilidades no Upload de ficheiros](#ataque-8-vulnerabilidades-no-upload-de-ficheiros)
+        * [Ataque 9: Vulnerabilidades no Download de ficheiros](#ataque-9-vulnerabilidades-no-download-de-ficheiros)
+        * [Ataque 10: Fraudes em Pagamentos Bancários](#ataque-10-fraudes-em-pagamentos-bancários)
 * [7 Ferramentas de teste](#7-ferramentas-de-teste)
-  * [7.1 SAST](#71-sast)
-  * [7.2 DAST (Dynamic testing)](#72-dast-dynamic-testing)
-  * [7.3 SCA](#73-sca)
+    * [7.1 SAST](#71-sast)
+    * [7.2 DAST (Dynamic testing)](#72-dast-dynamic-testing)
+    * [7.3 SCA](#73-sca)
+
 <!-- TOC -->
 
 # 1 Introduction
@@ -102,9 +101,10 @@ Para cada commit, teremos as seguintes regras:
 
 ### 2.3 Branching
 
-Haverá apenas 4 branches, o arch, que serve para armazenar a arquitetura e documentação do projeto, o main que é a branch
+Haverá apenas 4 branches, o arch, que serve para armazenar a arquitetura e documentação do projeto, o main que é a
+branch
 para onde se faz merge das branches de development e architecture, a branch de development que é a branch onde se cria
-as features, sendo que esta branch pode ter múltiplas sub-branches (uma para cada feature) e por fim uma release branch 
+as features, sendo que esta branch pode ter múltiplas sub-branches (uma para cada feature) e por fim uma release branch
 que é criada quando se quer fazer um release.
 
 ### 2.4 Issues
@@ -137,7 +137,7 @@ de development será apenas necessário pelo menos 1 reviwer.
 **US1** - Eu como utilizador quero poder criar uma conta no website para poder fazer encomendas. Eu não devo criar um
 perfil com as mesmas credenciais que outra pessoa.
 
-**US2** - Eu como utilizador quero poder fazer login no website para conseguir fazer encomendas. Eu não devo conseguir 
+**US2** - Eu como utilizador quero poder fazer login no website para conseguir fazer encomendas. Eu não devo conseguir
 fazer login com credenciais inválidas ou de outros utilizadores.
 
 **US3** - Eu como utilizador quero poder ver os pacotes disponíveis para encomenda, para poder escolher o que mais me
@@ -412,19 +412,19 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 ## 6.1 STRIDE
 
-| Categoria              | Descrição               |
-|------------------------|--------------------------|
+| Categoria              | Descrição                                                                                                                                                                                                                                                                                        |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Spoofing               | **Threat 1**: A aplicação tem de ser accessível aos utilizadores, consequentemente tem de ser fácil de usar, contudo não se pode introduzir uma ameaça<br/> **Threat 2**: Visto esta aplicação ser delivery service, implica que haja a possibilidade de alguem se fazer passar por outra pessoa |
-| Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor, é possivel que estas sejam editadas                     |
-| Repudiation            | Sem Ameaças                                                     |
+| Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor, é possivel que estas sejam editadas                                                                                                                                                                       |
+| Repudiation            | Sem Ameaças                                                                                                                                                                                                                                                                                      |
 | Information disclosure | **Threat 1**: É possivel que haja XSS visto haver formas de inserir scripts de javascript, com isto é possivel adquirir informação de outros utilizadores  <br/> **Threat 2**: É possivel interceptar pedidos de Http, consequentemente obter informação que não era suposto                     |
-| Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS         |
-| Elevation of privilege | Sem Ameaças                            |
+| Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS                                                                                                                                                                                                                         |
+| Elevation of privilege | Sem Ameaças                                                                                                                                                                                                                                                                                      |
 
 ## 6.2 ASF
 
-| Category                 | Description                  |
-|--------------------------|-----------------------------------------------------------|
+| Category                 | Description                                                                                                                                             |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Auditing and Logging     | **Threat 1**: Como não existe sistema de logging, não é possivel saber quem fez o quê e quando. <br/>**Threat 2**: Qualquer pessoa pode aceder aos logs |
 | Authentication           | **Threat 1**: Com o sistema simples que está em uso, é relativamente fácil de usar credenciais de outros utilizadores                                   |
 | Authorization            | **Threat 1**: Qualquer pessoa pode fazer download das receitas, criando um possivel ponto de entrada                                                    |
@@ -440,8 +440,8 @@ utilizadores.
 Abaixo está uma lista dos principais pontos de entrada do sistema, juntamente com uma breve descrição de suas
 funcionalidades e os níveis de confiança associados:
 
-| ID | Name        | Description                                             | Trust Level              |
-|----|-------------|---------------------------------------------------------|-------------------------|
+| ID | Name                              | Description                                                                                                                          | Trust Level                                                                                                                                |
+|----|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | 1  | HTTPS Port                        | O site da CozinhaNaCozinha é acessível apenas através do uso de TLS. Todas as páginas do site estão protegidas por esta camada.      | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
 | 2  | Página de Login                   | Membros e administradores devem fazer login para aceder a funcionalidades de aquisição de serviço ou gestão dos serviços adquiridos. | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
 | 3  | Página Inicial                    | Todos os visitantes podem aceder à página principal para visualizar planos, serviços, informações e tirar dúvidas.                   | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
@@ -449,15 +449,15 @@ funcionalidades e os níveis de confiança associados:
 | 5  | Página de Receitas                | Oferece uma coleção de receitas para inspirar utilizadores na preparação de refeições.                                               | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
 | 6  | Página de Subscrição              | Permite aos utilizadores gerir as suas subscrições, atualizando informações de pagamento e preferências de entrega.                  | (2) Utilizador com credenciais de login válidas (4) Administrador                                                                          |
 | 7  | Página de Contacto                | Oferece informações de contacto para os utilizadores entrarem em contacto com o suporte ao cliente.                                  | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
-| 8  | Página Sobre Nós                  | Fornece informações sobre a empresa, sua missão, valores e equipa.                                 | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
+| 8  | Página Sobre Nós                  | Fornece informações sobre a empresa, sua missão, valores e equipa.                                                                   | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
 | 9  | Página de FAQ                     | Responde a perguntas frequentes sobre o serviço, procedimentos de entrega, políticas de cancelamento, etc.                           | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
-| 10 | Painel de Administração           | Interface exclusiva para administradores gerirem utilizadores, conteúdo do site e relatórios de vendas.                              | (4) Administrador            |
-| 11 | Página de Perfil do Utilizador    | Permite aos utilizadores visualizar e editar as suas informações pessoais, histórico de pedidos e preferências de refeições.         | (2) Utilizador com credenciais de login válidas       |
-| 12 | Página do Carrinho                | Mostra os itens selecionados pelos utilizadores para compra antes do checkout.                                                       | (2) Utilizador com credenciais de login válidas       |
-| 13 | Página de Checkout                | Permite aos utilizadores rever e confirmar as suas compras antes do pagamento.                         | (2) Utilizador com credenciais de login válidas               |
-| 14 | Página de Histórico de Encomendas | Exibe o histórico de encomendas dos utilizadores, incluindo detalhes da compra e estado de entrega.                 | (2) Utilizador com credenciais de login válidas               |
-| 15 | Página de upload às receitas      | Permite ao administrador dar upload às receitas e aos packs                        | (4) Administrador              |
-| 16 | Página de download das receitas   | Permite aos utilizadores registrados fazerem download das receitas do pack da semana           | (2) Utilizador com credenciais de login  |
+| 10 | Painel de Administração           | Interface exclusiva para administradores gerirem utilizadores, conteúdo do site e relatórios de vendas.                              | (4) Administrador                                                                                                                          |
+| 11 | Página de Perfil do Utilizador    | Permite aos utilizadores visualizar e editar as suas informações pessoais, histórico de pedidos e preferências de refeições.         | (2) Utilizador com credenciais de login válidas                                                                                            |
+| 12 | Página do Carrinho                | Mostra os itens selecionados pelos utilizadores para compra antes do checkout.                                                       | (2) Utilizador com credenciais de login válidas                                                                                            |
+| 13 | Página de Checkout                | Permite aos utilizadores rever e confirmar as suas compras antes do pagamento.                                                       | (2) Utilizador com credenciais de login válidas                                                                                            |
+| 14 | Página de Histórico de Encomendas | Exibe o histórico de encomendas dos utilizadores, incluindo detalhes da compra e estado de entrega.                                  | (2) Utilizador com credenciais de login válidas                                                                                            |
+| 15 | Página de upload às receitas      | Permite ao administrador dar upload às receitas e aos packs                                                                          | (4) Administrador                                                                                                                          |
+| 16 | Página de download das receitas   | Permite aos utilizadores registrados fazerem download das receitas do pack da semana                                                 | (2) Utilizador com credenciais de login                                                                                                    |
 
 ## 6.4 Exit Points
 
@@ -516,13 +516,13 @@ um valor inferior, podendo exigir uma atenção menos imediata.
 
 ### STRIDE
 
-| Categoria              | Descrição               |
-|------------------------|--------------------------|
-| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados   |
-| Tampering              | **Countermeasure 1**: Utilização de Hashing para as receitas<br/> **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos         |
-| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                |
-| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs            |
-| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting       |
+| Categoria              | Descrição                                                                                                                                                                                                                                                                                                                                                                                      |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados                                                                                                                                                                 |
+| Tampering              | **Countermeasure 1**: Utilização de Hashing para as receitas<br/> **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos                                                                                                                                                               |
+| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                                                                                                                                                                                                                                                                                            |
+| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs                                                                                              |
+| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting                                                                                                                                                                                                                                |
 | Elevation of privilege | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs <br/> **Countermeasure 4**: Ninguem deve ter a capacidade de mudar os privilégios do sistema |
 
 ## 6.7 Dataflow Diagram Lv1
@@ -830,27 +830,334 @@ podem ser seguidos para alcançar um objetivo malicioso. Vamos explorar brevemen
 - **Sub-ataque 10.2**: Man-in-the-Middle (MitM) em Transações
 - **Sub-ataque 10.3**: Roubo de Credenciais de Conta Bancária
 
-# 7 Ferramentas de teste
+# 1º Sprint
 
-## 7.1 SAST
+Para este primerio sprint foi então pedido que fosse automatizado o processo de building e deployment através de uma
+pipeline, assim como a criação de testes de segurança que deviam ter sido planeados na parte de pleaneamento.
 
-De forma a analisar o código fonte da aplicação, é necessário utilizar ferramentas de Static Application Security
-Testing (SAST). Estas ferramentas permitem identificar vulnerabilidades de segurança no código fonte, como falhas de
-autenticação, injeção de SQL, cross-site scripting (XSS) e outras vulnerabilidades comuns.
-Optou-se por utilizar o SonarQube para realizar esta tarefa, pois é uma ferramenta open-source que suporta várias
-linguagens de programação e oferece uma análise abrangente do código fonte, identificando bugs, vulnerabilidades e "code
-smells" (https://www.sonarsource.com/products/sonarqube/).
+## 7.1 Pipeline
 
-## 7.2 DAST (Dynamic testing)
+Para a pipeline tentamos seguir a estrutura planeada, contudo a mesma sofreu algumas alterações, especialmente ao nivel
+do deployment. Usamos as github actions, visto ser uma ferramenta relativamente simples e com uma quantidade gigantesca
+de actions disponiveis, ao qual permite diminiur a complexidade da pipeline.
 
-Para este projeto vamos utilizar o OWASP ZAP, ferramenta essa que permite testar a segurança de aplicações web através de
-testes dinâmicos. O ZAP é uma ferramenta open-source que oferece uma ampla gama de funcionalidades, incluindo varreduras
-automáticas a testar contra todo o tipo de vulnerabilidades, como injeção de SQL, cross-site scripting (XSS), e outras
-ameaças comuns. (https://www.zaproxy.org/)
+Temos dois workflows, um para dar build e testar a aplicação na sua totalidade, o segundo workflow é essencialmente para
+efetuar uma release da aplicação.
 
-## 7.3 SCA
+Sempre que um push ou um pull request é efetuado temos algumas ferramentas que vão fazer testes e análises ao código e
+às dependências que a branch contém.
 
-A ferramenta escolhida para realizar a análise de componentes de software é o OWASP Dependency-Check. Esta ferramenta
-open-source permite identificar vulnerabilidades em bibliotecas de terceiros usadas no projeto, ajudando a garantir que
-não existam componentes com falhas de segurança conhecidas. O Dependency-Check supporta todas as linguagens que temos no
-nosso projeto (Java e javascript/Typescript). (https://owasp.org/www-project-dependency-check/).
+### 7.1.1 deployment.yml
+
+Este é o workflow responsável pelo deployment da aplicação, é composto por 4 jobs.
+
+1º job - build front end
+2º job - build back end
+3º job - push to docker hub
+4º job - docker scout api
+5º job - docker scout web
+
+#### 7.1.1.1 Build Front end
+
+Este é o primeiro job, que vai fazer o checkout do código, ou seja, vai para a branch que foi feito o push, vai dar
+setup ao node, que será a versão stable (node 20), vai instalar as dependências presentes no package.json, a seguir dá
+build. Até agora todas as tasks que foram executadas são essêncialmente para dar setup ao environment para a parte do
+front end, após dar este setup começamos a parte importante, que é verificar se o nosso código está pronto para
+produção, para isso chamamos o comando format, para formatar o código, depois chamamos o comando de lint para verificar
+para erros dentro do código, variaveis ou dependências não utilizadas, chamamos o comando de tests para testar
+o código e por fim chamamos o comando próprio ao sveltekit para validar o código que é o check.
+
+```YAML
+  buildFrontEnd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up node.js 20.11
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run build
+        run: npm run build
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run format
+        run: npm run format
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run linter
+        run: npm run lint
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Install conffeti
+        run: npx playwright install --with-deps
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run unit tests
+        run: npm run test:unit
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run Integration tests
+        run: npx playwright test
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run Check
+        run: npm run check
+        working-directory: ./desofs_svelte_front_end
+```
+
+#### 7.1.1.2 Build Back end
+
+Este é o nosso segundo job, inicialmente iniciamos um serviço, serviço esse que é nada mais nada menos que a nossa base
+de dados, uma das novas features do github actions é que permite ativar diferentes serviços nomeadamente o mysql num
+docker container, para isso basta adicionar o seguinte código:
+
+```YAML
+services:
+  mysql:
+    image: mysql:latest
+    env:
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_DATABASE: ${{ secrets.DESOFS_DB_DEV_DB_NAME }}
+      MYSQL_USER: ${{ secrets.DESOFS_DB_USER }}
+      MYSQL_PASSWORD: ${{ secrets.DESOFS_DB_PASS }}
+    ports:
+      - 3306:3306
+    options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+```
+
+No código em yaml, inicamos então o serviço mysql, que contém secrets que foram guardados nos secrets do github. Além
+disso, é feito uma verificação da health da base de dados para que apenas avance quando estiver totalmente ligada e
+funcional. Apesar de ter sido feito isso, nada garante que a base de dados esteja a aceitar conexões, e isso foi um
+problema fácilmente resolvido. Através do código a seguir:
+
+```YAML
+      - name: Echo .env
+        run: cat .env
+        working-directory: ./desofsApi
+
+
+      - name: Wait for 20 seconds
+        run: sleep 10
+
+      - name: Check Database Health
+        run: nc -zvw 1 cozinha_na_cozinha_mysql 3306
+        continue-on-error: true
+```
+
+O echo serve apenas para testar a capacidade do github actions ocultar os secrets, o sleep é para adicionar um tempo de
+espera extra na pipeline para resolver o problema descrito anteriormente.
+
+Após ter a base de dados a funcionar e a receber conexões, é feito o setup do java, a versão do java utilizada é o 17,
+visto ser uma versão estável e com algumas funcionalidades interessantes. Após o setup do java, é feito a limpesa de
+qualquer existencia de uma pasta "target" através do clean, após isto, são executados os testes, por fim executamos o
+package para criar um jar e guardamos o jar como um artefacto. Também é executado o dependency check
+
+```YAML
+  buildBackEnd:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.DESOFS_DB_DEV_DB_NAME }}
+          MYSQL_USER: ${{ secrets.DESOFS_DB_USER }}
+          MYSQL_PASSWORD: ${{ secrets.DESOFS_DB_PASS }}
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create .env
+        run: |
+
+          touch .env
+          echo "MYSQL_ROOT_PASSWORD=rootpwd" >> .env
+          echo "DESOFS_DB_DEV_DB_NAME=data_desofs" >> .env
+          echo "DESOFS_DB_USER=cozinha" >> .env
+          echo "DESOFS_DB_PASS=123456789" >> .env
+          echo "DESOFS_DB_HOST=desofs_mysql_db" >> .env
+          echo "DESOFS_APP_SECRET=defaultappsecret" >> .env
+        working-directory: ./desofsApi
+
+      - name: Echo .env
+        run: cat .env
+        working-directory: ./desofsApi
+
+
+      - name: Wait for 20 seconds
+        run: sleep 10
+
+      - name: Check Database Health
+        run: nc -zvw 1 cozinha_na_cozinha_mysql 3306
+        continue-on-error: true
+      # Setup java version
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+          cache-dependency-path: 'desofsApi/pom.xml'
+
+      - name: Maven Clean
+        run: mvn clean
+        working-directory: ./desofsApi
+
+      - name: Maven Test
+        run: mvn test
+        working-directory: ./desofsApi
+
+      - name: Maven Package
+        run: mvn package
+        working-directory: ./desofsApi
+
+      - name: Upload Jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: desofsApi
+          path: ./desofsApi/target/desofsApi-0.0.1-SNAPSHOT.jar
+
+
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        env:
+          # actions/setup-java@v1 changes JAVA_HOME so it needs to be reset to match the depcheck image
+          JAVA_HOME: /opt/jdk
+        id: Depcheck
+        with:
+          project: 'test'
+          path: '.'
+          format: 'HTML'
+          out: 'reports'
+          args: >
+            --enableRetired
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+          name: Depcheck report
+          path: ${{github.workspace}}/reports
+```
+
+#### 7.1.1.3 Push to Docker Hub
+
+Este job, é apenas executado depois se ambos os jobs anteriores forem bem sucedidos, ou seja, se o front end e o back
+end estiverem prontos para produção, é feito o push para o docker hub, para isso é feito o steup do environment,
+executar o build do front end e o package do back end, faz se o login no docker hub com credenciais guardadas nos
+secrets, depois dámos push tanto do front end como do back end para as suas docker registries.
+
+```YAML
+push-to-dockerhub:
+  runs-on: ubuntu-latest
+
+  steps:
+
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up node.js 20.11
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install Dependencies
+      run: npm install
+      working-directory: ./desofs_svelte_front_end
+
+    - name: Run build
+      run: npm run build
+      working-directory: ./desofs_svelte_front_end
+
+    - name: Set up Java 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'maven'
+        cache-dependency-path: 'desofsApi/pom.xml'
+
+    - name: Maven Package
+      run: mvn package -DskipTests
+      working-directory: ./desofsApi
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+
+    - name: Build docker compose file
+      run: docker-compose build
+
+
+    - name: Print docker images
+      run: docker images
+
+    # tag the frontend image
+    - name: Tag Frontend image
+      run: docker tag desofs2024_m1b_2_desof-web:latest ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
+
+    - name: Tag Backend image
+      run: docker tag desofs2024_m1b_2_desof-api:latest ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-api:latest
+
+    - name: Build and push frontend
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
+
+    - name: Build and push backend
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-api:latest
+
+  needs: [ buildFrontEnd, buildBackEnd ]
+```
+
+As imagens vão ser postas como latest visto que estão com a última versão possivel do código.
+
+#### 7.1.1.4 Docker Scout
+
+Este job é executado no final depois do push para o docker hub ser bem-sucedido, é feito então, uma analise dos
+containers, nós queriamos por os ultimos jobs juntos, contudo, isso não é possivel pois o github fica numa dependencia
+rotativa por causa do githubtoken, contudo, vamos considerar que são parte da mesma job. Neste caso, isto vai fazer o
+login no docker hub e depois vai buscar as imagens para de seguida criar um report com as vulnerabilidades encontradas
+pelo docker scout, este report vai ser posto na própria pull request para imediato feedback. Claro que existem
+diferentes formas de geração que podem ser configuradas na github action através do parametro "command":
+
+```YAML
+  docker-scout-web:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Docker Scout
+        id: docker-scout
+        uses: docker/scout-action@v1
+        with:
+          command: cves,recommendations,quickview
+          image: ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
+          to-latest: true
+          ignore-unchanged: true
+          write-comment: true
+          only-fixed: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+    needs:
+      - push-to-dockerhub
+```
+
+### 7.1.2 release-please.yaml
+
+Este workflow é responsável por criar uma release da aplicação, é composto por apenas 3 jobs, mas temos a intenção de
+melhorar e adicionar a outra
+
