@@ -19,6 +19,5 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	);
 	const recipe: Recipe = await responseEncomenda.json();
 
-	console.log(pacotes, tipoReceitas, recipe);
 	return { pacotes, recipe, tipoReceitas };
 };
