@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 public class PacoteDTOPatchRequest {
 
     @NotNull
+    @Positive
     private final Long pacoteId;
 
 
@@ -14,7 +15,6 @@ public class PacoteDTOPatchRequest {
     @Size(max = 16, message = "Nome do pacote inválido")
     private final String nome;
 
-    @NotBlank
     @Min(value = 0, message = "Preço base do pacote inválido")
     @Max(value = 500, message = "Preço base do pacote inválido")
     private final double pacoteBasePrice;
@@ -25,6 +25,8 @@ public class PacoteDTOPatchRequest {
     private final String pacoteDescription;
 
     private final boolean disabled;
+    @Positive
+    @NotNull
     private final Long tipoPacote;
 
     public PacoteDTOPatchRequest(Long pacoteId,String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, Long tipoPacote) {

@@ -22,6 +22,8 @@ public class PacoteDTOSaveRequest {
     private final String pacoteDescription;
 
     private final boolean disabled;
+    @NotNull
+    @Positive
     private final Long tipoPacote;
 
     public PacoteDTOSaveRequest(String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, Long tipoPacote) {

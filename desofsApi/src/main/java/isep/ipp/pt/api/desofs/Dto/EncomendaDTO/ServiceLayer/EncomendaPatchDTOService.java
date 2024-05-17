@@ -12,6 +12,7 @@ import java.util.List;
 
 public class EncomendaPatchDTOService {
     @NotNull
+    @Positive
     private Long encomendaId;
 
     @Min(value = 1, message = "Número de refeições por semana inválido")
