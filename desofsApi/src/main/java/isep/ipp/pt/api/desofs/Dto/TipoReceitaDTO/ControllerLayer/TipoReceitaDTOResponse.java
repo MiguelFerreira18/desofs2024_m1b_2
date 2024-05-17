@@ -37,4 +37,11 @@ public class TipoReceitaDTOResponse {
         return nome;
     }
 
+    public void setTipoReceitaId(Long tipoReceitaId) {
+        this.tipoReceitaId = tipoReceitaId;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 }
