@@ -1,4 +1,5 @@
 import { EstadoEncomenda } from '$lib/Enum/enums';
+import type { R } from 'vitest/dist/reporters-yx5ZTtEV.js';
 
 // Type
 type Package = {
@@ -101,6 +102,35 @@ type Delivery = {
 	user: User;
 };
 
+//Recipes
+type RecipeDTOSend = {
+	path: string;
+	nome: string;
+	pacote: number;
+	tipoReceita: number;
+};
+
+type RecipePatchSend = {
+	receitaId: number;
+	path: string;
+	nome: string;
+	pacote: number;
+	tipoReceita: number;
+};
+
+type Recipe = {
+	receitaId: number;
+	path: string;
+	nome: string;
+	pacote: Package;
+	tipoReceita: RecipeType;
+};
+
+type RecipeType = {
+	tipoReceitaId: number;
+	nome: string;
+};
+
 enum StateDelivery {
 	REGISTADO,
 	ENTREGUE,
@@ -121,5 +151,9 @@ export type {
 	DeliveryDTOSend,
 	Delivery,
 	DeliveryDTOPatch,
-	StateDelivery
+	StateDelivery,
+	RecipeDTOSend,
+	RecipePatchSend,
+	RecipeType,
+	Recipe
 };
