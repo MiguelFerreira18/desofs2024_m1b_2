@@ -19,8 +19,10 @@ public class ReviewDTOServicePatchRequest {
     private final int rating;
 
     @NotNull
+    @Positive
     private final Long user;
     @NotNull
+    @Positive
     private final Long pacote;
 
     public ReviewDTOServicePatchRequest(Long reviewId,String reviewText, int rating, Long user, Long pacote) {

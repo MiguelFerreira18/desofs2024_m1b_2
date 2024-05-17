@@ -7,10 +7,7 @@ import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
-import isep.ipp.pt.api.desofs.Repository.Interface.EncomendaServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import isep.ipp.pt.api.desofs.Service.EncomendaService.EncomendaService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,9 +38,15 @@ class EncomendaControllerTest {
 
     @Autowired
     private UserServiceRepo userRepo;
+    @Autowired
+    private ReviewServiceRepo reviewServiceRepo;
+    @Autowired
+    private ReceitaServiceRepo receitaServiceRepo;
 
     @BeforeEach
     public void populate() {
+        receitaServiceRepo.deleteAll();
+        reviewServiceRepo.deleteAll();
         encomendaRepo.deleteAll();
         pacoteRepo.deleteAll();
         userRepo.deleteAll();
@@ -60,6 +63,8 @@ class EncomendaControllerTest {
 
     @AfterEach
     public void clean() {
+        receitaServiceRepo.deleteAll();
+        reviewServiceRepo.deleteAll();
         encomendaRepo.deleteAll();
         pacoteRepo.deleteAll();
         userRepo.deleteAll();

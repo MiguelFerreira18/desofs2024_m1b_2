@@ -25,8 +25,10 @@ public class EncomendaDTOServiceRequest {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataEncomenda;
     @NotNull
+    @Positive
     private Long pacoteId;
     @NotNull
+    @Positive
     private Long userId;
 
 

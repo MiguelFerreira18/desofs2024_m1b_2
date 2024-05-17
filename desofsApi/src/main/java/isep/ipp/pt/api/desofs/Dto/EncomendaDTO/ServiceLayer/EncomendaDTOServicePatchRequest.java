@@ -11,6 +11,7 @@ import java.util.List;
 
 public class EncomendaDTOServicePatchRequest {
     @NotNull
+    @Positive
     private Long encomendaId;
 
     @Min(value = 1, message = "Número de refeições por semana inválido")
@@ -28,8 +29,10 @@ public class EncomendaDTOServicePatchRequest {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataEncomenda;
     @NotNull
+    @Positive
     private Long pacoteId;
     @NotNull
+    @Positive
     private Long userId;
 
 
