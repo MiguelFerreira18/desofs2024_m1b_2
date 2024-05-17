@@ -16,8 +16,10 @@ public class ReviewDTOSaveRequest {
     private final int rating;
 
     @NotNull
+    @Positive
     private final Long user;
     @NotNull
+    @Positive
     private final Long pacote;
 
     public ReviewDTOSaveRequest(String reviewText, int rating, Long user, Long pacote) {
