@@ -1,5 +1,4 @@
 import { EstadoEncomenda } from '$lib/Enum/enums';
-import type { R } from 'vitest/dist/reporters-yx5ZTtEV.js';
 
 // Type
 type Package = {
