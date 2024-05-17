@@ -1,6 +1,5 @@
-package isep.ipp.pt.api.desofs.Model;
+package isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
@@ -8,8 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-@Entity
-public class TipoReceita {
+public class TipoReceitaDTOServiceResponse {
     @Id
     @GeneratedValue
     private Long tipoReceitaId;
@@ -19,24 +17,20 @@ public class TipoReceita {
     @Size(min = 1,max = 64, message = "Nome do tipo de receita inválido")
     private String nome;
 
-    public TipoReceita() {
+    public TipoReceitaDTOServiceResponse() {
     }
 
-    public TipoReceita(Long tipoReceitaId, String nome) {
+    public TipoReceitaDTOServiceResponse(Long tipoReceitaId, String nome) {
         this.tipoReceitaId = tipoReceitaId;
         this.nome = nome;
     }
 
-    public TipoReceita(String nome) {
+    public TipoReceitaDTOServiceResponse(String nome) {
         this.nome = nome;
     }
 
     public Long getTipoReceitaId() {
         return tipoReceitaId;
-    }
-
-    public void setTipoReceitaId(Long tipoReceitaId) {
-        this.tipoReceitaId = tipoReceitaId;
     }
 
     public String getNome() {
