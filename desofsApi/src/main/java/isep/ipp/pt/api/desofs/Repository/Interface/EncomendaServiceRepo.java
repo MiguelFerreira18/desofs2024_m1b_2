@@ -20,4 +20,5 @@ public interface EncomendaServiceRepo {
     void deleteAll();
 
     List<Encomenda> findEncHistory(Long userId);
+    void deleteEncomendaByUserName(String userId);
 }

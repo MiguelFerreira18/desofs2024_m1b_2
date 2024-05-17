@@ -63,4 +63,9 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
             return null;
         }
     }
+
+    @Override
+    public void deleteEncomendaByUserName(String userId) {
+        encomendaRepo.deleteEncomendaByUserName(userId);
+    }
 }

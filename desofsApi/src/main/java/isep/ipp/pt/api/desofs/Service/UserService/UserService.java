@@ -21,4 +21,5 @@ public interface UserService {
     public void deleteAll();
 
     public void saveUser(User user);
+    public void deleteUser(String username);
 }

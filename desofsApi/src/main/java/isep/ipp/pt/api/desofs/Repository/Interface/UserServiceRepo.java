@@ -13,5 +13,6 @@ public interface UserServiceRepo {
     public void deleteAll();
     public User saveUser(User user);
     public User validateUser(String username, String password);
+    public void deleteUser(String username);
 
 }
