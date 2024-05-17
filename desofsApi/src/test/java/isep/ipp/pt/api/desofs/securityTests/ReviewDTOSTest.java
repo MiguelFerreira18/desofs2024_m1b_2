@@ -1,7 +1,7 @@
 package isep.ipp.pt.api.desofs.securityTests;
 
-import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOPatchRequest;
-import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOSaveRequest;
+import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ControllerLayer.ReviewDTOPatchRequest;
+import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ControllerLayer.ReviewDTOSaveRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -14,10 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
-class PacoteDTO {
-
+class ReviewDTOSTest {
 
     private Validator validator;
     @BeforeEach
@@ -25,8 +23,6 @@ class PacoteDTO {
         validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
 
-
-
     @ParameterizedTest
     @CsvSource({
             "'1; DROP TABLE users;'",
@@ -379,10 +375,10 @@ class PacoteDTO {
             "'-eval(\"window['pro'%2B'mpt'](8)\")-'",
             "\"-eval(\"window['pro'%2B'mpt'](8)\")-\"",
     })
-    @DisplayName("Security Test for PacoteDTOSaveRequest")
+    @DisplayName("Security Test for ReviewDTOSaveRequest")
     public void testSecurityVulnerabilitiesForSave(String text) {
-        PacoteDTOSaveRequest response = new PacoteDTOSaveRequest(text, 2.0, text, true, 1L);
-        Set<ConstraintViolation<PacoteDTOSaveRequest>> violations = validator.validate(response);
+        ReviewDTOSaveRequest response = new ReviewDTOSaveRequest(text, 1,1L,1L);
+        Set<ConstraintViolation<ReviewDTOSaveRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
 
@@ -738,53 +734,68 @@ class PacoteDTO {
             "'-eval(\"window['pro'%2B'mpt'](8)\")-'",
             "\"-eval(\"window['pro'%2B'mpt'](8)\")-\"",
     })
-    @DisplayName("Security Test for PacoteDTOSaveRequest")
+    @DisplayName("Security Test for ReviewDTOSaveRequest")
     public void testSecurityVulnerabilitiesForPatch(String text) {
-        PacoteDTOPatchRequest response = new PacoteDTOPatchRequest(1L,text, 2.0, text, true, 1L);
-        Set<ConstraintViolation<PacoteDTOPatchRequest>> violations = validator.validate(response);
+        ReviewDTOPatchRequest response = new ReviewDTOPatchRequest(1L,text, 1,1L,1L);
+        Set<ConstraintViolation<ReviewDTOPatchRequest>> violations = validator.validate(response);
+        assertFalse(violations.isEmpty());
+    }
+
+    //Test for other stuff
+
+    @ParameterizedTest
+    @CsvSource(textBlock = """
+            -1
+            -123
+            -4563
+            -75457
+            -256235
+            34
+            -5
+            6
+            7
+            8
+            9
+            10
+            """)
+    @DisplayName("Security Test for Rating")
+    public void testSecurityVulnerabilitiesForRating(int rating){
+        ReviewDTOSaveRequest response = new ReviewDTOSaveRequest("text", rating,1L,1L);
+        Set<ConstraintViolation<ReviewDTOSaveRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
 
     @ParameterizedTest
     @CsvSource(textBlock =
             """
-            -124
-            -35
             -1
-            501
-            502
-            56789
-            3214
-            63446        
+            -2
+            -3
+            -897354897
+            -34589724
             """)
-    @DisplayName("Security Test for PacoteBasePrice")
-    public void testSecurityVulnerabilitiesForPacoteBasePrice(Double value) {
-        PacoteDTOSaveRequest response = new PacoteDTOSaveRequest("random name", value,"Random text", true, 1L);
-        Set<ConstraintViolation<PacoteDTOSaveRequest>> violations = validator.validate(response);
+    @DisplayName("Security Test for UserId")
+    public void testSecurityVulnerabilitiesForUserId(int rating) {
+        ReviewDTOPatchRequest response = new ReviewDTOPatchRequest(1L, "text", rating, 1L, 1L);
+        Set<ConstraintViolation<ReviewDTOPatchRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
-
 
     @ParameterizedTest
     @CsvSource(textBlock =
-            """    
-            -124
+            """
+            -4
             -14
-            -1
-            -321
-            -345
-            -9999
-            -3455
+            -24
+            -8354897
+            -94535724
             """)
-    @DisplayName("Security Test for tipoPacote")
-    public void testSecurityVulnerabilitiesForTipoPacoteId(long tipoPacoteId) {
-        PacoteDTOSaveRequest response = new PacoteDTOSaveRequest("random name", 2.0,"Random text", true,tipoPacoteId);
-        Set<ConstraintViolation<PacoteDTOSaveRequest>> violations = validator.validate(response);
+    @DisplayName("Security Test for PacoteId")
+    public void testSecurityVulnerabilitiesForPacoteId(int rating) {
+        ReviewDTOPatchRequest response = new ReviewDTOPatchRequest(1L, "text", rating, 1L, 1L);
+        Set<ConstraintViolation<ReviewDTOPatchRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
-
-
-
 
 
 }

@@ -1,7 +1,6 @@
 package isep.ipp.pt.api.desofs.securityTests;
 
 import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ControllerLayer.EncomendaDTOSaveRequest;
-import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOSaveRequest;
 import isep.ipp.pt.api.desofs.Model.Estado;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -10,15 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-class EncomendaDTO {
+
+class EncomendaDTOTest {
 
     private Validator validator;
     @BeforeEach
