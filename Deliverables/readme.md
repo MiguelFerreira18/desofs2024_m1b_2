@@ -1288,6 +1288,17 @@ da action presente no workflow foram falados anteriormente.
 Esta ferramenta foi escolhida pois, para além de ser importante saber as dependências que estão a ser usadas, é também
 igualmente importante saber as vulnerabilidades que as imagens do docker contêm.
 
+## 7.3 Testes de segurança
+
+Neste sprint foram realizados testes unitários de segurança, estes testes deviam ter sido préviamente planeados, que foi
+uma das nossas falhas a ser apontada na fase de design. Apesar da nossa falha, fizemos os testes o mais uniformes
+possíveis e principalmente focados em testar para alguns ataques comuns, como XSS, sql Injection, code injection, entre
+outros. Não obstante, também testamos para as regras de negócio, sendo assim uma mistura de testes de segurança com
+testes de segurança de negócio (ou seja, testes de segurança feitos para garantir que as regras de negócio estão
+a ser cumpridas). Para estes testes decidimos fazer, apenas para os points of failures, neste caso na entrada da
+request, por isso, os testes foram dirigidos especialmente aos DTOS de request de save e update.
+
+
 
 
 
