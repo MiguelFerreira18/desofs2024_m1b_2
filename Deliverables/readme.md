@@ -1158,6 +1158,150 @@ diferentes formas de geração que podem ser configuradas na github action atrav
 
 ### 7.1.2 release-please.yaml
 
-Este workflow é responsável por criar uma release da aplicação, é composto por apenas 3 jobs, mas temos a intenção de
-melhorar e adicionar a outra
+Este workflow é responsável por criar uma release da aplicação, é composto por apenas 1 job, mas temos a intenção de
+melhorar e adicionar a outro, no qual irá fazer um novo push para o docker hub mas com a tag da release.
+
+```YAML
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        with:
+          # You will want to configure a GitHub Actions secret with a
+          # Personal Access Token if you want GitHub Actions CI
+          # checks to run on Release Please PRs.
+          # The folowing assumes that you have created a personal access token
+          # (PAT) and configured it as a GitHub action secret named
+          # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
+          #token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
+
+          # if you dont need to trigger new workflow runs on a release please PR
+          # its fine to use GITHUB_TOKEN as folows
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+          # this is a built-in strategy in release-please, see "Action Inputs"
+          # for more options
+          release-type: simple
+```
+
+## 7.2 Ferramentas de análise de código
+
+Para o auxílio da pipeline e para garantir a qualidade do código, foram utilizadas ferramentas de análise com
+diferentes objetivos. Contudo, também usamos uma ferramenta externa para análise de código dinâmico, nomeadamente o
+OWASP ZAP.
+
+### SAST - Static Application Security Testing
+
+Usamos duas ferramentas interessantes para análise estática de código, nomeadamente o SonarCloud ( que serve o mesmo
+propósito que o sonarQube) e usamos também o codeQl que é uma ferramenta que já faz parte do github, apenas precisa de
+ser ativada e o projeto no github tem de estar publico.
+
+![SonarCloudSummary.png](Sprint1/sonarCloud/SonarCloudSummary.png)
+
+Esse é o sumário do projeto, isto demonstra as informações em comparação com o commit anterior, por isso pode parecer
+que não tem nada. Apesar disso, temos outra parte do sonar cloud que mostar diferentes análises feitas em tempo real do
+código:
+
+![PossibleAnalysis.png](Sprint1/sonarCloud/PossibleAnalysis.png)
+
+Mas o grande motivo de termos usado esta ferramenta foi essencialmente para podermos integrar com os "checks" do github
+quando se faz pull request, assim o utilizador pode ver uma análise estática do código e ter o seu código impedido de
+ser
+merged caso tenha problemas críticos que possam ser resolvidos.
+
+![SonarCloudCommentOnPullRequest.png](Sprint1/sonarCloud/SonarCloudCommentOnPullRequest.png)
+
+Aqui podemos ver a imagem do sonar cloud a comentar no pull request com o summario do código e se passou, ou não. Caso
+não fosse aprovado pelo sonar cloud, não seria possível dar merge ao código.
+
+O codeQl serve o quase para o mesmo propósito que o sonar cloud, contudo, é uma ferramenta que consta já com o github.
+
+Um exemplo do codeQl em ação:
+
+![CodeQl.png](Sprint1/codeQl/CodeQlInAction.png)
+
+Isto foi uma vulnerabilidade que o codeQL encontrou no código. Ao carregarmos, podemos ver mais detalhadamente onde se
+encontra o problema e a vulnerabilidade em si.
+
+![VulnerabilityResolve.png](Sprint1/codeQl/VulnerabilityBeingShownWithQl.png)
+
+### DAST - Dynamic Application Security Testing
+
+Para a análise dinâmica de código, usamos o OWASP ZAP, que é uma ferramenta de código aberto que pode ser usada para
+encontrar vulnerabilidades de segurança em aplicações web.
+A execução do OWASP ZAP não foi feita dentro da pipeline, embora seja possível, contudo não havia forma de impedir que
+código com vulnerabilidades detetadas pelo ZAP fossem impedidas de levar merge. Assim, a execução do ZAP foi feita
+manualmente, tivemos de criar um script (Zest script) no qual lhe é dado um bearer token (para poder efetuar requests na
+api). Também foi necessário dar ao OWASP ZAP os endpoints da Api, isso foi feito através do springdoc, no qual
+disponibiliza
+end points para o swagger-ui e para o api-docs.
+
+O report pode ser encontrado na pasta Sprint1/OWASP_ZAP_report e como podemos ver, temos apenas 1 vulnerabilidade grave.
+
+### SCA - Software Composition Analysis
+
+Para ferramentas de SCA foram usadas 4 ferramentas, três delas vão fazer uma análise durante a execução da pipeline, e a
+outra é uma ferramenta que vai estar sempre atenta a vulnerabildidades nas depêndencias usadas.
+
+A primeira ferramenta é o dependabot, que é uma ferramenta que faz parte do github, e que vai estar sempre atenta a
+vulnerabilidades nas dependências usadas, e vai fazer pull requests para atualizar as dependências.
+
+![Dependabot.png](Sprint1/Dependabot/DependabotInAction.png)
+
+Como podemos ver pela imagem, o dependabot detetou uma atualização, contudo também é capaz de detetar vulnerabilidades
+associadas a essa dependência.
+
+A segunda ferramenta é o OWASP dependency check que vai ser executado na pipeline com o uso de uma github action, e
+depois o report gerado vai ser guardado como um artefacto no sumário da pipeline. Existe um exemplo do report gerado na
+pasta Sprint1/dependencyCheck.
+
+![SummaryDependencyCheck.png](Sprint1/DependencyCheck/Summary.png)
+
+Pela seguinte imagem, podemos ver que temos algumas dependências com vulnerabilidades e algumas delas com alta
+gravidade. Por isso, é importante que sejam resolvidas no próximo sprint.
+
+A terceira ferramenta é o snyk, que é uma ferramenta que faz parte do github, que vai ser executada quando uma pull
+request é feita, e vai fazer uma análise das dependências usadas, quase como o dependency check, contudo, o snyk
+disponibiliza uma ui na web, que permite criar pull requests para resolver as vulnerabilidades. Impedindo assim
+possiveis correções feitas por pessoas tragam mais problemas do que aqueles já existentes.
+
+![SnykInAction.png](Sprint1/Snyk/SnykPullRequest.png)
+
+Por fim temos o Docker Scout que é uma ferramenta que faz análise de vulnerabilidades nas imagens do docker, esta
+análise é feita durante a pipeline e o report é criado como um github comment na pull request, os detalhes a cerca
+da action presente no workflow foram falados anteriormente.
+
+![DockerScout.png](Sprint1/DockerScout/DockerScoutComment.png)
+
+Esta ferramenta foi escolhida pois, para além de ser importante saber as dependências que estão a ser usadas, é também
+igualmente importante saber as vulnerabilidades que as imagens do docker contêm.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
