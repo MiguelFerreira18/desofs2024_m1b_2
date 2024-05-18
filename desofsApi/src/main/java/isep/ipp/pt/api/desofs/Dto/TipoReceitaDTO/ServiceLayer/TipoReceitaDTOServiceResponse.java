@@ -40,4 +40,8 @@ public class TipoReceitaDTOServiceResponse {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public void setTipoReceitaId(Long tipoReceitaId) {
+        this.tipoReceitaId = tipoReceitaId;
+    }
 }
