@@ -2,6 +2,8 @@ package isep.ipp.pt.api.desofs.Repository.Implementation;
 
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.EncomendaRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.ReviewRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +16,10 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private ReviewRepo reviewRepo;
+    @Autowired
+    private EncomendaRepo encomendaRepo;
 
     @Override
     public User getUserById(Long userId) {
@@ -48,6 +54,13 @@ public class UserRepoImpl implements UserServiceRepo {
     @Override
     public User validateUser(String username, String password) {
         return userRepo.validateUser(username, password);
+    }
+
+    @Override
+    public void deleteUser(String username) {
+        reviewRepo.deleteReviewsByUserName(username);
+        encomendaRepo.deleteEncomendaByUserName(username);
+        userRepo.deleteUser(username);
     }
 
 }

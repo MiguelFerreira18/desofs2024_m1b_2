@@ -49,4 +49,9 @@ public class ReviewServiceImpl implements ReviewServiceRepo {
     public void deleteAll() {
         reviewRepo.deleteAll();
     }
+
+    @Override
+    public void deleteReviewsByUserName(String username) {
+        reviewRepo.deleteReviewsByUserName(username);
+    }
 }

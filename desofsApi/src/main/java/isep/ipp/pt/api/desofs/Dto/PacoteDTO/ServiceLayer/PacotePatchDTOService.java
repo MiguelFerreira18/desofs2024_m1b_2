@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 public class PacotePatchDTOService {
 
     @NotNull
+    @Positive
     private final Long pacoteId;
 
 

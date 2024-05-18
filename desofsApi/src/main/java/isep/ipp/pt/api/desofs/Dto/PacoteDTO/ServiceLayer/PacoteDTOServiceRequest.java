@@ -18,6 +18,8 @@ public class PacoteDTOServiceRequest {
     private final String pacoteDescription;
 
     private final boolean disabled;
+    @Positive
+    @NotNull
     private final Long tipoPacote;
 
     public PacoteDTOServiceRequest(String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, Long tipoPacote) {
