@@ -1,19 +1,21 @@
 package isep.ipp.pt.api.desofs.Model.UserModel;
 
+import isep.ipp.pt.api.desofs.Model.Encomenda;
+import isep.ipp.pt.api.desofs.Model.Review;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
 @Entity
+@ToString
 public class User implements UserDetails {
 
     @Id
@@ -41,7 +43,7 @@ public class User implements UserDetails {
 
     }
 
-    //WITH ID
+    //WITH ALL
     public User(Long userId, String username, String password, String fullName, Set<Role> authorities, String nif, String morada) {
         this.userId = userId;
         this.username = username;
@@ -51,7 +53,17 @@ public class User implements UserDetails {
         this.nif = nif;
         this.morada = morada;
     }
-    // WITHOUT ID BUT WIHT AUTHORITIES
+    //WITHOUT AUTHORITIES AND LISTAENCOMENDAS
+    public User(Long userId, String username, String password, String fullName, String nif, String morada) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.nif = nif;
+        this.morada = morada;
+    }
+
+    // WITHOUT ID BUT WHIT AUTHORITIES
     public User(String username, String password, String fullName, Set<Role> authorities, String nif, String morada) {
         this.username = username;
         this.password = password;
@@ -59,6 +71,7 @@ public class User implements UserDetails {
         this.authorities = authorities;
         this.nif = nif;
         this.morada = morada;
+
     }
     //WITHOUT ID AND AUTHORITIES
     public User(String username, String password, String fullName, String nif, String morada) {
@@ -69,9 +82,10 @@ public class User implements UserDetails {
         this.morada = morada;
     }
 
+
+
     public void addAuthority(Role r){
         authorities.add(r);
-
     }
 
     @Override

@@ -1,11 +1,7 @@
 <script lang="ts">
 	import Button from './Button.svelte';
-	import { goto } from '$app/navigation';
-	let loggedIn = false;
-	let isAdmin = false;
-	let isDocumentManager = false;
 
-	// let isMenuOpen = false;
+	export let data;
 </script>
 
 <nav class="flex justify-evenly flex-row bg-white border-gray-200 px-24 py-4">
@@ -20,23 +16,23 @@
 	</ul>
 
 	<div class="self-center">
-		{#if loggedIn}
-			<Button on:click={() => goto('/profile')} className="profile-button" text="Perfil" />
-			<Button on:click={() => goto('/Carrinho')} className="order-button" text="Carrinho" />
-
-			{#if isDocumentManager || isAdmin}
+		{#if data.user}
+			<Button className="profile-button" text="Perfil" gotoName="/profile" />
+			<Button className="order-button" text="Carrinho" gotoName="/carrinho" />
+			<Button className="enc-button" text="Encomenda" gotoName="/encomenda" />
+			{#if data.user.isAdmin || data.user.isDocumentManager}
 				<Button
-					on:click={() => goto('/packages')}
 					className="package-management-button"
 					text="Gestão de pacotes"
+					gotoName="/package-management"
 				/>
 			{/if}
-			{#if isAdmin}
-				<Button on:click={() => goto('/dashboard')} className="dashboard-button" text="Dashboard" />
+			{#if data.user}
+				<Button className="dashboard-button" text="Dashboard" gotoName="/dashboard" />
 			{/if}
-			<Button className="logout-button" text="Sair">Sair</Button>
+			<Button className="logout-button" text="Sair" gotoName="/auth/logout" />
 		{:else}
-			<Button onClick={() => goto('/auth')} text="Junta-te" />
+			<Button className="login-button" text="Junta-te" gotoName="/auth" />
 		{/if}
 	</div>
 </nav>
