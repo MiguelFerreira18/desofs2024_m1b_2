@@ -835,7 +835,7 @@ podem ser seguidos para alcançar um objetivo malicioso. Vamos explorar brevemen
 Para este primerio sprint foi então pedido que fosse automatizado o processo de building e deployment através de uma
 pipeline, assim como a criação de testes de segurança que deviam ter sido planeados na parte de pleaneamento.
 
-## 7.1 Pipeline
+## 7 Pipeline
 
 Para a pipeline tentamos seguir a estrutura planeada, contudo a mesma sofreu algumas alterações, especialmente ao nivel
 do deployment. Usamos as github actions, visto ser uma ferramenta relativamente simples e com uma quantidade gigantesca
@@ -847,7 +847,7 @@ efetuar uma release da aplicação.
 Sempre que um push ou um pull request é efetuado temos algumas ferramentas que vão fazer testes e análises ao código e
 às dependências que a branch contém.
 
-### 7.1.1 deployment.yml
+### 7.1 deployment.yml
 
 Este é o workflow responsável pelo deployment da aplicação, é composto por 4 jobs.
 
@@ -857,7 +857,7 @@ Este é o workflow responsável pelo deployment da aplicação, é composto por 
 4º job - docker scout api
 5º job - docker scout web
 
-#### 7.1.1.1 Build Front end
+#### 7.1.1 Build Front end
 
 Este é o primeiro job, que vai fazer o checkout do código, ou seja, vai para a branch que foi feito o push, vai dar
 setup ao node, que será a versão stable (node 20), vai instalar as dependências presentes no package.json, a seguir dá
@@ -913,7 +913,7 @@ o código e por fim chamamos o comando próprio ao sveltekit para validar o cód
         working-directory: ./desofs_svelte_front_end
 ```
 
-#### 7.1.1.2 Build Back end
+#### 7.1.2 Build Back end
 
 Este é o nosso segundo job, inicialmente iniciamos um serviço, serviço esse que é nada mais nada menos que a nossa base
 de dados, uma das novas features do github actions é que permite ativar diferentes serviços nomeadamente o mysql num
@@ -1049,7 +1049,7 @@ package para criar um jar e guardamos o jar como um artefacto. Também é execut
           path: ${{github.workspace}}/reports
 ```
 
-#### 7.1.1.3 Push to Docker Hub
+#### 7.1.3 Push to Docker Hub
 
 Este job, é apenas executado depois se ambos os jobs anteriores forem bem sucedidos, ou seja, se o front end e o back
 end estiverem prontos para produção, é feito o push para o docker hub, para isso é feito o steup do environment,
@@ -1121,7 +1121,7 @@ push-to-dockerhub:
 
 As imagens vão ser postas como latest visto que estão com a última versão possivel do código.
 
-#### 7.1.1.4 Docker Scout
+#### 7.1.4 Docker Scout
 
 Este job é executado no final depois do push para o docker hub ser bem-sucedido, é feito então, uma analise dos
 containers, nós queriamos por os ultimos jobs juntos, contudo, isso não é possivel pois o github fica numa dependencia
@@ -1156,7 +1156,7 @@ diferentes formas de geração que podem ser configuradas na github action atrav
       - push-to-dockerhub
 ```
 
-### 7.1.2 release-please.yaml
+### 7.2 release-please.yaml
 
 Este workflow é responsável por criar uma release da aplicação, é composto por apenas 1 job, mas temos a intenção de
 melhorar e adicionar a outro, no qual irá fazer um novo push para o docker hub mas com a tag da release.
@@ -1288,22 +1288,233 @@ da action presente no workflow foram falados anteriormente.
 Esta ferramenta foi escolhida pois, para além de ser importante saber as dependências que estão a ser usadas, é também
 igualmente importante saber as vulnerabilidades que as imagens do docker contêm.
 
-## 7.3 Testes de segurança
+# 8 Testes de segurança
 
 Neste sprint foram realizados testes unitários de segurança, estes testes deviam ter sido préviamente planeados, que foi
 uma das nossas falhas a ser apontada na fase de design. Apesar da nossa falha, fizemos os testes o mais uniformes
-possíveis e principalmente focados em testar para alguns ataques comuns, como XSS, sql Injection, code injection, entre
+possível e principalmente focados em testar para alguns ataques comuns, como XSS, sql Injection, code injection, entre
 outros. Não obstante, também testamos para as regras de negócio, sendo assim uma mistura de testes de segurança com
 testes de segurança de negócio (ou seja, testes de segurança feitos para garantir que as regras de negócio estão
 a ser cumpridas). Para estes testes decidimos fazer, apenas para os points of failures, neste caso na entrada da
 request, por isso, os testes foram dirigidos especialmente aos DTOS de request de save e update.
 
+```java
+
+@ParameterizedTest
+@CsvSource({
+//            ...
+        "<svg onload svg onload=\"javascript:javascript:alert(1)\"></svg onload>",
+        "<html onmousemove html onmousemove=\"javascript:javascript:alert(1)\"></html onmousemove>",
+        "<body onblur body onblur=\"javascript:javascript:alert(1)\"></body onblur>",
+        "\\x3Cscript>javascript:alert(1)</script>",
+        "'\"`><script>/* *\\x2Fjavascript:alert(1)// */</script>",
+        "<script>javascript:alert(1)</script\\0D",
+        "<script>javascript:alert(1)</script\\0A",
+        "<script>javascript:alert(1)</script\\0B",
+        "<script charset=\"\\x22>javascript:alert(1)</script>",
+        "<!--\\x3E<img src=xxx:x onerror=javascript:alert(1)> -->",
+        "--><!-- ---> <img src=xxx:x onerror=javascript:alert(1)> -->",
+        "--><!-- --\\x00> <img src=xxx:x onerror=javascript:alert(1)> -->",
+        "<image/src/onerror=prompt(8)>",
+        "<img/src/onerror=prompt(8)>",
+        "<image src/onerror=prompt(8)>",
+        "<img src/onerror=prompt(8)>",
+        "<image src =q onerror=prompt(8)>",
+        "<img src =q onerror=prompt(8)>",
+        "</scrip</script>t><img src =q onerror=prompt(8)>",
+        "'-prompt(8)-'",
+        "\"-prompt(8)-\"",
+        "\";a=prompt,a()//\"",
+        "\"';a=prompt,a()//\"",
+        "'-eval(\"window['pro'%2B'mpt'](8)\")-'",
+        "\"-eval(\"window['pro'%2B'mpt'](8)\")-\"",
+})
+@DisplayName("Security Test for PacoteDTOSaveRequest")
+public void testSecurityVulnerabilitiesForSave(String text) {
+    PacoteDTOSaveRequest response = new PacoteDTOSaveRequest(text, 2.0, text, true, 1L);
+    Set<ConstraintViolation<PacoteDTOSaveRequest>> violations = validator.validate(response);
+    assertFalse(violations.isEmpty());
+}
+```
+
+Este é apenas um pequeno exemplo truncado dos testes que foram feitos para testar possiveis ataques. Estes testes
+foram feitos para os DTOS de request de save e update, e foram feitos para garantir que a entrada de dados é segura e
+que não é possivel fazer ataques comuns.
+
+```java
+
+@ParameterizedTest
+@CsvSource(textBlock =
+        """
+                -124
+                -35
+                -1
+                501
+                502
+                56789
+                3214
+                63446        
+                """)
+@DisplayName("Security Test for PacoteBasePrice")
+public void testSecurityVulnerabilitiesForPacoteBasePrice(Double value) {
+    PacoteDTOSaveRequest response = new PacoteDTOSaveRequest("random name", value, "Random text", true, 1L);
+    Set<ConstraintViolation<PacoteDTOSaveRequest>> violations = validator.validate(response);
+    assertFalse(violations.isEmpty());
+}
+```
+
+O código acima é um exemplo de um teste de segurança de negócio, neste caso, testamos para um valor que não
+deveria ser aceite, visto que o preço base, segundo as regras não pode custar menos de 0 euros e mais de 500 euros, e
+por isso, o teste deveria falhar.
+
+# 9 Testes unitários e de integração
+
+Os testes unitários e de integração foram realizados à medida que o código era desenvolvido, sendo feitos para garantir
+que o código funcionava corretamente e que as regras de negócio eram cumpridas. 
+
+
+```java
+@SpringBootTest
+class TipoPacoteServiceImplTest {
+
+    @Autowired
+    private TipoPacoteServiceRepo tipoPacoteServiceRepo;
+    @Autowired
+    private TipoPacoteService tipoPacoteService;
+    @Autowired
+    private ReceitaServiceRepo receitaRepo;
+
+
+    @Autowired
+    private PacoteServiceRepo pacoteServiceRepo;
+    @Autowired
+    private ReviewServiceRepo reviewServiceRepo;
+    @Autowired
+    private UserServiceRepo userServiceRepo;
+    @Autowired
+    private EncomendaServiceRepo encomendaServiceRepo;
+
+    private Validator validator;
+
+    @BeforeEach
+    public void setUp() {
+        encomendaServiceRepo.deleteAll();
+        receitaRepo.deleteAll();
+        reviewServiceRepo.deleteAll();
+        userServiceRepo.deleteAll();
+        pacoteServiceRepo.deleteAll();
+        tipoPacoteServiceRepo.deleteAll();
+
+        TipoPacote tp1 = new TipoPacote(1L, "Mediteraneo");
+        TipoPacote tp2 = new TipoPacote(2L, "Tropical");
+        TipoPacote tp3 = new TipoPacote(3L, "Tuga");
+        TipoPacote tp4 = new TipoPacote(4L, "MultiCultural");
+        TipoPacote tp5 = new TipoPacote(5L, "Dieta");
+        tipoPacoteServiceRepo.save(tp1);
+        tipoPacoteServiceRepo.save(tp2);
+        tipoPacoteServiceRepo.save(tp3);
+        tipoPacoteServiceRepo.save(tp4);
+        tipoPacoteServiceRepo.save(tp5);
+
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        receitaRepo.deleteAll();
+        pacoteServiceRepo.deleteAll();
+        tipoPacoteServiceRepo.deleteAll();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Mediteraneo",
+            "Tropical",
+            "Tuga",
+            "MultiCultural",
+            "Dieta"
+    })
+    public void testSaveTipoPacoteSuccess(String tipo) {
+        tipoPacoteServiceRepo.deleteAll();
+
+        TipoPacoteDTOServiceRequest tipoPacoteDTOServiceRequest = new TipoPacoteDTOServiceRequest(tipo);
+
+        Set<ConstraintViolation<TipoPacoteDTOServiceRequest>> violations = validator.validate(tipoPacoteDTOServiceRequest);
+
+        TipoPacoteDTOServiceResponse pacoteDTOServiceResponse = tipoPacoteService.save(tipoPacoteDTOServiceRequest);
+
+        assertEquals(pacoteDTOServiceResponse.getNome(),tipoPacoteDTOServiceRequest.getNome());
+        assertTrue(violations.isEmpty());
+
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Mediteraneo??___sad2 ii329",
+            "Tropicaladsc;l ,;l ,23-0mb02$#> T>E ",
+            "Tuga-=35y -=]a[s ;[",
+            "<script>alert('XSS')</script>",
+            "'); DROP TABLE receita; --"
+    })
+    public void testSaveTipoPacoteFail(String tipo) {
+        tipoPacoteServiceRepo.deleteAll();
+
+        TipoPacoteDTOServiceRequest tipoPacoteDTOServiceRequest = new TipoPacoteDTOServiceRequest(tipo);
+
+        Set<ConstraintViolation<TipoPacoteDTOServiceRequest>> violations = validator.validate(tipoPacoteDTOServiceRequest);
+        TipoPacoteDTOServiceResponse pacoteDTOServiceResponse = null;
+        try {
+            pacoteDTOServiceResponse = tipoPacoteService.save(tipoPacoteDTOServiceRequest);
+        } catch (Exception e) {
+            assertNull(pacoteDTOServiceResponse);
+        }
+        assertNull(pacoteDTOServiceResponse);
+        assertFalse(violations.isEmpty());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "-1",
+            "-2",
+            "-304305890",
+            "-48345875",
+            "-534568"
+    })
+    public void testSaveTipoPacoteFailId(Long tipo) {
+        TipoPacoteDTOServiceResponse pacoteDTOServiceResponse = tipoPacoteService.findbyId(tipo);
+
+        assertNull(pacoteDTOServiceResponse);
+    }
+
+    @Test
+    public void testFindAllTipoPacoteSuccess() {
+        List<TipoPacoteDTOServiceResponse> tipoPacoteDTOServiceResponseList = tipoPacoteService.findAll();
+        TipoPacoteDTOServiceResponse tipoPacoteDTOServiceResponse = tipoPacoteService.findAll().get(0);
+
+        assertNotNull(tipoPacoteDTOServiceResponse);
+        assertEquals(tipoPacoteDTOServiceResponseList.size(), 5);
+    }
+
+    @Test
+    public void testDeleteAllTipoPacoteSuccess() {
+        tipoPacoteService.deleteAll();
+        List<TipoPacoteDTOServiceResponse> tipoPacoteDTOServiceResponseList = tipoPacoteService.findAll();
+
+        assertTrue(tipoPacoteDTOServiceResponseList.isEmpty());
+    }
 
 
 
+}
+```
 
+Aqui temos um exemplo de um teste de integração, neste caso, testamos o serviço de TipoPacote, cujo propósito é
+gerir os tipos de pacotes que a aplicação tem. Neste caso, testamos para o save, findAll e deleteAll, e testamos para
+casos de sucesso e de falha.
 
-
+## 10 Front end
 
 
 
