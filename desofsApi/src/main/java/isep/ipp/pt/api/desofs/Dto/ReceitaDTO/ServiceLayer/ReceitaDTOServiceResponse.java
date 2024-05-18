@@ -61,4 +61,24 @@ public class ReceitaDTOServiceResponse {
     public TipoReceita getTipoReceita() {
         return tipoReceita;
     }
+
+    public void setReceitaId(Long receitaId) {
+        this.receitaId = receitaId;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setPacote(Pacote pacote) {
+        this.pacote = pacote;
+    }
+
+    public void setTipoReceita(TipoReceita tipoReceita) {
+        this.tipoReceita = tipoReceita;
+    }
 }

@@ -90,7 +90,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOriginPatterns(Arrays.asList("*"));
-                    config.setAllowedMethods(Arrays.asList("*"));
+                    config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "OPTIONS"));
                     config.setAllowedHeaders(Arrays.asList("*"));
                     config.setExposedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION));
                     config.setAllowCredentials(true);
@@ -113,7 +113,9 @@ public class SecurityConfig {
                                 .requestMatchers("/encomenda/**").authenticated()
                                 .requestMatchers("/user/info/**").authenticated()
                                 .requestMatchers("/encomenda/**").authenticated()
+                                .requestMatchers("/user/delete/data").authenticated()
                                 .requestMatchers("/tipoReceita/**").authenticated()
+                                .requestMatchers("/receita/**").authenticated()
                                 .requestMatchers("/api-docs/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
 
