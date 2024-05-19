@@ -2056,3 +2056,10 @@ A utilização da ASVS como guia permite identificar e dar prioridade a áreas q
 
 Este resumo fornece uma visão geral dos resultados da ASVS, destacando a importância de uma abordagem sistemática à segurança das aplicações.
 A continuidade na implementação e verificação dos requisitos da ASVS garantirá a melhoria contínua da segurança do sistema.
+
+## 13 Implementações futuras
+
+Como mencionado anteriormente, durante a explicação de alguns pontos do ASVS, existem funcionalidades que ainda não foram implementadas devido ao calendário de desenvolvimento.
+No entanto, a maioria das funcionalidades de maior prioridade já foram implementadas, o que realça a importância de uma revisão cuidadosa destes domínios.
+Prevemos que os nossos próximos passos incluam a finalização das tarefas restantes, a realização da implementação, uma revisão de tudo o que já foi feito, a adição de um sistema de logs e a implementação do “release please”,
+que mesmo já estando implementado queremos usar melhor das suas capacidades, mais especificamente para separar a última implementação das versões anteriores.
