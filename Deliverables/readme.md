@@ -1514,7 +1514,145 @@ Aqui temos um exemplo de um teste de integração, neste caso, testamos o servi�
 gerir os tipos de pacotes que a aplicação tem. Neste caso, testamos para o save, findAll e deleteAll, e testamos para
 casos de sucesso e de falha.
 
-## 10 Front end
+## 10 Backend
+
+O backend foi desenvolvido em Java, com o uso do Spring Boot, que é uma framework que facilita o desenvolvimento de
+aplicações web. O backend foi dividido em 3 camadas, a camada controller, service e repository, seguindo uma
+estrutura Onion. A camanda Controller é responsável por receber as requests, a camada service é responsável por
+implementar a lógica de negócio e a camada repository é responsável por interagir com a base de dados.
+
+### 10.1 SecurityConfig
+
+O nosso programa, contém uma classe chamada SecurityConfig, que é responsável por configurar a segurança da aplicação.Através
+desta, é possível configurar o login, logout, e as permissões de cada endpoint. Assim,
+conseguimos garantir que apenas pessoas autorizadas possam aceder a certos endpoints.
+
+```java
+.requestMatchers("/pacote/**").hasRole(Role.Admin)
+.requestMatchers("/pacote/**").hasRole(Role.GestorFicheiros)
+.requestMatchers("/review/all").permitAll()
+.requestMatchers("/review/pacote/**").permitAll()
+.requestMatchers("/review/**").authenticated()
+```
+
+Aqui, podemos perceber diferentes permissões para diferentes endpoints, por exemplo, para qualquer endpoint 
+que comece por /pacote poderá ser acedido por um Admin ou por um Gestor de Ficheiros, enquanto que para o endpoint
+/review/all e /review/pacote qualquer pessoa pode aceder, porém para os restantes endpoints que comecem por /review
+apenas pessoas autenticadas podem aceder.
+
+### 10.2 DTOs
+
+Para a comunicação entre as diversas camadas da aplicação, foram usados DTOs, que são objetos que contêm apenas os
+atributos necessários para a comunicação entre estas. Estes objetos são usados para garantir que a comunicação
+entre as camadas é eficiente e segura.
+
+Além disso, utilizou-se mappers para converter os DTOs em entidades e vice-versa. 
+Esses mappers desempenham um papel crucial na comunicação entre as camadas da aplicação, 
+assegurando que os dados sejam convertidos de forma adequada e consistente.
+Eles garantem que os objetos sejam mapeados corretamente de acordo com as 
+necessidades de cada camada, facilitando assim a comunicação 
+e a interoperabilidade entre elas.
+
+```java
+@Mapper(componentModel = "spring")
+@Component
+public interface EncomendaMapper {
+    //Controller Layer
+    EncomendaDTOServiceRequest toEncomendaDtoServiceRequestFromEncomendaDtoSaveRequest(EncomendaDTOSaveRequest encomendaDTOSaveRequest);
+    EncomendaDTOResponse fromEncomendaToDto(EncomendaDTOServiceResponse encomenda);
+    List<EncomendaDTOResponse> fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(List<EncomendaDTOServiceResponse> all);
+    EncomendaDTOServicePatchRequest toEncomendaDTOServicePatchRequestFromEncomendaDTOPatchRequest(EncomendaDTOPatchRequest encomenda);
+
+    //Service Layer
+    EncomendaDTOServiceResponse toEncomendaDTOServiceResponseFromEncomenda(Encomenda encomenda);
+    Encomenda toEncomendafromEncomendaSaveDtoService(EncomendaSaveDTOService encomendaDTOServiceRequest);
+    List<EncomendaDTOServiceResponse> toEncomendaDTOServiceResponseListFromEncomendaList(List<Encomenda> all);
+    Encomenda toEncomendafromEncomendaPatchDtoService(EncomendaPatchDTOService encomendaPatchDTOService);
+}
+```
+O código apresentado é um exemplo de um mapper utilizado para a entidade "Encomenda". 
+Ele define métodos para converter objetos relacionados à "Encomenda" entre as camadas controller e service, 
+garantindo uma comunicação eficiente e semântica entre essas partes da aplicação. 
+Esta abordagem ajuda a manter um código limpo e modular, facilitando a manutenção 
+e a evolução da aplicação ao longo do tempo.
+
+### 10.3 Validações de input
+
+Nos nossos DTOs e model classes, foram usadas anotações de validação para garantir que os 
+dados inseridos são válidos e seguros. Estas anotações são usadas para validar os campos
+de forma a prevenir erros e ataques comuns, como SQL Injection e Cross-Site Scripting (XSS).
+
+```java
+@Entity
+public class Encomenda {
+    @Id
+    @GeneratedValue
+    private Long encomendaId;
+    @Min(value = 1, message = "Número de refeições por semana inválido")
+    @Max(value = 7, message = "Número de refeições por semana inválido")
+    @Positive
+    private int mealsPerWeek;
+
+    @Min(value = 1, message = "Número de pessoas inválido")
+    @Max(value = 5, message = "Número de pessoas inválido")
+    @Positive
+    private int numberOfPeople;
+    @Min(value = 1, message = "Preço inválido")
+    @Positive
+    private double price;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dataEncomenda;
+    @ManyToOne
+    @NotNull(message = "Pacote inválido")
+    private Pacote pacote;
+
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
+
+    @ManyToOne
+    @NotNull(message = "User inválido")
+    private User user;
+```
+
+Neste exemplo, podemos ver a utilização de anotações de validação para garantir que os campos
+da entidade "Encomenda" são válidos e seguros, como por exemplo a garantia de que o número de refeições
+por semana é um valor entre 1 e 7, que o número de pessoas é um valor entre 1 e 5, e que o preço é um valor positivo.
+Desta forma, podemos garantir que os dados inseridos cumprem as nossas regras de negócio e que são seguros contra ataques.
+
+```java
+@Entity
+@ToString
+public class Pacote {
+
+    @Id
+    @GeneratedValue
+    private Long pacoteId;
+
+
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
+    private String nome;
+
+    @Min(value = 0, message = "Peço do pacote inválido")
+    @Max(value = 400, message = "Peço do pacote inválido")
+    private double pacoteBasePrice;
+
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
+    private String pacoteDescription;
+
+    @NotNull
+    private boolean disabled;
+
+    @ManyToOne
+    @NotNull
+    private TipoPacote tipoPacote;
+```
+
+Já neste exemplo, podemos ver a utilização de anotações de validação para garantir que os campos
+do tipo String são protegidos também através de uma regex, garantindo que apenas letras e números são aceites,
+prevenindo principalmente ataques de XSS.
+
+
+## 11 Front end
 
 
 
