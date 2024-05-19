@@ -1,7 +1,7 @@
 # DESOFS deliverables
 
-
-
+<!-- TOC -->
+* [DESOFS deliverables](#desofs-deliverables)
 * [1 Introduction](#1-introduction)
 * [2 guidelines](#2-guidelines)
     * [2.1 Coding checklist](#21-coding-checklist)
@@ -40,7 +40,7 @@
   * [6.2 ASF](#62-asf)
   * [6.3 Entry Points](#63-entry-points)
   * [6.4 Exit Points](#64-exit-points)
-  * [6.5 Qualittative Risk Model](#65-qualittative-risk-model)
+  * [6.5 Qualitative Risk Model](#65-qualitative-risk-model)
   * [6.6 Countermeasures](#66-countermeasures)
     * [STRIDE](#stride)
   * [6.7 Dataflow Diagram Lv1](#67-dataflow-diagram-lv1)
@@ -56,11 +56,30 @@
     * [Ataque 8: Vulnerabilidades no Upload de ficheiros](#ataque-8-vulnerabilidades-no-upload-de-ficheiros)
     * [Ataque 9: Vulnerabilidades no Download de ficheiros](#ataque-9-vulnerabilidades-no-download-de-ficheiros)
     * [Ataque 10: Fraudes em Pagamentos Bancários](#ataque-10-fraudes-em-pagamentos-bancários)
-* [7 Ferramentas de teste](#7-ferramentas-de-teste)
-  * [7.1 SAST](#71-sast)
-  * [7.2 DAST (Dynamic testing)](#72-dast-dynamic-testing)
-  * [7.3 SCA](#73-sca)
+* [1º Sprint](#1º-sprint)
+  * [7 Pipeline](#7-pipeline)
+    * [7.1 deployment.yml](#71-deploymentyml)
+      * [7.1.1 Build Front end](#711-build-front-end)
+      * [7.1.2 Build Back end](#712-build-back-end)
+      * [7.1.3 Push to Docker Hub](#713-push-to-docker-hub)
+      * [7.1.4 Docker Scout](#714-docker-scout)
+    * [7.2 release-please.yaml](#72-release-pleaseyaml)
+  * [7.2 Ferramentas de análise de código](#72-ferramentas-de-análise-de-código)
+    * [SAST - Static Application Security Testing](#sast---static-application-security-testing)
+    * [DAST - Dynamic Application Security Testing](#dast---dynamic-application-security-testing)
+    * [SCA - Software Composition Analysis](#sca---software-composition-analysis)
+* [8 Testes de segurança](#8-testes-de-segurança)
+* [9 Testes unitários e de integração](#9-testes-unitários-e-de-integração)
+  * [10 Backend](#10-backend)
+    * [10.1 SecurityConfig](#101-securityconfig)
+    * [10.2 DTOs](#102-dtos)
+    * [10.3 Validações de input](#103-validações-de-input)
+  * [11 Front end](#11-front-end)
+    * [11.1 Autenticação](#111-autenticação)
+    * [11.2 Types](#112-types-)
+    * [11.3 Validação de inputs](#113-validação-de-inputs)
 <!-- TOC -->
+
 
 # 1 Introduction
 
@@ -102,9 +121,10 @@ Para cada commit, teremos as seguintes regras:
 
 ### 2.3 Branching
 
-Haverá apenas 4 branches, o arch, que serve para armazenar a arquitetura e documentação do projeto, o main que é a branch
+Haverá apenas 4 branches, o arch, que serve para armazenar a arquitetura e documentação do projeto, o main que é a
+branch
 para onde se faz merge das branches de development e architecture, a branch de development que é a branch onde se cria
-as features, sendo que esta branch pode ter múltiplas sub-branches (uma para cada feature) e por fim uma release branch 
+as features, sendo que esta branch pode ter múltiplas sub-branches (uma para cada feature) e por fim uma release branch
 que é criada quando se quer fazer um release.
 
 ### 2.4 Issues
@@ -137,7 +157,7 @@ de development será apenas necessário pelo menos 1 reviwer.
 **US1** - Eu como utilizador quero poder criar uma conta no website para poder fazer encomendas. Eu não devo criar um
 perfil com as mesmas credenciais que outra pessoa.
 
-**US2** - Eu como utilizador quero poder fazer login no website para conseguir fazer encomendas. Eu não devo conseguir 
+**US2** - Eu como utilizador quero poder fazer login no website para conseguir fazer encomendas. Eu não devo conseguir
 fazer login com credenciais inválidas ou de outros utilizadores.
 
 **US3** - Eu como utilizador quero poder ver os pacotes disponíveis para encomenda, para poder escolher o que mais me
@@ -412,19 +432,19 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 ## 6.1 STRIDE
 
-| Categoria              | Descrição               |
-|------------------------|--------------------------|
+| Categoria              | Descrição                                                                                                                                                                                                                                                                                        |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Spoofing               | **Threat 1**: A aplicação tem de ser accessível aos utilizadores, consequentemente tem de ser fácil de usar, contudo não se pode introduzir uma ameaça<br/> **Threat 2**: Visto esta aplicação ser delivery service, implica que haja a possibilidade de alguem se fazer passar por outra pessoa |
-| Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor, é possivel que estas sejam editadas                     |
-| Repudiation            | Sem Ameaças                                                     |
+| Tampering              | **Threat 1**: Como existem receitas para fazer download, que se encontram no servidor, é possivel que estas sejam editadas                                                                                                                                                                       |
+| Repudiation            | Sem Ameaças                                                                                                                                                                                                                                                                                      |
 | Information disclosure | **Threat 1**: É possivel que haja XSS visto haver formas de inserir scripts de javascript, com isto é possivel adquirir informação de outros utilizadores  <br/> **Threat 2**: É possivel interceptar pedidos de Http, consequentemente obter informação que não era suposto                     |
-| Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS         |
-| Elevation of privilege | Sem Ameaças                            |
+| Denial of service      | **Threat 1**: Visto ser um sistema monólitico, é possivel efetuar um DoS                                                                                                                                                                                                                         |
+| Elevation of privilege | Sem Ameaças                                                                                                                                                                                                                                                                                      |
 
 ## 6.2 ASF
 
-| Category                 | Description                  |
-|--------------------------|-----------------------------------------------------------|
+| Category                 | Description                                                                                                                                             |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Auditing and Logging     | **Threat 1**: Como não existe sistema de logging, não é possivel saber quem fez o quê e quando. <br/>**Threat 2**: Qualquer pessoa pode aceder aos logs |
 | Authentication           | **Threat 1**: Com o sistema simples que está em uso, é relativamente fácil de usar credenciais de outros utilizadores                                   |
 | Authorization            | **Threat 1**: Qualquer pessoa pode fazer download das receitas, criando um possivel ponto de entrada                                                    |
@@ -440,8 +460,8 @@ utilizadores.
 Abaixo está uma lista dos principais pontos de entrada do sistema, juntamente com uma breve descrição de suas
 funcionalidades e os níveis de confiança associados:
 
-| ID | Name        | Description                                             | Trust Level              |
-|----|-------------|---------------------------------------------------------|-------------------------|
+| ID | Name                              | Description                                                                                                                          | Trust Level                                                                                                                                |
+|----|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | 1  | HTTPS Port                        | O site da CozinhaNaCozinha é acessível apenas através do uso de TLS. Todas as páginas do site estão protegidas por esta camada.      | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
 | 2  | Página de Login                   | Membros e administradores devem fazer login para aceder a funcionalidades de aquisição de serviço ou gestão dos serviços adquiridos. | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
 | 3  | Página Inicial                    | Todos os visitantes podem aceder à página principal para visualizar planos, serviços, informações e tirar dúvidas.                   | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
@@ -449,15 +469,15 @@ funcionalidades e os níveis de confiança associados:
 | 5  | Página de Receitas                | Oferece uma coleção de receitas para inspirar utilizadores na preparação de refeições.                                               | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (3) Utilizador com credenciais de login inválidas (4) Administrador |
 | 6  | Página de Subscrição              | Permite aos utilizadores gerir as suas subscrições, atualizando informações de pagamento e preferências de entrega.                  | (2) Utilizador com credenciais de login válidas (4) Administrador                                                                          |
 | 7  | Página de Contacto                | Oferece informações de contacto para os utilizadores entrarem em contacto com o suporte ao cliente.                                  | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
-| 8  | Página Sobre Nós                  | Fornece informações sobre a empresa, sua missão, valores e equipa.                                 | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
+| 8  | Página Sobre Nós                  | Fornece informações sobre a empresa, sua missão, valores e equipa.                                                                   | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
 | 9  | Página de FAQ                     | Responde a perguntas frequentes sobre o serviço, procedimentos de entrega, políticas de cancelamento, etc.                           | (1) Anonymous Web User (2) Utilizador com credenciais de login válidas (4) Administrador                                                   |
-| 10 | Painel de Administração           | Interface exclusiva para administradores gerirem utilizadores, conteúdo do site e relatórios de vendas.                              | (4) Administrador            |
-| 11 | Página de Perfil do Utilizador    | Permite aos utilizadores visualizar e editar as suas informações pessoais, histórico de pedidos e preferências de refeições.         | (2) Utilizador com credenciais de login válidas       |
-| 12 | Página do Carrinho                | Mostra os itens selecionados pelos utilizadores para compra antes do checkout.                                                       | (2) Utilizador com credenciais de login válidas       |
-| 13 | Página de Checkout                | Permite aos utilizadores rever e confirmar as suas compras antes do pagamento.                         | (2) Utilizador com credenciais de login válidas               |
-| 14 | Página de Histórico de Encomendas | Exibe o histórico de encomendas dos utilizadores, incluindo detalhes da compra e estado de entrega.                 | (2) Utilizador com credenciais de login válidas               |
-| 15 | Página de upload às receitas      | Permite ao administrador dar upload às receitas e aos packs                        | (4) Administrador              |
-| 16 | Página de download das receitas   | Permite aos utilizadores registrados fazerem download das receitas do pack da semana           | (2) Utilizador com credenciais de login  |
+| 10 | Painel de Administração           | Interface exclusiva para administradores gerirem utilizadores, conteúdo do site e relatórios de vendas.                              | (4) Administrador                                                                                                                          |
+| 11 | Página de Perfil do Utilizador    | Permite aos utilizadores visualizar e editar as suas informações pessoais, histórico de pedidos e preferências de refeições.         | (2) Utilizador com credenciais de login válidas                                                                                            |
+| 12 | Página do Carrinho                | Mostra os itens selecionados pelos utilizadores para compra antes do checkout.                                                       | (2) Utilizador com credenciais de login válidas                                                                                            |
+| 13 | Página de Checkout                | Permite aos utilizadores rever e confirmar as suas compras antes do pagamento.                                                       | (2) Utilizador com credenciais de login válidas                                                                                            |
+| 14 | Página de Histórico de Encomendas | Exibe o histórico de encomendas dos utilizadores, incluindo detalhes da compra e estado de entrega.                                  | (2) Utilizador com credenciais de login válidas                                                                                            |
+| 15 | Página de upload às receitas      | Permite ao administrador dar upload às receitas e aos packs                                                                          | (4) Administrador                                                                                                                          |
+| 16 | Página de download das receitas   | Permite aos utilizadores registrados fazerem download das receitas do pack da semana                                                 | (2) Utilizador com credenciais de login                                                                                                    |
 
 ## 6.4 Exit Points
 
@@ -516,13 +536,13 @@ um valor inferior, podendo exigir uma atenção menos imediata.
 
 ### STRIDE
 
-| Categoria              | Descrição               |
-|------------------------|--------------------------|
-| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados   |
-| Tampering              | **Countermeasure 1**: Utilização de Hashing para as receitas<br/> **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos         |
-| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                |
-| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs            |
-| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting       |
+| Categoria              | Descrição                                                                                                                                                                                                                                                                                                                                                                                      |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados                                                                                                                                                                 |
+| Tampering              | **Countermeasure 1**: Utilização de Hashing para as receitas<br/> **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos                                                                                                                                                               |
+| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                                                                                                                                                                                                                                                                                            |
+| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs                                                                                              |
+| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting                                                                                                                                                                                                                                |
 | Elevation of privilege | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs <br/> **Countermeasure 4**: Ninguem deve ter a capacidade de mudar os privilégios do sistema |
 
 ## 6.7 Dataflow Diagram Lv1
@@ -830,27 +850,1216 @@ podem ser seguidos para alcançar um objetivo malicioso. Vamos explorar brevemen
 - **Sub-ataque 10.2**: Man-in-the-Middle (MitM) em Transações
 - **Sub-ataque 10.3**: Roubo de Credenciais de Conta Bancária
 
-# 7 Ferramentas de teste
+# 1º Sprint
 
-## 7.1 SAST
+Para este primerio sprint foi então pedido que fosse automatizado o processo de building e deployment através de uma
+pipeline, assim como a criação de testes de segurança que deviam ter sido planeados na parte de pleaneamento.
 
-De forma a analisar o código fonte da aplicação, é necessário utilizar ferramentas de Static Application Security
-Testing (SAST). Estas ferramentas permitem identificar vulnerabilidades de segurança no código fonte, como falhas de
-autenticação, injeção de SQL, cross-site scripting (XSS) e outras vulnerabilidades comuns.
-Optou-se por utilizar o SonarQube para realizar esta tarefa, pois é uma ferramenta open-source que suporta várias
-linguagens de programação e oferece uma análise abrangente do código fonte, identificando bugs, vulnerabilidades e "code
-smells" (https://www.sonarsource.com/products/sonarqube/).
+## 7 Pipeline
 
-## 7.2 DAST (Dynamic testing)
+Para a pipeline tentamos seguir a estrutura planeada, contudo a mesma sofreu algumas alterações, especialmente ao nivel
+do deployment. Usamos as github actions, visto ser uma ferramenta relativamente simples e com uma quantidade gigantesca
+de actions disponiveis, ao qual permite diminiur a complexidade da pipeline.
 
-Para este projeto vamos utilizar o OWASP ZAP, ferramenta essa que permite testar a segurança de aplicações web através de
-testes dinâmicos. O ZAP é uma ferramenta open-source que oferece uma ampla gama de funcionalidades, incluindo varreduras
-automáticas a testar contra todo o tipo de vulnerabilidades, como injeção de SQL, cross-site scripting (XSS), e outras
-ameaças comuns. (https://www.zaproxy.org/)
+Temos dois workflows, um para dar build e testar a aplicação na sua totalidade, o segundo workflow é essencialmente para
+efetuar uma release da aplicação.
 
-## 7.3 SCA
+Sempre que um push ou um pull request é efetuado temos algumas ferramentas que vão fazer testes e análises ao código e
+às dependências que a branch contém.
 
-A ferramenta escolhida para realizar a análise de componentes de software é o OWASP Dependency-Check. Esta ferramenta
-open-source permite identificar vulnerabilidades em bibliotecas de terceiros usadas no projeto, ajudando a garantir que
-não existam componentes com falhas de segurança conhecidas. O Dependency-Check supporta todas as linguagens que temos no
-nosso projeto (Java e javascript/Typescript). (https://owasp.org/www-project-dependency-check/).
+### 7.1 deployment.yml
+
+Este é o workflow responsável pelo deployment da aplicação, é composto por 4 jobs.
+
+1º job - build front end
+2º job - build back end
+3º job - push to docker hub
+4º job - docker scout api
+5º job - docker scout web
+
+#### 7.1.1 Build Front end
+
+Este é o primeiro job, que vai fazer o checkout do código, ou seja, vai para a branch que foi feito o push, vai dar
+setup ao node, que será a versão stable (node 20), vai instalar as dependências presentes no package.json, a seguir dá
+build. Até agora todas as tasks que foram executadas são essêncialmente para dar setup ao environment para a parte do
+front end, após dar este setup começamos a parte importante, que é verificar se o nosso código está pronto para
+produção, para isso chamamos o comando format, para formatar o código, depois chamamos o comando de lint para verificar
+para erros dentro do código, variaveis ou dependências não utilizadas, chamamos o comando de tests para testar
+o código e por fim chamamos o comando próprio ao sveltekit para validar o código que é o check.
+
+```YAML
+  buildFrontEnd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up node.js 20.11
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run build
+        run: npm run build
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run format
+        run: npm run format
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run linter
+        run: npm run lint
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Install conffeti
+        run: npx playwright install --with-deps
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run unit tests
+        run: npm run test:unit
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run Integration tests
+        run: npx playwright test
+        working-directory: ./desofs_svelte_front_end
+
+      - name: Run Check
+        run: npm run check
+        working-directory: ./desofs_svelte_front_end
+```
+
+#### 7.1.2 Build Back end
+
+Este é o nosso segundo job, inicialmente iniciamos um serviço, serviço esse que é nada mais nada menos que a nossa base
+de dados, uma das novas features do github actions é que permite ativar diferentes serviços nomeadamente o mysql num
+docker container, para isso basta adicionar o seguinte código:
+
+```YAML
+services:
+  mysql:
+    image: mysql:latest
+    env:
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_DATABASE: ${{ secrets.DESOFS_DB_DEV_DB_NAME }}
+      MYSQL_USER: ${{ secrets.DESOFS_DB_USER }}
+      MYSQL_PASSWORD: ${{ secrets.DESOFS_DB_PASS }}
+    ports:
+      - 3306:3306
+    options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+```
+
+No código em yaml, inicamos então o serviço mysql, que contém secrets que foram guardados nos secrets do github. Além
+disso, é feito uma verificação da health da base de dados para que apenas avance quando estiver totalmente ligada e
+funcional. Apesar de ter sido feito isso, nada garante que a base de dados esteja a aceitar conexões, e isso foi um
+problema fácilmente resolvido. Através do código a seguir:
+
+```YAML
+      - name: Echo .env
+        run: cat .env
+        working-directory: ./desofsApi
+
+
+      - name: Wait for 20 seconds
+        run: sleep 10
+
+      - name: Check Database Health
+        run: nc -zvw 1 cozinha_na_cozinha_mysql 3306
+        continue-on-error: true
+```
+
+O echo serve apenas para testar a capacidade do github actions ocultar os secrets, o sleep é para adicionar um tempo de
+espera extra na pipeline para resolver o problema descrito anteriormente.
+
+Após ter a base de dados a funcionar e a receber conexões, é feito o setup do java, a versão do java utilizada é o 17,
+visto ser uma versão estável e com algumas funcionalidades interessantes. Após o setup do java, é feito a limpesa de
+qualquer existencia de uma pasta "target" através do clean, após isto, são executados os testes, por fim executamos o
+package para criar um jar e guardamos o jar como um artefacto. Também é executado o dependency check
+
+```YAML
+  buildBackEnd:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.DESOFS_DB_DEV_DB_NAME }}
+          MYSQL_USER: ${{ secrets.DESOFS_DB_USER }}
+          MYSQL_PASSWORD: ${{ secrets.DESOFS_DB_PASS }}
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create .env
+        run: |
+
+          touch .env
+          echo "MYSQL_ROOT_PASSWORD=rootpwd" >> .env
+          echo "DESOFS_DB_DEV_DB_NAME=data_desofs" >> .env
+          echo "DESOFS_DB_USER=cozinha" >> .env
+          echo "DESOFS_DB_PASS=123456789" >> .env
+          echo "DESOFS_DB_HOST=desofs_mysql_db" >> .env
+          echo "DESOFS_APP_SECRET=defaultappsecret" >> .env
+        working-directory: ./desofsApi
+
+      - name: Echo .env
+        run: cat .env
+        working-directory: ./desofsApi
+
+
+      - name: Wait for 20 seconds
+        run: sleep 10
+
+      - name: Check Database Health
+        run: nc -zvw 1 cozinha_na_cozinha_mysql 3306
+        continue-on-error: true
+      # Setup java version
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+          cache-dependency-path: 'desofsApi/pom.xml'
+
+      - name: Maven Clean
+        run: mvn clean
+        working-directory: ./desofsApi
+
+      - name: Maven Test
+        run: mvn test
+        working-directory: ./desofsApi
+
+      - name: Maven Package
+        run: mvn package
+        working-directory: ./desofsApi
+
+      - name: Upload Jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: desofsApi
+          path: ./desofsApi/target/desofsApi-0.0.1-SNAPSHOT.jar
+
+
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        env:
+          # actions/setup-java@v1 changes JAVA_HOME so it needs to be reset to match the depcheck image
+          JAVA_HOME: /opt/jdk
+        id: Depcheck
+        with:
+          project: 'test'
+          path: '.'
+          format: 'HTML'
+          out: 'reports'
+          args: >
+            --enableRetired
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+          name: Depcheck report
+          path: ${{github.workspace}}/reports
+```
+
+#### 7.1.3 Push to Docker Hub
+
+Este job, é apenas executado depois se ambos os jobs anteriores forem bem sucedidos, ou seja, se o front end e o back
+end estiverem prontos para produção, é feito o push para o docker hub, para isso é feito o steup do environment,
+executar o build do front end e o package do back end, faz se o login no docker hub com credenciais guardadas nos
+secrets, depois dámos push tanto do front end como do back end para as suas docker registries.
+
+```YAML
+push-to-dockerhub:
+  runs-on: ubuntu-latest
+
+  steps:
+
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up node.js 20.11
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Install Dependencies
+      run: npm install
+      working-directory: ./desofs_svelte_front_end
+
+    - name: Run build
+      run: npm run build
+      working-directory: ./desofs_svelte_front_end
+
+    - name: Set up Java 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'maven'
+        cache-dependency-path: 'desofsApi/pom.xml'
+
+    - name: Maven Package
+      run: mvn package -DskipTests
+      working-directory: ./desofsApi
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+
+    - name: Build docker compose file
+      run: docker-compose build
+
+
+    - name: Print docker images
+      run: docker images
+
+    # tag the frontend image
+    - name: Tag Frontend image
+      run: docker tag desofs2024_m1b_2_desof-web:latest ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
+
+    - name: Tag Backend image
+      run: docker tag desofs2024_m1b_2_desof-api:latest ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-api:latest
+
+    - name: Build and push frontend
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
+
+    - name: Build and push backend
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-api:latest
+
+  needs: [ buildFrontEnd, buildBackEnd ]
+```
+
+As imagens vão ser postas como latest visto que estão com a última versão possivel do código.
+
+#### 7.1.4 Docker Scout
+
+Este job é executado no final depois do push para o docker hub ser bem-sucedido, é feito então, uma analise dos
+containers, nós queriamos por os ultimos jobs juntos, contudo, isso não é possivel pois o github fica numa dependencia
+rotativa por causa do githubtoken, contudo, vamos considerar que são parte da mesma job. Neste caso, isto vai fazer o
+login no docker hub e depois vai buscar as imagens para de seguida criar um report com as vulnerabilidades encontradas
+pelo docker scout, este report vai ser posto na própria pull request para imediato feedback. Claro que existem
+diferentes formas de geração que podem ser configuradas na github action através do parametro "command":
+
+```YAML
+  docker-scout-web:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Docker Scout
+        id: docker-scout
+        uses: docker/scout-action@v1
+        with:
+          command: cves,recommendations,quickview
+          image: ${{ secrets.DOCKER_USERNAME }}/desofs2024_m1b_2-desof-web:latest
+          to-latest: true
+          ignore-unchanged: true
+          write-comment: true
+          only-fixed: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+    needs:
+      - push-to-dockerhub
+```
+
+### 7.2 release-please.yaml
+
+Este workflow é responsável por criar uma release da aplicação, é composto por apenas 1 job, mas temos a intenção de
+melhorar e adicionar a outro, no qual irá fazer um novo push para o docker hub mas com a tag da release.
+
+```YAML
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+name: release-please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        with:
+          # You will want to configure a GitHub Actions secret with a
+          # Personal Access Token if you want GitHub Actions CI
+          # checks to run on Release Please PRs.
+          # The folowing assumes that you have created a personal access token
+          # (PAT) and configured it as a GitHub action secret named
+          # `MY_RELEASE_PLEASE_TOKEN` (this secret name is not important).
+          #token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
+
+          # if you dont need to trigger new workflow runs on a release please PR
+          # its fine to use GITHUB_TOKEN as folows
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+          # this is a built-in strategy in release-please, see "Action Inputs"
+          # for more options
+          release-type: simple
+```
+
+## 7.2 Ferramentas de análise de código
+
+Para o auxílio da pipeline e para garantir a qualidade do código, foram utilizadas ferramentas de análise com
+diferentes objetivos. Contudo, também usamos uma ferramenta externa para análise de código dinâmico, nomeadamente o
+OWASP ZAP.
+
+### SAST - Static Application Security Testing
+
+Usamos duas ferramentas interessantes para análise estática de código, nomeadamente o SonarCloud ( que serve o mesmo
+propósito que o sonarQube) e usamos também o codeQl que é uma ferramenta que já faz parte do github, apenas precisa de
+ser ativada e o projeto no github tem de estar publico.
+
+![SonarCloudSummary.png](Sprint1/sonarCloud/SonarCloudSummary.png)
+
+Esse é o sumário do projeto, isto demonstra as informações em comparação com o commit anterior, por isso pode parecer
+que não tem nada. Apesar disso, temos outra parte do sonar cloud que mostar diferentes análises feitas em tempo real do
+código:
+
+![PossibleAnalysis.png](Sprint1/sonarCloud/PossibleAnalysis.png)
+
+Mas o grande motivo de termos usado esta ferramenta foi essencialmente para podermos integrar com os "checks" do github
+quando se faz pull request, assim o utilizador pode ver uma análise estática do código e ter o seu código impedido de
+ser
+merged caso tenha problemas críticos que possam ser resolvidos.
+
+![SonarCloudCommentOnPullRequest.png](Sprint1/sonarCloud/SonarCloudCommentOnPullRequest.png)
+
+Aqui podemos ver a imagem do sonar cloud a comentar no pull request com o summario do código e se passou, ou não. Caso
+não fosse aprovado pelo sonar cloud, não seria possível dar merge ao código.
+
+O codeQl serve o quase para o mesmo propósito que o sonar cloud, contudo, é uma ferramenta que consta já com o github.
+
+Um exemplo do codeQl em ação:
+
+![CodeQl.png](Sprint1/codeQl/CodeQlInAction.png)
+
+Isto foi uma vulnerabilidade que o codeQL encontrou no código. Ao carregarmos, podemos ver mais detalhadamente onde se
+encontra o problema e a vulnerabilidade em si.
+
+![VulnerabilityResolve.png](Sprint1/codeQl/VulnerabilityBeingShownWithQl.png)
+
+### DAST - Dynamic Application Security Testing
+
+Para a análise dinâmica de código, usamos o OWASP ZAP, que é uma ferramenta de código aberto que pode ser usada para
+encontrar vulnerabilidades de segurança em aplicações web.
+A execução do OWASP ZAP não foi feita dentro da pipeline, embora seja possível, contudo não havia forma de impedir que
+código com vulnerabilidades detetadas pelo ZAP fossem impedidas de levar merge. Assim, a execução do ZAP foi feita
+manualmente, tivemos de criar um script (Zest script) no qual lhe é dado um bearer token (para poder efetuar requests na
+api). Também foi necessário dar ao OWASP ZAP os endpoints da Api, isso foi feito através do springdoc, no qual
+disponibiliza
+end points para o swagger-ui e para o api-docs.
+
+O report pode ser encontrado na pasta Sprint1/OWASP_ZAP_report e como podemos ver, temos apenas 1 vulnerabilidade grave.
+
+### SCA - Software Composition Analysis
+
+Para ferramentas de SCA foram usadas 4 ferramentas, três delas vão fazer uma análise durante a execução da pipeline, e a
+outra é uma ferramenta que vai estar sempre atenta a vulnerabildidades nas depêndencias usadas.
+
+A primeira ferramenta é o dependabot, que é uma ferramenta que faz parte do github, e que vai estar sempre atenta a
+vulnerabilidades nas dependências usadas, e vai fazer pull requests para atualizar as dependências.
+
+![Dependabot.png](Sprint1/Dependabot/DependabotInAction.png)
+
+Como podemos ver pela imagem, o dependabot detetou uma atualização, contudo também é capaz de detetar vulnerabilidades
+associadas a essa dependência.
+
+A segunda ferramenta é o OWASP dependency check que vai ser executado na pipeline com o uso de uma github action, e
+depois o report gerado vai ser guardado como um artefacto no sumário da pipeline. Existe um exemplo do report gerado na
+pasta Sprint1/dependencyCheck.
+
+![SummaryDependencyCheck.png](Sprint1/DependencyCheck/Summary.png)
+
+Pela seguinte imagem, podemos ver que temos algumas dependências com vulnerabilidades e algumas delas com alta
+gravidade. Por isso, é importante que sejam resolvidas no próximo sprint.
+
+A terceira ferramenta é o snyk, que é uma ferramenta que faz parte do github, que vai ser executada quando uma pull
+request é feita, e vai fazer uma análise das dependências usadas, quase como o dependency check, contudo, o snyk
+disponibiliza uma ui na web, que permite criar pull requests para resolver as vulnerabilidades. Impedindo assim
+possiveis correções feitas por pessoas tragam mais problemas do que aqueles já existentes.
+
+![SnykInAction.png](Sprint1/Snyk/SnykPullRequest.png)
+
+Por fim temos o Docker Scout que é uma ferramenta que faz análise de vulnerabilidades nas imagens do docker, esta
+análise é feita durante a pipeline e o report é criado como um github comment na pull request, os detalhes a cerca
+da action presente no workflow foram falados anteriormente.
+
+![DockerScout.png](Sprint1/DockerScout/DockerScoutComment.png)
+
+Esta ferramenta foi escolhida pois, para além de ser importante saber as dependências que estão a ser usadas, é também
+igualmente importante saber as vulnerabilidades que as imagens do docker contêm.
+
+# 8 Testes de segurança
+
+Neste sprint foram realizados testes unitários de segurança, estes testes deviam ter sido préviamente planeados, que foi
+uma das nossas falhas a ser apontada na fase de design. Apesar da nossa falha, fizemos os testes o mais uniformes
+possível e principalmente focados em testar para alguns ataques comuns, como XSS, sql Injection, code injection, entre
+outros. Não obstante, também testamos para as regras de negócio, sendo assim uma mistura de testes de segurança com
+testes de segurança de negócio (ou seja, testes de segurança feitos para garantir que as regras de negócio estão
+a ser cumpridas). Para estes testes decidimos fazer, apenas para os points of failures, neste caso na entrada da
+request, por isso, os testes foram dirigidos especialmente aos DTOS de request de save e update.
+
+```java
+
+@ParameterizedTest
+@CsvSource({
+//            ...
+        "<svg onload svg onload=\"javascript:javascript:alert(1)\"></svg onload>",
+        "<html onmousemove html onmousemove=\"javascript:javascript:alert(1)\"></html onmousemove>",
+        "<body onblur body onblur=\"javascript:javascript:alert(1)\"></body onblur>",
+        "\\x3Cscript>javascript:alert(1)</script>",
+        "'\"`><script>/* *\\x2Fjavascript:alert(1)// */</script>",
+        "<script>javascript:alert(1)</script\\0D",
+        "<script>javascript:alert(1)</script\\0A",
+        "<script>javascript:alert(1)</script\\0B",
+        "<script charset=\"\\x22>javascript:alert(1)</script>",
+        "<!--\\x3E<img src=xxx:x onerror=javascript:alert(1)> -->",
+        "--><!-- ---> <img src=xxx:x onerror=javascript:alert(1)> -->",
+        "--><!-- --\\x00> <img src=xxx:x onerror=javascript:alert(1)> -->",
+        "<image/src/onerror=prompt(8)>",
+        "<img/src/onerror=prompt(8)>",
+        "<image src/onerror=prompt(8)>",
+        "<img src/onerror=prompt(8)>",
+        "<image src =q onerror=prompt(8)>",
+        "<img src =q onerror=prompt(8)>",
+        "</scrip</script>t><img src =q onerror=prompt(8)>",
+        "'-prompt(8)-'",
+        "\"-prompt(8)-\"",
+        "\";a=prompt,a()//\"",
+        "\"';a=prompt,a()//\"",
+        "'-eval(\"window['pro'%2B'mpt'](8)\")-'",
+        "\"-eval(\"window['pro'%2B'mpt'](8)\")-\"",
+})
+@DisplayName("Security Test for PacoteDTOSaveRequest")
+public void testSecurityVulnerabilitiesForSave(String text) {
+    PacoteDTOSaveRequest response = new PacoteDTOSaveRequest(text, 2.0, text, true, 1L);
+    Set<ConstraintViolation<PacoteDTOSaveRequest>> violations = validator.validate(response);
+    assertFalse(violations.isEmpty());
+}
+```
+
+Este é apenas um pequeno exemplo truncado dos testes que foram feitos para testar possiveis ataques. Estes testes
+foram feitos para os DTOS de request de save e update, e foram feitos para garantir que a entrada de dados é segura e
+que não é possivel fazer ataques comuns.
+
+```java
+
+@ParameterizedTest
+@CsvSource(textBlock =
+        """
+                -124
+                -35
+                -1
+                501
+                502
+                56789
+                3214
+                63446        
+                """)
+@DisplayName("Security Test for PacoteBasePrice")
+public void testSecurityVulnerabilitiesForPacoteBasePrice(Double value) {
+    PacoteDTOSaveRequest response = new PacoteDTOSaveRequest("random name", value, "Random text", true, 1L);
+    Set<ConstraintViolation<PacoteDTOSaveRequest>> violations = validator.validate(response);
+    assertFalse(violations.isEmpty());
+}
+```
+
+O código acima é um exemplo de um teste de segurança de negócio, neste caso, testamos para um valor que não
+deveria ser aceite, visto que o preço base, segundo as regras não pode custar menos de 0 euros e mais de 500 euros, e
+por isso, o teste deveria falhar.
+
+# 9 Testes unitários e de integração
+
+Os testes unitários e de integração foram realizados à medida que o código era desenvolvido, sendo feitos para garantir
+que o código funcionava corretamente e que as regras de negócio eram cumpridas. 
+
+
+```java
+@SpringBootTest
+class TipoPacoteServiceImplTest {
+
+    @Autowired
+    private TipoPacoteServiceRepo tipoPacoteServiceRepo;
+    @Autowired
+    private TipoPacoteService tipoPacoteService;
+    @Autowired
+    private ReceitaServiceRepo receitaRepo;
+
+
+    @Autowired
+    private PacoteServiceRepo pacoteServiceRepo;
+    @Autowired
+    private ReviewServiceRepo reviewServiceRepo;
+    @Autowired
+    private UserServiceRepo userServiceRepo;
+    @Autowired
+    private EncomendaServiceRepo encomendaServiceRepo;
+
+    private Validator validator;
+
+    @BeforeEach
+    public void setUp() {
+        encomendaServiceRepo.deleteAll();
+        receitaRepo.deleteAll();
+        reviewServiceRepo.deleteAll();
+        userServiceRepo.deleteAll();
+        pacoteServiceRepo.deleteAll();
+        tipoPacoteServiceRepo.deleteAll();
+
+        TipoPacote tp1 = new TipoPacote(1L, "Mediteraneo");
+        TipoPacote tp2 = new TipoPacote(2L, "Tropical");
+        TipoPacote tp3 = new TipoPacote(3L, "Tuga");
+        TipoPacote tp4 = new TipoPacote(4L, "MultiCultural");
+        TipoPacote tp5 = new TipoPacote(5L, "Dieta");
+        tipoPacoteServiceRepo.save(tp1);
+        tipoPacoteServiceRepo.save(tp2);
+        tipoPacoteServiceRepo.save(tp3);
+        tipoPacoteServiceRepo.save(tp4);
+        tipoPacoteServiceRepo.save(tp5);
+
+
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
+
+    @AfterEach
+    public void tearDown() {
+        receitaRepo.deleteAll();
+        pacoteServiceRepo.deleteAll();
+        tipoPacoteServiceRepo.deleteAll();
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Mediteraneo",
+            "Tropical",
+            "Tuga",
+            "MultiCultural",
+            "Dieta"
+    })
+    public void testSaveTipoPacoteSuccess(String tipo) {
+        tipoPacoteServiceRepo.deleteAll();
+
+        TipoPacoteDTOServiceRequest tipoPacoteDTOServiceRequest = new TipoPacoteDTOServiceRequest(tipo);
+
+        Set<ConstraintViolation<TipoPacoteDTOServiceRequest>> violations = validator.validate(tipoPacoteDTOServiceRequest);
+
+        TipoPacoteDTOServiceResponse pacoteDTOServiceResponse = tipoPacoteService.save(tipoPacoteDTOServiceRequest);
+
+        assertEquals(pacoteDTOServiceResponse.getNome(),tipoPacoteDTOServiceRequest.getNome());
+        assertTrue(violations.isEmpty());
+
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Mediteraneo??___sad2 ii329",
+            "Tropicaladsc;l ,;l ,23-0mb02$#> T>E ",
+            "Tuga-=35y -=]a[s ;[",
+            "<script>alert('XSS')</script>",
+            "'); DROP TABLE receita; --"
+    })
+    public void testSaveTipoPacoteFail(String tipo) {
+        tipoPacoteServiceRepo.deleteAll();
+
+        TipoPacoteDTOServiceRequest tipoPacoteDTOServiceRequest = new TipoPacoteDTOServiceRequest(tipo);
+
+        Set<ConstraintViolation<TipoPacoteDTOServiceRequest>> violations = validator.validate(tipoPacoteDTOServiceRequest);
+        TipoPacoteDTOServiceResponse pacoteDTOServiceResponse = null;
+        try {
+            pacoteDTOServiceResponse = tipoPacoteService.save(tipoPacoteDTOServiceRequest);
+        } catch (Exception e) {
+            assertNull(pacoteDTOServiceResponse);
+        }
+        assertNull(pacoteDTOServiceResponse);
+        assertFalse(violations.isEmpty());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "-1",
+            "-2",
+            "-304305890",
+            "-48345875",
+            "-534568"
+    })
+    public void testSaveTipoPacoteFailId(Long tipo) {
+        TipoPacoteDTOServiceResponse pacoteDTOServiceResponse = tipoPacoteService.findbyId(tipo);
+
+        assertNull(pacoteDTOServiceResponse);
+    }
+
+    @Test
+    public void testFindAllTipoPacoteSuccess() {
+        List<TipoPacoteDTOServiceResponse> tipoPacoteDTOServiceResponseList = tipoPacoteService.findAll();
+        TipoPacoteDTOServiceResponse tipoPacoteDTOServiceResponse = tipoPacoteService.findAll().get(0);
+
+        assertNotNull(tipoPacoteDTOServiceResponse);
+        assertEquals(tipoPacoteDTOServiceResponseList.size(), 5);
+    }
+
+    @Test
+    public void testDeleteAllTipoPacoteSuccess() {
+        tipoPacoteService.deleteAll();
+        List<TipoPacoteDTOServiceResponse> tipoPacoteDTOServiceResponseList = tipoPacoteService.findAll();
+
+        assertTrue(tipoPacoteDTOServiceResponseList.isEmpty());
+    }
+
+
+
+}
+```
+
+Aqui temos um exemplo de um teste de integração, neste caso, testamos o serviço de TipoPacote, cujo propósito é
+gerir os tipos de pacotes que a aplicação tem. Neste caso, testamos para o save, findAll e deleteAll, e testamos para
+casos de sucesso e de falha.
+
+## 10 Backend
+
+O backend foi desenvolvido em Java, com o uso do Spring Boot, que é uma framework que facilita o desenvolvimento de
+aplicações web. O backend foi dividido em 3 camadas, a camada controller, service e repository, seguindo uma
+estrutura Onion. A camanda Controller é responsável por receber as requests, a camada service é responsável por
+implementar a lógica de negócio e a camada repository é responsável por interagir com a base de dados.
+
+### 10.1 SecurityConfig
+
+O nosso programa, contém uma classe chamada SecurityConfig, que é responsável por configurar a segurança da aplicação.Através
+desta, é possível configurar o login, logout, e as permissões de cada endpoint. Assim,
+conseguimos garantir que apenas pessoas autorizadas possam aceder a certos endpoints.
+
+```java
+.requestMatchers("/pacote/**").hasRole(Role.Admin)
+.requestMatchers("/pacote/**").hasRole(Role.GestorFicheiros)
+.requestMatchers("/review/all").permitAll()
+.requestMatchers("/review/pacote/**").permitAll()
+.requestMatchers("/review/**").authenticated()
+```
+
+Aqui, podemos perceber diferentes permissões para diferentes endpoints, por exemplo, para qualquer endpoint 
+que comece por /pacote poderá ser acedido por um Admin ou por um Gestor de Ficheiros, enquanto que para o endpoint
+/review/all e /review/pacote qualquer pessoa pode aceder, porém para os restantes endpoints que comecem por /review
+apenas pessoas autenticadas podem aceder.
+
+### 10.2 DTOs
+
+Para a comunicação entre as diversas camadas da aplicação, foram usados DTOs, que são objetos que contêm apenas os
+atributos necessários para a comunicação entre estas. Estes objetos são usados para garantir que a comunicação
+entre as camadas é eficiente e segura.
+
+Além disso, utilizou-se mappers para converter os DTOs em entidades e vice-versa. 
+Esses mappers desempenham um papel crucial na comunicação entre as camadas da aplicação, 
+assegurando que os dados sejam convertidos de forma adequada e consistente.
+Eles garantem que os objetos sejam mapeados corretamente de acordo com as 
+necessidades de cada camada, facilitando assim a comunicação 
+e a interoperabilidade entre elas.
+
+```java
+@Mapper(componentModel = "spring")
+@Component
+public interface EncomendaMapper {
+    //Controller Layer
+    EncomendaDTOServiceRequest toEncomendaDtoServiceRequestFromEncomendaDtoSaveRequest(EncomendaDTOSaveRequest encomendaDTOSaveRequest);
+    EncomendaDTOResponse fromEncomendaToDto(EncomendaDTOServiceResponse encomenda);
+    List<EncomendaDTOResponse> fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(List<EncomendaDTOServiceResponse> all);
+    EncomendaDTOServicePatchRequest toEncomendaDTOServicePatchRequestFromEncomendaDTOPatchRequest(EncomendaDTOPatchRequest encomenda);
+
+    //Service Layer
+    EncomendaDTOServiceResponse toEncomendaDTOServiceResponseFromEncomenda(Encomenda encomenda);
+    Encomenda toEncomendafromEncomendaSaveDtoService(EncomendaSaveDTOService encomendaDTOServiceRequest);
+    List<EncomendaDTOServiceResponse> toEncomendaDTOServiceResponseListFromEncomendaList(List<Encomenda> all);
+    Encomenda toEncomendafromEncomendaPatchDtoService(EncomendaPatchDTOService encomendaPatchDTOService);
+}
+```
+O código apresentado é um exemplo de um mapper utilizado para a entidade "Encomenda". 
+Ele define métodos para converter objetos relacionados à "Encomenda" entre as camadas controller e service, 
+garantindo uma comunicação eficiente e semântica entre essas partes da aplicação. 
+Esta abordagem ajuda a manter um código limpo e modular, facilitando a manutenção 
+e a evolução da aplicação ao longo do tempo.
+
+### 10.3 Validações de input
+
+Nos nossos DTOs e model classes, foram usadas anotações de validação para garantir que os 
+dados inseridos são válidos e seguros. Estas anotações são usadas para validar os campos
+de forma a prevenir erros e ataques comuns, como SQL Injection e Cross-Site Scripting (XSS).
+
+```java
+@Entity
+public class Encomenda {
+    @Id
+    @GeneratedValue
+    private Long encomendaId;
+    @Min(value = 1, message = "Número de refeições por semana inválido")
+    @Max(value = 7, message = "Número de refeições por semana inválido")
+    @Positive
+    private int mealsPerWeek;
+
+    @Min(value = 1, message = "Número de pessoas inválido")
+    @Max(value = 5, message = "Número de pessoas inválido")
+    @Positive
+    private int numberOfPeople;
+    @Min(value = 1, message = "Preço inválido")
+    @Positive
+    private double price;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dataEncomenda;
+    @ManyToOne
+    @NotNull(message = "Pacote inválido")
+    private Pacote pacote;
+
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
+
+    @ManyToOne
+    @NotNull(message = "User inválido")
+    private User user;
+```
+
+Neste exemplo, podemos ver a utilização de anotações de validação para garantir que os campos
+da entidade "Encomenda" são válidos e seguros, como por exemplo a garantia de que o número de refeições
+por semana é um valor entre 1 e 7, que o número de pessoas é um valor entre 1 e 5, e que o preço é um valor positivo.
+Desta forma, podemos garantir que os dados inseridos cumprem as nossas regras de negócio e que são seguros contra ataques.
+
+```java
+@Entity
+@ToString
+public class Pacote {
+
+    @Id
+    @GeneratedValue
+    private Long pacoteId;
+
+
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
+    private String nome;
+
+    @Min(value = 0, message = "Peço do pacote inválido")
+    @Max(value = 400, message = "Peço do pacote inválido")
+    private double pacoteBasePrice;
+
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
+    private String pacoteDescription;
+
+    @NotNull
+    private boolean disabled;
+
+    @ManyToOne
+    @NotNull
+    private TipoPacote tipoPacote;
+```
+
+Já neste exemplo, podemos ver a utilização de anotações de validação para garantir que os campos
+do tipo String são protegidos também através de uma regex, garantindo que apenas letras e números são aceites,
+prevenindo principalmente ataques de XSS.
+
+
+## 11 Front end
+
+Para o desenvolvimento do front end, foi utilizado a framework Sveltekit, que é uma framework de front end que permite
+desenvolver aplicações web de forma rápida e eficiente.
+Como forma de garantir uma maior segurança, foram utilizadas algumas práticas de segurança, como por exemplo, a
+validação de inputs, a utilização de tokens de autenticação e a proteção contra ataques de XSS e CSRF.
+
+### 11.1 Autenticação
+
+Para garantir a autenticação dos utilizadores, foi utilizado um Bearer Token, que é um token de autenticação
+que é gerado pelo servidor e enviado para o cliente, que o guarda e o envia em todas as requests para o servidor.
+Este token é utilizado para autenticar o utilizador e garantir que apenas utilizadores autenticados possam aceder a
+certos endpoints.
+
+```svelte
+<div class="self-center">
+		{#if data.user}
+			<Button className="profile-button" text="Perfil" gotoName="/profile" />
+			<Button className="order-button" text="Carrinho" gotoName="/carrinho" />
+			<Button className="enc-button" text="Encomenda" gotoName="/encomenda" />
+			{#if data.user.isAdmin || data.user.isDocumentManager}
+				<Button
+					className="package-management-button"
+					text="Gestão de pacotes"
+					gotoName="/package-management"
+				/>
+
+				<Button className="recipe-management-button" text="Receitas" gotoName="/recipe" />
+			{/if}
+			{#if data.user}
+				<Button className="dashboard-button" text="Dashboard" gotoName="/dashboard" />
+			{/if}
+			<Button className="logout-button" text="Sair" gotoName="/auth/logout" />
+		{:else}
+			<Button className="login-button" text="Junta-te" gotoName="/auth" />
+		{/if}
+	</div>
+```
+
+Neste exemplo, podemos ver a utilização do token para garantir que apenas utilizadores autenticados possam aceder a
+certos botões, como por exemplo, o botão de logout, que apenas é visível para utilizadores autenticados.
+Tambeém podemos ver que apenas utilizadores com permissões de admin ou gestor de ficheiros podem aceder a certos
+botões, como por exemplo, o botão de gestão de pacotes.
+
+### 11.2 Types 
+
+Para garantir a segurança dos dados, foram utilizados types, que são objetos que contêm apenas os atributos necessários
+para a comunicação entre as diversas partes da aplicação. Estes objetos são usados para garantir que a comunicação
+entre as diversas partes da aplicação é eficiente e segura.
+
+```svelte
+type RecipeDTOSend = {
+	path: string;
+	nome: string;
+	pacote: number;
+	tipoReceita: number;
+};
+
+type RecipePatchSend = {
+	receitaId: number;
+	path: string;
+	nome: string;
+	pacote: number;
+	tipoReceita: number;
+};
+
+type Recipe = {
+	receitaId: number;
+	path: string;
+	nome: string;
+	pacote: Package;
+	tipoReceita: RecipeType;
+};
+
+```
+Neste exemplo, podemos ver a utilização de types para garantir que os dados enviados entre as diversas partes da
+aplicação são seguros e consistentes, como por exemplo, o type RecipeDTOSend, que é utilizado para a
+criação de uma receita. Desta forma, asseguramo-nos que enviamos
+o tipo correto de dados, prevenindo o envio de uma string invés de
+um número, por exemplo.
+
+### 11.3 Validação de inputs
+
+Para garantir que os dados inseridos são válidos e seguros, foram utilizadas algumas práticas de validação de inputs,
+como por exemplo, a validação do tipo de input, tamanho máximo e mínimo, entre outros.
+
+```svelte
+<div class="flex flex-row gap-2 content-center items-center">
+    <label class="min-w-40" for="meals">Number of Meals</label>
+    <input
+        bind:value={meals}
+        type="number"
+        name="meals"
+        id="meals"
+        class="rounded border border-current p-1 min-w-80"
+        min="1"
+        max="7"
+    />
+</div>
+```
+
+Neste exemplo, podemos ver a utilização de validação de inputs para garantir que o número de refeições inserido é 
+um valor entre 1 e 7 de forma a cumprir os requisitos da nossa aplicação e garantir
+que os dados inseridos são válidos.
+
+# 12 ASVS
+
+O OWASP Application Security Verification Standard (ASVS) é um projeto que define um conjunto de requisitos de segurança das aplicações.
+Este documento descreve a utilização do ASVS e a análise efetuada através da lista de verificação fornecida.
+A lista de verificação está dividida em várias categorias de segurança, cada uma contendo um conjunto de critérios que devem ser verificados para garantir a segurança da aplicação.
+
+## 12.1 Estrutura do Checklist
+
+A lista de controlo ASVS é composta por diferentes categorias de segurança. Apresentamos a seguir as categorias analisadas:
+
+1. **Architecture, Design and Threat Modeling**
+2. **Authentication**
+3. **Session Management**
+4. **Access Control**
+5. **Validation, Sanitization and Encoding**
+6. **Stored Cryptography**
+7. **Error Handling and Logging**
+8. **Data Protection**
+9. **Communication**
+10. **Malicious Code**
+11. **Business Logic**
+12. **Files and Resources**
+13. **API and Web Service**
+14. **Configuration**
+
+## 12.2 ASVS Results Overview
+
+O ficheiro Excel apresenta uma síntese dos resultados da ASVS para cada categoria de segurança. 
+Segue-se um resumo dos resultados, incluindo o número de critérios válidos, o total de critérios e a percentagem de validade para cada categoria.
+
+| Security Category                          | Total Criteria | Valid Criteria | Validity Percentage |
+|--------------------------------------------|----------------|----------------|---------------------|
+| Architecture, Design and Threat Modeling   | 33             | 28             | 84.85%              |
+| Authentication                             | 35             | 21             | 60.00%              |
+| Session Management                         | 14             | 10             | 71.43%              |
+| Access Control                             | 8              | 6              | 75.00%              |
+| Validation, Sanitization and Encoding      | 27             | 22             | 81.48%              |
+
+De reforçar que no ficheiro do ASVS, as funcionalidades que estão assinaladas com "valid", são funcionalidades que já foram implementadas,
+as que estão assinaladas com "not-valid", são funcionalidades que pretendemos implementar no futuro, e as que estão assinaladas com "not-applicable".
+
+### 12.2.1 Detalhes por Categoria
+
+#### 12.2.1.1. Architecture, Design and Threat Modeling
+
+Esta categoria verifica a existência de uma arquitetura de segurança bem definida e a utilização de modelos de ameaças para identificar possíveis vulnerabilidades. 
+A validade desta categoria é de 84,85%, com 28 critérios válidos num total de 33.
+
+- **Existência de uma arquitetura de segurança:** Garante que a aplicação tem uma arquitetura de segurança documentada e implementada.
+- **Modelação de ameaças:** Utiliza modelos de ameaças para identificar, quantificar e mitigar potenciais riscos.
+- **Conceção segura:** Avalia se a conceção da aplicação incorpora princípios de segurança, como a defesa em profundidade e o princípio do menor privilégio.
+
+##### 12.2.1.1.1 Exemplos de implementação
+
+**Verify that the application uses a single vetted authentication mechanism that is known to be secure, can be extended to include strong authentication, and has sufficient logging and monitoring to detect account abuse or breaches.**
+
+Para este ponto de verificação, a nossa solução foi a utilização do JWT que é facilmente extensivel de forma a adicionar mecanismos de logging.
+
+````java
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        final JWK jwk = new RSAKey.Builder(this.rsaPublicKey).privateKey(this.rsaPrivateKey).build();
+        final JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        return new NimbusJwtEncoder(jwks);
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey(this.rsaPublicKey).build();
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        final JwtGrantedAuthoritiesConverter jwtGrantedAuthenticationConverter = new JwtGrantedAuthoritiesConverter();
+        jwtGrantedAuthenticationConverter.setAuthoritiesClaimName("roles");
+        jwtGrantedAuthenticationConverter.setAuthorityPrefix("ROLE_");
+
+        final JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthenticationConverter);
+        return jwtAuthenticationConverter;
+    }
+````
+
+** Verify that input validation is enforced on a trusted service layer. **
+
+Para este ponto, foram implementadas mecanismos de sanitização dos inputs, através de annotations disponibilizadas pelo lombok e o jpa.
+
+````java
+    @NotNull
+    @Positive
+    private final Long pacoteId;
+
+    @NotBlank
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
+    @Size(min = 1, message = "Nome do pacote inválido")
+    @Size(max = 16, message = "Nome do pacote inválido")
+    private final String nome;
+
+    @Min(value = 0, message = "Preço base do pacote inválido")
+    @Max(value = 500, message = "Preço base do pacote inválido")
+    private final double pacoteBasePrice;
+
+    @Size(min = 1, message = "Descrição do pacote inválida")
+    @Size(max = 64, message = "Descrição do pacote inválida")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
+    private final String pacoteDescription;
+
+    private final boolean disabled;
+    @Positive
+    @NotNull
+    private final Long tipoPacote;
+````
+
+#### 12.2.1.2. Authentication
+
+A autenticação é essencial para garantir que apenas os utilizadores autorizados possam aceder ao sistema. Nesta categoria, a validade é de 60,00%, com 21 critérios válidos num total de 35.
+
+- **Mecanismos de autenticação:** Verifica se são utilizados mecanismos de autenticação seguros, como a autenticação multifactor.
+- **Proteção de credenciais:** Garante que as credenciais de autenticação são protegidas durante o armazenamento e a transmissão.
+- **Gestão de sessões:** Avalia se as sessões de autenticação são geridas de forma segura, incluindo a expiração e revogação da sessão.
+
+##### 12.2.1.2.1 Exemplos de implementação
+
+** Verify that user set passwords are at least 12 characters in length **
+
+Para este ponto de verificação, a nossa solução foi a utilização de uma annotation para garantir que a password tem pelo menos 12 caracteres.
+
+````java
+    @NotBlank
+    @Size(min = 12, message = "Password must be at least 12 characters long")
+    private final String password;
+````
+
+Não só no backend mas no frontend também adicionamos essa restrição, mas a implementação principal é a do backend devido à sua maior segurança.
+
+** Verify that passwords of at least 64 characters are permitted, and that passwords of more than 128 characters are denied. **
+
+Para este ponto de verificação, muito parecido com o ponto acima, a nossa solução foi a utilização de uma annotation para garantir que a password tem pelo menos 64 caracteres e no máximo 128.
+
+````java
+    @NotBlank
+    @Size(min = 64, message = "Password must be at least 64 characters long")
+    @Size(max = 128, message = "Password must be at most 128 characters long")
+    private final String password;
+````
+
+#### 12.2.1.3. Session Management
+
+A gestão de sessões garante que as sessões dos utilizadores estão seguras e protegidas contra-ataques. A validade desta categoria é de 71,43%, com 10 critérios válidos num total de 14.
+
+- **Gestão de sessões:** Verifica se as sessões são geridas corretamente, incluindo a criação, a manutenção e o encerramento seguro das sessões.
+- **Proteção contra-ataques a sessões:** Avalia a proteção contra-ataques como a fixação de sessões, o desvio de sessões e a reutilização de fichas de sessão.
+- **Expiração da sessão:** Garante que as sessões expiram após um período de inatividade ou após um período predefinido.
+
+##### 12.2.1.3.1 Exemplos de implementação
+
+** Verify the application never reveals session tokens in URL parameters or error messages. **
+
+Para este ponto de verificação, a nossa solução é que o backend só retorna o token de sessão quando o utilizador insere corretamente as credenciais.
+Nos restantes pedidos essa informação não é partilhada.
+
+```` java
+    @PostMapping("login")
+    public ResponseEntity<UserView> login(@RequestBody @Valid final SignInRequest request) {
+        try {
+            final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
+            final User user = (User) authentication.getPrincipal();
+            final Instant now = Instant.now();
+            final long expiry = 36000L;
+
+            final String scope = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                    .collect(joining(" "));
+
+            final JwtClaimsSet claims = JwtClaimsSet.builder().issuer("example.io").issuedAt(now)
+                    .expiresAt(now.plusSeconds(expiry)).subject(format("%s,%s", user.getUserId(), user.getUsername()))
+                    .claim("roles", scope).build();
+
+            final String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(mapToUSerView(user));
+        } catch (final BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+````
+
+** Verify the application only stores session tokens in the browser using secure methods such as appropriately secured cookies **
+
+Para este ponto de verificação, a nossa solução foi armazenar a token de sessão utilizando secure cookies já fornecidas pelo sveltekit.
+
+```` svelte
+    import { setCookie } from 'svelte-cookie';
+    setCookie('token', token, { path: '/', secure: true, sameSite: 'strict' });
+````
+
+#### 12.2.1.4. Access Control
+
+O controlo do acesso garante que os utilizadores só podem aceder aos recursos para os quais têm permissão. A validade desta categoria é de 75,00%, com 6 critérios válidos num total de 8.
+
+- **Políticas de Controlo de Acesso:** Verifica a existência de políticas de controlo de acesso bem definidas e implementadas.
+- **Autorização de Acesso:** Avalia se os mecanismos de autorização garantem que os utilizadores só podem aceder aos recursos permitidos.
+- **Segregação de funções:** Assegura que as diferentes funções dos utilizadores estão segregadas para minimizar o risco de abuso de privilégios.
+
+##### 12.2.1.4.1 Exemplos de implementação
+
+** Verify that all user and data attributes and policy information used by access controls cannot be manipulated by end users unless specifically authorized. **
+
+Para este ponto de verificação, a nossa solução definiu roles para os utilizadores, e esses roles são verificados em cada pedido para garantir que o utilizador tem permissão para aceder a esse recurso.
+
+````java
+                        auth -> auth
+                                .requestMatchers("/auth/public/signup").permitAll()
+                                .requestMatchers("/auth/public/login").permitAll()
+                                .requestMatchers("/pacote/all").permitAll()
+                                .requestMatchers("/pacote/get/**").permitAll()
+                                .requestMatchers("/pacote/**").hasRole(Role.Admin)
+                                .requestMatchers("/pacote/**").hasRole(Role.GestorFicheiros)
+                                .requestMatchers("/review/all").permitAll()
+                                .requestMatchers("/review/pacote/**").permitAll()
+                                .requestMatchers("/review/**").authenticated()
+                                .requestMatchers("/tipoPacote/**").authenticated()
+                                .requestMatchers("/encomenda/**").authenticated()
+                                .requestMatchers("/user/info/**").authenticated()
+                                .requestMatchers("/encomenda/**").authenticated()
+                                .requestMatchers("/user/delete/data").authenticated()
+                                .requestMatchers("/tipoReceita/**").authenticated()
+                                .requestMatchers("/receita/**").authenticated()
+                                .requestMatchers("/api-docs/**").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
+````
+
+#### 12.2.1.5. Validation, Sanitization and Encoding
+
+A validação, a higienização e a codificação dos dados são essenciais para evitar ataques de injeção e outras vulnerabilidades. A validade nesta categoria é de 81,48%, com 22 critérios válidos num total de 27.
+
+- **Validação de dados de entrada:** Verifica se todos os dados de entrada são validados para garantir que estão dentro dos limites esperados.
+- **Sanitização de dados:** Garante que todos os dados de entrada são devidamente sanitizados para remover ou neutralizar qualquer conteúdo malicioso.
+- **Codificação de saída:** Avalia se os dados estão corretamente codificados antes de serem enviados para o cliente para evitar ataques como XSS (Cross-Site Scripting).
+
+##### 12.2.1.5.1 Exemplos de implementação
+
+** Verify that the application has defenses against HTTP parameter pollution attacks **
+
+Para este ponto de verificação, a nossa solução foi a utilização de funções nativas do springboot.
+
+````java
+        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .includeSubDomains(true)
+                                .preload(true)
+                                .maxAgeInSeconds(31536000)
+                        )
+                        .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                        .referrerPolicy(referrerPolicy -> referrerPolicy.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+                )
+````
+
+** Verify that the application protects against SSRF attacks, by validating or sanitizing untrusted data or HTTP file metadata, such as filenames and URL input fields, and uses allow lists of protocols, domains, paths and ports. **
+
+Para este ponto de verificação, foi utilizada a mesma solução, que é a utilização de funções nativas do springboot.
+
+````java
+        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .includeSubDomains(true)
+                                .preload(true)
+                                .maxAgeInSeconds(31536000)
+                        )
+                        .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                        .referrerPolicy(referrerPolicy -> referrerPolicy.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+                )
+````
+
+## 12.3 Conclusão
+
+A análise da lista de verificação ASVS revelou que, embora existam áreas de forte conformidade, como a Arquitetura, a Conceção e a Modelação e Validação de Ameaças, a Sanitização e a Codificação, também existem áreas que necessitam de ser melhoradas, como a Autenticação e a Gestão de Sessões.
+A utilização da ASVS como guia permite identificar e dar prioridade a áreas que necessitam de ser melhoradas na segurança das aplicações.
+
+Este resumo fornece uma visão geral dos resultados da ASVS, destacando a importância de uma abordagem sistemática à segurança das aplicações.
+A continuidade na implementação e verificação dos requisitos da ASVS garantirá a melhoria contínua da segurança do sistema.
+
+## 13 Implementações futuras
+
+Como mencionado anteriormente, durante a explicação de alguns pontos do ASVS, existem funcionalidades que ainda não foram implementadas devido ao calendário de desenvolvimento.
+No entanto, a maioria das funcionalidades de maior prioridade já foram implementadas, o que realça a importância de uma revisão cuidadosa destes domínios.
+Prevemos que os nossos próximos passos incluam a finalização das tarefas restantes, a realização da implementação, uma revisão de tudo o que já foi feito, a adição de um sistema de logs e a implementação do “release please”,
+que mesmo já estando implementado queremos usar melhor das suas capacidades, mais especificamente para separar a última implementação das versões anteriores.
