@@ -1757,9 +1757,282 @@ Neste exemplo, podemos ver a utilização de validação de inputs para garantir
 um valor entre 1 e 7 de forma a cumprir os requisitos da nossa aplicação e garantir
 que os dados inseridos são válidos.
 
+# 12 ASVS
 
+O OWASP Application Security Verification Standard (ASVS) é um projeto que define um conjunto de requisitos de segurança das aplicações.
+Este documento descreve a utilização do ASVS e a análise efetuada através da lista de verificação fornecida.
+A lista de verificação está dividida em várias categorias de segurança, cada uma contendo um conjunto de critérios que devem ser verificados para garantir a segurança da aplicação.
 
+## 12.1 Estrutura do Checklist
 
+A lista de controlo ASVS é composta por diferentes categorias de segurança. Apresentamos a seguir as categorias analisadas:
 
+1. **Architecture, Design and Threat Modeling**
+2. **Authentication**
+3. **Session Management**
+4. **Access Control**
+5. **Validation, Sanitization and Encoding**
+6. **Stored Cryptography**
+7. **Error Handling and Logging**
+8. **Data Protection**
+9. **Communication**
+10. **Malicious Code**
+11. **Business Logic**
+12. **Files and Resources**
+13. **API and Web Service**
+14. **Configuration**
 
+## 12.2 ASVS Results Overview
 
+O ficheiro Excel apresenta uma síntese dos resultados da ASVS para cada categoria de segurança. 
+Segue-se um resumo dos resultados, incluindo o número de critérios válidos, o total de critérios e a percentagem de validade para cada categoria.
+
+| Security Category                          | Total Criteria | Valid Criteria | Validity Percentage |
+|--------------------------------------------|----------------|----------------|---------------------|
+| Architecture, Design and Threat Modeling   | 33             | 28             | 84.85%              |
+| Authentication                             | 35             | 21             | 60.00%              |
+| Session Management                         | 14             | 10             | 71.43%              |
+| Access Control                             | 8              | 6              | 75.00%              |
+| Validation, Sanitization and Encoding      | 27             | 22             | 81.48%              |
+
+De reforçar que no ficheiro do ASVS, as funcionalidades que estão assinaladas com "valid", são funcionalidades que já foram implementadas,
+as que estão assinaladas com "not-valid", são funcionalidades que pretendemos implementar no futuro, e as que estão assinaladas com "not-applicable".
+
+### 12.2.1 Detalhes por Categoria
+
+#### 12.2.1.1. Architecture, Design and Threat Modeling
+
+Esta categoria verifica a existência de uma arquitetura de segurança bem definida e a utilização de modelos de ameaças para identificar possíveis vulnerabilidades. 
+A validade desta categoria é de 84,85%, com 28 critérios válidos num total de 33.
+
+- **Existência de uma arquitetura de segurança:** Garante que a aplicação tem uma arquitetura de segurança documentada e implementada.
+- **Modelação de ameaças:** Utiliza modelos de ameaças para identificar, quantificar e mitigar potenciais riscos.
+- **Conceção segura:** Avalia se a conceção da aplicação incorpora princípios de segurança, como a defesa em profundidade e o princípio do menor privilégio.
+
+##### 12.2.1.1.1 Exemplos de implementação
+
+**Verify that the application uses a single vetted authentication mechanism that is known to be secure, can be extended to include strong authentication, and has sufficient logging and monitoring to detect account abuse or breaches.**
+
+Para este ponto de verificação, a nossa solução foi a utilização do JWT que é facilmente extensivel de forma a adicionar mecanismos de logging.
+
+````java
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        final JWK jwk = new RSAKey.Builder(this.rsaPublicKey).privateKey(this.rsaPrivateKey).build();
+        final JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        return new NimbusJwtEncoder(jwks);
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey(this.rsaPublicKey).build();
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        final JwtGrantedAuthoritiesConverter jwtGrantedAuthenticationConverter = new JwtGrantedAuthoritiesConverter();
+        jwtGrantedAuthenticationConverter.setAuthoritiesClaimName("roles");
+        jwtGrantedAuthenticationConverter.setAuthorityPrefix("ROLE_");
+
+        final JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthenticationConverter);
+        return jwtAuthenticationConverter;
+    }
+````
+
+** Verify that input validation is enforced on a trusted service layer. **
+
+Para este ponto, foram implementadas mecanismos de sanitização dos inputs, através de annotations disponibilizadas pelo lombok e o jpa.
+
+````java
+    @NotNull
+    @Positive
+    private final Long pacoteId;
+
+    @NotBlank
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
+    @Size(min = 1, message = "Nome do pacote inválido")
+    @Size(max = 16, message = "Nome do pacote inválido")
+    private final String nome;
+
+    @Min(value = 0, message = "Preço base do pacote inválido")
+    @Max(value = 500, message = "Preço base do pacote inválido")
+    private final double pacoteBasePrice;
+
+    @Size(min = 1, message = "Descrição do pacote inválida")
+    @Size(max = 64, message = "Descrição do pacote inválida")
+    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
+    private final String pacoteDescription;
+
+    private final boolean disabled;
+    @Positive
+    @NotNull
+    private final Long tipoPacote;
+````
+
+#### 12.2.1.2. Authentication
+
+A autenticação é essencial para garantir que apenas os utilizadores autorizados possam aceder ao sistema. Nesta categoria, a validade é de 60,00%, com 21 critérios válidos num total de 35.
+
+- **Mecanismos de autenticação:** Verifica se são utilizados mecanismos de autenticação seguros, como a autenticação multifactor.
+- **Proteção de credenciais:** Garante que as credenciais de autenticação são protegidas durante o armazenamento e a transmissão.
+- **Gestão de sessões:** Avalia se as sessões de autenticação são geridas de forma segura, incluindo a expiração e revogação da sessão.
+
+##### 12.2.1.2.1 Exemplos de implementação
+
+** Verify that user set passwords are at least 12 characters in length **
+
+Para este ponto de verificação, a nossa solução foi a utilização de uma annotation para garantir que a password tem pelo menos 12 caracteres.
+
+````java
+    @NotBlank
+    @Size(min = 12, message = "Password must be at least 12 characters long")
+    private final String password;
+````
+
+Não só no backend mas no frontend também adicionamos essa restrição, mas a implementação principal é a do backend devido à sua maior segurança.
+
+** Verify that passwords of at least 64 characters are permitted, and that passwords of more than 128 characters are denied. **
+
+Para este ponto de verificação, muito parecido com o ponto acima, a nossa solução foi a utilização de uma annotation para garantir que a password tem pelo menos 64 caracteres e no máximo 128.
+
+````java
+    @NotBlank
+    @Size(min = 64, message = "Password must be at least 64 characters long")
+    @Size(max = 128, message = "Password must be at most 128 characters long")
+    private final String password;
+````
+
+#### 12.2.1.3. Session Management
+
+A gestão de sessões garante que as sessões dos utilizadores estão seguras e protegidas contra-ataques. A validade desta categoria é de 71,43%, com 10 critérios válidos num total de 14.
+
+- **Gestão de sessões:** Verifica se as sessões são geridas corretamente, incluindo a criação, a manutenção e o encerramento seguro das sessões.
+- **Proteção contra-ataques a sessões:** Avalia a proteção contra-ataques como a fixação de sessões, o desvio de sessões e a reutilização de fichas de sessão.
+- **Expiração da sessão:** Garante que as sessões expiram após um período de inatividade ou após um período predefinido.
+
+##### 12.2.1.3.1 Exemplos de implementação
+
+** Verify the application never reveals session tokens in URL parameters or error messages. **
+
+Para este ponto de verificação, a nossa solução é que o backend só retorna o token de sessão quando o utilizador insere corretamente as credenciais.
+Nos restantes pedidos essa informação não é partilhada.
+
+```` java
+    @PostMapping("login")
+    public ResponseEntity<UserView> login(@RequestBody @Valid final SignInRequest request) {
+        try {
+            final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
+            final User user = (User) authentication.getPrincipal();
+            final Instant now = Instant.now();
+            final long expiry = 36000L;
+
+            final String scope = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                    .collect(joining(" "));
+
+            final JwtClaimsSet claims = JwtClaimsSet.builder().issuer("example.io").issuedAt(now)
+                    .expiresAt(now.plusSeconds(expiry)).subject(format("%s,%s", user.getUserId(), user.getUsername()))
+                    .claim("roles", scope).build();
+
+            final String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(mapToUSerView(user));
+        } catch (final BadCredentialsException ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+````
+
+** Verify the application only stores session tokens in the browser using secure methods such as appropriately secured cookies **
+
+Para este ponto de verificação, a nossa solução foi armazenar a token de sessão utilizando secure cookies já fornecidas pelo sveltekit.
+
+```` svelte
+    import { setCookie } from 'svelte-cookie';
+    setCookie('token', token, { path: '/', secure: true, sameSite: 'strict' });
+````
+
+#### 12.2.1.4. Access Control
+
+O controlo do acesso garante que os utilizadores só podem aceder aos recursos para os quais têm permissão. A validade desta categoria é de 75,00%, com 6 critérios válidos num total de 8.
+
+- **Políticas de Controlo de Acesso:** Verifica a existência de políticas de controlo de acesso bem definidas e implementadas.
+- **Autorização de Acesso:** Avalia se os mecanismos de autorização garantem que os utilizadores só podem aceder aos recursos permitidos.
+- **Segregação de funções:** Assegura que as diferentes funções dos utilizadores estão segregadas para minimizar o risco de abuso de privilégios.
+
+##### 12.2.1.4.1 Exemplos de implementação
+
+** Verify that all user and data attributes and policy information used by access controls cannot be manipulated by end users unless specifically authorized. **
+
+Para este ponto de verificação, a nossa solução definiu roles para os utilizadores, e esses roles são verificados em cada pedido para garantir que o utilizador tem permissão para aceder a esse recurso.
+
+````java
+                        auth -> auth
+                                .requestMatchers("/auth/public/signup").permitAll()
+                                .requestMatchers("/auth/public/login").permitAll()
+                                .requestMatchers("/pacote/all").permitAll()
+                                .requestMatchers("/pacote/get/**").permitAll()
+                                .requestMatchers("/pacote/**").hasRole(Role.Admin)
+                                .requestMatchers("/pacote/**").hasRole(Role.GestorFicheiros)
+                                .requestMatchers("/review/all").permitAll()
+                                .requestMatchers("/review/pacote/**").permitAll()
+                                .requestMatchers("/review/**").authenticated()
+                                .requestMatchers("/tipoPacote/**").authenticated()
+                                .requestMatchers("/encomenda/**").authenticated()
+                                .requestMatchers("/user/info/**").authenticated()
+                                .requestMatchers("/encomenda/**").authenticated()
+                                .requestMatchers("/user/delete/data").authenticated()
+                                .requestMatchers("/tipoReceita/**").authenticated()
+                                .requestMatchers("/receita/**").authenticated()
+                                .requestMatchers("/api-docs/**").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
+````
+
+#### 12.2.1.5. Validation, Sanitization and Encoding
+
+A validação, a higienização e a codificação dos dados são essenciais para evitar ataques de injeção e outras vulnerabilidades. A validade nesta categoria é de 81,48%, com 22 critérios válidos num total de 27.
+
+- **Validação de dados de entrada:** Verifica se todos os dados de entrada são validados para garantir que estão dentro dos limites esperados.
+- **Sanitização de dados:** Garante que todos os dados de entrada são devidamente sanitizados para remover ou neutralizar qualquer conteúdo malicioso.
+- **Codificação de saída:** Avalia se os dados estão corretamente codificados antes de serem enviados para o cliente para evitar ataques como XSS (Cross-Site Scripting).
+
+##### 12.2.1.5.1 Exemplos de implementação
+
+** Verify that the application has defenses against HTTP parameter pollution attacks **
+
+Para este ponto de verificação, a nossa solução foi a utilização de funções nativas do springboot.
+
+````java
+        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .includeSubDomains(true)
+                                .preload(true)
+                                .maxAgeInSeconds(31536000)
+                        )
+                        .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                        .referrerPolicy(referrerPolicy -> referrerPolicy.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+                )
+````
+
+** Verify that the application protects against SSRF attacks, by validating or sanitizing untrusted data or HTTP file metadata, such as filenames and URL input fields, and uses allow lists of protocols, domains, paths and ports. **
+
+Para este ponto de verificação, foi utilizada a mesma solução, que é a utilização de funções nativas do springboot.
+
+````java
+        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .includeSubDomains(true)
+                                .preload(true)
+                                .maxAgeInSeconds(31536000)
+                        )
+                        .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                        .referrerPolicy(referrerPolicy -> referrerPolicy.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+                )
+````
+
+## 12.3 Conclusão
+
+A análise da lista de verificação ASVS revelou que, embora existam áreas de forte conformidade, como a Arquitetura, a Conceção e a Modelação e Validação de Ameaças, a Sanitização e a Codificação, também existem áreas que necessitam de ser melhoradas, como a Autenticação e a Gestão de Sessões.
+A utilização da ASVS como guia permite identificar e dar prioridade a áreas que necessitam de ser melhoradas na segurança das aplicações.
+
+Este resumo fornece uma visão geral dos resultados da ASVS, destacando a importância de uma abordagem sistemática à segurança das aplicações.
+A continuidade na implementação e verificação dos requisitos da ASVS garantirá a melhoria contínua da segurança do sistema.
