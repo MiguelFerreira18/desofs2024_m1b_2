@@ -1654,10 +1654,108 @@ prevenindo principalmente ataques de XSS.
 
 ## 11 Front end
 
+Para o desenvolvimento do front end, foi utilizado a framework Sveltekit, que é uma framework de front end que permite
+desenvolver aplicações web de forma rápida e eficiente.
+Como forma de garantir uma maior segurança, foram utilizadas algumas práticas de segurança, como por exemplo, a
+validação de inputs, a utilização de tokens de autenticação e a proteção contra ataques de XSS e CSRF.
 
+### 11.1 Autenticação
 
+Para garantir a autenticação dos utilizadores, foi utilizado um Bearer Token, que é um token de autenticação
+que é gerado pelo servidor e enviado para o cliente, que o guarda e o envia em todas as requests para o servidor.
+Este token é utilizado para autenticar o utilizador e garantir que apenas utilizadores autenticados possam aceder a
+certos endpoints.
 
+```svelte
+<div class="self-center">
+		{#if data.user}
+			<Button className="profile-button" text="Perfil" gotoName="/profile" />
+			<Button className="order-button" text="Carrinho" gotoName="/carrinho" />
+			<Button className="enc-button" text="Encomenda" gotoName="/encomenda" />
+			{#if data.user.isAdmin || data.user.isDocumentManager}
+				<Button
+					className="package-management-button"
+					text="Gestão de pacotes"
+					gotoName="/package-management"
+				/>
 
+				<Button className="recipe-management-button" text="Receitas" gotoName="/recipe" />
+			{/if}
+			{#if data.user}
+				<Button className="dashboard-button" text="Dashboard" gotoName="/dashboard" />
+			{/if}
+			<Button className="logout-button" text="Sair" gotoName="/auth/logout" />
+		{:else}
+			<Button className="login-button" text="Junta-te" gotoName="/auth" />
+		{/if}
+	</div>
+```
+
+Neste exemplo, podemos ver a utilização do token para garantir que apenas utilizadores autenticados possam aceder a
+certos botões, como por exemplo, o botão de logout, que apenas é visível para utilizadores autenticados.
+Tambeém podemos ver que apenas utilizadores com permissões de admin ou gestor de ficheiros podem aceder a certos
+botões, como por exemplo, o botão de gestão de pacotes.
+
+### 11.2 Types 
+
+Para garantir a segurança dos dados, foram utilizados types, que são objetos que contêm apenas os atributos necessários
+para a comunicação entre as diversas partes da aplicação. Estes objetos são usados para garantir que a comunicação
+entre as diversas partes da aplicação é eficiente e segura.
+
+```svelte
+type RecipeDTOSend = {
+	path: string;
+	nome: string;
+	pacote: number;
+	tipoReceita: number;
+};
+
+type RecipePatchSend = {
+	receitaId: number;
+	path: string;
+	nome: string;
+	pacote: number;
+	tipoReceita: number;
+};
+
+type Recipe = {
+	receitaId: number;
+	path: string;
+	nome: string;
+	pacote: Package;
+	tipoReceita: RecipeType;
+};
+
+```
+Neste exemplo, podemos ver a utilização de types para garantir que os dados enviados entre as diversas partes da
+aplicação são seguros e consistentes, como por exemplo, o type RecipeDTOSend, que é utilizado para a
+criação de uma receita. Desta forma, asseguramo-nos que enviamos
+o tipo correto de dados, prevenindo o envio de uma string invés de
+um número, por exemplo.
+
+### 11.3 Validação de inputs
+
+Para garantir que os dados inseridos são válidos e seguros, foram utilizadas algumas práticas de validação de inputs,
+como por exemplo, a validação do tipo de input, tamanho máximo e mínimo, entre outros.
+
+```svelte
+<div class="flex flex-row gap-2 content-center items-center">
+    <label class="min-w-40" for="meals">Number of Meals</label>
+    <input
+        bind:value={meals}
+        type="number"
+        name="meals"
+        id="meals"
+        class="rounded border border-current p-1 min-w-80"
+        min="1"
+        max="7"
+    />
+</div>
+```
+
+Neste exemplo, podemos ver a utilização de validação de inputs para garantir que o número de refeições inserido é 
+um valor entre 1 e 7 de forma a cumprir os requisitos da nossa aplicação e garantir
+que os dados inseridos são válidos.
 
 
 
