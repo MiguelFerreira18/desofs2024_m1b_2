@@ -9,6 +9,7 @@ import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class ReviewServiceImp implements ReviewService {
 
 
     @Override
-    public ReviewDTOServiceResponse addReview(ReviewDTOServiceSaveRequest review) {
+    public ReviewDTOServiceResponse addReview(@Valid ReviewDTOServiceSaveRequest review) {
         User user = userServiceRepo.getUserById(review.getUser());
         Pacote pacote = pacoteServiceRepo.findbyId(review.getPacote());
         ReviewDTOSaveService reviewDTOSaveService = new ReviewDTOSaveService(review.getReviewText(), review.getRating(), user, pacote);
@@ -40,7 +41,7 @@ public class ReviewServiceImp implements ReviewService {
     }
 
     @Override
-    public ReviewDTOServiceResponse updateReview(ReviewDTOServicePatchRequest review) {
+    public ReviewDTOServiceResponse updateReview(@Valid ReviewDTOServicePatchRequest review) {
         User user = userServiceRepo.getUserById(review.getUser());
         Pacote pacote = pacoteServiceRepo.findbyId(review.getPacote());
         ReviewDTOPatchService reviewDTOPatchService = new ReviewDTOPatchService(review.getReviewId(), review.getReviewText(), review.getRating(), user, pacote);

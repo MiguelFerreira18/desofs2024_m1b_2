@@ -7,6 +7,7 @@ import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServic
 import isep.ipp.pt.api.desofs.Mapper.TipoPacoteMapper.TipoPacoteMapper;
 import isep.ipp.pt.api.desofs.Service.TipoPacoteService.TipoPacoteService;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +29,7 @@ public class TipoPacoteController {
 
 
     @PostMapping("/save")
-    public ResponseEntity<TipoPacoteDTOResponse> save(@RequestBody TipoPacoteDTOSaveRequest tipoPacoteRequest) {
-        if (!validation.validate(tipoPacoteRequest)) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<TipoPacoteDTOResponse> save(@Valid  @RequestBody TipoPacoteDTOSaveRequest tipoPacoteRequest) {
         try {
             TipoPacoteDTOServiceRequest tipoPacoteServiceRequest = tipoPacoteMapper.toTipoPacoteDTOServiceRequestFromTipoPacoteDTOSaveRequest(tipoPacoteRequest);
             if (!validation.validate(tipoPacoteServiceRequest)) {

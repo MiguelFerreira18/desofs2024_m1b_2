@@ -9,6 +9,7 @@ import isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ServiceLayer.ReceitaDTOServiceRespo
 import isep.ipp.pt.api.desofs.Mapper.ReceitaMapper.ReceitaMapper;
 import isep.ipp.pt.api.desofs.Service.ReceitaService.ReceitaService;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +30,7 @@ public class ReceitaController {
 
 
     @PostMapping("/save")
-    public ResponseEntity<ReceitaDTOResponse> saveReceita(@RequestBody ReceitaDTOSaveRequest receita) {
-        if (!validation.validate(receita)) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    public ResponseEntity<ReceitaDTOResponse> saveReceita(@Valid  @RequestBody ReceitaDTOSaveRequest receita) {
         try {
             ReceitaDTOServiceRequest receitaRequestService = receitaMapper.toReceitaDtoServiceRequestFromReceitaDtoSaveRequest(receita);
             if (!validation.validate(receitaRequestService)) {
@@ -64,9 +61,6 @@ public class ReceitaController {
 
     @PatchMapping("/update")
     public ResponseEntity<ReceitaDTOResponse> updateReceita(@RequestBody ReceitaDTOPatchRequest receita) {
-        if (!validation.validate(receita)) {
-            return ResponseEntity.badRequest().build();
-        }
         try {
             ReceitaDTOServicePatchRequest receitaRequestService = receitaMapper.toReceitaDTOServicePAtchRequestFromReceitaDTOPatchRequest(receita);
             if (!validation.validate(receitaRequestService)) {

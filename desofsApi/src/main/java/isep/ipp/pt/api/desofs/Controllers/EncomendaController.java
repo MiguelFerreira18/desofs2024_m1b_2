@@ -8,6 +8,7 @@ import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer.EncomendaDTOServiceR
 import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer.EncomendaDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.EncomendaMapper.EncomendaMapper;
 import isep.ipp.pt.api.desofs.Service.EncomendaService.EncomendaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class EncomendaController {
 
 
     @PostMapping("/save")
-    public ResponseEntity<EncomendaDTOResponse> save(@RequestBody EncomendaDTOSaveRequest encomenda) {
+    public ResponseEntity<EncomendaDTOResponse> save(@Valid @RequestBody EncomendaDTOSaveRequest encomenda) {
         try {
             EncomendaDTOServiceRequest encomendaServiceRequest = encomendaMapper.toEncomendaDtoServiceRequestFromEncomendaDtoSaveRequest(encomenda);
             EncomendaDTOServiceResponse encomendaServiceResponse = encomendaService.save(encomendaServiceRequest);
@@ -39,7 +40,7 @@ public class EncomendaController {
     }
 
     @GetMapping("/{encomendaId}")
-    public ResponseEntity<EncomendaDTOResponse> getEncomenda(@PathVariable Long encomendaId) {
+    public ResponseEntity<EncomendaDTOResponse> getEncomenda(@Valid @PathVariable Long encomendaId) {
         if (encomendaId < 0) return ResponseEntity.badRequest().build();
         try {
             EncomendaDTOServiceResponse encomendaServiceResponse = encomendaService.findbyId(encomendaId);
@@ -52,7 +53,7 @@ public class EncomendaController {
     }
 
     @GetMapping("/history/{userId}")
-    public ResponseEntity<List<EncomendaDTOResponse>> getHistoricoEncomendas(@PathVariable Long userId) {
+    public ResponseEntity<List<EncomendaDTOResponse>> getHistoricoEncomendas(@Valid @PathVariable Long userId) {
         try {
             return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findEncHistory(userId)));
         } catch (Exception e) {
@@ -62,7 +63,7 @@ public class EncomendaController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<EncomendaDTOResponse> updateEncomenda(@RequestBody EncomendaDTOPatchRequest encomenda) {
+    public ResponseEntity<EncomendaDTOResponse> updateEncomenda(@Valid @RequestBody EncomendaDTOPatchRequest encomenda) {
         try {
             EncomendaDTOServicePatchRequest encomendaRequestService = encomendaMapper.toEncomendaDTOServicePatchRequestFromEncomendaDTOPatchRequest(encomenda);
             EncomendaDTOServiceResponse encomendaServiceResponse = encomendaService.update(encomendaRequestService);
@@ -82,7 +83,7 @@ public class EncomendaController {
     }
 
     @GetMapping("/all/{userId}")
-    public ResponseEntity<List<EncomendaDTOResponse>> getAllEncomendas(@PathVariable Long userId) {
+    public ResponseEntity<List<EncomendaDTOResponse>> getAllEncomendas(@Valid @PathVariable Long userId) {
         try {
             return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findAll(userId)));
         } catch (Exception e) {

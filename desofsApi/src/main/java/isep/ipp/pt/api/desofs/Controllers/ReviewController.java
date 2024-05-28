@@ -10,6 +10,7 @@ import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceSaveReq
 import isep.ipp.pt.api.desofs.Mapper.ReviewMapper.ReviewMapper;
 import isep.ipp.pt.api.desofs.Service.ReviewService.ReviewService;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +29,7 @@ public class ReviewController {
     private PersonalValidation validation;
 
     @PostMapping("/save")
-    public ResponseEntity<ReviewDTOResponse> saveReview(@RequestBody ReviewDTOSaveRequest review) {
-        if (review == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ReviewDTOResponse> saveReview(@Valid @RequestBody ReviewDTOSaveRequest review) {
         try {
             ReviewDTOServiceSaveRequest reviewRequestService = reviewMapper.toReviewDtoServiceSaveRequestFromReviewDtoSaveRequest(review);
             if (!validation.validate(reviewRequestService)) {
@@ -48,10 +46,7 @@ public class ReviewController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<ReviewDTOResponse> updateReview(@RequestBody ReviewDTOPatchRequest review) {
-        if (review == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ReviewDTOResponse> updateReview(@Valid @RequestBody ReviewDTOPatchRequest review) {
         try {
             ReviewDTOServicePatchRequest reviewRequestService = reviewMapper.toReviewDTOServiceSaveRequestFromReviewDTOPatchRequest(review);
             if (!validation.validate(reviewRequestService)) {
@@ -68,7 +63,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/delete/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+    public ResponseEntity<Void> deleteReview( @PathVariable Long reviewId) {
         if (reviewId < 0) return ResponseEntity.badRequest().build();
         reviewService.deleteReview(reviewId);
 

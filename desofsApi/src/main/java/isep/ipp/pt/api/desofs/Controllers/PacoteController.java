@@ -9,6 +9,7 @@ import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceRespons
 import isep.ipp.pt.api.desofs.Mapper.PacoteMapper.PacoteMapper;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +29,7 @@ public class PacoteController {
 
 
     @PostMapping("/save")
-    public ResponseEntity<PacoteDTOResponse> savePacote(@RequestBody PacoteDTOSaveRequest pacote) {
-        if (!validation.validate(pacote)) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    public ResponseEntity<PacoteDTOResponse> savePacote(@Valid @RequestBody PacoteDTOSaveRequest pacote) {
         try {
             PacoteDTOServiceRequest pacoteRequestService = pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacote);
             if (!validation.validate(pacoteRequestService)) {
@@ -62,10 +59,7 @@ public class PacoteController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<PacoteDTOResponse> updatePacote(@RequestBody PacoteDTOPatchRequest pacote) {
-        if (!validation.validate(pacote)) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<PacoteDTOResponse> updatePacote(@Valid @RequestBody PacoteDTOPatchRequest pacote) {
         try {
             PacoteDTOServicePatchRequest pacoteRequestService = pacoteMapper.toPacoteDTOServicePAtchRequestFromPacoteDTOPatchRequest(pacote);
             if (!validation.validate(pacoteRequestService)) {

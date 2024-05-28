@@ -7,6 +7,7 @@ import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServ
 import isep.ipp.pt.api.desofs.Mapper.TipoReceitaMapper.TipoReceitaMapper;
 import isep.ipp.pt.api.desofs.Service.TipoReceitaService.TipoReceitaService;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +27,7 @@ public class TipoReceitaController {
     private PersonalValidation validation;
 
     @PostMapping("/save")
-    public ResponseEntity<TipoReceitaDTOResponse> save(@RequestBody TipoReceitaDTOSaveRequest tipoReceitaRequest) {
-        if (!validation.validate(tipoReceitaRequest)) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<TipoReceitaDTOResponse> save(@Valid  @RequestBody TipoReceitaDTOSaveRequest tipoReceitaRequest) {
         try {
             TipoReceitaDTOServiceRequest tipoReceitaServiceRequest = tipoReceitaMapper.toTipoReceitaDTOServiceRequestFromTipoReceitaDTOSaveRequest(tipoReceitaRequest);
             if (!validation.validate(tipoReceitaServiceRequest)) {

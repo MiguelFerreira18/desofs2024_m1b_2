@@ -10,6 +10,7 @@ import isep.ipp.pt.api.desofs.Repository.Interface.ReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class ReceitaServiceImpl implements ReceitaService{
     @Autowired
     private PersonalValidation validation;
     @Override
-    public ReceitaDTOServiceResponse save(ReceitaDTOServiceRequest receitaService) {
+    public ReceitaDTOServiceResponse save(@Valid ReceitaDTOServiceRequest receitaService) {
         TipoReceita tipoReceita = tipoReceitaRepo.findbyId(receitaService.getTipoReceita());
         Pacote pacote = pacoteRepo.findbyId(receitaService.getPacote());
         ReceitaSaveDTOService receitaSaveDTOService = new ReceitaSaveDTOService(receitaService.getPath(), receitaService.getNome(), pacote, tipoReceita);
@@ -49,7 +50,7 @@ public class ReceitaServiceImpl implements ReceitaService{
     }
 
     @Override
-    public ReceitaDTOServiceResponse update(ReceitaDTOServicePatchRequest receitaRequestService) {
+    public ReceitaDTOServiceResponse update(@Valid ReceitaDTOServicePatchRequest receitaRequestService) {
         TipoReceita tipoReceita = tipoReceitaRepo.findbyId(receitaRequestService.getTipoReceita());
         Pacote pacote = pacoteRepo.findbyId(receitaRequestService.getPacote());
         ReceitaPatchDTOService receitaPatchDTOService = new ReceitaPatchDTOService(receitaRequestService.getReceitaId(), receitaRequestService.getPath(), receitaRequestService.getNome(), pacote, tipoReceita);
