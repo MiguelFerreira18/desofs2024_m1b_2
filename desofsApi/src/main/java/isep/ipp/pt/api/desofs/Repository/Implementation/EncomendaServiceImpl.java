@@ -30,12 +30,12 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
     }
 
     @Override
-    public Encomenda findByDateUserPackage(Long userId, Long pacoteId, LocalDateTime dataEncomenda) {
+    public Encomenda findByDateUserPackage(String userId, Long pacoteId, LocalDateTime dataEncomenda) {
         return encomendaRepo.findByDateUserPackage(userId,pacoteId,dataEncomenda);
     }
 
     @Override
-    public List<Encomenda> findAll(Long userId) {
+    public List<Encomenda> findAll(String userId) {
         List<Encomenda> encomendas = new LinkedList<>();
         for (Encomenda encomenda : encomendaRepo.findAll()) {
             if(Objects.equals(encomenda.getUser().getUserId(), userId)) {
@@ -56,7 +56,7 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
     }
 
     @Override
-    public List<Encomenda> findEncHistory(Long userId) {
+    public List<Encomenda> findEncHistory(String userId) {
         if (encomendaRepo.findEncHistory(userId) != null) {
             return encomendaRepo.findEncHistory(userId);
         } else {

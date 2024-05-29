@@ -19,8 +19,8 @@ import java.util.*;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String userId;
 
     @Column(unique = true)
     @Email
@@ -44,7 +44,7 @@ public class User implements UserDetails {
     }
 
     //WITH ALL
-    public User(Long userId, String username, String password, String fullName, Set<Role> authorities, String nif, String morada) {
+    public User(String userId, String username, String password, String fullName, Set<Role> authorities, String nif, String morada) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -54,7 +54,7 @@ public class User implements UserDetails {
         this.morada = morada;
     }
     //WITHOUT AUTHORITIES AND LISTAENCOMENDAS
-    public User(Long userId, String username, String password, String fullName, String nif, String morada) {
+    public User(String userId, String username, String password, String fullName, String nif, String morada) {
         this.userId = userId;
         this.username = username;
         this.password = password;

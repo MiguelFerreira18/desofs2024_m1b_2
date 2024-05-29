@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserServiceRepo userRepo;
 
     @Override
-    public User getUserById(Long userId) {
+    public User getUserById(String userId) {
         User user = userRepo.getUserById(userId);
         if (user == null) throw new IllegalArgumentException("User not found");
         return userRepo.getUserById(userId);

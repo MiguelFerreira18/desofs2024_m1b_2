@@ -73,7 +73,7 @@ public class ReviewServiceImp implements ReviewService {
     }
 
     @Override
-    public List<ReviewDTOServiceResponse> getReviewsByUserId(Long userId) {
+    public List<ReviewDTOServiceResponse> getReviewsByUserId(String userId) {
         return reviewMapper.toReviewDTOServiceResponseListFromReviewList(reviewServiceRepo.getReviewsByUserId(userId));
     }
 

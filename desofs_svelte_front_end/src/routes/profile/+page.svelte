@@ -59,7 +59,7 @@
 							<Button
 								className="Encomendas-button"
 								text="encomendas"
-								gotoName="/profile/encomendas"
+								gotoName="/encomenda"
 							/>
 						</div>
 					</div>

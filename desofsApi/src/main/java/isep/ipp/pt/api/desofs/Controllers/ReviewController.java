@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/review")
@@ -92,10 +93,18 @@ public class ReviewController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ReviewDTOResponse>> getReviewsByUserId(@PathVariable Long userId) {
-        if (userId < 0) return ResponseEntity.badRequest().build();
+    public ResponseEntity<List<ReviewDTOResponse>> getReviewsByUserId(@PathVariable String userId) {
+        if (userId == null || isValidUUID(userId) == null ) return ResponseEntity.badRequest().build();
         List<ReviewDTOResponse> reviewDTOResponse = reviewMapper.fromReviewDTOServiceResponseListToReviewDTOResponseList(reviewService.getReviewsByUserId(userId));
         return ResponseEntity.ok(reviewDTOResponse);
+    }
+
+    private UUID isValidUUID(String userId) {
+        try {
+            return UUID.fromString(userId);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
 

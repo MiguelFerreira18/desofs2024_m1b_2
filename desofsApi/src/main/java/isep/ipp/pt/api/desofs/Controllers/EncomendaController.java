@@ -53,7 +53,7 @@ public class EncomendaController {
     }
 
     @GetMapping("/history/{userId}")
-    public ResponseEntity<List<EncomendaDTOResponse>> getHistoricoEncomendas(@Valid @PathVariable Long userId) {
+    public ResponseEntity<List<EncomendaDTOResponse>> getHistoricoEncomendas(@Valid @PathVariable String userId) {
         try {
             return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findEncHistory(userId)));
         } catch (Exception e) {
@@ -83,7 +83,7 @@ public class EncomendaController {
     }
 
     @GetMapping("/all/{userId}")
-    public ResponseEntity<List<EncomendaDTOResponse>> getAllEncomendas(@Valid @PathVariable Long userId) {
+    public ResponseEntity<List<EncomendaDTOResponse>> getAllEncomendas(@Valid @PathVariable String userId) {
         try {
             return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findAll(userId)));
         } catch (Exception e) {

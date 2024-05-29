@@ -48,12 +48,12 @@ public class EncomendaServiceImpl implements EncomendaService{
     }
 
     @Override
-    public List<EncomendaDTOServiceResponse> findAll(Long userId) {
+    public List<EncomendaDTOServiceResponse> findAll(String userId) {
         return encomendaMapper.toEncomendaDTOServiceResponseListFromEncomendaList(encomendaServiceRepo.findAll(userId));
     }
 
     @Override
-    public List<EncomendaDTOServiceResponse> findEncHistory(Long userId) {
+    public List<EncomendaDTOServiceResponse> findEncHistory(String userId) {
         return encomendaMapper.toEncomendaDTOServiceResponseListFromEncomendaList(encomendaServiceRepo.findEncHistory(userId));
     }
 

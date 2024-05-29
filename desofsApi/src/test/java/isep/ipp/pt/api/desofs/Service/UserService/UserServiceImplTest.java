@@ -36,10 +36,10 @@ public class UserServiceImplTest {
 
     @Test
     public void valid_getUserById() {
-        User user = new User(1L, "username", "password", "fullname", "nif", "morada");
-        when(userServiceRepo.getUserById(1L)).thenReturn(user);
+        User user = new User("AA", "username", "password", "fullname", "nif", "morada");
+        when(userServiceRepo.getUserById("AA")).thenReturn(user);
 
-        User result = userService.getUserById(1L);
+        User result = userService.getUserById("AA");
 
         assertNotNull(result);
         assertEquals("username", result.getUsername());
@@ -47,9 +47,9 @@ public class UserServiceImplTest {
 
     @Test
     public void invalid_getUserById() {
-        when(userServiceRepo.getUserById(1L)).thenReturn(null);
+        when(userServiceRepo.getUserById("AA")).thenReturn(null);
 
-        assertThrows(IllegalArgumentException.class, () -> userService.getUserById(1L));
+        assertThrows(IllegalArgumentException.class, () -> userService.getUserById("AA"));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class UserServiceImplTest {
 
     @Test
     public void invalid_validateUser() {
-        User user = new User(1L, null, null, "fullname", "nif", "morada");
+        User user = new User("AA", null, null, "fullname", "nif", "morada");
 
         User result = userService.validateUser(user);
 

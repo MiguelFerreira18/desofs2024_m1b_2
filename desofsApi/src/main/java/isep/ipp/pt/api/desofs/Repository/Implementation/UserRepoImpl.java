@@ -22,7 +22,7 @@ public class UserRepoImpl implements UserServiceRepo {
     private EncomendaRepo encomendaRepo;
 
     @Override
-    public User getUserById(Long userId) {
+    public User getUserById(String userId) {
         return userRepo.getUserById(userId);
     }
 

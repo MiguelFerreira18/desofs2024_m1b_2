@@ -41,7 +41,7 @@ public class ReviewServiceImpl implements ReviewServiceRepo {
     }
 
     @Override
-    public List<Review> getReviewsByUserId(Long userId) {
+    public List<Review> getReviewsByUserId(String userId) {
         return new LinkedList<>(reviewRepo.getReviewsByUserId(userId));
     }
 
