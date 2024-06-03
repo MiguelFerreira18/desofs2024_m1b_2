@@ -6,6 +6,7 @@ import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServ
 import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.TipoReceitaMapper.TipoReceitaMapper;
 import isep.ipp.pt.api.desofs.Service.TipoReceitaService.TipoReceitaService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class TipoReceitaController {
     private TipoReceitaMapper tipoReceitaMapper;
     @Autowired
     private PersonalValidation validation;
+    @Autowired
+    private DatabaseLogger logger;
 
     @PostMapping("/save")
     public ResponseEntity<TipoReceitaDTOResponse> save(@Valid  @RequestBody TipoReceitaDTOSaveRequest tipoReceitaRequest) {
@@ -38,6 +41,7 @@ public class TipoReceitaController {
             return ResponseEntity.ok(tipoReceitaDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error saving tipoReceita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -51,6 +55,7 @@ public class TipoReceitaController {
             return ResponseEntity.ok(tipoReceitaDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error getting tipoReceita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -63,6 +68,7 @@ public class TipoReceitaController {
             return ResponseEntity.ok(tipoReceitaDTOResponseList);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error getting tipoReceita list" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

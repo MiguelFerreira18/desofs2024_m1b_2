@@ -5,8 +5,10 @@ import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.EncomendaRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.ReviewRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -20,6 +22,10 @@ public class UserRepoImpl implements UserServiceRepo {
     private ReviewRepo reviewRepo;
     @Autowired
     private EncomendaRepo encomendaRepo;
+    @Autowired
+    private DatabaseLogger logger;
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Override
     public User getUserById(String userId) {
@@ -43,11 +49,13 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Override
     public void deleteAll() {
+        userRepo.findAll().forEach(user -> logger.log(user.copy(encoder).toString()));
         userRepo.deleteAll();
     }
 
     @Override
     public User saveUser(User user) {
+        logger.log(user.copy(encoder).toString());
         return userRepo.save(user);
     }
   
@@ -58,6 +66,7 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Override
     public void deleteUser(String username) {
+        logger.log(userRepo.findByUsername(username).copy(encoder).toString());
         reviewRepo.deleteReviewsByUserName(username);
         encomendaRepo.deleteEncomendaByUserName(username);
         userRepo.deleteUser(username);

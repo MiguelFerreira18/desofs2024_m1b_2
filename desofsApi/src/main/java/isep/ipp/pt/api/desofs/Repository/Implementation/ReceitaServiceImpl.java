@@ -4,7 +4,9 @@ import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.Receita;
 import isep.ipp.pt.api.desofs.Repository.Interface.ReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.ReceitaRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,8 +15,12 @@ public class ReceitaServiceImpl implements ReceitaServiceRepo {
 
     @Autowired
     private ReceitaRepo receitaRepo;
+    @Autowired
+    private DatabaseLogger databaseLogger;
+
     @Override
     public Receita save(Receita receitaService) {
+        databaseLogger.log(receitaService.copy().toString());
         return receitaRepo.save(receitaService);
     }
 
@@ -43,6 +49,7 @@ public class ReceitaServiceImpl implements ReceitaServiceRepo {
 
     @Override
     public void deleteById(Long id) {
+        receitaRepo.findById(id).ifPresent(receita -> databaseLogger.log(receita.copy().toString()));
         receitaRepo.deleteById(id);
     }
 

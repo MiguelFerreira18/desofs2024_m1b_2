@@ -134,6 +134,7 @@ public class SecurityConfig {
         return provider;
     }
 
+
     @Bean
     UserDetailsService userDetailsService() {
         return userService::findByUsername;
@@ -165,7 +166,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
 

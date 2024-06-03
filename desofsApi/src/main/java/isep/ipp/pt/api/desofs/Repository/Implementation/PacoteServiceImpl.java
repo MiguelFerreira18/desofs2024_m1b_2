@@ -3,19 +3,26 @@ package isep.ipp.pt.api.desofs.Repository.Implementation;
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.PacoteRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class PacoteServiceImpl implements PacoteServiceRepo {
 
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(PacoteServiceImpl.class);
     @Autowired
     private PacoteRepo pacoteRepo;
+    @Autowired
+    private DatabaseLogger logger;
 
 
     @Override
     public Pacote save(Pacote pacoteService) {
+        logger.log(pacoteService.copy().toString());
         return pacoteRepo.save(pacoteService);
     }
 
@@ -47,6 +54,7 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
         if (pacoteRepo.findById(id).isPresent()) {
             Pacote pacote = pacoteRepo.findById(id).get();
             pacote.setDisabled();
+            logger.log(pacote.copy().toString());
             pacoteRepo.save(pacote);
         }
 
@@ -57,17 +65,20 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
         if (pacoteRepo.findById(id).isPresent()) {
             Pacote pacote = pacoteRepo.findById(id).get();
             pacote.setEnabled();
+            logger.log(pacote.copy().toString());
             pacoteRepo.save(pacote);
         }
     }
 
     @Override
     public void deleteById(Long id) {
+        pacoteRepo.findById(id).ifPresent(pacote -> logger.log(pacote.copy().toString()));
         pacoteRepo.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
+        pacoteRepo.findAll().forEach(pacote -> logger.log(pacote.copy().toString()));
         pacoteRepo.deleteAll();
     }
 }

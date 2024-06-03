@@ -8,6 +8,7 @@ import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer.EncomendaDTOServiceR
 import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer.EncomendaDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.EncomendaMapper.EncomendaMapper;
 import isep.ipp.pt.api.desofs.Service.EncomendaService.EncomendaService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,8 @@ public class EncomendaController {
 
     @Autowired
     private EncomendaMapper encomendaMapper;
+    @Autowired
+    private DatabaseLogger logger;
 
 
     @PostMapping("/save")
@@ -35,6 +38,7 @@ public class EncomendaController {
             return ResponseEntity.ok(encomendaDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error saving encomenda" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -48,6 +52,7 @@ public class EncomendaController {
             return ResponseEntity.ok(encomendaDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error getting encomenda" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -58,6 +63,7 @@ public class EncomendaController {
             return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findEncHistory(userId)));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error getting encomenda history" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -71,6 +77,7 @@ public class EncomendaController {
             return ResponseEntity.ok(encomendaDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error updating encomenda" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -79,6 +86,7 @@ public class EncomendaController {
     public ResponseEntity deleteEncomenda(@PathVariable Long encomendaId) {
         if (encomendaId < 0) return ResponseEntity.badRequest().build();
         encomendaService.deleteById(encomendaId);
+        logger.logUnusualBusinessActivity("Encomenda deleted");
         return ResponseEntity.ok().build();
     }
 
@@ -88,6 +96,7 @@ public class EncomendaController {
             return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findAll(userId)));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error getting all encomendas" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

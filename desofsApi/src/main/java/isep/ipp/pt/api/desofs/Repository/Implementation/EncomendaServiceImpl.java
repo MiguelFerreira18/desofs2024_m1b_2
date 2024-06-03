@@ -3,7 +3,9 @@ package isep.ipp.pt.api.desofs.Repository.Implementation;
 import isep.ipp.pt.api.desofs.Model.Encomenda;
 import isep.ipp.pt.api.desofs.Repository.Interface.EncomendaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.EncomendaRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -14,9 +16,14 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
 
     @Autowired
     private EncomendaRepo encomendaRepo;
+    @Autowired
+    private DatabaseLogger databaseLogger;
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Override
     public Encomenda save(Encomenda encomendaService) {
+        databaseLogger.log(encomendaService.copy(encoder).toString());
         return encomendaRepo.save(encomendaService);
     }
 
@@ -47,11 +54,13 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
 
     @Override
     public void deleteById(Long id) {
+        encomendaRepo.findById(id).ifPresent(encomenda -> databaseLogger.log(encomenda.copy(encoder).toString()));
         encomendaRepo.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
+        encomendaRepo.findAll().forEach(encomenda -> databaseLogger.log(encomenda.copy(encoder).toString()));
         encomendaRepo.deleteAll();
     }
 

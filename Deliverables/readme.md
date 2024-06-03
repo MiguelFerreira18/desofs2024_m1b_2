@@ -1,6 +1,7 @@
 # DESOFS deliverables
 
 <!-- TOC -->
+
 * [DESOFS deliverables](#desofs-deliverables)
 * [1 Introduction](#1-introduction)
 * [2 guidelines](#2-guidelines)
@@ -16,70 +17,70 @@
     * [3.4 Gestor de Ficheiros](#34-gestor-de-ficheiros)
 * [4 Requisitos](#4-requisitos)
     * [Numenclatura](#numenclatura)
-  * [4.1 Requisitos de segurança funcionais](#41-requisitos-de-segurança-funcionais)
-  * [4.2 Requisitos de Segurança não funcionais](#42-requisitos-de-segurança-não-funcionais)
-  * [4.3 Requisitos de Segurança de desenvolvimento](#43-requisitos-de-segurança-de-desenvolvimento)
+    * [4.1 Requisitos de segurança funcionais](#41-requisitos-de-segurança-funcionais)
+    * [4.2 Requisitos de Segurança não funcionais](#42-requisitos-de-segurança-não-funcionais)
+    * [4.3 Requisitos de Segurança de desenvolvimento](#43-requisitos-de-segurança-de-desenvolvimento)
 * [5 Use And Abuse cases](#5-use-and-abuse-cases)
-  * [User Authentication](#user-authentication)
-  * [User Order](#user-order)
-  * [File manager](#file-manager)
-  * [Administrator](#administrator)
+    * [User Authentication](#user-authentication)
+    * [User Order](#user-order)
+    * [File manager](#file-manager)
+    * [Administrator](#administrator)
 * [Aquitetura](#aquitetura)
-  * [Domain model](#domain-model)
-  * [Diagrama de entidade relação](#diagrama-de-entidade-relação)
-  * [Diagramas de implantanção](#diagramas-de-implantanção)
-    * [Diagrama de implantação de nível 1](#diagrama-de-implantação-de-nível-1)
-    * [Diagrama de implantação de nível 2](#diagrama-de-implantação-de-nível-2)
-  * [Diagrama de componentes](#diagrama-de-componentes)
-    * [Diagrama de componentes de nível 2](#diagrama-de-componentes-de-nível-2)
-    * [Diagrama de componentes de nível 3](#diagrama-de-componentes-de-nível-3)
-  * [Diagrama de pacotes](#diagrama-de-pacotes)
+    * [Domain model](#domain-model)
+    * [Diagrama de entidade relação](#diagrama-de-entidade-relação)
+    * [Diagramas de implantanção](#diagramas-de-implantanção)
+        * [Diagrama de implantação de nível 1](#diagrama-de-implantação-de-nível-1)
+        * [Diagrama de implantação de nível 2](#diagrama-de-implantação-de-nível-2)
+    * [Diagrama de componentes](#diagrama-de-componentes)
+        * [Diagrama de componentes de nível 2](#diagrama-de-componentes-de-nível-2)
+        * [Diagrama de componentes de nível 3](#diagrama-de-componentes-de-nível-3)
+    * [Diagrama de pacotes](#diagrama-de-pacotes)
 * [Pipeline Design](#pipeline-design)
 * [6 Threat Analysis](#6-threat-analysis)
-  * [6.1 STRIDE](#61-stride)
-  * [6.2 ASF](#62-asf)
-  * [6.3 Entry Points](#63-entry-points)
-  * [6.4 Exit Points](#64-exit-points)
-  * [6.5 Qualitative Risk Model](#65-qualitative-risk-model)
-  * [6.6 Countermeasures](#66-countermeasures)
-    * [STRIDE](#stride)
-  * [6.7 Dataflow Diagram Lv1](#67-dataflow-diagram-lv1)
-  * [6.8 DREAD](#68-dread)
-  * [6.9 Attack Tree](#69-attack-tree)
-    * [Ataque 1: Fraca Autenticação](#ataque-1-fraca-autenticação)
-    * [Ataque 2: Vulnerabilidades na Validação do Input](#ataque-2-vulnerabilidades-na-validação-do-input)
-    * [Ataque 3: Exploração de Configurações Incorretas do Servidor](#ataque-3-exploração-de-configurações-incorretas-do-servidor)
-    * [Ataque 4: Vulnerabilidades nos Componentes de Terceiros](#ataque-4-vulnerabilidades-nos-componentes-de-terceiros)
-    * [Ataque 5: Intercetação de Dados](#ataque-5-intercetação-de-dados)
-    * [Ataque 6: Denial of Service (DoS/DDoS)](#ataque-6-denial-of-service-dosddos)
-    * [Ataque 7: Ataques de Sessão](#ataque-7-ataques-de-sessão)
-    * [Ataque 8: Vulnerabilidades no Upload de ficheiros](#ataque-8-vulnerabilidades-no-upload-de-ficheiros)
-    * [Ataque 9: Vulnerabilidades no Download de ficheiros](#ataque-9-vulnerabilidades-no-download-de-ficheiros)
-    * [Ataque 10: Fraudes em Pagamentos Bancários](#ataque-10-fraudes-em-pagamentos-bancários)
+    * [6.1 STRIDE](#61-stride)
+    * [6.2 ASF](#62-asf)
+    * [6.3 Entry Points](#63-entry-points)
+    * [6.4 Exit Points](#64-exit-points)
+    * [6.5 Qualitative Risk Model](#65-qualitative-risk-model)
+    * [6.6 Countermeasures](#66-countermeasures)
+        * [STRIDE](#stride)
+    * [6.7 Dataflow Diagram Lv1](#67-dataflow-diagram-lv1)
+    * [6.8 DREAD](#68-dread)
+    * [6.9 Attack Tree](#69-attack-tree)
+        * [Ataque 1: Fraca Autenticação](#ataque-1-fraca-autenticação)
+        * [Ataque 2: Vulnerabilidades na Validação do Input](#ataque-2-vulnerabilidades-na-validação-do-input)
+        * [Ataque 3: Exploração de Configurações Incorretas do Servidor](#ataque-3-exploração-de-configurações-incorretas-do-servidor)
+        * [Ataque 4: Vulnerabilidades nos Componentes de Terceiros](#ataque-4-vulnerabilidades-nos-componentes-de-terceiros)
+        * [Ataque 5: Intercetação de Dados](#ataque-5-intercetação-de-dados)
+        * [Ataque 6: Denial of Service (DoS/DDoS)](#ataque-6-denial-of-service-dosddos)
+        * [Ataque 7: Ataques de Sessão](#ataque-7-ataques-de-sessão)
+        * [Ataque 8: Vulnerabilidades no Upload de ficheiros](#ataque-8-vulnerabilidades-no-upload-de-ficheiros)
+        * [Ataque 9: Vulnerabilidades no Download de ficheiros](#ataque-9-vulnerabilidades-no-download-de-ficheiros)
+        * [Ataque 10: Fraudes em Pagamentos Bancários](#ataque-10-fraudes-em-pagamentos-bancários)
 * [1º Sprint](#1º-sprint)
-  * [7 Pipeline](#7-pipeline)
-    * [7.1 deployment.yml](#71-deploymentyml)
-      * [7.1.1 Build Front end](#711-build-front-end)
-      * [7.1.2 Build Back end](#712-build-back-end)
-      * [7.1.3 Push to Docker Hub](#713-push-to-docker-hub)
-      * [7.1.4 Docker Scout](#714-docker-scout)
-    * [7.2 release-please.yaml](#72-release-pleaseyaml)
-  * [7.2 Ferramentas de análise de código](#72-ferramentas-de-análise-de-código)
-    * [SAST - Static Application Security Testing](#sast---static-application-security-testing)
-    * [DAST - Dynamic Application Security Testing](#dast---dynamic-application-security-testing)
-    * [SCA - Software Composition Analysis](#sca---software-composition-analysis)
+    * [7 Pipeline](#7-pipeline)
+        * [7.1 deployment.yml](#71-deploymentyml)
+            * [7.1.1 Build Front end](#711-build-front-end)
+            * [7.1.2 Build Back end](#712-build-back-end)
+            * [7.1.3 Push to Docker Hub](#713-push-to-docker-hub)
+            * [7.1.4 Docker Scout](#714-docker-scout)
+        * [7.2 release-please.yaml](#72-release-pleaseyaml)
+    * [7.2 Ferramentas de análise de código](#72-ferramentas-de-análise-de-código)
+        * [SAST - Static Application Security Testing](#sast---static-application-security-testing)
+        * [DAST - Dynamic Application Security Testing](#dast---dynamic-application-security-testing)
+        * [SCA - Software Composition Analysis](#sca---software-composition-analysis)
 * [8 Testes de segurança](#8-testes-de-segurança)
 * [9 Testes unitários e de integração](#9-testes-unitários-e-de-integração)
-  * [10 Backend](#10-backend)
-    * [10.1 SecurityConfig](#101-securityconfig)
-    * [10.2 DTOs](#102-dtos)
-    * [10.3 Validações de input](#103-validações-de-input)
-  * [11 Front end](#11-front-end)
-    * [11.1 Autenticação](#111-autenticação)
-    * [11.2 Types](#112-types-)
-    * [11.3 Validação de inputs](#113-validação-de-inputs)
-<!-- TOC -->
+    * [10 Backend](#10-backend)
+        * [10.1 SecurityConfig](#101-securityconfig)
+        * [10.2 DTOs](#102-dtos)
+        * [10.3 Validações de input](#103-validações-de-input)
+    * [11 Front end](#11-front-end)
+        * [11.1 Autenticação](#111-autenticação)
+        * [11.2 Types](#112-types-)
+        * [11.3 Validação de inputs](#113-validação-de-inputs)
 
+<!-- TOC -->
 
 # 1 Introduction
 
@@ -390,7 +391,7 @@ NSAPI, Flash, Shockwave, ActiveX, Silverlight, NACL ou applets Java do lado do c
 
 ![Administrator.png](./img/UseAndAbuseCase/Administrator.png)
 
-# Aquitetura
+# Arquitetura
 
 ## Domain model
 
@@ -1390,10 +1391,10 @@ por isso, o teste deveria falhar.
 # 9 Testes unitários e de integração
 
 Os testes unitários e de integração foram realizados à medida que o código era desenvolvido, sendo feitos para garantir
-que o código funcionava corretamente e que as regras de negócio eram cumpridas. 
-
+que o código funcionava corretamente e que as regras de negócio eram cumpridas.
 
 ```java
+
 @SpringBootTest
 class TipoPacoteServiceImplTest {
 
@@ -1465,7 +1466,7 @@ class TipoPacoteServiceImplTest {
 
         TipoPacoteDTOServiceResponse pacoteDTOServiceResponse = tipoPacoteService.save(tipoPacoteDTOServiceRequest);
 
-        assertEquals(pacoteDTOServiceResponse.getNome(),tipoPacoteDTOServiceRequest.getNome());
+        assertEquals(pacoteDTOServiceResponse.getNome(), tipoPacoteDTOServiceRequest.getNome());
         assertTrue(violations.isEmpty());
 
     }
@@ -1526,7 +1527,6 @@ class TipoPacoteServiceImplTest {
     }
 
 
-
 }
 ```
 
@@ -1543,19 +1543,38 @@ implementar a lógica de negócio e a camada repository é responsável por inte
 
 ### 10.1 SecurityConfig
 
-O nosso programa, contém uma classe chamada SecurityConfig, que é responsável por configurar a segurança da aplicação.Através
+O nosso programa, contém uma classe chamada SecurityConfig, que é responsável por configurar a segurança da
+aplicação.Através
 desta, é possível configurar o login, logout, e as permissões de cada endpoint. Assim,
 conseguimos garantir que apenas pessoas autorizadas possam aceder a certos endpoints.
 
 ```java
-.requestMatchers("/pacote/**").hasRole(Role.Admin)
-.requestMatchers("/pacote/**").hasRole(Role.GestorFicheiros)
-.requestMatchers("/review/all").permitAll()
-.requestMatchers("/review/pacote/**").permitAll()
-.requestMatchers("/review/**").authenticated()
+.requestMatchers("/pacote/**").
+
+hasRole(Role.Admin)
+.
+
+requestMatchers("/pacote/**").
+
+hasRole(Role.GestorFicheiros)
+.
+
+requestMatchers("/review/all").
+
+permitAll()
+.
+
+requestMatchers("/review/pacote/**").
+
+permitAll()
+.
+
+requestMatchers("/review/**").
+
+authenticated()
 ```
 
-Aqui, podemos perceber diferentes permissões para diferentes endpoints, por exemplo, para qualquer endpoint 
+Aqui, podemos perceber diferentes permissões para diferentes endpoints, por exemplo, para qualquer endpoint
 que comece por /pacote poderá ser acedido por um Admin ou por um Gestor de Ficheiros, enquanto que para o endpoint
 /review/all e /review/pacote qualquer pessoa pode aceder, porém para os restantes endpoints que comecem por /review
 apenas pessoas autenticadas podem aceder.
@@ -1566,43 +1585,52 @@ Para a comunicação entre as diversas camadas da aplicação, foram usados DTOs
 atributos necessários para a comunicação entre estas. Estes objetos são usados para garantir que a comunicação
 entre as camadas é eficiente e segura.
 
-Além disso, utilizou-se mappers para converter os DTOs em entidades e vice-versa. 
-Esses mappers desempenham um papel crucial na comunicação entre as camadas da aplicação, 
+Além disso, utilizou-se mappers para converter os DTOs em entidades e vice-versa.
+Esses mappers desempenham um papel crucial na comunicação entre as camadas da aplicação,
 assegurando que os dados sejam convertidos de forma adequada e consistente.
-Eles garantem que os objetos sejam mapeados corretamente de acordo com as 
-necessidades de cada camada, facilitando assim a comunicação 
+Eles garantem que os objetos sejam mapeados corretamente de acordo com as
+necessidades de cada camada, facilitando assim a comunicação
 e a interoperabilidade entre elas.
 
 ```java
+
 @Mapper(componentModel = "spring")
 @Component
 public interface EncomendaMapper {
     //Controller Layer
     EncomendaDTOServiceRequest toEncomendaDtoServiceRequestFromEncomendaDtoSaveRequest(EncomendaDTOSaveRequest encomendaDTOSaveRequest);
+
     EncomendaDTOResponse fromEncomendaToDto(EncomendaDTOServiceResponse encomenda);
+
     List<EncomendaDTOResponse> fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(List<EncomendaDTOServiceResponse> all);
+
     EncomendaDTOServicePatchRequest toEncomendaDTOServicePatchRequestFromEncomendaDTOPatchRequest(EncomendaDTOPatchRequest encomenda);
 
     //Service Layer
     EncomendaDTOServiceResponse toEncomendaDTOServiceResponseFromEncomenda(Encomenda encomenda);
+
     Encomenda toEncomendafromEncomendaSaveDtoService(EncomendaSaveDTOService encomendaDTOServiceRequest);
+
     List<EncomendaDTOServiceResponse> toEncomendaDTOServiceResponseListFromEncomendaList(List<Encomenda> all);
+
     Encomenda toEncomendafromEncomendaPatchDtoService(EncomendaPatchDTOService encomendaPatchDTOService);
 }
 ```
-O código apresentado é um exemplo de um mapper utilizado para a entidade "Encomenda". 
-Ele define métodos para converter objetos relacionados à "Encomenda" entre as camadas controller e service, 
-garantindo uma comunicação eficiente e semântica entre essas partes da aplicação. 
-Esta abordagem ajuda a manter um código limpo e modular, facilitando a manutenção 
+
+O código apresentado é um exemplo de um mapper utilizado para a entidade "Encomenda".
+Ele define métodos para converter objetos relacionados à "Encomenda" entre as camadas controller e service,
+garantindo uma comunicação eficiente e semântica entre essas partes da aplicação.
+Esta abordagem ajuda a manter um código limpo e modular, facilitando a manutenção
 e a evolução da aplicação ao longo do tempo.
 
 ### 10.3 Validações de input
 
-Nos nossos DTOs e model classes, foram usadas anotações de validação para garantir que os 
+Nos nossos DTOs e model classes, foram usadas anotações de validação para garantir que os
 dados inseridos são válidos e seguros. Estas anotações são usadas para validar os campos
 de forma a prevenir erros e ataques comuns, como SQL Injection e Cross-Site Scripting (XSS).
 
 ```java
+
 @Entity
 public class Encomenda {
     @Id
@@ -1620,7 +1648,7 @@ public class Encomenda {
     @Min(value = 1, message = "Preço inválido")
     @Positive
     private double price;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataEncomenda;
     @ManyToOne
     @NotNull(message = "Pacote inválido")
@@ -1637,9 +1665,11 @@ public class Encomenda {
 Neste exemplo, podemos ver a utilização de anotações de validação para garantir que os campos
 da entidade "Encomenda" são válidos e seguros, como por exemplo a garantia de que o número de refeições
 por semana é um valor entre 1 e 7, que o número de pessoas é um valor entre 1 e 5, e que o preço é um valor positivo.
-Desta forma, podemos garantir que os dados inseridos cumprem as nossas regras de negócio e que são seguros contra ataques.
+Desta forma, podemos garantir que os dados inseridos cumprem as nossas regras de negócio e que são seguros contra
+ataques.
 
 ```java
+
 @Entity
 @ToString
 public class Pacote {
@@ -1670,7 +1700,6 @@ public class Pacote {
 Já neste exemplo, podemos ver a utilização de anotações de validação para garantir que os campos
 do tipo String são protegidos também através de uma regex, garantindo que apenas letras e números são aceites,
 prevenindo principalmente ataques de XSS.
-
 
 ## 11 Front end
 
@@ -1716,7 +1745,7 @@ certos botões, como por exemplo, o botão de logout, que apenas é visível par
 Tambeém podemos ver que apenas utilizadores com permissões de admin ou gestor de ficheiros podem aceder a certos
 botões, como por exemplo, o botão de gestão de pacotes.
 
-### 11.2 Types 
+### 11.2 Types
 
 Para garantir a segurança dos dados, foram utilizados types, que são objetos que contêm apenas os atributos necessários
 para a comunicação entre as diversas partes da aplicação. Estes objetos são usados para garantir que a comunicação
@@ -1747,6 +1776,7 @@ type Recipe = {
 };
 
 ```
+
 Neste exemplo, podemos ver a utilização de types para garantir que os dados enviados entre as diversas partes da
 aplicação são seguros e consistentes, como por exemplo, o type RecipeDTOSend, que é utilizado para a
 criação de uma receita. Desta forma, asseguramo-nos que enviamos
@@ -1773,19 +1803,22 @@ como por exemplo, a validação do tipo de input, tamanho máximo e mínimo, ent
 </div>
 ```
 
-Neste exemplo, podemos ver a utilização de validação de inputs para garantir que o número de refeições inserido é 
+Neste exemplo, podemos ver a utilização de validação de inputs para garantir que o número de refeições inserido é
 um valor entre 1 e 7 de forma a cumprir os requisitos da nossa aplicação e garantir
 que os dados inseridos são válidos.
 
 # 12 ASVS
 
-O OWASP Application Security Verification Standard (ASVS) é um projeto que define um conjunto de requisitos de segurança das aplicações.
+O OWASP Application Security Verification Standard (ASVS) é um projeto que define um conjunto de requisitos de segurança
+das aplicações.
 Este documento descreve a utilização do ASVS e a análise efetuada através da lista de verificação fornecida.
-A lista de verificação está dividida em várias categorias de segurança, cada uma contendo um conjunto de critérios que devem ser verificados para garantir a segurança da aplicação.
+A lista de verificação está dividida em várias categorias de segurança, cada uma contendo um conjunto de critérios que
+devem ser verificados para garantir a segurança da aplicação.
 
 ## 12.1 Estrutura do Checklist
 
-A lista de controlo ASVS é composta por diferentes categorias de segurança. Apresentamos a seguir as categorias analisadas:
+A lista de controlo ASVS é composta por diferentes categorias de segurança. Apresentamos a seguir as categorias
+analisadas:
 
 1. **Architecture, Design and Threat Modeling**
 2. **Authentication**
@@ -1804,138 +1837,163 @@ A lista de controlo ASVS é composta por diferentes categorias de segurança. Ap
 
 ## 12.2 ASVS Results Overview
 
-O ficheiro Excel apresenta uma síntese dos resultados da ASVS para cada categoria de segurança. 
-Segue-se um resumo dos resultados, incluindo o número de critérios válidos, o total de critérios e a percentagem de validade para cada categoria.
+O ficheiro Excel apresenta uma síntese dos resultados da ASVS para cada categoria de segurança.
+Segue-se um resumo dos resultados, incluindo o número de critérios válidos, o total de critérios e a percentagem de
+validade para cada categoria.
 
-| Security Category                          | Total Criteria | Valid Criteria | Validity Percentage |
-|--------------------------------------------|----------------|----------------|---------------------|
-| Architecture, Design and Threat Modeling   | 33             | 28             | 84.85%              |
-| Authentication                             | 35             | 21             | 60.00%              |
-| Session Management                         | 14             | 10             | 71.43%              |
-| Access Control                             | 8              | 6              | 75.00%              |
-| Validation, Sanitization and Encoding      | 27             | 22             | 81.48%              |
+| Security Category                        | Total Criteria | Valid Criteria | Validity Percentage |
+|------------------------------------------|----------------|----------------|---------------------|
+| Architecture, Design and Threat Modeling | 33             | 28             | 84.85%              |
+| Authentication                           | 35             | 21             | 60.00%              |
+| Session Management                       | 14             | 10             | 71.43%              |
+| Access Control                           | 8              | 6              | 75.00%              |
+| Validation, Sanitization and Encoding    | 27             | 22             | 81.48%              |
 
-De reforçar que no ficheiro do ASVS, as funcionalidades que estão assinaladas com "valid", são funcionalidades que já foram implementadas,
-as que estão assinaladas com "not-valid", são funcionalidades que pretendemos implementar no futuro, e as que estão assinaladas com "not-applicable".
+De reforçar que no ficheiro do ASVS, as funcionalidades que estão assinaladas com "valid", são funcionalidades que já
+foram implementadas,
+as que estão assinaladas com "not-valid", são funcionalidades que pretendemos implementar no futuro, e as que estão
+assinaladas com "not-applicable".
 
 ### 12.2.1 Detalhes por Categoria
 
 #### 12.2.1.1. Architecture, Design and Threat Modeling
 
-Esta categoria verifica a existência de uma arquitetura de segurança bem definida e a utilização de modelos de ameaças para identificar possíveis vulnerabilidades. 
+Esta categoria verifica a existência de uma arquitetura de segurança bem definida e a utilização de modelos de ameaças
+para identificar possíveis vulnerabilidades.
 A validade desta categoria é de 84,85%, com 28 critérios válidos num total de 33.
 
-- **Existência de uma arquitetura de segurança:** Garante que a aplicação tem uma arquitetura de segurança documentada e implementada.
+- **Existência de uma arquitetura de segurança:** Garante que a aplicação tem uma arquitetura de segurança documentada e
+  implementada.
 - **Modelação de ameaças:** Utiliza modelos de ameaças para identificar, quantificar e mitigar potenciais riscos.
-- **Conceção segura:** Avalia se a conceção da aplicação incorpora princípios de segurança, como a defesa em profundidade e o princípio do menor privilégio.
+- **Conceção segura:** Avalia se a conceção da aplicação incorpora princípios de segurança, como a defesa em
+  profundidade e o princípio do menor privilégio.
 
 ##### 12.2.1.1.1 Exemplos de implementação
 
-**Verify that the application uses a single vetted authentication mechanism that is known to be secure, can be extended to include strong authentication, and has sufficient logging and monitoring to detect account abuse or breaches.**
+**Verify that the application uses a single vetted authentication mechanism that is known to be secure, can be extended
+to include strong authentication, and has sufficient logging and monitoring to detect account abuse or breaches.**
 
-Para este ponto de verificação, a nossa solução foi a utilização do JWT que é facilmente extensivel de forma a adicionar mecanismos de logging.
+Para este ponto de verificação, a nossa solução foi a utilização do JWT que é facilmente extensivel de forma a adicionar
+mecanismos de logging.
 
 ````java
-    @Bean
-    public JwtEncoder jwtEncoder() {
-        final JWK jwk = new RSAKey.Builder(this.rsaPublicKey).privateKey(this.rsaPrivateKey).build();
-        final JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-        return new NimbusJwtEncoder(jwks);
-    }
 
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(this.rsaPublicKey).build();
-    }
+@Bean
+public JwtEncoder jwtEncoder() {
+    final JWK jwk = new RSAKey.Builder(this.rsaPublicKey).privateKey(this.rsaPrivateKey).build();
+    final JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+    return new NimbusJwtEncoder(jwks);
+}
 
-    @Bean
-    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        final JwtGrantedAuthoritiesConverter jwtGrantedAuthenticationConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthenticationConverter.setAuthoritiesClaimName("roles");
-        jwtGrantedAuthenticationConverter.setAuthorityPrefix("ROLE_");
+@Bean
+public JwtDecoder jwtDecoder() {
+    return NimbusJwtDecoder.withPublicKey(this.rsaPublicKey).build();
+}
 
-        final JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthenticationConverter);
-        return jwtAuthenticationConverter;
-    }
+@Bean
+public JwtAuthenticationConverter jwtAuthenticationConverter() {
+    final JwtGrantedAuthoritiesConverter jwtGrantedAuthenticationConverter = new JwtGrantedAuthoritiesConverter();
+    jwtGrantedAuthenticationConverter.setAuthoritiesClaimName("roles");
+    jwtGrantedAuthenticationConverter.setAuthorityPrefix("ROLE_");
+
+    final JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+    jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthenticationConverter);
+    return jwtAuthenticationConverter;
+}
 ````
 
 ** Verify that input validation is enforced on a trusted service layer. **
 
-Para este ponto, foram implementadas mecanismos de sanitização dos inputs, através de annotations disponibilizadas pelo lombok e o jpa.
+Para este ponto, foram implementadas mecanismos de sanitização dos inputs, através de annotations disponibilizadas pelo
+lombok e o jpa.
 
 ````java
-    @NotNull
-    @Positive
-    private final Long pacoteId;
 
-    @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
-    @Size(min = 1, message = "Nome do pacote inválido")
-    @Size(max = 16, message = "Nome do pacote inválido")
-    private final String nome;
+@NotNull
+@Positive
+private final Long pacoteId;
 
-    @Min(value = 0, message = "Preço base do pacote inválido")
-    @Max(value = 500, message = "Preço base do pacote inválido")
-    private final double pacoteBasePrice;
+@NotBlank
+@Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
+@Size(min = 1, message = "Nome do pacote inválido")
+@Size(max = 16, message = "Nome do pacote inválido")
+private final String nome;
 
-    @Size(min = 1, message = "Descrição do pacote inválida")
-    @Size(max = 64, message = "Descrição do pacote inválida")
-    @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
-    private final String pacoteDescription;
+@Min(value = 0, message = "Preço base do pacote inválido")
+@Max(value = 500, message = "Preço base do pacote inválido")
+private final double pacoteBasePrice;
 
-    private final boolean disabled;
-    @Positive
-    @NotNull
-    private final Long tipoPacote;
+@Size(min = 1, message = "Descrição do pacote inválida")
+@Size(max = 64, message = "Descrição do pacote inválida")
+@Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
+private final String pacoteDescription;
+
+private final boolean disabled;
+@Positive
+@NotNull
+private final Long tipoPacote;
 ````
 
 #### 12.2.1.2. Authentication
 
-A autenticação é essencial para garantir que apenas os utilizadores autorizados possam aceder ao sistema. Nesta categoria, a validade é de 60,00%, com 21 critérios válidos num total de 35.
+A autenticação é essencial para garantir que apenas os utilizadores autorizados possam aceder ao sistema. Nesta
+categoria, a validade é de 60,00%, com 21 critérios válidos num total de 35.
 
-- **Mecanismos de autenticação:** Verifica se são utilizados mecanismos de autenticação seguros, como a autenticação multifactor.
-- **Proteção de credenciais:** Garante que as credenciais de autenticação são protegidas durante o armazenamento e a transmissão.
-- **Gestão de sessões:** Avalia se as sessões de autenticação são geridas de forma segura, incluindo a expiração e revogação da sessão.
+- **Mecanismos de autenticação:** Verifica se são utilizados mecanismos de autenticação seguros, como a autenticação
+  multifactor.
+- **Proteção de credenciais:** Garante que as credenciais de autenticação são protegidas durante o armazenamento e a
+  transmissão.
+- **Gestão de sessões:** Avalia se as sessões de autenticação são geridas de forma segura, incluindo a expiração e
+  revogação da sessão.
 
 ##### 12.2.1.2.1 Exemplos de implementação
 
 ** Verify that user set passwords are at least 12 characters in length **
 
-Para este ponto de verificação, a nossa solução foi a utilização de uma annotation para garantir que a password tem pelo menos 12 caracteres.
+Para este ponto de verificação, a nossa solução foi a utilização de uma annotation para garantir que a password tem pelo
+menos 12 caracteres.
 
 ````java
-    @NotBlank
-    @Size(min = 12, message = "Password must be at least 12 characters long")
-    private final String password;
+
+@NotBlank
+@Size(min = 12, message = "Password must be at least 12 characters long")
+private final String password;
 ````
 
-Não só no backend mas no frontend também adicionamos essa restrição, mas a implementação principal é a do backend devido à sua maior segurança.
+Não só no backend mas no frontend também adicionamos essa restrição, mas a implementação principal é a do backend devido
+à sua maior segurança.
 
-** Verify that passwords of at least 64 characters are permitted, and that passwords of more than 128 characters are denied. **
+** Verify that passwords of at least 64 characters are permitted, and that passwords of more than 128 characters are
+denied. **
 
-Para este ponto de verificação, muito parecido com o ponto acima, a nossa solução foi a utilização de uma annotation para garantir que a password tem pelo menos 64 caracteres e no máximo 128.
+Para este ponto de verificação, muito parecido com o ponto acima, a nossa solução foi a utilização de uma annotation
+para garantir que a password tem pelo menos 64 caracteres e no máximo 128.
 
 ````java
-    @NotBlank
-    @Size(min = 64, message = "Password must be at least 64 characters long")
-    @Size(max = 128, message = "Password must be at most 128 characters long")
-    private final String password;
+
+@NotBlank
+@Size(min = 64, message = "Password must be at least 64 characters long")
+@Size(max = 128, message = "Password must be at most 128 characters long")
+private final String password;
 ````
 
 #### 12.2.1.3. Session Management
 
-A gestão de sessões garante que as sessões dos utilizadores estão seguras e protegidas contra-ataques. A validade desta categoria é de 71,43%, com 10 critérios válidos num total de 14.
+A gestão de sessões garante que as sessões dos utilizadores estão seguras e protegidas contra-ataques. A validade desta
+categoria é de 71,43%, com 10 critérios válidos num total de 14.
 
-- **Gestão de sessões:** Verifica se as sessões são geridas corretamente, incluindo a criação, a manutenção e o encerramento seguro das sessões.
-- **Proteção contra-ataques a sessões:** Avalia a proteção contra-ataques como a fixação de sessões, o desvio de sessões e a reutilização de fichas de sessão.
+- **Gestão de sessões:** Verifica se as sessões são geridas corretamente, incluindo a criação, a manutenção e o
+  encerramento seguro das sessões.
+- **Proteção contra-ataques a sessões:** Avalia a proteção contra-ataques como a fixação de sessões, o desvio de sessões
+  e a reutilização de fichas de sessão.
 - **Expiração da sessão:** Garante que as sessões expiram após um período de inatividade ou após um período predefinido.
 
 ##### 12.2.1.3.1 Exemplos de implementação
 
 ** Verify the application never reveals session tokens in URL parameters or error messages. **
 
-Para este ponto de verificação, a nossa solução é que o backend só retorna o token de sessão quando o utilizador insere corretamente as credenciais.
+Para este ponto de verificação, a nossa solução é que o backend só retorna o token de sessão quando o utilizador insere
+corretamente as credenciais.
 Nos restantes pedidos essa informação não é partilhada.
 
 ```` java
@@ -1962,9 +2020,11 @@ Nos restantes pedidos essa informação não é partilhada.
     }
 ````
 
-** Verify the application only stores session tokens in the browser using secure methods such as appropriately secured cookies **
+** Verify the application only stores session tokens in the browser using secure methods such as appropriately secured
+cookies **
 
-Para este ponto de verificação, a nossa solução foi armazenar a token de sessão utilizando secure cookies já fornecidas pelo sveltekit.
+Para este ponto de verificação, a nossa solução foi armazenar a token de sessão utilizando secure cookies já fornecidas
+pelo sveltekit.
 
 ```` svelte
     import { setCookie } from 'svelte-cookie';
@@ -1973,19 +2033,417 @@ Para este ponto de verificação, a nossa solução foi armazenar a token de ses
 
 #### 12.2.1.4. Access Control
 
-O controlo do acesso garante que os utilizadores só podem aceder aos recursos para os quais têm permissão. A validade desta categoria é de 75,00%, com 6 critérios válidos num total de 8.
+O controlo do acesso garante que os utilizadores só podem aceder aos recursos para os quais têm permissão. A validade
+desta categoria é de 75,00%, com 6 critérios válidos num total de 8.
 
-- **Políticas de Controlo de Acesso:** Verifica a existência de políticas de controlo de acesso bem definidas e implementadas.
-- **Autorização de Acesso:** Avalia se os mecanismos de autorização garantem que os utilizadores só podem aceder aos recursos permitidos.
-- **Segregação de funções:** Assegura que as diferentes funções dos utilizadores estão segregadas para minimizar o risco de abuso de privilégios.
+- **Políticas de Controlo de Acesso:** Verifica a existência de políticas de controlo de acesso bem definidas e
+  implementadas.
+- **Autorização de Acesso:** Avalia se os mecanismos de autorização garantem que os utilizadores só podem aceder aos
+  recursos permitidos.
+- **Segregação de funções:** Assegura que as diferentes funções dos utilizadores estão segregadas para minimizar o risco
+  de abuso de privilégios.
 
 ##### 12.2.1.4.1 Exemplos de implementação
 
-** Verify that all user and data attributes and policy information used by access controls cannot be manipulated by end users unless specifically authorized. **
+** Verify that all user and data attributes and policy information used by access controls cannot be manipulated by end
+users unless specifically authorized. **
 
-Para este ponto de verificação, a nossa solução definiu roles para os utilizadores, e esses roles são verificados em cada pedido para garantir que o utilizador tem permissão para aceder a esse recurso.
+Para este ponto de verificação, a nossa solução definiu roles para os utilizadores, e esses roles são verificados em
+cada pedido para garantir que o utilizador tem permissão para aceder a esse recurso.
 
 ````java
+                        auth ->auth
+        .
+
+requestMatchers("/auth/public/signup").
+
+permitAll()
+                                .
+
+requestMatchers("/auth/public/login").
+
+permitAll()
+                                .
+
+requestMatchers("/pacote/all").
+
+permitAll()
+                                .
+
+requestMatchers("/pacote/get/**").
+
+permitAll()
+                                .
+
+requestMatchers("/pacote/**").
+
+hasRole(Role.Admin)
+                                .
+
+requestMatchers("/pacote/**").
+
+hasRole(Role.GestorFicheiros)
+                                .
+
+requestMatchers("/review/all").
+
+permitAll()
+                                .
+
+requestMatchers("/review/pacote/**").
+
+permitAll()
+                                .
+
+requestMatchers("/review/**").
+
+authenticated()
+                                .
+
+requestMatchers("/tipoPacote/**").
+
+authenticated()
+                                .
+
+requestMatchers("/encomenda/**").
+
+authenticated()
+                                .
+
+requestMatchers("/user/info/**").
+
+authenticated()
+                                .
+
+requestMatchers("/encomenda/**").
+
+authenticated()
+                                .
+
+requestMatchers("/user/delete/data").
+
+authenticated()
+                                .
+
+requestMatchers("/tipoReceita/**").
+
+authenticated()
+                                .
+
+requestMatchers("/receita/**").
+
+authenticated()
+                                .
+
+requestMatchers("/api-docs/**").
+
+permitAll()
+                                .
+
+requestMatchers("/swagger-ui/**").
+
+permitAll()
+````
+
+#### 12.2.1.5. Validation, Sanitization and Encoding
+
+A validação, a higienização e a codificação dos dados são essenciais para evitar ataques de injeção e outras
+vulnerabilidades. A validade nesta categoria é de 81,48%, com 22 critérios válidos num total de 27.
+
+- **Validação de dados de entrada:** Verifica se todos os dados de entrada são validados para garantir que estão dentro
+  dos limites esperados.
+- **Sanitização de dados:** Garante que todos os dados de entrada são devidamente sanitizados para remover ou
+  neutralizar qualquer conteúdo malicioso.
+- **Codificação de saída:** Avalia se os dados estão corretamente codificados antes de serem enviados para o cliente
+  para evitar ataques como XSS (Cross-Site Scripting).
+
+##### 12.2.1.5.1 Exemplos de implementação
+
+** Verify that the application has defenses against HTTP parameter pollution attacks **
+
+Para este ponto de verificação, a nossa solução foi a utilização de funções nativas do springboot.
+
+````java
+        http.headers(headers ->headers.
+
+frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                        .
+
+httpStrictTransportSecurity(hsts ->hsts
+        .
+
+includeSubDomains(true)
+                                .
+
+preload(true)
+                                .
+
+maxAgeInSeconds(31536000)
+                        )
+                                .
+
+xssProtection(xss ->xss.
+
+headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+        .
+
+referrerPolicy(referrerPolicy ->referrerPolicy.
+
+policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+        )
+````
+
+** Verify that the application protects against SSRF attacks, by validating or sanitizing untrusted data or HTTP file
+metadata, such as filenames and URL input fields, and uses allow lists of protocols, domains, paths and ports. **
+
+Para este ponto de verificação, foi utilizada a mesma solução, que é a utilização de funções nativas do springboot.
+
+````java
+        http.headers(headers ->headers.
+
+frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                        .
+
+httpStrictTransportSecurity(hsts ->hsts
+        .
+
+includeSubDomains(true)
+                                .
+
+preload(true)
+                                .
+
+maxAgeInSeconds(31536000)
+                        )
+                                .
+
+xssProtection(xss ->xss.
+
+headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+        .
+
+referrerPolicy(referrerPolicy ->referrerPolicy.
+
+policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+        )
+````
+
+## 12.3 Conclusão
+
+A análise da lista de verificação ASVS revelou que, embora existam áreas de forte conformidade, como a Arquitetura, a
+Conceção e a Modelação e Validação de Ameaças, a Sanitização e a Codificação, também existem áreas que necessitam de ser
+melhoradas, como a Autenticação e a Gestão de Sessões.
+A utilização da ASVS como guia permite identificar e dar prioridade a áreas que necessitam de ser melhoradas na
+segurança das aplicações.
+
+Este resumo fornece uma visão geral dos resultados da ASVS, destacando a importância de uma abordagem sistemática à
+segurança das aplicações.
+A continuidade na implementação e verificação dos requisitos da ASVS garantirá a melhoria contínua da segurança do
+sistema.
+
+## 13 Implementações futuras
+
+Como mencionado anteriormente, durante a explicação de alguns pontos do ASVS, existem funcionalidades que ainda não
+foram implementadas devido ao calendário de desenvolvimento.
+No entanto, a maioria das funcionalidades de maior prioridade já foram implementadas, o que realça a importância de uma
+revisão cuidadosa destes domínios.
+Prevemos que os nossos próximos passos incluam a finalização das tarefas restantes, a realização da implementação, uma
+revisão de tudo o que já foi feito, a adição de um sistema de logs e a implementação do “release please”,
+que mesmo já estando implementado queremos usar melhor das suas capacidades, mais especificamente para separar a última
+implementação das versões anteriores.
+
+# 2º Sprint
+
+## Use and Abuse case mitigations
+
+### User Authentication
+
+#### Ataque de força bruta
+
+-- falta fazer
+
+#### Injeção de SQL
+
+Para mitigar este ataque, todos os nossos dtos têm regex para detetar caracteres especiais e impedir a
+injeção de SQL.
+
+```java
+
+@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Texto inválido")
+private String reviewText;
+```
+
+Esse regex apenas permite letras, números e espaços, impedindo a injeção de SQL.
+
+#### Ataque de Dicionario
+
+Para mitigar este ataque temos impostas regras que não permitem que certos tipos de palavras pass sejam possiveis de
+serem usadas.
+
+-- Falta pôr a imagem com a força da palavra pass (Rodrigo)
+
+### User Order
+
+#### Ataque de spam de comentários
+
+Aqui apenas podemos validar a review do utilizador, para não ser possível enviar reviews com conteúdo malicioso.
+
+```java
+
+@NotBlank
+@Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Texto inválido")
+private String reviewText;
+
+@Min(value = 0, message = "Rating inválido")
+@Max(value = 5, message = "Rating inválido")
+@Positive
+private int rating;
+```
+
+#### Ataque de injeção de SQL
+
+Para mitigar este problema usamos na mesma o regex para validar o texto da review, impedindo a injeção de SQL.
+
+### File manager
+
+### Administrator
+
+#### Ataque "privilege escalation"
+
+A melhor forma de mitigar este ataque é garantir que os utilizadores apenas têm acesso às funcionalidades que lhes são
+permitidas e que existe um sistema de autenticação e autorização.
+
+```java
+
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    // TODO ADICIONAR PERMISSÕES À MEDIDA QUE SE VAI FAZENDO O WEBSITE
+
+
+    // Enable CORS and disable CSRF
+    http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                    .httpStrictTransportSecurity(hsts -> hsts
+                            .includeSubDomains(true)
+                            .preload(true)
+                            .maxAgeInSeconds(31536000)
+                    )
+                    .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                    .referrerPolicy(referrerPolicy -> referrerPolicy.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+            )
+            .cors(cors -> cors.configurationSource(request -> {
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowedOriginPatterns(Arrays.asList("*"));
+                config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "OPTIONS", "PATCH"));
+                config.setAllowedHeaders(Arrays.asList("*"));
+                config.setExposedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION));
+                config.setAllowCredentials(true);
+                return config;
+            }))
+            .csrf(Customizer.withDefaults()).csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/auth/public/**"))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(
+                    auth -> auth
+                            .requestMatchers("/auth/public/signup").permitAll()
+                            .requestMatchers("/auth/public/login").permitAll()
+                            .requestMatchers("/pacote/all").permitAll()
+                            .requestMatchers("/pacote/get/**").permitAll()
+                            .requestMatchers("/pacote/**").hasRole(Role.Admin)
+                            .requestMatchers("/pacote/**").hasRole(Role.GestorFicheiros)
+                            .requestMatchers("/review/all").permitAll()
+                            .requestMatchers("/review/pacote/**").permitAll()
+                            .requestMatchers("/review/**").authenticated()
+                            .requestMatchers("/tipoPacote/**").authenticated()
+                            .requestMatchers("/encomenda/**").authenticated()
+                            .requestMatchers("/user/info/**").authenticated()
+                            .requestMatchers("/encomenda/**").authenticated()
+                            .requestMatchers("/user/delete/data").authenticated()
+                            .requestMatchers("/tipoReceita/**").authenticated()
+                            .requestMatchers("/receita/**").authenticated()
+                            .requestMatchers("/api-docs/**").permitAll()
+                            .requestMatchers("/swagger-ui/**").permitAll()
+
+            )
+            .httpBasic(Customizer.withDefaults()).oauth2ResourceServer((oauth) -> oauth.jwt(Customizer.withDefaults()))
+            .authenticationProvider(authenticationProvider());
+    return http.build();
+
+}
+```
+
+Por exemplo, neste código, podemos ver apenas utilizadores autenticados podem aceder a certos endpoints, e que
+apenas utilizadores com permissões de admin ou gestor de ficheiros podem aceder a certos endpoints. Além disso, usamos o
+JWT para fazer a autenticação dos utilizadores, de modo a não usarmos keys ou passwords para efetuar requests. Estes
+tokens são revogados ao fim de 1 hora, garantindo que mesmo que alguém consiga obter o token, este é inválido passado
+esse tempo.
+
+## Countermeasures Stride
+
+### Spoofing
+
+**Countermeasure 1**
+
+Falta fazer
+
+**Countermeasure 2**
+
+Falta ser posto na branch
+
+**Countermeasure 3**
+
+Aqui foi implementado o JWT para impedir possiveis ataques de spoofing, uma vez que o token é gerado pelo servidor e
+este indica o role do utilizador, impedindo assim que um utilizador comum possa aceder a endpoints que não deva.
+
+```java
+
+@Configuration
+@EnableWebSecurity
+@EnableWebMvc
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
+public class SecurityConfig {
+
+    @Value("${jwt.public.key}")
+    private RSAPublicKey rsaPublicKey;
+
+    @Value("${jwt.private.key}")
+    private RSAPrivateKey rsaPrivateKey;
+
+    @Value("${springdoc.api-docs.path}")
+    private String restApiDocPath;
+
+    @Value("${springdoc.swagger-ui.path}")
+    private String swaggerPath;
+
+    @Autowired
+    private UserServiceImpl userService;
+
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // TODO ADICIONAR PERMISSÕES À MEDIDA QUE SE VAI FAZENDO O WEBSITE
+
+
+        // Enable CORS and disable CSRF
+        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .includeSubDomains(true)
+                                .preload(true)
+                                .maxAgeInSeconds(31536000)
+                        )
+                        .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
+                        .referrerPolicy(referrerPolicy -> referrerPolicy.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
+                )
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOriginPatterns(Arrays.asList("*"));
+                    config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "OPTIONS", "PATCH"));
+                    config.setAllowedHeaders(Arrays.asList("*"));
+                    config.setExposedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION));
+                    config.setAllowCredentials(true);
+                    return config;
+                }))
+                .csrf(Customizer.withDefaults()).csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/auth/public/**"))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/auth/public/signup").permitAll()
                                 .requestMatchers("/auth/public/login").permitAll()
@@ -2005,61 +2463,306 @@ Para este ponto de verificação, a nossa solução definiu roles para os utiliz
                                 .requestMatchers("/receita/**").authenticated()
                                 .requestMatchers("/api-docs/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
-````
 
-#### 12.2.1.5. Validation, Sanitization and Encoding
-
-A validação, a higienização e a codificação dos dados são essenciais para evitar ataques de injeção e outras vulnerabilidades. A validade nesta categoria é de 81,48%, com 22 critérios válidos num total de 27.
-
-- **Validação de dados de entrada:** Verifica se todos os dados de entrada são validados para garantir que estão dentro dos limites esperados.
-- **Sanitização de dados:** Garante que todos os dados de entrada são devidamente sanitizados para remover ou neutralizar qualquer conteúdo malicioso.
-- **Codificação de saída:** Avalia se os dados estão corretamente codificados antes de serem enviados para o cliente para evitar ataques como XSS (Cross-Site Scripting).
-
-##### 12.2.1.5.1 Exemplos de implementação
-
-** Verify that the application has defenses against HTTP parameter pollution attacks **
-
-Para este ponto de verificação, a nossa solução foi a utilização de funções nativas do springboot.
-
-````java
-        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
-                        .httpStrictTransportSecurity(hsts -> hsts
-                                .includeSubDomains(true)
-                                .preload(true)
-                                .maxAgeInSeconds(31536000)
-                        )
-                        .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
-                        .referrerPolicy(referrerPolicy -> referrerPolicy.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
                 )
-````
+                .httpBasic(Customizer.withDefaults()).oauth2ResourceServer((oauth) -> oauth.jwt(Customizer.withDefaults()))
+                .authenticationProvider(authenticationProvider());
+        return http.build();
 
-** Verify that the application protects against SSRF attacks, by validating or sanitizing untrusted data or HTTP file metadata, such as filenames and URL input fields, and uses allow lists of protocols, domains, paths and ports. **
+    }
 
-Para este ponto de verificação, foi utilizada a mesma solução, que é a utilização de funções nativas do springboot.
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder());
+        provider.setUserDetailsService(userDetailsService());
+        return provider;
+    }
 
-````java
-        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
-                        .httpStrictTransportSecurity(hsts -> hsts
-                                .includeSubDomains(true)
-                                .preload(true)
-                                .maxAgeInSeconds(31536000)
-                        )
-                        .xssProtection(xss -> xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
-                        .referrerPolicy(referrerPolicy -> referrerPolicy.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN))
-                )
-````
 
-## 12.3 Conclusão
+    @Bean
+    UserDetailsService userDetailsService() {
+        return userService::findByUsername;
+    }
 
-A análise da lista de verificação ASVS revelou que, embora existam áreas de forte conformidade, como a Arquitetura, a Conceção e a Modelação e Validação de Ameaças, a Sanitização e a Codificação, também existem áreas que necessitam de ser melhoradas, como a Autenticação e a Gestão de Sessões.
-A utilização da ASVS como guia permite identificar e dar prioridade a áreas que necessitam de ser melhoradas na segurança das aplicações.
 
-Este resumo fornece uma visão geral dos resultados da ASVS, destacando a importância de uma abordagem sistemática à segurança das aplicações.
-A continuidade na implementação e verificação dos requisitos da ASVS garantirá a melhoria contínua da segurança do sistema.
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        final JWK jwk = new RSAKey.Builder(this.rsaPublicKey).privateKey(this.rsaPrivateKey).build();
+        final JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        return new NimbusJwtEncoder(jwks);
+    }
 
-## 13 Implementações futuras
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey(this.rsaPublicKey).build();
+    }
 
-Como mencionado anteriormente, durante a explicação de alguns pontos do ASVS, existem funcionalidades que ainda não foram implementadas devido ao calendário de desenvolvimento.
-No entanto, a maioria das funcionalidades de maior prioridade já foram implementadas, o que realça a importância de uma revisão cuidadosa destes domínios.
-Prevemos que os nossos próximos passos incluam a finalização das tarefas restantes, a realização da implementação, uma revisão de tudo o que já foi feito, a adição de um sistema de logs e a implementação do “release please”,
-que mesmo já estando implementado queremos usar melhor das suas capacidades, mais especificamente para separar a última implementação das versões anteriores.
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        final JwtGrantedAuthoritiesConverter jwtGrantedAuthenticationConverter = new JwtGrantedAuthoritiesConverter();
+        jwtGrantedAuthenticationConverter.setAuthoritiesClaimName("roles");
+        jwtGrantedAuthenticationConverter.setAuthorityPrefix("ROLE_");
+
+        final JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthenticationConverter);
+        return jwtAuthenticationConverter;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
+
+
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .build();
+    }
+}
+
+```
+
+Aqui temos a configuração de segurança do backend e como é possível ver, temos a configuração do jwt que usa uma chave
+pública e privada para gerar o token, e este token é enviado para o cliente, que o guarda e o envia em todas as requests
+para o servidor.
+
+```java
+
+@PostMapping("login")
+public ResponseEntity<UserView> login(@RequestBody @Valid final SignInRequest request) {
+    try {
+        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
+        final User user = (User) authentication.getPrincipal();
+        final Instant now = Instant.now();
+        final long expiry = 36000L;
+
+        final String scope = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                .collect(joining(" "));
+
+        final JwtClaimsSet claims = JwtClaimsSet.builder().issuer("example.io").issuedAt(now)
+                .expiresAt(now.plusSeconds(expiry)).subject(format("%s,%s", user.getUserId(), user.getUsername()))
+                .claim("roles", scope).build();
+
+        final String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        logger.logAuthentication("Successful login for user: " + request.copy(encoder));
+        return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(mapToUSerView(user));
+    } catch (final BadCredentialsException ex) {
+        logger.logAuthentication("Failed login attempt for user: " + request.copy(encoder));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+}
+
+private UserView mapToUSerView(User user) {
+    return new UserView(user.getUserId(), user.getUsername(), user.getFullName(), user.getAuthorities());
+}
+```
+
+Aqui temos o uso do encoder do jwt para gerar o token, este token terá apenas 1 hora de validade.
+
+### Tampering
+
+**Countermeasure 1**
+
+--Falta implemnetar(José)
+
+**Countermeasure 3**
+
+Como foi visto ateriormente temos diferentes endpoints que podem ser acedidos por roles autorizadas. Ou seja nós usamos
+um sistema de positive security, no qua dizemos aos utilizadores o que podem aceder.
+
+### Repudiation
+
+**Countermeasure 1**
+
+-- Zé
+
+### Information Disclosure
+
+**Countermeasure 2**
+A implementação do JWT já foi falado anteriormente.
+
+**Countermeasure 3**
+Aqui temos as definições de CORS, que permitem que apenas certos métodos possam ser usados, e que apenas certos headers
+podem ser enviados.
+
+```java
+
+cors(cors ->cors.
+
+configurationSource(request ->{
+CorsConfiguration config = new CorsConfiguration();
+                    config.
+
+setAllowedOriginPatterns(Arrays.asList("*"));
+        config.
+
+setAllowedMethods(Arrays.asList("GET", "POST","DELETE","OPTIONS","PATCH"));
+        config.
+
+setAllowedHeaders(Arrays.asList("*"));
+        config.
+
+setExposedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION));
+        config.
+
+setAllowCredentials(true);
+                    return config;
+                }))
+```
+
+**Countermeasure 4**
+
+Para a validação de input temos o regex em todos os dtos e entidades, este ponto já foi falado anteriormente.
+
+```java
+
+@Id
+@GeneratedValue
+private Long pacoteId;
+
+
+@Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Nome do pacote inválido")
+private String nome;
+
+@Min(value = 0, message = "Peço do pacote inválido")
+@Max(value = 400, message = "Peço do pacote inválido")
+private double pacoteBasePrice;
+
+@Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
+private String pacoteDescription;
+
+@NotNull
+private boolean disabled;
+
+@ManyToOne
+@NotNull
+private TipoPacote tipoPacote;
+
+public Pacote() {
+}
+
+public Pacote(Long pacoteId, String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, TipoPacote tipoPacote) {
+    this.pacoteId = pacoteId;
+    this.nome = nome;
+    this.pacoteBasePrice = pacoteBasePrice;
+    this.pacoteDescription = pacoteDescription;
+    this.disabled = disabled;
+    this.tipoPacote = tipoPacote;
+}
+
+public Pacote(String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, TipoPacote tipoPacote) {
+    this.nome = nome;
+    this.pacoteBasePrice = pacoteBasePrice;
+    this.pacoteDescription = pacoteDescription;
+    this.disabled = disabled;
+    this.tipoPacote = tipoPacote;
+}
+```
+
+### Denial of Service
+
+De todos este é aquele que não temos mesmo solução implementada, a nossa melhor opção teria sido criar um sistema
+distribuido (microserviços) que fosse fácil de escalar, por exemplo através de kubernetes, contudo, a outra solução que
+poderiamos ter, era, após hospedar o sistema num cloud provider dar todos os recursos possiveis, contudo temos noção que
+esta ultima não seria uma solução viavél e inteligente.
+
+### Elevation of Privilege
+
+**Countermeasure 2**
+A utilização do JWT já foi falada
+
+**Countermeasure 3**
+A utilização de definições especificas para o CORS já foi falada
+
+**Countermeasure 4**
+Não existem nenhuns mecanismos que permitem a elevação de privilégios dentro do sistema a não ser ser o dono do próprio
+sistema, quanto a isso, não podemos fazer nada a não ser dar formação para que este dono não comprometa as suas
+credênciais e as credênciais do sistema.
+
+## Dataflows
+
+Foram atualizados os dataflows, com as mitigações para os ataques que fazem sentido acontecerem contra o nosso sistema
+na totalidade, foram gerados 2 relatórios, com os problemas e a justificação das soluções apresentadas, estes dois
+relatórios podem ser encontrados na pasta "Deliverables\Sprint2\Mitigations_ThreatModelingToolReports".
+
+## MAIS ALGUMA COISA QUE QUEIRAM ADICIONAR (ZÉ E RODRIGO)
+
+## Asvs check list
+
+## 1. Architecture, Design and Threat Modeling
+
+## 2. Authentication
+
+## 3. Session Management
+
+## 4. Access Control
+
+## 5. Validation, Sanitization and Encoding
+
+## 6. Stored Cryptography
+
+Quase todos os asvs foram implementados, apenas 3 não foram implementados, o 6.1.2 visto não ser o objetivo da nossa
+aplicação guardar dados biométricos, o 6.4.1 que é a criação e um local para guardar chaves importantes, supomos que
+sejam chaves para encriptação e não chaves de acesso para outras ferramentas, porque se estas contarem então, usamos o
+secrets storage do github, e o ultimo é 6.4.2 que está dentro do mesmo contexto do 6.4.1.
+
+## 7. Error Handling and Logging
+
+Nesta secção estão quase todos implementados, apenas 1 é que não foi seguido pois não fazia sentido perder tempo em ler
+leis de proteção de dados locais, contudo, num ambiente mais profissional temos noção que isso teria de ser feito, mas
+para o teor do projeto, não fazia sentido.
+
+## 8. Data Protection
+
+Maior parte dos asvs foram tidos em conta e implementados, apenas alguns dos quais vimos não serem possiveis de serem
+implementados, como por exemplo o 8.1.6, que durante uma aula foi falado que para fazer backups tinha de se usar a regra
+de 3, um back up local, outro noutra maquina e o ultimo numa instituição própia para backups, apenas a primeira é
+possivel para nós e até a um certo ponto temos isso, que é um script capaz de fazer backups de toda a base de dados.
+
+## 9. Communication
+
+Este é sem duvida o nosso tendão de aquiles, visto que é o que temos menos feitos, contudo existe uma razão muito
+simples, aqui é essêncialmente a parte de usar TLS nas comunicações entre cliente e servidor, e como não temos um
+certificado válido, não conseguimos implementar esta parte, para além disso, não achamos que seria interessante ou até
+mesmo produtivo criar um certificado pessoal, visto que não é seguro e não é válido, não tendo qualquer valor em termos
+de segurança, por isso, apesar de termos a noção que esta parte é importante, decidimos não implementar maior parte dos
+asvs desta categoria.
+
+## 10. Malicious Code
+
+Aqui apenas não foram implementadas dois pontos, o primeiro sendo o 10.3.3 que fala da proteção de subdominios caso a
+aplicação necessite de um DNS, o outro que não foi implementado foi o 10.3.1, que fala do update automático de código,
+estes dois não nos pareceram exequiveis para o tempo e para o projeto que estamos a desenvolver. Mas de resto, maior
+parte dos asvs, foram vistos e caso tenham alguma medida de segurança que possa ser implementada, foi implementada.
+
+## 11. Business Logic
+
+Este foi um pouco mais complicado, visto que há pontos que não se entende própriamente o que é pedido, como por exemplo,
+processar os dados num tempo realista, este é o ponto 11.1.2, isto para nós é especialmente estranho visto que estamos
+sempre a tentar fazer programas com a melhor performance possivel. Outro que é mais uma possibilidade de implementação é
+o alerta para ataques automáticos, isto porque há serviços que podem fazer isto mas têm um custo e para além disso a
+implementar este tipo de defesas é especialmente demorado.
+
+## 12. Files and Resources
+
+(ZÉ)
+
+## 13. API and Web Service
+
+Neste tópico dos asvs, temos implementado as mais importantes e as que fazem mais sentdio, as que não vão ser feitas são
+as relacionadas com o graphQl, que não foi implmentado,comunicação usando TLS, isto porque ter um certificado pessoal é
+a mesma coisa que não ter e arranjar um certificado válido é preciso investir dinheiro e o ultimo que não foi aplicado é
+o soap Web service, simplesmente porque não é a nossa implementação da API.
+
+## 14. Configuration
+
+No geral, este ponto foi bem concebido, temos implementações e ferramentas para todos os asvs apresentados, apenas temos
+3 que não são aplicavéis, ou por não fazerem sentido, como por examplo a que fala de controlo de memória. Esta parte foi
+essêncialmente desenvolvida no segundo sprint, que já foi falado extensamente.
+
+
+
+
+

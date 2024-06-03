@@ -8,6 +8,7 @@ import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceRequest
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.PacoteMapper.PacoteMapper;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class PacoteController {
     private PacoteMapper pacoteMapper;
     @Autowired
     private PersonalValidation validation;
+    @Autowired
+    private DatabaseLogger logger;
 
 
     @PostMapping("/save")
@@ -40,6 +43,7 @@ public class PacoteController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error saving pacote" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -54,6 +58,7 @@ public class PacoteController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error getting pacote" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -69,6 +74,7 @@ public class PacoteController {
             return ResponseEntity.ok( pacoteMapper.fromPacoteToDto(pacoteServiceResponse));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error updating pacote" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -102,6 +108,7 @@ public class PacoteController {
             return ResponseEntity.ok(pacotes);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error getting all pacotes" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

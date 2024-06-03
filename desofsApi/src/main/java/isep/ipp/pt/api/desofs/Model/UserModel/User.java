@@ -7,8 +7,11 @@ import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 
@@ -17,6 +20,8 @@ import java.util.*;
 @Entity
 @ToString
 public class User implements UserDetails {
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -106,5 +111,25 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    public User copy(PasswordEncoder encoder){
+        return new User(this.userId, this.username, null, encoder.encode(this.fullName), this.authorities, encoder.encode(this.nif), encoder.encode(this.morada));
+    }
+
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("User{");
+        sb.append("userId='").append(userId).append('\'');
+        sb.append(", username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", fullName='").append(fullName).append('\'');
+        sb.append(", authorities=").append(authorities);
+        sb.append(", nif='").append(nif).append('\'');
+        sb.append(", morada='").append(morada).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

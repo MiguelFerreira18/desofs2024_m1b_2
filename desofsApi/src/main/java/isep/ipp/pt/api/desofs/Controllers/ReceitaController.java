@@ -8,6 +8,7 @@ import isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ServiceLayer.ReceitaDTOServiceReque
 import isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ServiceLayer.ReceitaDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.ReceitaMapper.ReceitaMapper;
 import isep.ipp.pt.api.desofs.Service.ReceitaService.ReceitaService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class ReceitaController {
     private ReceitaMapper receitaMapper;
     @Autowired
     private PersonalValidation validation;
+    @Autowired
+    private DatabaseLogger logger;
 
 
     @PostMapping("/save")
@@ -41,6 +44,7 @@ public class ReceitaController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error saving receita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -55,6 +59,7 @@ public class ReceitaController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error getting receita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -70,6 +75,7 @@ public class ReceitaController {
             return ResponseEntity.ok( receitaMapper.fromReceitaToDto(receitaServiceResponse));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error updating receita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -88,6 +94,7 @@ public class ReceitaController {
             return ResponseEntity.ok(receitas);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error getting all receitas" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

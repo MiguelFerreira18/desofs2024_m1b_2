@@ -14,8 +14,12 @@ public class DesofsApplication {
 	private static final Logger logger = LoggerFactory.getLogger(DesofsApplication.class);
 
 	public static void main(String[] args) {
+		try{
 		SpringApplication.run(DesofsApplication.class, args);
-
+		}catch(Exception e){
+			logger.error("Error: ", e);
+			SpringApplication.run(DesofsApplication.class, args);
+		}
 	}
 
 }

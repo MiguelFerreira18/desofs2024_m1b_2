@@ -9,6 +9,7 @@ import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceRespons
 import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceSaveRequest;
 import isep.ipp.pt.api.desofs.Mapper.ReviewMapper.ReviewMapper;
 import isep.ipp.pt.api.desofs.Service.ReviewService.ReviewService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class ReviewController {
     private ReviewMapper reviewMapper;
     @Autowired
     private PersonalValidation validation;
+    @Autowired
+    private DatabaseLogger logger;
 
     @PostMapping("/save")
     public ResponseEntity<ReviewDTOResponse> saveReview(@Valid @RequestBody ReviewDTOSaveRequest review) {
@@ -42,6 +45,7 @@ public class ReviewController {
             return ResponseEntity.ok(reviewDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error saving review" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -59,6 +63,7 @@ public class ReviewController {
             return ResponseEntity.ok(reviewDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            logger.logUnusualBusinessActivity("Error updating review" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -103,6 +108,7 @@ public class ReviewController {
         try {
             return UUID.fromString(userId);
         } catch (IllegalArgumentException e) {
+            logger.logUnusualBusinessActivity("Error getting review by user id" + e.getMessage());
             return null;
         }
     }

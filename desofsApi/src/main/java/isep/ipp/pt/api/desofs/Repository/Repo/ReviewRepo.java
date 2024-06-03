@@ -19,5 +19,8 @@ public interface ReviewRepo extends CrudRepository<Review, Long>{
     @Query("DELETE FROM Review r WHERE r.user.username = ?1")
     public void deleteReviewsByUserName(String username);
 
+    @Query("SELECT r FROM Review r WHERE r.user.username = ?1")
+    public List<Review> getReviewsByUserName(String username);
+
 
 }
