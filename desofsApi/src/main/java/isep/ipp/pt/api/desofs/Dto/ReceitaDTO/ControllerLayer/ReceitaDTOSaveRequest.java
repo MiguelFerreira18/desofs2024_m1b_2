@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public class ReceitaDTOSaveRequest {
-    @Pattern(regexp = "^(\\.\\/[\\w-]+(\\/[\\w-]+)*\\/[\\w-]+\\.[\\w-]+)$", message = "Invalid path")
+    @Pattern(regexp = "[^\0]+\\.pdf$", message = "Invalid path")
     private String path;
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Invalid name")
     @NotNull

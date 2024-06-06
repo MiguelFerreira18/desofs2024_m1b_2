@@ -30,10 +30,10 @@ public class ReceitaController {
 
     @PostMapping("/save")
     public ResponseEntity<ReceitaDTOResponse> saveReceita(@RequestBody ReceitaDTOSaveRequest receita) {
+
         if (!validation.validate(receita)) {
             return ResponseEntity.badRequest().build();
         }
-
         try {
             ReceitaDTOServiceRequest receitaRequestService = receitaMapper.toReceitaDtoServiceRequestFromReceitaDtoSaveRequest(receita);
             if (!validation.validate(receitaRequestService)) {

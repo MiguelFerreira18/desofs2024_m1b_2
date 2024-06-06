@@ -20,7 +20,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import java.util.List;
 
@@ -43,23 +44,25 @@ public class ReceitaServiceImpl implements ReceitaService{
     private PersonalValidation validation;
     @Override
     public ReceitaDTOServiceResponse save(ReceitaDTOServiceRequest receitaService) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        Date date = new Date();
+        String formattedDate = dateFormat.format(date);
+
         Tika tika = new Tika();
+        System.out.println(receitaService.getPath());
         File file = new File(receitaService.getPath());
         String fileType;
         try {
             fileType = tika.detect(file);
             if (!fileType.equals(MimeTypes.OCTET_STREAM) && !fileType.equals("application/pdf")) {
-                System.out.println("The file is not a PDF.");
                 return null;
             }
         } catch (IOException e) {
-            // Handle exception accordingly
             e.printStackTrace();
             return null;
         }
-        // Define the path to save the file in the root of the project
-        String outputPath = "./" + file.getName(); // Adjust the path as needed
-        // Save the file
+        String outputPath = "./Recipes/" + formattedDate + ".pdf";
+        System.out.println(outputPath);
         try {
             Files.copy(file.toPath(), Paths.get(outputPath), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -70,7 +73,7 @@ public class ReceitaServiceImpl implements ReceitaService{
 
         TipoReceita tipoReceita = tipoReceitaRepo.findbyId(receitaService.getTipoReceita());
         Pacote pacote = pacoteRepo.findbyId(receitaService.getPacote());
-        ReceitaSaveDTOService receitaSaveDTOService = new ReceitaSaveDTOService(receitaService.getPath(), receitaService.getNome(), pacote, tipoReceita);
+        ReceitaSaveDTOService receitaSaveDTOService = new ReceitaSaveDTOService(outputPath, receitaService.getNome(), pacote, tipoReceita);
         if (!validation.validate(receitaSaveDTOService)) {
             return null;
         }

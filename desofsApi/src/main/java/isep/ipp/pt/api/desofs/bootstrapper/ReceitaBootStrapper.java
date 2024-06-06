@@ -51,7 +51,7 @@ public class ReceitaBootStrapper implements CommandLineRunner {
                 pacote = pacoteRepo.findbyName("pacote1");
             }
 
-            Receita receita = new Receita("./folder1/folder2/file-name.extension","receita1",pacote,tipoReceita);
+            Receita receita = new Receita("C:\\Users\\zpedro\\OneDrive\\Ambiente de Trabalho\\testePDF.pdf","receita1",pacote,tipoReceita);
 
             receitaRepo.save(receita);
         }
