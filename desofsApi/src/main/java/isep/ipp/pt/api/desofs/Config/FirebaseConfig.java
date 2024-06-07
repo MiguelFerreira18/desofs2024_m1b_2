@@ -18,7 +18,10 @@ import java.security.interfaces.RSAPublicKey;
 public class FirebaseConfig {
 
     @PostConstruct
-    public void configFirebase() throws IOException {
+    public void configFirebase()  {
+        try {
+
+
         System.out.println("Firebase Config");
         FileInputStream serviceAccount =
                 new FileInputStream("src/main/resources/desofsPrivateKey.json");
@@ -29,11 +32,18 @@ public class FirebaseConfig {
 
                 .build();
         FirebaseApp.initializeApp(options);
+        } catch (IOException e) {
+
+        }
     }
 
     @Bean
     public Firestore firestore() {
+        try {
         return FirestoreClient.getFirestore();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 
