@@ -4,8 +4,10 @@ import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.PacoteRepo;
 import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,12 +19,14 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
     @Autowired
     private PacoteRepo pacoteRepo;
     @Autowired
-    private DatabaseLogger logger;
+    private LoggerStrategy logger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
 
     @Override
     public Pacote save(Pacote pacoteService) {
-        logger.log(pacoteService.copy().toString());
+        if(!isTesting()) logger.log(pacoteService.copy().toString());
         return pacoteRepo.save(pacoteService);
     }
 
@@ -54,7 +58,7 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
         if (pacoteRepo.findById(id).isPresent()) {
             Pacote pacote = pacoteRepo.findById(id).get();
             pacote.setDisabled();
-            logger.log(pacote.copy().toString());
+            if(!isTesting()) logger.log(pacote.copy().toString());
             pacoteRepo.save(pacote);
         }
 
@@ -65,20 +69,27 @@ public class PacoteServiceImpl implements PacoteServiceRepo {
         if (pacoteRepo.findById(id).isPresent()) {
             Pacote pacote = pacoteRepo.findById(id).get();
             pacote.setEnabled();
-            logger.log(pacote.copy().toString());
+            if(!isTesting()) logger.log(pacote.copy().toString());
             pacoteRepo.save(pacote);
         }
     }
 
     @Override
     public void deleteById(Long id) {
-        pacoteRepo.findById(id).ifPresent(pacote -> logger.log(pacote.copy().toString()));
+        if(!isTesting()) pacoteRepo.findById(id).ifPresent(pacote -> logger.log(pacote.copy().toString()));
         pacoteRepo.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
-        pacoteRepo.findAll().forEach(pacote -> logger.log(pacote.copy().toString()));
+        if(!isTesting()) pacoteRepo.findAll().forEach(pacote -> logger.log(pacote.copy().toString()));
         pacoteRepo.deleteAll();
+    }
+
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
     }
 }

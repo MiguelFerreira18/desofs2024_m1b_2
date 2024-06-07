@@ -3,12 +3,14 @@ package isep.ipp.pt.api.desofs.Utils;
 import com.google.cloud.firestore.Firestore;
 import isep.ipp.pt.api.desofs.Model.LoggerDaos.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Component
-public class DatabaseLogger {
+@Profile("prod")
+public class DatabaseLogger implements LoggerStrategy {
   @Autowired
   Firestore firestore;
 

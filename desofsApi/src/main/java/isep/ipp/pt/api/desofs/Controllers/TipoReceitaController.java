@@ -7,9 +7,11 @@ import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServ
 import isep.ipp.pt.api.desofs.Mapper.TipoReceitaMapper.TipoReceitaMapper;
 import isep.ipp.pt.api.desofs.Service.TipoReceitaService.TipoReceitaService;
 import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +29,9 @@ public class TipoReceitaController {
     @Autowired
     private PersonalValidation validation;
     @Autowired
-    private DatabaseLogger logger;
+    private LoggerStrategy logger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
     @PostMapping("/save")
     public ResponseEntity<TipoReceitaDTOResponse> save(@Valid  @RequestBody TipoReceitaDTOSaveRequest tipoReceitaRequest) {
@@ -41,7 +45,7 @@ public class TipoReceitaController {
             return ResponseEntity.ok(tipoReceitaDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            logger.logUnusualBusinessActivity("Error saving tipoReceita" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error saving tipoReceita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -55,7 +59,7 @@ public class TipoReceitaController {
             return ResponseEntity.ok(tipoReceitaDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            logger.logUnusualBusinessActivity("Error getting tipoReceita" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting tipoReceita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -68,7 +72,7 @@ public class TipoReceitaController {
             return ResponseEntity.ok(tipoReceitaDTOResponseList);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            logger.logUnusualBusinessActivity("Error getting tipoReceita list" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting tipoReceita list" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -85,4 +89,11 @@ public class TipoReceitaController {
         tipoReceitaService.deleteById(tipoReceitaId);
         return ResponseEntity.ok().build();
     }
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
+    }
+
 }

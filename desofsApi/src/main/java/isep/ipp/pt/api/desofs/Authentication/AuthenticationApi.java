@@ -9,6 +9,7 @@ import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
 import isep.ipp.pt.api.desofs.Service.UserService.UserService;
 import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class AuthenticationApi {
     @Autowired
     private UserService userService;
     @Autowired
-    private DatabaseLogger logger;
+    private LoggerStrategy logger;
     @Autowired
     private PasswordEncoder encoder;
 

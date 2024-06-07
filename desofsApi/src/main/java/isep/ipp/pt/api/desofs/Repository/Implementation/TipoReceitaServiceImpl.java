@@ -5,7 +5,9 @@ import isep.ipp.pt.api.desofs.Model.TipoReceita;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.TipoReceitaRepo;
 import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,11 +17,13 @@ public class TipoReceitaServiceImpl implements TipoReceitaServiceRepo {
     @Autowired
     private TipoReceitaRepo tipoReceitaRepo;
     @Autowired
-    private DatabaseLogger logger;
+    private LoggerStrategy logger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
     @Override
     public TipoReceita save(TipoReceita receitaService) {
-        logger.log(receitaService.copy().toString());
+        if(!isTesting()) logger.log(receitaService.copy().toString());
         return tipoReceitaRepo.save(receitaService);
     }
 
@@ -48,13 +52,20 @@ public class TipoReceitaServiceImpl implements TipoReceitaServiceRepo {
 
     @Override
     public void deleteAll() {
-        tipoReceitaRepo.findAll().forEach(tipoReceita -> logger.log(tipoReceita.copy().toString()));
+        if(!isTesting()) tipoReceitaRepo.findAll().forEach(tipoReceita -> logger.log(tipoReceita.copy().toString()));
         tipoReceitaRepo.deleteAll();
     }
 
     @Override
     public void deleteById(Long id) {
-        tipoReceitaRepo.findById(id).ifPresent(tipoReceita -> logger.log(tipoReceita.copy().toString()));
+        if(!isTesting()) tipoReceitaRepo.findById(id).ifPresent(tipoReceita -> logger.log(tipoReceita.copy().toString()));
         tipoReceitaRepo.deleteById(id);
+    }
+
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
     }
 }

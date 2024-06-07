@@ -126,7 +126,6 @@ public class User implements UserDetails {
         sb.append(", username='").append(username).append('\'');
         sb.append(", password='").append(password).append('\'');
         sb.append(", fullName='").append(fullName).append('\'');
-        sb.append(", authorities=").append(authorities);
         sb.append(", nif='").append(nif).append('\'');
         sb.append(", morada='").append(morada).append('\'');
         sb.append('}');

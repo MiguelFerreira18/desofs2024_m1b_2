@@ -5,7 +5,9 @@ import isep.ipp.pt.api.desofs.Model.Receita;
 import isep.ipp.pt.api.desofs.Repository.Interface.ReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.ReceitaRepo;
 import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.LinkedList;
@@ -16,11 +18,13 @@ public class ReceitaServiceImpl implements ReceitaServiceRepo {
     @Autowired
     private ReceitaRepo receitaRepo;
     @Autowired
-    private DatabaseLogger databaseLogger;
+    private LoggerStrategy databaseLogger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
     @Override
     public Receita save(Receita receitaService) {
-        databaseLogger.log(receitaService.copy().toString());
+        if(!isTesting()) databaseLogger.log(receitaService.copy().toString());
         return receitaRepo.save(receitaService);
     }
 
@@ -49,12 +53,19 @@ public class ReceitaServiceImpl implements ReceitaServiceRepo {
 
     @Override
     public void deleteById(Long id) {
-        receitaRepo.findById(id).ifPresent(receita -> databaseLogger.log(receita.copy().toString()));
+        if(!isTesting()) receitaRepo.findById(id).ifPresent(receita -> databaseLogger.log(receita.copy().toString()));
         receitaRepo.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
-        receitaRepo.deleteAll();
+        if(!isTesting()) receitaRepo.deleteAll();
+    }
+
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
     }
 }

@@ -10,9 +10,11 @@ import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceSaveReq
 import isep.ipp.pt.api.desofs.Mapper.ReviewMapper.ReviewMapper;
 import isep.ipp.pt.api.desofs.Service.ReviewService.ReviewService;
 import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +32,9 @@ public class ReviewController {
     @Autowired
     private PersonalValidation validation;
     @Autowired
-    private DatabaseLogger logger;
+    private LoggerStrategy logger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
     @PostMapping("/save")
     public ResponseEntity<ReviewDTOResponse> saveReview(@Valid @RequestBody ReviewDTOSaveRequest review) {
@@ -45,7 +49,7 @@ public class ReviewController {
             return ResponseEntity.ok(reviewDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            logger.logUnusualBusinessActivity("Error saving review" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error saving review" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -63,7 +67,7 @@ public class ReviewController {
             return ResponseEntity.ok(reviewDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            logger.logUnusualBusinessActivity("Error updating review" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error updating review" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -108,10 +112,15 @@ public class ReviewController {
         try {
             return UUID.fromString(userId);
         } catch (IllegalArgumentException e) {
-            logger.logUnusualBusinessActivity("Error getting review by user id" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting review by user id" + e.getMessage());
             return null;
         }
     }
-
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
+    }
 
 }

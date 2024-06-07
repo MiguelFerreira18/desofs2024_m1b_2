@@ -9,9 +9,11 @@ import isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ServiceLayer.ReceitaDTOServiceRespo
 import isep.ipp.pt.api.desofs.Mapper.ReceitaMapper.ReceitaMapper;
 import isep.ipp.pt.api.desofs.Service.ReceitaService.ReceitaService;
 import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,7 +31,9 @@ public class ReceitaController {
     @Autowired
     private PersonalValidation validation;
     @Autowired
-    private DatabaseLogger logger;
+    private LoggerStrategy logger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
 
     @PostMapping("/save")
@@ -44,7 +48,7 @@ public class ReceitaController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            logger.logUnusualBusinessActivity("Error saving receita" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error saving receita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -59,7 +63,7 @@ public class ReceitaController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            logger.logUnusualBusinessActivity("Error getting receita" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting receita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -75,7 +79,7 @@ public class ReceitaController {
             return ResponseEntity.ok( receitaMapper.fromReceitaToDto(receitaServiceResponse));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            logger.logUnusualBusinessActivity("Error updating receita" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error updating receita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -94,8 +98,15 @@ public class ReceitaController {
             return ResponseEntity.ok(receitas);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            logger.logUnusualBusinessActivity("Error getting all receitas" + e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting all receitas" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
     }
 }

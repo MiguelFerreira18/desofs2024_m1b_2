@@ -4,7 +4,9 @@ import isep.ipp.pt.api.desofs.Model.Encomenda;
 import isep.ipp.pt.api.desofs.Repository.Interface.EncomendaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.EncomendaRepo;
 import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -17,13 +19,15 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
     @Autowired
     private EncomendaRepo encomendaRepo;
     @Autowired
-    private DatabaseLogger databaseLogger;
+    private LoggerStrategy databaseLogger;
     @Autowired
     private PasswordEncoder encoder;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
     @Override
     public Encomenda save(Encomenda encomendaService) {
-        databaseLogger.log(encomendaService.copy(encoder).toString());
+        if(!isTesting()) databaseLogger.log(encomendaService.copy(encoder).toString());
         return encomendaRepo.save(encomendaService);
     }
 
@@ -54,13 +58,13 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
 
     @Override
     public void deleteById(Long id) {
-        encomendaRepo.findById(id).ifPresent(encomenda -> databaseLogger.log(encomenda.copy(encoder).toString()));
+        if(!isTesting()) encomendaRepo.findById(id).ifPresent(encomenda -> databaseLogger.log(encomenda.copy(encoder).toString()));
         encomendaRepo.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
-        encomendaRepo.findAll().forEach(encomenda -> databaseLogger.log(encomenda.copy(encoder).toString()));
+        if(!isTesting()) encomendaRepo.findAll().forEach(encomenda -> databaseLogger.log(encomenda.copy(encoder).toString()));
         encomendaRepo.deleteAll();
     }
 
@@ -76,5 +80,12 @@ public class EncomendaServiceImpl implements EncomendaServiceRepo {
     @Override
     public void deleteEncomendaByUserName(String userId) {
         encomendaRepo.deleteEncomendaByUserName(userId);
+    }
+
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
     }
 }
