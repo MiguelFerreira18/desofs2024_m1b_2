@@ -42,34 +42,18 @@ public class ReceitaServiceImpl implements ReceitaService{
 
     @Autowired
     private PersonalValidation validation;
+
+    private final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+    private final Tika tika = new Tika();
+
     @Override
     public ReceitaDTOServiceResponse save(ReceitaDTOServiceRequest receitaService) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         Date date = new Date();
         String formattedDate = dateFormat.format(date);
 
-        Tika tika = new Tika();
-        System.out.println(receitaService.getPath());
-        File file = new File(receitaService.getPath());
-        String fileType;
-        try {
-            fileType = tika.detect(file);
-            if (!fileType.equals(MimeTypes.OCTET_STREAM) && !fileType.equals("application/pdf")) {
-                return null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
         String outputPath = "./Recipes/" + formattedDate + ".pdf";
-        System.out.println(outputPath);
-        try {
-            Files.copy(file.toPath(), Paths.get(outputPath), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            // Handle exception accordingly
-            e.printStackTrace();
-            return null;
-        }
+        generateFile(receitaService.getPath(), outputPath);
 
         TipoReceita tipoReceita = tipoReceitaRepo.findbyId(receitaService.getTipoReceita());
         Pacote pacote = pacoteRepo.findbyId(receitaService.getPacote());
@@ -99,6 +83,43 @@ public class ReceitaServiceImpl implements ReceitaService{
     @Override
     public List<ReceitaDTOServiceResponse> findAll() {
         return receitaMapper.toReceitaDTOServiceResponseListFromReceitaList(receitaRepo.findAll());
+    }
+
+    private boolean validateFile(File file) {
+        try {
+            String fileType = tika.detect(file);
+            if (!fileType.equals(MimeTypes.OCTET_STREAM) && !fileType.equals("application/pdf")) {
+                System.out.println("Invalid file type: " + fileType);
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (file.length() > MAX_FILE_SIZE) {
+            System.out.println("File size exceeds the maximum allowed limit.");
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void generateFile(String path , String outputPath) {
+        if(path == null || outputPath == null){
+            return;
+        }
+        File file = new File(path);
+        if(!validateFile(file)){
+            return;
+        }
+
+        try {
+            Files.copy(file.toPath(), Paths.get(outputPath), StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("File downloaded to: " + outputPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

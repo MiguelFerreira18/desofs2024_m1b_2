@@ -62,6 +62,17 @@ public class ReceitaController {
         }
     }
 
+    @GetMapping("/download/{path}/{outputPath}")
+    public ResponseEntity<byte[]> downloadReceita(@PathVariable String path, @PathVariable String outputPath) {
+        try {
+            receitaService.generateFile(path, outputPath);
+            return (ResponseEntity<byte[]>) ResponseEntity.ok();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @PatchMapping("/update")
     public ResponseEntity<ReceitaDTOResponse> updateReceita(@RequestBody ReceitaDTOPatchRequest receita) {
         if (!validation.validate(receita)) {
