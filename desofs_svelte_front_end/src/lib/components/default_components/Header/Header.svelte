@@ -26,9 +26,13 @@
 					text="Gestão de pacotes"
 					gotoName="/package-management"
 				/>
-
-				<Button className="recipe-management-button" text="Receitas" gotoName="/recipe" />
 			{/if}
+			{#if data.user.isAdmin || data.user.isDocumentManager}
+				<Button className="recipe-management-button" text="Receitas Master" gotoName="/recipe" />
+			{:else}
+				<Button className="recipe-list-button" text="Receitas" gotoName="/recipeList" />
+			{/if}
+
 			{#if data.user}
 				<Button className="dashboard-button" text="Dashboard" gotoName="/dashboard" />
 			{/if}
