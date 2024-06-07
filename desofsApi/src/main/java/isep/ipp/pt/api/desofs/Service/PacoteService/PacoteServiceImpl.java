@@ -10,6 +10,7 @@ import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class PacoteServiceImpl implements PacoteService {
     private PersonalValidation validation;
 
     @Override
-    public PacoteDTOServiceResponse save(PacoteDTOServiceRequest pacoteService) {
+    public PacoteDTOServiceResponse save(@Valid PacoteDTOServiceRequest pacoteService) {
         TipoPacote tipoPacote = tipoPacoteRepo.findbyId(pacoteService.getTipoPacote());
         PacoteSaveDTOService pacoteSaveDTOService = new PacoteSaveDTOService(pacoteService.getNome(), pacoteService.getPacoteBasePrice(), pacoteService.getPacoteDescription(), pacoteService.getDisabled(), tipoPacote);
         if (!validation.validate(pacoteSaveDTOService)) {
@@ -43,7 +44,7 @@ public class PacoteServiceImpl implements PacoteService {
     }
 
     @Override
-    public PacoteDTOServiceResponse update(PacoteDTOServicePatchRequest pacoteRequestService) {
+    public PacoteDTOServiceResponse update(@Valid PacoteDTOServicePatchRequest pacoteRequestService) {
         TipoPacote tipoPacote = tipoPacoteRepo.findbyId(pacoteRequestService.getTipoPacote());
         PacotePatchDTOService pacotePatchDTOService = new PacotePatchDTOService(pacoteRequestService.getPacoteId() ,pacoteRequestService.getNome(), pacoteRequestService.getPacoteBasePrice(), pacoteRequestService.getPacoteDescription(), pacoteRequestService.getDisabled(), tipoPacote);
         if (!validation.validate(pacotePatchDTOService)) {

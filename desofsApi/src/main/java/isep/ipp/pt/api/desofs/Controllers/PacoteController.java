@@ -8,8 +8,12 @@ import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceRequest
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.PacoteMapper.PacoteMapper;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +29,14 @@ public class PacoteController {
     private PacoteMapper pacoteMapper;
     @Autowired
     private PersonalValidation validation;
+    @Autowired
+    private LoggerStrategy logger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
 
     @PostMapping("/save")
-    public ResponseEntity<PacoteDTOResponse> savePacote(@RequestBody PacoteDTOSaveRequest pacote) {
-        if (!validation.validate(pacote)) {
-            return ResponseEntity.badRequest().build();
-        }
-
+    public ResponseEntity<PacoteDTOResponse> savePacote(@Valid @RequestBody PacoteDTOSaveRequest pacote) {
         try {
             PacoteDTOServiceRequest pacoteRequestService = pacoteMapper.toPacoteDtoServiceRequestFromPacoteDtoSaveRequest(pacote);
             if (!validation.validate(pacoteRequestService)) {
@@ -43,6 +47,7 @@ public class PacoteController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error saving pacote" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -57,15 +62,13 @@ public class PacoteController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting pacote" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<PacoteDTOResponse> updatePacote(@RequestBody PacoteDTOPatchRequest pacote) {
-        if (!validation.validate(pacote)) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<PacoteDTOResponse> updatePacote(@Valid @RequestBody PacoteDTOPatchRequest pacote) {
         try {
             PacoteDTOServicePatchRequest pacoteRequestService = pacoteMapper.toPacoteDTOServicePAtchRequestFromPacoteDTOPatchRequest(pacote);
             if (!validation.validate(pacoteRequestService)) {
@@ -75,6 +78,7 @@ public class PacoteController {
             return ResponseEntity.ok( pacoteMapper.fromPacoteToDto(pacoteServiceResponse));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error updating pacote" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -108,8 +112,16 @@ public class PacoteController {
             return ResponseEntity.ok(pacotes);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting all pacotes" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
     }
 
 }

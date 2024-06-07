@@ -107,4 +107,21 @@ public class Pacote {
         this.disabled = false;
         return this;
     }
+
+    public Pacote copy() {
+        return new Pacote(this.pacoteId, this.nome, this.pacoteBasePrice, this.pacoteDescription, this.disabled, this.tipoPacote);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Pacote{");
+        sb.append("pacoteId=").append(pacoteId);
+        sb.append(", nome='").append(nome).append('\'');
+        sb.append(", pacoteBasePrice=").append(pacoteBasePrice);
+        sb.append(", pacoteDescription='").append(pacoteDescription).append('\'');
+        sb.append(", disabled=").append(disabled);
+        sb.append(", tipoPacote=").append(tipoPacote);
+        sb.append('}');
+        return sb.toString();
+    }
 }

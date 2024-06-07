@@ -15,7 +15,7 @@ public interface UserRepo extends CrudRepository<User,Long> {
     public User validateUser(String username, String password);
 
     @Query("SELECT u FROM User u WHERE u.userId = ?1")
-    public User getUserById(Long userId);
+    public User getUserById(String userId);
 
     @Query("DELETE FROM User u WHERE u.username = ?1")
     public void deleteUser(String username);
