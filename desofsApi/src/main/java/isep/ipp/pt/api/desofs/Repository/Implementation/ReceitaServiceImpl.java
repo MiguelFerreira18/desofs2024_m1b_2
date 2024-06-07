@@ -59,7 +59,7 @@ public class ReceitaServiceImpl implements ReceitaServiceRepo {
 
     @Override
     public void deleteAll() {
-        if(!isTesting()) receitaRepo.deleteAll();
+        receitaRepo.deleteAll();
     }
 
     private boolean isTesting() {
