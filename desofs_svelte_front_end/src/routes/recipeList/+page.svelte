@@ -1,31 +1,31 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-    import { sendRequest } from '$lib/scripts';
+	import { sendRequest } from '$lib/scripts';
 
 	export let data: PageData;
 
-    async function downloadRecipe(path: string) {
+	async function downloadRecipe(path: string) {
 		const response = await sendRequest(`receita/download`, 'POST', path, data.user.token);
 		if (!response.ok) {
 			console.error('Error downloading recipe');
 		}
-        const contentDisposition = response.headers.get('Content-Disposition');
-        let filename = 'recipe';
-        if (contentDisposition) {
-            const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
-            if (filenameMatch && filenameMatch.length === 2) {
-                filename = filenameMatch[1];
-            }
-        }
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
+		const contentDisposition = response.headers.get('Content-Disposition');
+		let filename = 'recipe';
+		if (contentDisposition) {
+			const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+			if (filenameMatch && filenameMatch.length === 2) {
+				filename = filenameMatch[1];
+			}
+		}
+		const blob = await response.blob();
+		const url = window.URL.createObjectURL(blob);
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = filename;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		window.URL.revokeObjectURL(url);
 	}
 </script>
 
@@ -60,4 +60,3 @@
 		</table>
 	</div>
 </div>
-
