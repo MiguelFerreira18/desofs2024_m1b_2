@@ -17,6 +17,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 @Controller
 @RequestMapping("/receita")
 public class ReceitaController {
@@ -62,16 +73,14 @@ public class ReceitaController {
         }
     }
 
-    @GetMapping("/download/{path}/{outputPath}")
-    public ResponseEntity<byte[]> downloadReceita(@PathVariable String path, @PathVariable String outputPath) {
-        try {
-            receitaService.generateFile(path, outputPath);
-            return (ResponseEntity<byte[]>) ResponseEntity.ok();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    @PostMapping("/download")
+    public ResponseEntity<Resource> downloadFile(@RequestBody String path) {
+            if (path == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            return receitaService.downloadFile(path);
     }
+
 
     @PatchMapping("/update")
     public ResponseEntity<ReceitaDTOResponse> updateReceita(@RequestBody ReceitaDTOPatchRequest receita) {

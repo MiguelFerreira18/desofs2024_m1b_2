@@ -90,7 +90,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOriginPatterns(Arrays.asList("*"));
-                    config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "OPTIONS"));
+                    config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE","PATCH", "OPTIONS"));
                     config.setAllowedHeaders(Arrays.asList("*"));
                     config.setExposedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION));
                     config.setAllowCredentials(true);

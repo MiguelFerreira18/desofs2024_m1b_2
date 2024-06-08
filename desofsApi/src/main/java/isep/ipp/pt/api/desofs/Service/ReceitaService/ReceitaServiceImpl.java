@@ -24,7 +24,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import java.util.List;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 @Service
 public class ReceitaServiceImpl implements ReceitaService{
 
@@ -48,12 +56,11 @@ public class ReceitaServiceImpl implements ReceitaService{
 
     @Override
     public ReceitaDTOServiceResponse save(ReceitaDTOServiceRequest receitaService) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        Date date = new Date();
-        String formattedDate = dateFormat.format(date);
-
+        String formattedDate = getFormattedDate();
         String outputPath = "./Recipes/" + formattedDate + ".pdf";
-        generateFile(receitaService.getPath(), outputPath);
+        if(!generateFile(receitaService.getPath(), outputPath)){
+            return null;
+        }
 
         TipoReceita tipoReceita = tipoReceitaRepo.findbyId(receitaService.getTipoReceita());
         Pacote pacote = pacoteRepo.findbyId(receitaService.getPacote());
@@ -71,9 +78,18 @@ public class ReceitaServiceImpl implements ReceitaService{
 
     @Override
     public ReceitaDTOServiceResponse update(ReceitaDTOServicePatchRequest receitaRequestService) {
+        String formattedDate = getFormattedDate();
+        String outputPath = "./Recipes/" + formattedDate + ".pdf";
+        if(!generateFile(receitaRequestService.getPath(), outputPath)){
+            return null;
+        }
+
+        String FileToRemove = receitaRepo.findbyId(receitaRequestService.getReceitaId()).getPath();
+        deleteFile(FileToRemove);
+
         TipoReceita tipoReceita = tipoReceitaRepo.findbyId(receitaRequestService.getTipoReceita());
         Pacote pacote = pacoteRepo.findbyId(receitaRequestService.getPacote());
-        ReceitaPatchDTOService receitaPatchDTOService = new ReceitaPatchDTOService(receitaRequestService.getReceitaId(), receitaRequestService.getPath(), receitaRequestService.getNome(), pacote, tipoReceita);
+        ReceitaPatchDTOService receitaPatchDTOService = new ReceitaPatchDTOService(receitaRequestService.getReceitaId(), outputPath, receitaRequestService.getNome(), pacote, tipoReceita);
         if (!validation.validate(receitaPatchDTOService)) {
             return null;
         }
@@ -98,37 +114,80 @@ public class ReceitaServiceImpl implements ReceitaService{
         }
 
         if (file.length() > MAX_FILE_SIZE) {
-            System.out.println("File size exceeds the maximum allowed limit.");
             return false;
         }
         return true;
     }
 
-    @Override
-    public void generateFile(String path , String outputPath) {
+    private boolean generateFile(String path , String outputPath) {
+        System.out.println(path);
+        System.out.println(outputPath);
         if(path == null || outputPath == null){
-            return;
+            return false;
         }
-        File file = new File(path);
-        if(!validateFile(file)){
-            return;
-        }
-
         try {
+            File file = new File(path);
+            if(!validateFile(file)){
+                return false;
+            }
             Files.copy(file.toPath(), Paths.get(outputPath), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("File downloaded to: " + outputPath);
         } catch (IOException e) {
-            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private String getFormattedDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    private void deleteFile(String path){
+        try {
+            if (!path.startsWith("./Recipes/") || !path.endsWith(".pdf")) {
+                return;
+            }
+            Path filePath = Paths.get(path).toAbsolutePath().normalize();
+            Files.delete(filePath);
+        } catch (Exception e) {
         }
     }
 
     @Override
     public void deleteById(Long id) {
+        String filePathStr = receitaRepo.findbyId(id).getPath();
+        deleteFile(filePathStr);
         receitaRepo.deleteById(id);
     }
 
     @Override
     public void deleteAll() {
         receitaRepo.deleteAll();
+    }
+
+    @Override
+    public ResponseEntity<Resource> downloadFile(String path) {
+        try {
+            Path fileStorageLocation = Paths.get(path).toAbsolutePath().normalize();
+            Resource resource = new UrlResource(fileStorageLocation.toUri());
+
+            if (!resource.exists()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            String contentType = Files.probeContentType(fileStorageLocation);
+            if (contentType == null) {
+                contentType = "application/octet-stream";
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                    .body(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
     }
 }
