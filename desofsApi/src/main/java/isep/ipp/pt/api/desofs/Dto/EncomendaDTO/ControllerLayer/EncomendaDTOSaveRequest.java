@@ -33,7 +33,6 @@ public class EncomendaDTOSaveRequest {
     @Positive
     private Long pacoteId;
     @NotNull
-    @Positive
     private String userId;
 
     private Estado estado;
