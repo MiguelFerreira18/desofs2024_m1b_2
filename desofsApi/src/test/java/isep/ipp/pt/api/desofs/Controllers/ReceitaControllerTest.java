@@ -67,7 +67,7 @@ public class ReceitaControllerTest {
         TipoReceita tr = tipoReceitaServiceRepo.findbyName("TipoReceita1");
         Pacote p = pacoteServiceRepo.findbyName("Pacote1");
 
-        ReceitaDTOSaveRequest receitaDTOSaveRequest = new ReceitaDTOSaveRequest("./folder1/folder2/file-name.extension","receita1",p.getPacoteId(),tr.getTipoReceitaId());
+        ReceitaDTOSaveRequest receitaDTOSaveRequest = new ReceitaDTOSaveRequest("./Recipes/2024-06-08_19-22-44.pdf","receita1",p.getPacoteId(),tr.getTipoReceitaId());
         ResponseEntity<ReceitaDTOResponse> response = receitaController.saveReceita(receitaDTOSaveRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -75,11 +75,11 @@ public class ReceitaControllerTest {
 
     @ParameterizedTest
     @CsvSource({
-      "./folder1/folder2/file-name.extension, receita1, Pacote1, TipoReceita1",
-      "./folder1/folder2/folder3/file-name.extension, receita2, Pacote1, TipoReceita1",
-      "./folder1/file-name.extension, receita3, Pacote1, TipoReceita1",
-      "./folder1/teste/file-name.extension, receita4, Pacote1, TipoReceita1",
-      "./folder1/folder2/name.extension, receita5, Pacote1, TipoReceita1",
+      "./Recipes/2024-06-08_19-22-44.pdf, receita1, Pacote1, TipoReceita1",
+      "./Recipes/2024-06-08_19-22-44.pdf, receita2, Pacote1, TipoReceita1",
+      "./Recipes/2024-06-08_19-22-44.pdf, receita3, Pacote1, TipoReceita1",
+      "./Recipes/2024-06-08_19-22-44.pdf, receita4, Pacote1, TipoReceita1",
+      "./Recipes/2024-06-08_19-22-44.pdf, receita5, Pacote1, TipoReceita1",
     })
     @Order(2)
     public void testSaveReceita_ValidRequest_Parameterized(String path, String nome, String pacote, String tipoReceita) {

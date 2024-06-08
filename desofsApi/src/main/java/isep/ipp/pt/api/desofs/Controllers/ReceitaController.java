@@ -21,6 +21,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 @Controller
 @RequestMapping("/receita")
 public class ReceitaController {
@@ -37,7 +48,11 @@ public class ReceitaController {
 
 
     @PostMapping("/save")
-    public ResponseEntity<ReceitaDTOResponse> saveReceita(@Valid  @RequestBody ReceitaDTOSaveRequest receita) {
+    public ResponseEntity<ReceitaDTOResponse> saveReceita(@Valid @RequestBody ReceitaDTOSaveRequest receita) {
+        if (!validation.validate(receita)) {
+            return ResponseEntity.badRequest().build();
+        }
+
         try {
             ReceitaDTOServiceRequest receitaRequestService = receitaMapper.toReceitaDtoServiceRequestFromReceitaDtoSaveRequest(receita);
             if (!validation.validate(receitaRequestService)) {
@@ -68,8 +83,18 @@ public class ReceitaController {
         }
     }
 
+    @GetMapping("/download/{receitaId}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long receitaId) {
+        if (receitaId < 0) return ResponseEntity.badRequest().build();
+        return receitaService.downloadFile(receitaId);
+    }
+
+
     @PatchMapping("/update")
     public ResponseEntity<ReceitaDTOResponse> updateReceita(@RequestBody ReceitaDTOPatchRequest receita) {
+        if (!validation.validate(receita)) {
+            return ResponseEntity.badRequest().build();
+        }
         try {
             ReceitaDTOServicePatchRequest receitaRequestService = receitaMapper.toReceitaDTOServicePAtchRequestFromReceitaDTOPatchRequest(receita);
             if (!validation.validate(receitaRequestService)) {
@@ -102,6 +127,7 @@ public class ReceitaController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
 
     private boolean isTesting() {
         if (loggerStrategy.equals("test")) {

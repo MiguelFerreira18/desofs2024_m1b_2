@@ -29,7 +29,7 @@
 		if (response.ok) {
 			goto('/recipe');
 		} else {
-			console.error('Failed to save recipe');
+			console.log('Failed to create the recipe');
 		}
 	}
 
