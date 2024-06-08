@@ -5,8 +5,12 @@ import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.EncomendaRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.ReviewRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -20,9 +24,15 @@ public class UserRepoImpl implements UserServiceRepo {
     private ReviewRepo reviewRepo;
     @Autowired
     private EncomendaRepo encomendaRepo;
+    @Autowired
+    private LoggerStrategy logger;
+    @Autowired
+    private PasswordEncoder encoder;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
     @Override
-    public User getUserById(Long userId) {
+    public User getUserById(String userId) {
         return userRepo.getUserById(userId);
     }
 
@@ -43,11 +53,13 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Override
     public void deleteAll() {
+        if(!isTesting()) userRepo.findAll().forEach(user -> logger.log(user.copy(encoder).toString()));
         userRepo.deleteAll();
     }
 
     @Override
     public User saveUser(User user) {
+        if(!isTesting()) logger.log(user.copy(encoder).toString());
         return userRepo.save(user);
     }
   
@@ -58,9 +70,17 @@ public class UserRepoImpl implements UserServiceRepo {
 
     @Override
     public void deleteUser(String username) {
+        if(!isTesting()) logger.log(userRepo.findByUsername(username).copy(encoder).toString());
         reviewRepo.deleteReviewsByUserName(username);
         encomendaRepo.deleteEncomendaByUserName(username);
         userRepo.deleteUser(username);
+    }
+
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
     }
 
 }

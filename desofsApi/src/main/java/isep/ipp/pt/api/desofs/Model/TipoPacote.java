@@ -44,4 +44,17 @@ public class TipoPacote {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public TipoPacote copy() {
+        return new TipoPacote(this.tipoPacoteId, this.nome);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("TipoPacote{");
+        sb.append("tipoPacoteId=").append(tipoPacoteId);
+        sb.append(", nome='").append(nome).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

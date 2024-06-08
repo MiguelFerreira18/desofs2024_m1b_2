@@ -90,7 +90,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOriginPatterns(Arrays.asList("*"));
-                    config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE","PATCH", "OPTIONS"));
+                    config.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "OPTIONS","PATCH"));
                     config.setAllowedHeaders(Arrays.asList("*"));
                     config.setExposedHeaders(Arrays.asList(HttpHeaders.AUTHORIZATION));
                     config.setAllowCredentials(true);
@@ -134,6 +134,7 @@ public class SecurityConfig {
         return provider;
     }
 
+
     @Bean
     UserDetailsService userDetailsService() {
         return userService::findByUsername;
@@ -165,7 +166,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 
 

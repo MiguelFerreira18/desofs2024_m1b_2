@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -123,5 +124,24 @@ public class Encomenda {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Encomenda copy(PasswordEncoder encoder){
+        return new Encomenda(this.encomendaId, this.mealsPerWeek, this.numberOfPeople, this.price, this.pacote, this.dataEncomenda, this.estado, this.user.copy(encoder));
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Encomenda{");
+        sb.append("encomendaId=").append(encomendaId);
+        sb.append(", mealsPerWeek=").append(mealsPerWeek);
+        sb.append(", numberOfPeople=").append(numberOfPeople);
+        sb.append(", price=").append(price);
+        sb.append(", dataEncomenda=").append(dataEncomenda);
+        sb.append(", pacote=").append(pacote);
+        sb.append(", estado=").append(estado);
+        sb.append(", user=").append(user);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -25,8 +25,8 @@ public class UserController {
     private UserMapper userMapper;
 
     @GetMapping("/info/{userId}")
-    public ResponseEntity<UserDTOResponse> getUserInfo(@PathVariable Long userId){
-            if(userId < 0) return ResponseEntity.badRequest().build();
+    public ResponseEntity<UserDTOResponse> getUserInfo(@PathVariable String userId){
+            if(userId == null) return ResponseEntity.badRequest().build();
             return ResponseEntity.ok(userMapper.fromUserToUserDTOResponse(userService.getUserById(userId)));
     }
     @DeleteMapping("/delete/data")

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 public interface UserService {
-    public User getUserById(Long userId);
+    public User getUserById(String userId);
     public List<User> getAllUsers();
     public UserDetails findByUsername(final String username);
 

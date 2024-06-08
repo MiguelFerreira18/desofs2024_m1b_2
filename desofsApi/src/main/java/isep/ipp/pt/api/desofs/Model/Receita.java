@@ -82,4 +82,20 @@ public class Receita {
     public void setTipoReceita(TipoReceita tipoReceita) {
         this.tipoReceita = tipoReceita;
     }
+
+    public Receita copy(){
+        return new Receita(this.receitaId, this.path, this.nome, this.pacote, this.tipoReceita);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Receita{");
+        sb.append("receitaId=").append(receitaId);
+        sb.append(", path='").append(path).append('\'');
+        sb.append(", nome='").append(nome).append('\'');
+        sb.append(", pacote=").append(pacote);
+        sb.append(", tipoReceita=").append(tipoReceita);
+        sb.append('}');
+        return sb.toString();
+    }
 }

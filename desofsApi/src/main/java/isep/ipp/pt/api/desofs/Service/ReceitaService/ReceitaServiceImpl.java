@@ -10,6 +10,7 @@ import isep.ipp.pt.api.desofs.Repository.Interface.ReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.mime.MimeTypes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class ReceitaServiceImpl implements ReceitaService{
     private final Tika tika = new Tika();
 
     @Override
-    public ReceitaDTOServiceResponse save(ReceitaDTOServiceRequest receitaService) {
+    public ReceitaDTOServiceResponse save(@Valid ReceitaDTOServiceRequest receitaService) {
         String formattedDate = getFormattedDate();
         String outputPath = "./Recipes/" + formattedDate + ".pdf";
         if(!generateFile(receitaService.getPath(), outputPath)){
@@ -77,7 +78,7 @@ public class ReceitaServiceImpl implements ReceitaService{
     }
 
     @Override
-    public ReceitaDTOServiceResponse update(ReceitaDTOServicePatchRequest receitaRequestService) {
+    public ReceitaDTOServiceResponse update(@Valid ReceitaDTOServicePatchRequest receitaRequestService) {
         String formattedDate = getFormattedDate();
         String outputPath = "./Recipes/" + formattedDate + ".pdf";
         if(!generateFile(receitaRequestService.getPath(), outputPath)){
