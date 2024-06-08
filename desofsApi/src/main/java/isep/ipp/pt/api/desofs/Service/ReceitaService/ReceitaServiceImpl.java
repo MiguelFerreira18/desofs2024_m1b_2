@@ -159,6 +159,9 @@ public class ReceitaServiceImpl implements ReceitaService{
 
     @Override
     public void deleteById(Long id) {
+        if(receitaRepo.findbyId(id) == null){
+            return;
+        }
         String filePathStr = receitaRepo.findbyId(id).getPath();
         deleteFile(filePathStr);
         receitaRepo.deleteById(id);
