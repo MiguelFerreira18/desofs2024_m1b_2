@@ -80,13 +80,17 @@ public class ReceitaServiceImpl implements ReceitaService{
     @Override
     public ReceitaDTOServiceResponse update(@Valid ReceitaDTOServicePatchRequest receitaRequestService) {
         String formattedDate = getFormattedDate();
-        String outputPath = "./Recipes/" + formattedDate + ".pdf";
-        if(!generateFile(receitaRequestService.getPath(), outputPath)){
-            return null;
-        }
+        String outputPath = receitaRepo.findbyId(receitaRequestService.getReceitaId()).getPath();
+        String FileToRemove = outputPath;
 
-        String FileToRemove = receitaRepo.findbyId(receitaRequestService.getReceitaId()).getPath();
-        deleteFile(FileToRemove);
+        if(!FileToRemove.equalsIgnoreCase(receitaRequestService.getPath()))
+        {
+            outputPath = "./Recipes/" + formattedDate + ".pdf";
+            if(!generateFile(receitaRequestService.getPath(), outputPath)){
+                return null;
+            }
+            deleteFile(FileToRemove);
+        }
 
         TipoReceita tipoReceita = tipoReceitaRepo.findbyId(receitaRequestService.getTipoReceita());
         Pacote pacote = pacoteRepo.findbyId(receitaRequestService.getPacote());
