@@ -165,8 +165,9 @@ public class ReceitaServiceImpl implements ReceitaService{
     }
 
     @Override
-    public ResponseEntity<Resource> downloadFile(String path) {
+    public ResponseEntity<Resource> downloadFile(Long id) {
         try {
+            String path = receitaRepo.findbyId(id).getPath();
             Path fileStorageLocation = Paths.get(path).toAbsolutePath().normalize();
             Resource resource = new UrlResource(fileStorageLocation.toUri());
 

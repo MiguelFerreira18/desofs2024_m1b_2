@@ -73,12 +73,10 @@ public class ReceitaController {
         }
     }
 
-    @PostMapping("/download")
-    public ResponseEntity<Resource> downloadFile(@RequestBody String path) {
-            if (path == null) {
-                return ResponseEntity.badRequest().build();
-            }
-            return receitaService.downloadFile(path);
+    @GetMapping("/download/{receitaId}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long receitaId) {
+        if (receitaId < 0) return ResponseEntity.badRequest().build();
+        return receitaService.downloadFile(receitaId);
     }
 
 

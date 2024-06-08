@@ -16,5 +16,5 @@ public interface ReceitaService {
     List<ReceitaDTOServiceResponse> findAll();
     void deleteById(Long id);
     void deleteAll();
-    ResponseEntity<Resource> downloadFile(String path);
+    ResponseEntity<Resource> downloadFile(Long id);
 }
