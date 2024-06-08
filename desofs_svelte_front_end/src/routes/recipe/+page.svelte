@@ -17,8 +17,8 @@
 		await invalidateAll();
 	}
 
-	async function downloadRecipe(path: string) {
-		const response = await sendRequest(`receita/download`, 'POST', path, data.user.token);
+	async function downloadRecipe(recipeId: number) {
+		const response = await sendRequest(`receita/download/${recipeId}`, 'GET', '', data.user.token);
 		if (!response.ok) {
 			console.error('Error downloading recipe');
 		}
@@ -84,7 +84,7 @@
 							>
 							<button
 								class="inline-block rounded border px-4 py-2 bg-white hover:bg-gray-200 transition-colors duration-300"
-								on:click={() => downloadRecipe(item.path)}
+								on:click={() => downloadRecipe(item.receitaId)}
 								><i class="fa-solid fa-download"></i></button
 							>
 						</td>
