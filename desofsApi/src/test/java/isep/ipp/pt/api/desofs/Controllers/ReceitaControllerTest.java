@@ -67,7 +67,7 @@ public class ReceitaControllerTest {
         TipoReceita tr = tipoReceitaServiceRepo.findbyName("TipoReceita1");
         Pacote p = pacoteServiceRepo.findbyName("Pacote1");
 
-        ReceitaDTOSaveRequest receitaDTOSaveRequest = new ReceitaDTOSaveRequest("./folder1/folder2/file-name.extension","receita1",p.getPacoteId(),tr.getTipoReceitaId());
+        ReceitaDTOSaveRequest receitaDTOSaveRequest = new ReceitaDTOSaveRequest("./Recipes/2024-06-08_19-22-44.pdf","receita1",p.getPacoteId(),tr.getTipoReceitaId());
         ResponseEntity<ReceitaDTOResponse> response = receitaController.saveReceita(receitaDTOSaveRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());

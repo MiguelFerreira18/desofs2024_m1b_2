@@ -120,8 +120,6 @@ public class ReceitaServiceImpl implements ReceitaService{
     }
 
     private boolean generateFile(String path , String outputPath) {
-        System.out.println(path);
-        System.out.println(outputPath);
         if(path == null || outputPath == null){
             return false;
         }
