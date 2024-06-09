@@ -13,7 +13,7 @@ public class Receita {
     @Id
     @GeneratedValue
     private Long receitaId;
-    @Pattern(regexp = "^(\\.\\/[\\w-]+(\\/[\\w-]+)*\\/[\\w-]+\\.[\\w-]+)$", message = "Invalid path")
+    @Pattern(regexp = "[^\0]+\\.pdf$", message = "Invalid path")
     private String path;
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Invalid name")
     @NotNull
@@ -81,5 +81,21 @@ public class Receita {
 
     public void setTipoReceita(TipoReceita tipoReceita) {
         this.tipoReceita = tipoReceita;
+    }
+
+    public Receita copy(){
+        return new Receita(this.receitaId, this.path, this.nome, this.pacote, this.tipoReceita);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Receita{");
+        sb.append("receitaId=").append(receitaId);
+        sb.append(", path='").append(path).append('\'');
+        sb.append(", nome='").append(nome).append('\'');
+        sb.append(", pacote=").append(pacote);
+        sb.append(", tipoReceita=").append(tipoReceita);
+        sb.append('}');
+        return sb.toString();
     }
 }

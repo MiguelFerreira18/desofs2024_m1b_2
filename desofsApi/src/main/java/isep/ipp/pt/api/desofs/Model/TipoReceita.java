@@ -46,4 +46,17 @@ public class TipoReceita {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public TipoReceita copy() {
+        return new TipoReceita(this.tipoReceitaId, this.nome);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("TipoReceita{");
+        sb.append("tipoReceitaId=").append(tipoReceitaId);
+        sb.append(", nome='").append(nome).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

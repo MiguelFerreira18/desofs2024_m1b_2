@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import lombok.ToString;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @ToString
@@ -88,5 +89,21 @@ public class Review {
 
     public void setPacote(Pacote pacote) {
         this.pacote = pacote;
+    }
+
+    public Review copy(PasswordEncoder encoder) {
+        return new Review(this.reviewId, this.reviewText, this.rating, this.user.copy(encoder), this.pacote);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Review{");
+        sb.append("reviewId=").append(reviewId);
+        sb.append(", reviewText='").append(reviewText).append('\'');
+        sb.append(", rating=").append(rating);
+        sb.append(", user=").append(user);
+        sb.append(", pacote=").append(pacote);
+        sb.append('}');
+        return sb.toString();
     }
 }

@@ -39,7 +39,7 @@ class EncomendaDTOTest {
             """)
     @DisplayName("Test security vulnerabilities for number of meals")
     public void testSecurityVulnerabilitiesForNumberOfMeals(int numberOfMeals) {
-        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(numberOfMeals, 2,2, LocalDateTime.now(), 1L, Estado.REGISTADO, 1L);
+        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(numberOfMeals, 2,2, LocalDateTime.now(), 1L, Estado.REGISTADO, "AA");
         Set<ConstraintViolation<EncomendaDTOSaveRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
@@ -56,7 +56,7 @@ class EncomendaDTOTest {
             """)
     @DisplayName("Test security vulnerabilities for price")
     public void testSecurityVulnerabilitiesForPrice(double price) {
-        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(2, 2,price, LocalDateTime.now(), 1L, Estado.REGISTADO, 1L);
+        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(2, 2,price, LocalDateTime.now(), 1L, Estado.REGISTADO, "AA");
         Set<ConstraintViolation<EncomendaDTOSaveRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
@@ -76,7 +76,7 @@ class EncomendaDTOTest {
             """)
     @DisplayName("Test security vulnerabilities for number of people ")
     public void testSecurityVulnerabilitiesForNumberOfPeople(int numberOfPeople) {
-        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(2, numberOfPeople, 2, LocalDateTime.now(), 1L, Estado.REGISTADO, 1L);
+        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(2, numberOfPeople, 2, LocalDateTime.now(), 1L, Estado.REGISTADO, "AA");
         Set<ConstraintViolation<EncomendaDTOSaveRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
@@ -95,27 +95,7 @@ class EncomendaDTOTest {
             """)
     @DisplayName("Test security vulnerabilities for Pacote ID")
     public void testSecurityVulnerabilitiesForPacoteID(Long pacoteId) {
-        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(2, 2, 2, LocalDateTime.now(), pacoteId, Estado.REGISTADO, 1L);
-        Set<ConstraintViolation<EncomendaDTOSaveRequest>> violations = validator.validate(response);
-        assertFalse(violations.isEmpty());
-    }
-
-    @ParameterizedTest
-    @CsvSource(textBlock =
-            """
-            0
-            -6
-            -1
-            -3
-            -7
-            -8
-            -9
-            -996
-            -1325
-            """)
-    @DisplayName("Test security vulnerabilities for User ID")
-    public void testSecurityVulnerabilitiesForUserId(Long userId) {
-        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(2, 2, 2, LocalDateTime.now(),1L, Estado.REGISTADO, userId);
+        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(2, 2, 2, LocalDateTime.now(), pacoteId, Estado.REGISTADO, "AA");
         Set<ConstraintViolation<EncomendaDTOSaveRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }

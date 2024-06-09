@@ -56,7 +56,7 @@ class EncomendaControllerTest {
         TipoPacote saved = tipoPacoteRepo.save(tipoPacote);
         Pacote pacote = new Pacote(1L,"pacote", 10.0, "pacotedescription", true , saved);
         pacoteRepo.save(pacote);
-        User admin = new User(1L, "admin@mail.com", "adminpw1", "josé", randomNum+"" , "RUA cena");
+        User admin = new User("AA", "admin@mail.com", "adminpw1", "josé", randomNum+"" , "RUA cena");
         admin.addAuthority(new Role(Role.Admin));
         userRepo.saveUser(admin);
     }

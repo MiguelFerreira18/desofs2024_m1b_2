@@ -8,6 +8,7 @@ import isep.ipp.pt.api.desofs.Repository.Interface.EncomendaServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class EncomendaServiceImpl implements EncomendaService{
     private UserServiceRepo userRepo;
 
     @Override
-    public EncomendaDTOServiceResponse save(EncomendaDTOServiceRequest encomendaDTOServiceRequest) {
+    public EncomendaDTOServiceResponse save(@Valid EncomendaDTOServiceRequest encomendaDTOServiceRequest) {
         Pacote pacote = pacoteRepo.findbyId(encomendaDTOServiceRequest.getPacoteId());
         User user = userRepo.getUserById(encomendaDTOServiceRequest.getUserId());
         EncomendaSaveDTOService encomendaSaveDTOService = new EncomendaSaveDTOService(encomendaDTOServiceRequest.getMealsPerWeek(), encomendaDTOServiceRequest.getNumberOfPeople(), encomendaDTOServiceRequest.getPrice(), encomendaDTOServiceRequest.getDataEncomenda(), pacote, encomendaDTOServiceRequest.getEstado(), user);
@@ -39,7 +40,7 @@ public class EncomendaServiceImpl implements EncomendaService{
     }
 
     @Override
-    public EncomendaDTOServiceResponse update(EncomendaDTOServicePatchRequest encomendaDTOServicePatchRequest) {
+    public EncomendaDTOServiceResponse update(@Valid EncomendaDTOServicePatchRequest encomendaDTOServicePatchRequest) {
         Pacote pacote = pacoteRepo.findbyId(encomendaDTOServicePatchRequest.getPacoteId());
         User user = userRepo.getUserById(encomendaDTOServicePatchRequest.getUserId());
         EncomendaPatchDTOService encomendaPatchDTOService = new EncomendaPatchDTOService(encomendaDTOServicePatchRequest.getEncomendaId(),encomendaDTOServicePatchRequest.getMealsPerWeek(), encomendaDTOServicePatchRequest.getNumberOfPeople(), encomendaDTOServicePatchRequest.getPrice(), encomendaDTOServicePatchRequest.getDataEncomenda(), pacote, encomendaDTOServicePatchRequest.getEstado(), user);
@@ -47,12 +48,12 @@ public class EncomendaServiceImpl implements EncomendaService{
     }
 
     @Override
-    public List<EncomendaDTOServiceResponse> findAll(Long userId) {
+    public List<EncomendaDTOServiceResponse> findAll(String userId) {
         return encomendaMapper.toEncomendaDTOServiceResponseListFromEncomendaList(encomendaServiceRepo.findAll(userId));
     }
 
     @Override
-    public List<EncomendaDTOServiceResponse> findEncHistory(Long userId) {
+    public List<EncomendaDTOServiceResponse> findEncHistory(String userId) {
         return encomendaMapper.toEncomendaDTOServiceResponseListFromEncomendaList(encomendaServiceRepo.findEncHistory(userId));
     }
 

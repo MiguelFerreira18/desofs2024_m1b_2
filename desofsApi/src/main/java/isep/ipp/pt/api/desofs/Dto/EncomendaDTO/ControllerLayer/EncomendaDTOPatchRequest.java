@@ -34,13 +34,13 @@ public class EncomendaDTOPatchRequest {
         @NotNull
         @Positive
         private Long pacoteId;
+
         @NotNull
-        @Positive
-        private Long userId;
+        private String userId;
 
         private Estado estado;
 
-        public EncomendaDTOPatchRequest(Long encomendaId, int mealsPerWeek, int numberOfPeople, double price, LocalDateTime dataEncomenda, Long pacoteId, Estado estado, Long userId) {
+        public EncomendaDTOPatchRequest(Long encomendaId, int mealsPerWeek, int numberOfPeople, double price, LocalDateTime dataEncomenda, Long pacoteId, Estado estado, String userId) {
             this.encomendaId = encomendaId;
             this.mealsPerWeek = mealsPerWeek;
             this.numberOfPeople = numberOfPeople;
@@ -79,7 +79,7 @@ public class EncomendaDTOPatchRequest {
             return encomendaId;
         }
 
-        public Long getUserId() {
+        public String getUserId() {
             return userId;
         }
 

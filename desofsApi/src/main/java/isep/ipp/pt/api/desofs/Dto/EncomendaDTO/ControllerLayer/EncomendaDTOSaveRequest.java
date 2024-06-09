@@ -33,12 +33,11 @@ public class EncomendaDTOSaveRequest {
     @Positive
     private Long pacoteId;
     @NotNull
-    @Positive
-    private Long userId;
+    private String userId;
 
     private Estado estado;
 
-    public EncomendaDTOSaveRequest(int mealsPerWeek, int numberOfPeople, double price, LocalDateTime dataEncomenda, Long pacoteId, Estado estado, Long userId) {
+    public EncomendaDTOSaveRequest(int mealsPerWeek, int numberOfPeople, double price, LocalDateTime dataEncomenda, Long pacoteId, Estado estado, String userId) {
         this.mealsPerWeek = mealsPerWeek;
         this.numberOfPeople = numberOfPeople;
         this.price = price;
@@ -72,7 +71,7 @@ public class EncomendaDTOSaveRequest {
         return estado;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 }

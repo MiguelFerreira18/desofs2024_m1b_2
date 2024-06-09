@@ -12,4 +12,5 @@ public interface ReceitaServiceRepo {
     List<Receita> findAll();
     void deleteById(Long id);
     void deleteAll();
+
 }

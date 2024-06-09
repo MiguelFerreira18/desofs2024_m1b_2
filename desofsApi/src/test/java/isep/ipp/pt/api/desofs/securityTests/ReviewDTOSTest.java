@@ -377,7 +377,7 @@ class ReviewDTOSTest {
     })
     @DisplayName("Security Test for ReviewDTOSaveRequest")
     public void testSecurityVulnerabilitiesForSave(String text) {
-        ReviewDTOSaveRequest response = new ReviewDTOSaveRequest(text, 1,1L,1L);
+        ReviewDTOSaveRequest response = new ReviewDTOSaveRequest(text, 1,"AA",1L);
         Set<ConstraintViolation<ReviewDTOSaveRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
@@ -736,7 +736,7 @@ class ReviewDTOSTest {
     })
     @DisplayName("Security Test for ReviewDTOSaveRequest")
     public void testSecurityVulnerabilitiesForPatch(String text) {
-        ReviewDTOPatchRequest response = new ReviewDTOPatchRequest(1L,text, 1,1L,1L);
+        ReviewDTOPatchRequest response = new ReviewDTOPatchRequest(1L,text, 1,"AA",1L);
         Set<ConstraintViolation<ReviewDTOPatchRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
@@ -760,7 +760,7 @@ class ReviewDTOSTest {
             """)
     @DisplayName("Security Test for Rating")
     public void testSecurityVulnerabilitiesForRating(int rating){
-        ReviewDTOSaveRequest response = new ReviewDTOSaveRequest("text", rating,1L,1L);
+        ReviewDTOSaveRequest response = new ReviewDTOSaveRequest("text", rating,"AA",1L);
         Set<ConstraintViolation<ReviewDTOSaveRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
@@ -776,7 +776,7 @@ class ReviewDTOSTest {
             """)
     @DisplayName("Security Test for UserId")
     public void testSecurityVulnerabilitiesForUserId(int rating) {
-        ReviewDTOPatchRequest response = new ReviewDTOPatchRequest(1L, "text", rating, 1L, 1L);
+        ReviewDTOPatchRequest response = new ReviewDTOPatchRequest(1L, "text", rating, "AA", 1L);
         Set<ConstraintViolation<ReviewDTOPatchRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }
@@ -792,7 +792,7 @@ class ReviewDTOSTest {
             """)
     @DisplayName("Security Test for PacoteId")
     public void testSecurityVulnerabilitiesForPacoteId(int rating) {
-        ReviewDTOPatchRequest response = new ReviewDTOPatchRequest(1L, "text", rating, 1L, 1L);
+        ReviewDTOPatchRequest response = new ReviewDTOPatchRequest(1L, "text", rating, "AA", 1L);
         Set<ConstraintViolation<ReviewDTOPatchRequest>> violations = validator.validate(response);
         assertFalse(violations.isEmpty());
     }

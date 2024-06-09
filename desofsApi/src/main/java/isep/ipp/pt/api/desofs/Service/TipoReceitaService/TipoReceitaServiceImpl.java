@@ -6,6 +6,7 @@ import isep.ipp.pt.api.desofs.Mapper.TipoReceitaMapper.TipoReceitaMapper;
 import isep.ipp.pt.api.desofs.Model.TipoReceita;
 import isep.ipp.pt.api.desofs.Repository.Interface.TipoReceitaServiceRepo;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class TipoReceitaServiceImpl implements TipoReceitaService{
     private PersonalValidation validation;
 
     @Override
-    public TipoReceitaDTOServiceResponse save(TipoReceitaDTOServiceRequest tipoReceita) {
+    public TipoReceitaDTOServiceResponse save(@Valid TipoReceitaDTOServiceRequest tipoReceita) {
         if (!validation.validate(tipoReceita)) {
             return null;
         }

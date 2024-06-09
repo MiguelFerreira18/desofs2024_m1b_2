@@ -3,7 +3,11 @@ package isep.ipp.pt.api.desofs.Repository.Implementation;
 import isep.ipp.pt.api.desofs.Model.Review;
 import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.ReviewRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,9 +16,18 @@ public class ReviewServiceImpl implements ReviewServiceRepo {
 
     @Autowired
     private ReviewRepo reviewRepo;
+    @Autowired
+    private LoggerStrategy logger;
+    @Autowired
+    private PasswordEncoder encoder;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
+
+
     @Override
     public Review save(Review review) {
-       return reviewRepo.save(review);
+        if(!isTesting()) logger.log(review.copy(encoder).toString());
+        return reviewRepo.save(review);
     }
 
     @Override
@@ -41,7 +54,7 @@ public class ReviewServiceImpl implements ReviewServiceRepo {
     }
 
     @Override
-    public List<Review> getReviewsByUserId(Long userId) {
+    public List<Review> getReviewsByUserId(String userId) {
         return new LinkedList<>(reviewRepo.getReviewsByUserId(userId));
     }
 
@@ -52,6 +65,14 @@ public class ReviewServiceImpl implements ReviewServiceRepo {
 
     @Override
     public void deleteReviewsByUserName(String username) {
+        if(!isTesting()) reviewRepo.getReviewsByUserName(username).forEach(review -> logger.log(review.copy(encoder).toString()));
         reviewRepo.deleteReviewsByUserName(username);
+    }
+
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
     }
 }

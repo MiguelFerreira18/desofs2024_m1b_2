@@ -19,13 +19,12 @@ public class ReviewDTOPatchRequest {
     private final int rating;
 
     @NotNull
-    @Positive
-    private final Long user;
+    private final String user;
     @NotNull
     @Positive
     private final Long pacote;
 
-    public ReviewDTOPatchRequest(Long reviewId,String reviewText, int rating, Long user, Long pacote) {
+    public ReviewDTOPatchRequest(Long reviewId,String reviewText, int rating, String user, Long pacote) {
         this.reviewText = reviewText;
         this.rating = rating;
         this.user = user;
@@ -41,7 +40,7 @@ public class ReviewDTOPatchRequest {
         return rating;
     }
 
-    public Long getUser() {
+    public String getUser() {
         return user;
     }
 

@@ -10,9 +10,9 @@ public interface EncomendaService {
     EncomendaDTOServiceResponse findbyId(Long encomendaId);
 
     EncomendaDTOServiceResponse update(EncomendaDTOServicePatchRequest encomendaDTOServicePatchRequest);
-    List<EncomendaDTOServiceResponse> findAll(Long userId);
+    List<EncomendaDTOServiceResponse> findAll(String userId);
 
-    List<EncomendaDTOServiceResponse> findEncHistory(Long userId);
+    List<EncomendaDTOServiceResponse> findEncHistory(String userId);
     void deleteById(Long encomendaId);
 
     void deleteAll();

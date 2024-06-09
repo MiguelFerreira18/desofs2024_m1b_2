@@ -16,6 +16,30 @@
 
 		await invalidateAll();
 	}
+
+	async function downloadRecipe(recipeId: number) {
+		const response = await sendRequest(`receita/download/${recipeId}`, 'GET', '', data.user.token);
+		if (!response.ok) {
+			console.error('Error downloading recipe');
+		}
+		const contentDisposition = response.headers.get('Content-Disposition');
+		let filename = 'recipe';
+		if (contentDisposition) {
+			const filenameMatch = contentDisposition.match(/filename="?(.+)"?/);
+			if (filenameMatch && filenameMatch.length === 2) {
+				filename = filenameMatch[1];
+			}
+		}
+		const blob = await response.blob();
+		const url = window.URL.createObjectURL(blob);
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = filename;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		window.URL.revokeObjectURL(url);
+	}
 </script>
 
 <!-- 2 partes horizontais -->
@@ -57,6 +81,11 @@
 								class="inline-block rounded border px-4 py-2 bg-white hover:bg-gray-200 transition-colors duration-300"
 								on:click={() => deleteRecipe(item.receitaId)}
 								><i class="fa-solid fa-trash"></i></button
+							>
+							<button
+								class="inline-block rounded border px-4 py-2 bg-white hover:bg-gray-200 transition-colors duration-300"
+								on:click={() => downloadRecipe(item.receitaId)}
+								><i class="fa-solid fa-download"></i></button
 							>
 						</td>
 					</tr>

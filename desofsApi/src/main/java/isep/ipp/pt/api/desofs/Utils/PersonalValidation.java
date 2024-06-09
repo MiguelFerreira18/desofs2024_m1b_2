@@ -22,6 +22,10 @@ public class PersonalValidation {
 
     public <T> boolean validate(T object) {
         Set<ConstraintViolation<T>> violations = this.validator.validate(object);
+        for (ConstraintViolation<T> violation : violations) {
+            System.out.println("Validation error on field: " + violation.getPropertyPath());
+            System.out.println("Message: " + violation.getMessage());
+        }
         return violations.isEmpty();
     }
 

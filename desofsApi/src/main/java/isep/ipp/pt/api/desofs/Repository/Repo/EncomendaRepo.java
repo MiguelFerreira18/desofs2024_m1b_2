@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface EncomendaRepo extends CrudRepository<Encomenda, Long> {
     @Query("SELECT e FROM Encomenda e WHERE e.user.userId = ?1")
-    List<Encomenda> findEncHistory(Long userId);
+    List<Encomenda> findEncHistory(String userId);
 
     @Query("SELECT e FROM Encomenda e WHERE e.user.userId = ?1 AND e.pacote.pacoteId = ?2 AND e.dataEncomenda = ?3")
-    Encomenda findByDateUserPackage(Long userId, Long pacoteId, LocalDateTime dataEncomenda);
+    Encomenda findByDateUserPackage(String userId, Long pacoteId, LocalDateTime dataEncomenda);
 
     @Query("DELETE FROM Encomenda e WHERE e.user.username = ?1")
     void deleteEncomendaByUserName(String username);

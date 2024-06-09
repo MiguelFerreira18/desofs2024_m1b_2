@@ -8,8 +8,12 @@ import isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ServiceLayer.ReceitaDTOServiceReque
 import isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ServiceLayer.ReceitaDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.ReceitaMapper.ReceitaMapper;
 import isep.ipp.pt.api.desofs.Service.ReceitaService.ReceitaService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 @Controller
 @RequestMapping("/receita")
 public class ReceitaController {
@@ -26,10 +41,14 @@ public class ReceitaController {
     private ReceitaMapper receitaMapper;
     @Autowired
     private PersonalValidation validation;
+    @Autowired
+    private LoggerStrategy logger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
 
     @PostMapping("/save")
-    public ResponseEntity<ReceitaDTOResponse> saveReceita(@RequestBody ReceitaDTOSaveRequest receita) {
+    public ResponseEntity<ReceitaDTOResponse> saveReceita(@Valid @RequestBody ReceitaDTOSaveRequest receita) {
         if (!validation.validate(receita)) {
             return ResponseEntity.badRequest().build();
         }
@@ -44,6 +63,7 @@ public class ReceitaController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error saving receita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -58,9 +78,17 @@ public class ReceitaController {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting receita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/download/{receitaId}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long receitaId) {
+        if (receitaId < 0) return ResponseEntity.badRequest().build();
+        return receitaService.downloadFile(receitaId);
+    }
+
 
     @PatchMapping("/update")
     public ResponseEntity<ReceitaDTOResponse> updateReceita(@RequestBody ReceitaDTOPatchRequest receita) {
@@ -76,6 +104,7 @@ public class ReceitaController {
             return ResponseEntity.ok( receitaMapper.fromReceitaToDto(receitaServiceResponse));
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error updating receita" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -94,7 +123,16 @@ public class ReceitaController {
             return ResponseEntity.ok(receitas);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting all receitas" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
     }
 }
