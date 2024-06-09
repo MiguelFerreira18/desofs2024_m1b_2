@@ -2719,6 +2719,13 @@ controlo de acessos tal como é possível verificar na nossa SecurityConfig e Au
 
 ## 5. Validation, Sanitization and Encoding
 
+A nível de Validation, Sanitization and Encoding, criamos DTOs para cada entidade, de modo a garantir que os dados
+recebidos são válidos, utilizando-os também para a comunicação entre camadas da aplicação. Nos dtos utilizou-se
+anotações de validação, como @NotBlank, @Size, @Pattern, @Min, @Max, @Positive, entre outras, para garantir que os dados
+recebidos são válidos. Para além disso, utilizamos o regex para validar campos de texto, impedindo por exemplo a injeção de SQL.
+
+Nesta secção, implementamos 20 dos 25 asvs, o que corresponde a 80% de conformidade. Assim, concluímos que a nossa
+
 ## 6. Stored Cryptography
 
 Quase todos os asvs foram implementados, apenas 3 não foram implementados, o 6.1.2 visto não ser o objetivo da nossa
