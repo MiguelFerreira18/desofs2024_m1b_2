@@ -3077,7 +3077,7 @@ O Snyk é utilizado para análise de vulnerabilidades em tempo real, abrangendo 
 
 O DockerScout é utilizado para garantir a integridade e a segurança das imagens Docker. Verifica a ausência de vulnerabilidades conhecidas e assegura que todas as dependências dentro das imagens estão actualizadas.
 
-## 12. Files and Resources
+## 13. Files and Resources
 
 O controlo de ficheiros e recursos garante que os ficheiros e recursos da aplicação são protegidos contra 
 ataques e acessos não autorizados. 
@@ -3090,14 +3090,14 @@ Desta forma, cumpriu-se 10 dos 12 critérios, correspondendo a uma
 validade de 83,33%, considerando que 3 critérios não são aplicáveis devido
 a não fazerem sentido no contexto da aplicação.
 
-## 13. API and Web Service
+## 14. API and Web Service
 
 Neste tópico dos asvs, temos implementado as mais importantes e as que fazem mais sentdio, as que não vão ser feitas são
 as relacionadas com o graphQl, que não foi implmentado,comunicação usando TLS, isto porque ter um certificado pessoal é
 a mesma coisa que não ter e arranjar um certificado válido é preciso investir dinheiro e o ultimo que não foi aplicado é
 o soap Web service, simplesmente porque não é a nossa implementação da API.
 
-## 14. Configuration
+## 15. Configuration
 
 No geral, este ponto foi bem concebido, temos implementações e ferramentas para todos os asvs apresentados, apenas temos
 3 que não são aplicavéis, ou por não fazerem sentido, como por examplo a que fala de controlo de memória. Esta parte foi
