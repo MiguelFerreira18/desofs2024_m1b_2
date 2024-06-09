@@ -2727,7 +2727,7 @@ anotações de validação, como @NotBlank, @Size, @Pattern, @Min, @Max, @Positi
 recebidos são válidos. Para além disso, utilizamos o regex para validar campos de texto, impedindo por exemplo a injeção de SQL.
 
 Nesta secção, implementamos 20 dos 25 asvs, o que corresponde a 80% de conformidade. Assim, concluímos que a nossa
-
+aplicação está com uma boa sanitização, validação e enconding dos inputs.
 ## 6. Stored Cryptography
 
 Quase todos os asvs foram implementados, apenas 3 não foram implementados, o 6.1.2 visto não ser o objetivo da nossa
