@@ -2709,7 +2709,7 @@ Nesta secção, utilizou-se diversas ferramentas tal como o SonarQube, OWASP ZAP
 para a análise de ameaças e vulnerabilidades. Para a arquitetura e design, utilizou-se o MS Threat Tool e o OWASP 
 Threat Dragon para a modelação de ameaças. 
 
-Devido ao facto de a nossa equipa ser pequeno e à falta de tempo, acabamos por não conseguir implementar todas as
+Devido ao facto de a nossa equipa ser pequena e à falta de tempo, acabamos por não conseguir implementar todas as
 asvs desta secção, no entanto, a maioria das asvs foram implementadas, totalizando 28 de 33 asvs, o que corresponde a
 84,85% de conformidade.
 ## 2. Authentication
