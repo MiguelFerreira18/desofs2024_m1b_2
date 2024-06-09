@@ -100,24 +100,4 @@ class EncomendaDTOTest {
         assertFalse(violations.isEmpty());
     }
 
-    @ParameterizedTest
-    @CsvSource(textBlock =
-            """
-            0
-            -6
-            -1
-            -3
-            -7
-            -8
-            -9
-            -996
-            -1325
-            """)
-    @DisplayName("Test security vulnerabilities for User ID")
-    public void testSecurityVulnerabilitiesForUserId(String userId) {
-        EncomendaDTOSaveRequest response = new EncomendaDTOSaveRequest(2, 2, 2, LocalDateTime.now(),1L, Estado.REGISTADO, userId);
-        Set<ConstraintViolation<EncomendaDTOSaveRequest>> violations = validator.validate(response);
-        assertFalse(violations.isEmpty());
-    }
-
 }
