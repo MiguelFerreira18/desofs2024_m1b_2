@@ -537,13 +537,13 @@ um valor inferior, podendo exigir uma atenção menos imediata.
 
 ### STRIDE
 
-| Categoria              | Descrição                                                                                                                                                                                                                                                                                                                                                                                      |
-|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados                                                                                                                                                                 |
-| Tampering              | **Countermeasure 1**: Utilização de Hashing para as receitas<br/> **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos                                                                                                                                                               |
-| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                                                                                                                                                                                                                                                                                            |
-| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs                                                                                              |
-| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting                                                                                                                                                                                                                                |
+| Categoria              | Descrição                                                                                                                                                                                                                                                                                                                                                          |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados                                                                                                                                     |
+| Tampering              | **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos                                                                                                                                                               |
+| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                                                                                                                                                                                                                                                                |
+| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs                                                                  |
+| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting                                                                                                                                                                                                    |
 | Elevation of privilege | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs <br/> **Countermeasure 4**: Ninguem deve ter a capacidade de mudar os privilégios do sistema |
 
 ## 6.7 Dataflow Diagram Lv1
@@ -1848,23 +1848,6 @@ validade para cada categoria.
 | Session Management                       | 14             | 10             | 71.43%              |
 | Access Control                           | 8              | 6              | 75.00%              |
 | Validation, Sanitization and Encoding    | 27             | 22             | 81.48%              |
-| Security Category                              | Total Criteria | Valid Criteria | Validity Percentage |
-|------------------------------------------------|----------------|----------------|---------------------|
-| Architecture, Design and Threat Modeling       | 33             | 28             | 84.85%              |
-| Authentication                                 | 35             | 21             | 60.00%              |
-| Session Management                             | 14             | 10             | 71.43%              |
-| Access Control                                 | 8              | 6              | 75.00%              |
-| Validation, Sanitization and Encoding          | 27             | 22             | 81.48%              |
-| Stored Cryptography                            | 12             | 11             | 91.67%              |
-| Error Handling and Logging                     | 10             | 3              |                     |
-| Data Protection                                |                |                |                     |
-| Communication                                  |                |                |                     |
-| Malicious Code                                 |                |                |                     |
-| Business Logic                                 |                |                |                     |
-| Files and Resources                            | 12             | 10             | 83.33%              |
-| API and Web Service                            |                |                |                     |
-| Configuration                                  |                |                |                     |
-
 
 De reforçar que no ficheiro do ASVS, as funcionalidades que estão assinaladas com "valid", são funcionalidades que já
 foram implementadas,
@@ -2277,7 +2260,19 @@ implementação das versões anteriores.
 
 #### Ataque de força bruta
 
--- falta fazer
+É de notar que não foram implementados mecanismos de controlo de ataques de força bruta. No entanto, foram consideradas várias soluções com potencial, incluindo:
+
+CAPTCHA: A introdução de um CAPTCHA após um determinado número de tentativas de início de sessão falhadas serve para garantir que a conta é acedida por um ser humano e não por um bot.
+
+Verificação de IP: A monitorização das tentativas de início de sessão a partir de endereços IP desconhecidos ou suspeitos permite bloquear ou solicitar uma verificação adicional (como um código enviado por email) em caso de atividade invulgar.
+
+Autenticação multifactor (MFA): A implementação da autenticação multifactor representa uma camada adicional de segurança, exigindo não só a palavra-passe mas também um código enviado para o dispositivo do utilizador.
+
+Notificações de tentativa de login: A transmissão de notificações ao utilizador após a ocorrência de tentativas de login falhadas na sua conta serve para alertar o utilizador para a possibilidade de ataques de força bruta e para o encorajar a tomar medidas, tais como alterar a sua palavra-passe.
+
+Limitação da taxa: Implementar uma limitação na taxa de pedidos ao ponto final de início de sessão, impedindo um grande número de tentativas de início de sessão num curto período de tempo.
+
+Lista de IPs bloqueados: Manter uma lista de endereços IP conhecidos por terem sido alvo de força bruta e bloqueá-los automaticamente.
 
 #### Injeção de SQL
 
@@ -2399,11 +2394,241 @@ esse tempo.
 
 **Countermeasure 1**
 
-Falta fazer
+A implementação da autenticação de dois factores não foi prosseguida devido à ausência de um servidor para a transmissão de mensagens de correio eletrónico ou mensagens para os dispositivos móveis dos utilizadores.
 
 **Countermeasure 2**
 
-Falta ser posto na branch
+Foi implementado na nossa solução as seguintes caracteristicas:
+
+- Exigir uma senha forte, com pelo menos 12 caracteres.
+- A senha deve incluir letras minúsculas, maiúsculas, símbolos e números.
+- Reduzir múltiplos espaços consecutivos a um único espaço.
+- Indicador do nivel de força da password
+
+No código abaixo, que é o codigo da página do signup é possivel observar por exemplo como funciona o medidor de força da password.
+
+```java
+<script lang="ts">
+	import { enhance } from '$app/forms';
+
+	let password = '';
+	let repeatPassword = '';
+	let passwordStrength = 0;
+	let barColor = 'red';
+
+	let hasMinLength = false;
+	let hasNumber = false;
+	let hasUppercase = false;
+	let hasSpecialChar = false;
+	let passwordsMatch = false;
+
+	let buttonClass = '';
+	let isDisabled = false;
+
+	$: {
+		if (hasMinLength && hasNumber && hasUppercase && hasSpecialChar && passwordsMatch) {
+			buttonClass =
+				'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500';
+			isDisabled = false;
+		} else {
+			buttonClass =
+				'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 cursor-not-allowed';
+			isDisabled = true;
+		}
+	}
+
+	const updatePasswordStrength = () => {
+		hasMinLength = password.length >= 12;
+		hasNumber = /\d/.test(password);
+		hasUppercase = /[A-Z]/.test(password);
+		hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+		// Verificar se a senha contém apenas caracteres imprimíveis Unicode
+		if (password != '') {
+			passwordsMatch = password === repeatPassword;
+		}
+		// Calcular a força da senha, incluindo espaços na contagem de caracteres
+		const requirementsMet = [
+			hasMinLength,
+			hasNumber,
+			hasUppercase,
+			hasSpecialChar,
+			passwordsMatch
+		].filter(Boolean).length;
+		passwordStrength = requirementsMet / 6;
+
+		if (passwordStrength <= 1 / 3) {
+			barColor = 'red';
+		} else if (passwordStrength <= 2 / 3) {
+			barColor = 'yellow';
+		} else {
+			barColor = 'green';
+		}
+	};
+
+	const handlePasswordInput = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		password = target.value;
+		updatePasswordStrength();
+	};
+
+	const handleRepeatPasswordInput = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		repeatPassword = target.value;
+		updatePasswordStrength();
+	};
+
+	let passwordVisible = false;
+
+	const togglePasswordVisibility = () => {
+		const passwordInput = document.getElementById('password') as HTMLInputElement;
+		passwordVisible = !passwordVisible;
+		passwordInput.type = passwordVisible ? 'text' : 'password';
+	};
+</script>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+	<div class="max-w-md w-full space-y-8 border p-5 bg-white rounded">
+		<div>
+			<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+				Sign in to your account
+			</h2>
+		</div>
+		<form class="mt-8 space-y-6 flex flex-col" use:enhance action="?/signup" method="POST">
+			<div class="rounded-md shadow-sm -space-y-px">
+				<div>
+					<label for="email-address" class="sr-only">Email address</label>
+					<input
+						id="email-address"
+						name="email"
+						type="email"
+						required
+						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="Email"
+					/>
+				</div>
+				<div>
+					<label for="fullName" class="sr-only">FullName</label>
+					<input
+						id="fullname"
+						name="fullname"
+						type="text"
+						required
+						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="Full name"
+					/>
+				</div>
+			</div>
+			<div class="rounded-md shadow-sm -space-y-px">
+				<div>
+					<label for="nif" class="sr-only">Nif</label>
+					<input
+						id="nif"
+						name="nif"
+						type="text"
+						required
+						class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="NIF"
+					/>
+				</div>
+				<div>
+					<label for="morada" class="sr-only">Morada</label>
+					<input
+						id="morada"
+						name="morada"
+						type="text"
+						required
+						class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="Morada"
+					/>
+				</div>
+			</div>
+			<div class="rounded-md shadow-sm -space-y-px">
+				<div>
+					<label for="password" class="sr-only">Password</label>
+					<div class="flex">
+						<input
+							id="password"
+							name="password"
+							type="password"
+							minlength="12"
+							maxlength="128"
+							bind:value={password}
+							on:input={handlePasswordInput}
+							required
+							class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							placeholder="Password"
+						/>
+						<button
+							type="button"
+							class="ml-2 px-2 py-1 rounded-md bg-gray-200 text-gray-700"
+							on:click={togglePasswordVisibility}
+						>
+							{passwordVisible ? 'Hide' : 'Show'}
+						</button>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div>
+					<label for="repeat-password" class="sr-only">Repeat Password</label>
+					<input
+						id="repeat-password"
+						name="repeat-password"
+						type="password"
+						minlength="12"
+						maxlength="128"
+						bind:value={repeatPassword}
+						on:input={handleRepeatPasswordInput}
+						required
+						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="Repeat password"
+					/>
+				</div>
+				<div class="strength-bar" style="margin-top: 0.5rem; margin-bottom: 0.5rem">
+					<div style="width: {passwordStrength * 100}%; background-color: {barColor};"></div>
+				</div>
+				<div style="margin-left: 1rem;">
+					<ul class="list-disc">
+						<li class={hasMinLength ? 'text-green-500' : ''}>
+							Password must have at least 12 characters
+						</li>
+						<li class={hasNumber ? 'text-green-500' : ''}>Password must have at least 1 number</li>
+						<li class={hasUppercase ? 'text-green-500' : ''}>
+							Password must have at least 1 uppercase letter
+						</li>
+						<li class={hasSpecialChar ? 'text-green-500' : ''}>
+							Password must have at least 1 special character
+						</li>
+						<li class={passwordsMatch ? 'text-green-500' : ''}>Passwords must match</li>
+					</ul>
+				</div>
+			</div>
+			<div>
+				<button type="submit" class={buttonClass} disabled={isDisabled}> Sign in </button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<style>
+	.strength-bar {
+		width: 100%;
+		height: 5px;
+		background-color: lightgray;
+		margin-top: 10px;
+	}
+	.strength-bar > div {
+		height: 100%;
+		transition:
+			width 0.3s ease,
+			background-color 0.3s ease;
+	}
+
+	li {
+		font-size: 0.8em;
+	}
+</style>
+```
 
 **Countermeasure 3**
 
@@ -2580,20 +2805,17 @@ Aqui temos o uso do encoder do jwt para gerar o token, este token terá apenas 1
 
 ### Tampering
 
-**Countermeasure 1**
-
---Falta implemnetar(José)
-
 **Countermeasure 3**
 
 Como foi visto ateriormente temos diferentes endpoints que podem ser acedidos por roles autorizadas. Ou seja nós usamos
-um sistema de positive security, no qua dizemos aos utilizadores o que podem aceder.
+um sistema de positive security, no qual dizemos aos utilizadores o que podem aceder.
 
 ### Repudiation
 
 **Countermeasure 1**
 
--- Zé
+Nas encomendas, é possível observar por exemplo todas as encomendas realizadas pelo utilizador, detetando as alterações realizadas
+pelo utilizador em tempo real.
 
 ### Information Disclosure
 
@@ -2704,20 +2926,67 @@ Foram atualizados os dataflows, com as mitigações para os ataques que fazem se
 na totalidade, foram gerados 2 relatórios, com os problemas e a justificação das soluções apresentadas, estes dois
 relatórios podem ser encontrados na pasta "Deliverables\Sprint2\Mitigations_ThreatModelingToolReports".
 
-## MAIS ALGUMA COISA QUE QUEIRAM ADICIONAR (ZÉ E RODRIGO)
-
 ## Asvs check list
 
 ## 1. Architecture, Design and Threat Modeling
 
+Nesta secção, utilizou-se diversas ferramentas tal como o SonarQube, OWASP ZAP, Dependency check entre outros
+para a análise de ameaças e vulnerabilidades. Para a arquitetura e design, utilizou-se o MS Threat Tool e o OWASP 
+Threat Dragon para a modelação de ameaças. 
+
+Devido ao facto de a nossa equipa ser pequena e à falta de tempo, acabamos por não conseguir implementar todas as
+asvs desta secção, no entanto, a maioria das asvs foram implementadas, totalizando 28 de 33 asvs, o que corresponde a
+84,85% de conformidade.
 ## 2. Authentication
+
+É de salientar que pelo menos metade das actividades de segurança foram concluídas, embora seja pertinente salientar que algumas nao foram possiveis de se implementar. Estas incluem a utilização de OTP (One-Time Password) e a utilização de serviços de email e SMS. Também realçar as conquistas que foram as verificações à password e de garantir que a password seja forte e esteja protegida, junto com a token unica que é fornecida para permitir a interação com o sistema.
+
+
+Exemplo de uma das nossas implementações no backend:
+```java
+        public SignInRequest {
+                password = password.replaceAll("\\s+", "");
+
+                if (!password.matches(".*\\d.*")) {
+                        throw new IllegalArgumentException("Password must contain at least one digit");
+                }
+                if (!password.matches(".*[A-Z].*")) {
+                        throw new IllegalArgumentException("Password must contain at least one uppercase letter");
+                }
+                if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+                        throw new IllegalArgumentException("Password must contain at least one special character");
+                }
+        }
+```
 
 ## 3. Session Management
 
+A maioria das boas práticas foram implementadas no entanto algumas ficaram por realizar devido a falta de conhecimento prévio mais precisamente nos pontos 7.2.1 e 7.1.1. Para garantir a sessão foi então utilizado a criação de uma cookie de sessão segura, httponly e que apenas funcionava para o nosso website em que armazenava o token e algumas informações essenciais mas nao comprometedoras do utilizador.
+
+```javascript
+		cookies.set('authToken', JSON.stringify(cookie), {
+			path: '/',
+			secure: true,
+			httpOnly: true,
+			sameSite: 'strict'
+		});
+```
+
 ## 4. Access Control
+
+A nível de Access Control, implementamos todas as asvs que se encaixavam no contexto da nossa aplicação. Desde modo,
+de um total de 7 asvs, 7 foram implementados. Assim, concluímos que a nossa aplicação está bastante segura a nível de 
+controlo de acessos tal como é possível verificar na nossa SecurityConfig e AuthenticationApi.
 
 ## 5. Validation, Sanitization and Encoding
 
+A nível de Validation, Sanitization and Encoding, criamos DTOs para cada entidade, de modo a garantir que os dados
+recebidos são válidos, utilizando-os também para a comunicação entre camadas da aplicação. Nos dtos utilizou-se
+anotações de validação, como @NotBlank, @Size, @Pattern, @Min, @Max, @Positive, entre outras, para garantir que os dados
+recebidos são válidos. Para além disso, utilizamos o regex para validar campos de texto, impedindo por exemplo a injeção de SQL.
+
+Nesta secção, implementamos 20 dos 25 asvs, o que corresponde a 80% de conformidade. Assim, concluímos que a nossa
+aplicação está com uma boa sanitização, validação e enconding dos inputs.
 ## 6. Stored Cryptography
 
 Quase todos os asvs foram implementados, apenas 3 não foram implementados, o 6.1.2 visto não ser o objetivo da nossa
@@ -2762,17 +3031,6 @@ sempre a tentar fazer programas com a melhor performance possivel. Outro que é 
 o alerta para ataques automáticos, isto porque há serviços que podem fazer isto mas têm um custo e para além disso a
 implementar este tipo de defesas é especialmente demorado.
 
-#### 12.2.1.6. Stored Cryptography
-#### 12.2.1.7. Error Handling and Logging
-#### 12.2.1.8. Data Protection
-#### 12.2.1.9. Communication
-#### 12.2.1.10. Malicious Code
-#### 12.2.1.11. Business Logic
-#### 12.2.1.12. Files and Resources
-O controlo de ficheiros e recursos garante que os ficheiros e recursos da aplicação são protegidos contra ataques e acessos não autorizados. A validade nesta categoria é de 83,33%, com 10 critérios válidos num total de 12.
-
-No contexto da nossa aplicação, apenas permitimos o uso de ficheiros com extensão .pdf e com o Tipo MIME de octet_stream limitando também o tamanho dos ficheiros.
-
 ````java
         private final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
@@ -2816,20 +3074,44 @@ sendo que o outputPath era sempre no diretório Recipes e o nome do ficheiro era
 ````
 
 #### 12.2.1.13. API and Web Service
+
+A maioria das recomendações, para o nosso caso, acabaram por ser nao aplicaveis, pois alguns referiam o uso de XML, GraphQl. Aos aplicados, utilizamos o apache tika para garantir que os ficheiros utilizam a mesma codificação e a maioria das recomendações foram implementadas usando o springboot security.
+
 #### 12.2.1.14. Configuration
-## 12.3 Conclusão
-## 12. Files and Resources
 
-(ZÉ)
+Pode afirmar-se que todas as recomendações possíveis para o nosso caso foram seguidas, com apenas quatro excepções que não eram aplicáveis. Os aspectos mais importantes da implementação são os seguintes:
 
-## 13. API and Web Service
+Configuração do pipeline do GitHub Actions: Foi implementado um pipeline robusto que automatiza a construção, o teste e a implantação do aplicativo. Esse pipeline é configurado no arquivo .github/workflows/deployment.yaml. É utilizada uma verificação de dependências para assegurar que todas as dependências estão actualizadas e livres de vulnerabilidades conhecidas. Essa verificação é realizada durante o processo de compilação.
+
+O CodeQL é integrado ao pipeline para a análise da segurança do código. Esta ferramenta ajuda a identificar potenciais vulnerabilidades no código-fonte, verificando a integridade e a segurança das configurações relevantes. Um exemplo desta implementação pode ser observado no commit f106638 no pull request #26. 
+
+O Dependabot é utilizado para monitorizar e atualizar automaticamente as dependências da aplicação. Esta ferramenta garante que todas as bibliotecas de terceiros utilizadas estão consistentemente actualizadas com os últimos patches de segurança.
+
+O Snyk é utilizado para análise de vulnerabilidades em tempo real, abrangendo dependências e código-fonte. O Snyk efectua verificações de dependência durante o processo de construção e fornece relatórios detalhados sobre quaisquer vulnerabilidades identificadas. 
+
+O DockerScout é utilizado para garantir a integridade e a segurança das imagens Docker. Verifica a ausência de vulnerabilidades conhecidas e assegura que todas as dependências dentro das imagens estão actualizadas.
+
+## 13. Files and Resources
+
+O controlo de ficheiros e recursos garante que os ficheiros e recursos da aplicação são protegidos contra 
+ataques e acessos não autorizados. 
+Neste tópico, temos implementado a limitação do tamanho dos ficheiros,
+a validação do tipo de ficheiro, a garantia de não usar o nome do
+ficheiro original, a garantia de que o ficheiro é guardado num local seguro
+e a garantia de que o ficheiro é copiado para o diretório de output.
+
+Desta forma, cumpriu-se 10 dos 12 critérios, correspondendo a uma
+validade de 83,33%, considerando que 3 critérios não são aplicáveis devido
+a não fazerem sentido no contexto da aplicação.
+
+## 14. API and Web Service
 
 Neste tópico dos asvs, temos implementado as mais importantes e as que fazem mais sentdio, as que não vão ser feitas são
 as relacionadas com o graphQl, que não foi implmentado,comunicação usando TLS, isto porque ter um certificado pessoal é
 a mesma coisa que não ter e arranjar um certificado válido é preciso investir dinheiro e o ultimo que não foi aplicado é
 o soap Web service, simplesmente porque não é a nossa implementação da API.
 
-## 14. Configuration
+## 15. Configuration
 
 No geral, este ponto foi bem concebido, temos implementações e ferramentas para todos os asvs apresentados, apenas temos
 3 que não são aplicavéis, ou por não fazerem sentido, como por examplo a que fala de controlo de memória. Esta parte foi
