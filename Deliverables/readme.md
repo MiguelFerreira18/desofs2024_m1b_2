@@ -2930,6 +2930,13 @@ relatórios podem ser encontrados na pasta "Deliverables\Sprint2\Mitigations_Thr
 
 ## 1. Architecture, Design and Threat Modeling
 
+Nesta secção, utilizou-se diversas ferramentas tal como o SonarQube, OWASP ZAP, Dependency check entre outros
+para a análise de ameaças e vulnerabilidades. Para a arquitetura e design, utilizou-se o MS Threat Tool e o OWASP 
+Threat Dragon para a modelação de ameaças. 
+
+Devido ao facto de a nossa equipa ser pequena e à falta de tempo, acabamos por não conseguir implementar todas as
+asvs desta secção, no entanto, a maioria das asvs foram implementadas, totalizando 28 de 33 asvs, o que corresponde a
+84,85% de conformidade.
 ## 2. Authentication
 
 É de salientar que pelo menos metade das actividades de segurança foram concluídas, embora seja pertinente salientar que algumas nao foram possiveis de se implementar. Estas incluem a utilização de OTP (One-Time Password) e a utilização de serviços de email e SMS. Também realçar as conquistas que foram as verificações à password e de garantir que a password seja forte e esteja protegida, junto com a token unica que é fornecida para permitir a interação com o sistema.
@@ -2973,6 +2980,13 @@ controlo de acessos tal como é possível verificar na nossa SecurityConfig e Au
 
 ## 5. Validation, Sanitization and Encoding
 
+A nível de Validation, Sanitization and Encoding, criamos DTOs para cada entidade, de modo a garantir que os dados
+recebidos são válidos, utilizando-os também para a comunicação entre camadas da aplicação. Nos dtos utilizou-se
+anotações de validação, como @NotBlank, @Size, @Pattern, @Min, @Max, @Positive, entre outras, para garantir que os dados
+recebidos são válidos. Para além disso, utilizamos o regex para validar campos de texto, impedindo por exemplo a injeção de SQL.
+
+Nesta secção, implementamos 20 dos 25 asvs, o que corresponde a 80% de conformidade. Assim, concluímos que a nossa
+aplicação está com uma boa sanitização, validação e enconding dos inputs.
 ## 6. Stored Cryptography
 
 Quase todos os asvs foram implementados, apenas 3 não foram implementados, o 6.1.2 visto não ser o objetivo da nossa
