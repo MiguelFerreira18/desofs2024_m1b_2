@@ -1848,23 +1848,6 @@ validade para cada categoria.
 | Session Management                       | 14             | 10             | 71.43%              |
 | Access Control                           | 8              | 6              | 75.00%              |
 | Validation, Sanitization and Encoding    | 27             | 22             | 81.48%              |
-| Security Category                              | Total Criteria | Valid Criteria | Validity Percentage |
-|------------------------------------------------|----------------|----------------|---------------------|
-| Architecture, Design and Threat Modeling       | 33             | 28             | 84.85%              |
-| Authentication                                 | 35             | 21             | 60.00%              |
-| Session Management                             | 14             | 10             | 71.43%              |
-| Access Control                                 | 8              | 6              | 75.00%              |
-| Validation, Sanitization and Encoding          | 27             | 22             | 81.48%              |
-| Stored Cryptography                            | 12             | 11             | 91.67%              |
-| Error Handling and Logging                     | 10             | 3              |                     |
-| Data Protection                                |                |                |                     |
-| Communication                                  |                |                |                     |
-| Malicious Code                                 |                |                |                     |
-| Business Logic                                 |                |                |                     |
-| Files and Resources                            | 12             | 10             | 83.33%              |
-| API and Web Service                            |                |                |                     |
-| Configuration                                  |                |                |                     |
-
 
 De reforçar que no ficheiro do ASVS, as funcionalidades que estão assinaladas com "valid", são funcionalidades que já
 foram implementadas,
@@ -2762,17 +2745,6 @@ sempre a tentar fazer programas com a melhor performance possivel. Outro que é 
 o alerta para ataques automáticos, isto porque há serviços que podem fazer isto mas têm um custo e para além disso a
 implementar este tipo de defesas é especialmente demorado.
 
-#### 12.2.1.6. Stored Cryptography
-#### 12.2.1.7. Error Handling and Logging
-#### 12.2.1.8. Data Protection
-#### 12.2.1.9. Communication
-#### 12.2.1.10. Malicious Code
-#### 12.2.1.11. Business Logic
-#### 12.2.1.12. Files and Resources
-O controlo de ficheiros e recursos garante que os ficheiros e recursos da aplicação são protegidos contra ataques e acessos não autorizados. A validade nesta categoria é de 83,33%, com 10 critérios válidos num total de 12.
-
-No contexto da nossa aplicação, apenas permitimos o uso de ficheiros com extensão .pdf e com o Tipo MIME de octet_stream limitando também o tamanho dos ficheiros.
-
 ````java
         private final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
@@ -2820,7 +2792,16 @@ sendo que o outputPath era sempre no diretório Recipes e o nome do ficheiro era
 ## 12.3 Conclusão
 ## 12. Files and Resources
 
-(ZÉ)
+O controlo de ficheiros e recursos garante que os ficheiros e recursos da aplicação são protegidos contra 
+ataques e acessos não autorizados. 
+Neste tópico, temos implementado a limitação do tamanho dos ficheiros,
+a validação do tipo de ficheiro, a garantia de não usar o nome do
+ficheiro original, a garantia de que o ficheiro é guardado num local seguro
+e a garantia de que o ficheiro é copiado para o diretório de output.
+
+Desta forma, cumpriu-se 10 dos 12 critérios, correspondendo a uma
+validade de 83,33%, considerando que 3 critérios não são aplicáveis devido
+a não fazerem sentido no contexto da aplicação.
 
 ## 13. API and Web Service
 
