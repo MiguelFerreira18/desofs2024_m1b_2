@@ -2277,7 +2277,19 @@ implementação das versões anteriores.
 
 #### Ataque de força bruta
 
--- falta fazer
+É de notar que não foram implementados mecanismos de controlo de ataques de força bruta. No entanto, foram consideradas várias soluções com potencial, incluindo:
+
+CAPTCHA: A introdução de um CAPTCHA após um determinado número de tentativas de início de sessão falhadas serve para garantir que a conta é acedida por um ser humano e não por um bot.
+
+Verificação de IP: A monitorização das tentativas de início de sessão a partir de endereços IP desconhecidos ou suspeitos permite bloquear ou solicitar uma verificação adicional (como um código enviado por email) em caso de atividade invulgar.
+
+Autenticação multifactor (MFA): A implementação da autenticação multifactor representa uma camada adicional de segurança, exigindo não só a palavra-passe mas também um código enviado para o dispositivo do utilizador.
+
+Notificações de tentativa de login: A transmissão de notificações ao utilizador após a ocorrência de tentativas de login falhadas na sua conta serve para alertar o utilizador para a possibilidade de ataques de força bruta e para o encorajar a tomar medidas, tais como alterar a sua palavra-passe.
+
+Limitação da taxa: Implementar uma limitação na taxa de pedidos ao ponto final de início de sessão, impedindo um grande número de tentativas de início de sessão num curto período de tempo.
+
+Lista de IPs bloqueados: Manter uma lista de endereços IP conhecidos por terem sido alvo de força bruta e bloqueá-los automaticamente.
 
 #### Injeção de SQL
 
@@ -2399,11 +2411,16 @@ esse tempo.
 
 **Countermeasure 1**
 
-Falta fazer
+A implementação da autenticação de dois factores não foi prosseguida devido à ausência de um servidor para a transmissão de mensagens de correio eletrónico ou mensagens para os dispositivos móveis dos utilizadores.
 
-**Countermeasure 2**
+**Countermeasure 2** (Rodrigo)
 
-Falta ser posto na branch
+Foi implementado na nossa solução as seguintes caracteristicas:
+
+- Exigir uma senha forte, com pelo menos 12 caracteres.
+- A senha deve incluir letras minúsculas, maiúsculas, símbolos e números.
+- Reduzir múltiplos espaços consecutivos a um único espaço.
+- Indicador do nivel de força da password
 
 **Countermeasure 3**
 
