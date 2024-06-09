@@ -2701,15 +2701,17 @@ Foram atualizados os dataflows, com as mitigações para os ataques que fazem se
 na totalidade, foram gerados 2 relatórios, com os problemas e a justificação das soluções apresentadas, estes dois
 relatórios podem ser encontrados na pasta "Deliverables\Sprint2\Mitigations_ThreatModelingToolReports".
 
-## MAIS ALGUMA COISA QUE QUEIRAM ADICIONAR (ZÉ E RODRIGO)
-
 ## Asvs check list
 
 ## 1. Architecture, Design and Threat Modeling
 
 ## 2. Authentication
 
+É de salientar que pelo menos metade das actividades de segurança foram concluídas, embora seja pertinente salientar que algumas nao foram possiveis de se implementar. Estas incluem a utilização de OTP (One-Time Password) e a utilização de serviços de email e SMS.
+
 ## 3. Session Management
+
+A maioria das boas práticas foram implementadas no entanto algumas ficaram por realizar devido a falta de conhecimento prévio mais precisamente nos pontos 7.2.1 e 7.1.1.
 
 ## 4. Access Control
 
