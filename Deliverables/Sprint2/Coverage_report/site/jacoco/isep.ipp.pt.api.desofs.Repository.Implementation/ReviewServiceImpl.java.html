@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReviewServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Repository.Implementation</a> &gt; <span class="el_source">ReviewServiceImpl.java</span></div><h1>ReviewServiceImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Repository.Implementation;
+
+import isep.ipp.pt.api.desofs.Model.Review;
+import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.ReviewRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.LinkedList;
+import java.util.List;
+
+<span class="fc" id="L15">public class ReviewServiceImpl implements ReviewServiceRepo {</span>
+
+    @Autowired
+    private ReviewRepo reviewRepo;
+    @Autowired
+    private LoggerStrategy logger;
+    @Autowired
+    private PasswordEncoder encoder;
+    @Value(&quot;${app.logger.strategy}&quot;)
+    private String loggerStrategy;
+
+
+    @Override
+    public Review save(Review review) {
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        if(!isTesting()) logger.log(review.copy(encoder).toString());</span>
+<span class="fc" id="L30">        return reviewRepo.save(review);</span>
+    }
+
+    @Override
+    public void deleteReview(Long reviewId) {
+<span class="nc" id="L35">        reviewRepo.deleteById(reviewId);</span>
+<span class="nc" id="L36">    }</span>
+
+    @Override
+    public List&lt;Review&gt; getReviews() {
+<span class="fc" id="L40">        List&lt;Review&gt; reviewList = new java.util.LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (Review review : reviewRepo.findAll())</span>
+<span class="fc" id="L42">            reviewList.add(review);</span>
+<span class="fc" id="L43">        return reviewList;</span>
+    }
+
+    @Override
+    public Review getReviewById(Long reviewId) {
+<span class="fc" id="L48">        return reviewRepo.findById(reviewId).orElse(null);</span>
+    }
+
+    @Override
+    public List&lt;Review&gt; getReviewsByPacoteId(Long pacoteId) {
+<span class="fc" id="L53">        return new LinkedList&lt;&gt;(reviewRepo.getReviewsByPacoteId(pacoteId));</span>
+    }
+
+    @Override
+    public List&lt;Review&gt; getReviewsByUserId(String userId) {
+<span class="fc" id="L58">        return new LinkedList&lt;&gt;(reviewRepo.getReviewsByUserId(userId));</span>
+    }
+
+    @Override
+    public void deleteAll() {
+<span class="fc" id="L63">        reviewRepo.deleteAll();</span>
+<span class="fc" id="L64">    }</span>
+
+    @Override
+    public void deleteReviewsByUserName(String username) {
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if(!isTesting()) reviewRepo.getReviewsByUserName(username).forEach(review -&gt; logger.log(review.copy(encoder).toString()));</span>
+<span class="nc" id="L69">        reviewRepo.deleteReviewsByUserName(username);</span>
+<span class="nc" id="L70">    }</span>
+
+    private boolean isTesting() {
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        if (loggerStrategy.equals(&quot;test&quot;)) {</span>
+<span class="fc" id="L74">            return true;</span>
+        }
+<span class="nc" id="L76">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

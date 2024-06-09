@@ -1,6 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { apiConfig } from '../config/api';
+import { sendRequest } from '$lib/scripts';
 
 const { baseUrl } = apiConfig;
 
@@ -20,20 +21,16 @@ export const actions: Actions = {
 			return fail(400, { invalid: true });
 		}
 
-		const response = await fetch(`${baseUrl}/auth/public/login`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: '*/*'
-			},
-			body: JSON.stringify({
-				username: email,
-				password: password
-			})
+		const body = JSON.stringify({
+			username: email,
+			password
 		});
 
+		const response = await sendRequest('auth/public/login', 'POST', body, '');
+
 		if (!response.ok) {
-			return fail(400, { invalid: true });
+			// return fail(400, { invalid: true });
+			return { success: false, message: 'Error' };
 		}
 
 		const data = await response.json();
@@ -63,6 +60,7 @@ export const actions: Actions = {
 			httpOnly: true,
 			sameSite: 'strict'
 		});
-		return { status: 302, redirect: '/' };
+		// return { status: 302, redirect: '/' };
+		return { success: true };
 	}
 };

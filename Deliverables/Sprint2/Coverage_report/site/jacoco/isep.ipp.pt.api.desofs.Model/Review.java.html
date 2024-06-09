@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Review.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Model</a> &gt; <span class="el_source">Review.java</span></div><h1>Review.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Model;
+
+import isep.ipp.pt.api.desofs.Model.UserModel.User;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.ToString;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@Entity
+@ToString
+public class Review {
+
+    @Id
+    @GeneratedValue
+    private Long reviewId;
+    @NotBlank
+    @Pattern(regexp = &quot;^[a-zA-Z0-9 ]+$&quot;, message = &quot;Texto inválido&quot;)
+    private String reviewText;
+
+    @Min(value = 0, message = &quot;Rating inválido&quot;)
+    @Max(value = 5, message = &quot;Rating inválido&quot;)
+    @Positive
+    private int rating;
+
+    @ManyToOne
+    @NotNull
+    private User user;
+
+    @ManyToOne
+    @NotNull
+    private Pacote pacote;
+
+<span class="fc" id="L36">    public Review() {</span>
+<span class="fc" id="L37">    }</span>
+
+<span class="fc" id="L39">    public Review(Long reviewId, String reviewText, int rating, User user, Pacote pacote) {</span>
+<span class="fc" id="L40">        this.reviewId = reviewId;</span>
+<span class="fc" id="L41">        this.reviewText = reviewText;</span>
+<span class="fc" id="L42">        this.rating = rating;</span>
+<span class="fc" id="L43">        this.user = user;</span>
+<span class="fc" id="L44">        this.pacote = pacote;</span>
+<span class="fc" id="L45">    }</span>
+
+<span class="nc" id="L47">    public Review(String reviewText, int rating, User user, Pacote pacote) {</span>
+<span class="nc" id="L48">        this.reviewText = reviewText;</span>
+<span class="nc" id="L49">        this.rating = rating;</span>
+<span class="nc" id="L50">        this.user = user;</span>
+<span class="nc" id="L51">        this.pacote = pacote;</span>
+<span class="nc" id="L52">    }</span>
+
+    public Long getReviewId() {
+<span class="fc" id="L55">        return reviewId;</span>
+    }
+
+    public void setReviewId(Long reviewId) {
+<span class="fc" id="L59">        this.reviewId = reviewId;</span>
+<span class="fc" id="L60">    }</span>
+
+    public String getReviewText() {
+<span class="fc" id="L63">        return reviewText;</span>
+    }
+
+    public void setReviewText(String reviewText) {
+<span class="fc" id="L67">        this.reviewText = reviewText;</span>
+<span class="fc" id="L68">    }</span>
+
+    public int getRating() {
+<span class="fc" id="L71">        return rating;</span>
+    }
+
+    public void setRating(int rating) {
+<span class="fc" id="L75">        this.rating = rating;</span>
+<span class="fc" id="L76">    }</span>
+
+    public User getUser() {
+<span class="fc" id="L79">        return user;</span>
+    }
+
+    public void setUser(User user) {
+<span class="fc" id="L83">        this.user = user;</span>
+<span class="fc" id="L84">    }</span>
+
+    public Pacote getPacote() {
+<span class="fc" id="L87">        return pacote;</span>
+    }
+
+    public void setPacote(Pacote pacote) {
+<span class="fc" id="L91">        this.pacote = pacote;</span>
+<span class="fc" id="L92">    }</span>
+
+    public Review copy(PasswordEncoder encoder) {
+<span class="nc" id="L95">        return new Review(this.reviewId, this.reviewText, this.rating, this.user.copy(encoder), this.pacote);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L100">        final StringBuilder sb = new StringBuilder(&quot;Review{&quot;);</span>
+<span class="nc" id="L101">        sb.append(&quot;reviewId=&quot;).append(reviewId);</span>
+<span class="nc" id="L102">        sb.append(&quot;, reviewText='&quot;).append(reviewText).append('\'');</span>
+<span class="nc" id="L103">        sb.append(&quot;, rating=&quot;).append(rating);</span>
+<span class="nc" id="L104">        sb.append(&quot;, user=&quot;).append(user);</span>
+<span class="nc" id="L105">        sb.append(&quot;, pacote=&quot;).append(pacote);</span>
+<span class="nc" id="L106">        sb.append('}');</span>
+<span class="nc" id="L107">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

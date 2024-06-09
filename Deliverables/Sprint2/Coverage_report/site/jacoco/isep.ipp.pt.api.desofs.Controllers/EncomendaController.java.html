@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EncomendaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Controllers</a> &gt; <span class="el_source">EncomendaController.java</span></div><h1>EncomendaController.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Controllers;
+
+import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ControllerLayer.EncomendaDTOPatchRequest;
+import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ControllerLayer.EncomendaDTOResponse;
+import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ControllerLayer.EncomendaDTOSaveRequest;
+import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer.EncomendaDTOServicePatchRequest;
+import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer.EncomendaDTOServiceRequest;
+import isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer.EncomendaDTOServiceResponse;
+import isep.ipp.pt.api.desofs.Mapper.EncomendaMapper.EncomendaMapper;
+import isep.ipp.pt.api.desofs.Service.EncomendaService.EncomendaService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/encomenda&quot;)
+<span class="fc" id="L24">public class EncomendaController {</span>
+    @Autowired
+    private EncomendaService encomendaService;
+
+    @Autowired
+    private EncomendaMapper encomendaMapper;
+    @Autowired
+    private LoggerStrategy logger;
+    @Value(&quot;${app.logger.strategy}&quot;)
+    private String loggerStrategy;
+
+
+    @PostMapping(&quot;/save&quot;)
+    public ResponseEntity&lt;EncomendaDTOResponse&gt; save(@Valid @RequestBody EncomendaDTOSaveRequest encomenda) {
+        try {
+<span class="fc" id="L39">            EncomendaDTOServiceRequest encomendaServiceRequest = encomendaMapper.toEncomendaDtoServiceRequestFromEncomendaDtoSaveRequest(encomenda);</span>
+<span class="fc" id="L40">            EncomendaDTOServiceResponse encomendaServiceResponse = encomendaService.save(encomendaServiceRequest);</span>
+<span class="fc" id="L41">            EncomendaDTOResponse encomendaDTOResponse = encomendaMapper.fromEncomendaToDto(encomendaServiceResponse);</span>
+<span class="fc" id="L42">            return ResponseEntity.ok(encomendaDTOResponse);</span>
+<span class="fc" id="L43">        } catch (Exception e) {</span>
+<span class="fc" id="L44">            System.out.println(e.getMessage());</span>
+<span class="pc bpc" id="L45" title="1 of 2 branches missed.">            if (!isTesting()) logger.logUnusualBusinessActivity(&quot;Error saving encomenda&quot; + e.getMessage());</span>
+<span class="fc" id="L46">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @GetMapping(&quot;/{encomendaId}&quot;)
+    public ResponseEntity&lt;EncomendaDTOResponse&gt; getEncomenda(@Valid @PathVariable Long encomendaId) {
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (encomendaId &lt; 0) return ResponseEntity.badRequest().build();</span>
+        try {
+<span class="nc" id="L54">            EncomendaDTOServiceResponse encomendaServiceResponse = encomendaService.findbyId(encomendaId);</span>
+<span class="nc" id="L55">            EncomendaDTOResponse encomendaDTOResponse = encomendaMapper.fromEncomendaToDto(encomendaServiceResponse);</span>
+<span class="nc" id="L56">            return ResponseEntity.ok(encomendaDTOResponse);</span>
+<span class="nc" id="L57">        } catch (Exception e) {</span>
+<span class="nc" id="L58">            System.out.println(e.getMessage());</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">            if (!isTesting()) logger.logUnusualBusinessActivity(&quot;Error getting encomenda&quot; + e.getMessage());</span>
+<span class="nc" id="L60">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @GetMapping(&quot;/history/{userId}&quot;)
+    public ResponseEntity&lt;List&lt;EncomendaDTOResponse&gt;&gt; getHistoricoEncomendas(@Valid @PathVariable String userId) {
+        try {
+<span class="nc" id="L67">            return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findEncHistory(userId)));</span>
+<span class="nc" id="L68">        } catch (Exception e) {</span>
+<span class="nc" id="L69">            System.out.println(e.getMessage());</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            if (!isTesting()) logger.logUnusualBusinessActivity(&quot;Error getting encomenda history&quot; + e.getMessage());</span>
+<span class="nc" id="L71">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @PatchMapping(&quot;/update&quot;)
+    public ResponseEntity&lt;EncomendaDTOResponse&gt; updateEncomenda(@Valid @RequestBody EncomendaDTOPatchRequest encomenda) {
+        try {
+<span class="nc" id="L78">            EncomendaDTOServicePatchRequest encomendaRequestService = encomendaMapper.toEncomendaDTOServicePatchRequestFromEncomendaDTOPatchRequest(encomenda);</span>
+<span class="nc" id="L79">            EncomendaDTOServiceResponse encomendaServiceResponse = encomendaService.update(encomendaRequestService);</span>
+<span class="nc" id="L80">            EncomendaDTOResponse encomendaDTOResponse = encomendaMapper.fromEncomendaToDto(encomendaServiceResponse);</span>
+<span class="nc" id="L81">            return ResponseEntity.ok(encomendaDTOResponse);</span>
+<span class="nc" id="L82">        } catch (Exception e) {</span>
+<span class="nc" id="L83">            System.out.println(e.getMessage());</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            if (!isTesting()) logger.logUnusualBusinessActivity(&quot;Error updating encomenda&quot; + e.getMessage());</span>
+<span class="nc" id="L85">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @DeleteMapping(&quot;/delete/{encomendaId}&quot;)
+    public ResponseEntity deleteEncomenda(@PathVariable Long encomendaId) {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (encomendaId &lt; 0) return ResponseEntity.badRequest().build();</span>
+<span class="nc" id="L92">        encomendaService.deleteById(encomendaId);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (!isTesting()) logger.logUnusualBusinessActivity(&quot;Encomenda deleted&quot;);</span>
+<span class="nc" id="L94">        return ResponseEntity.ok().build();</span>
+    }
+
+    @GetMapping(&quot;/all/{userId}&quot;)
+    public ResponseEntity&lt;List&lt;EncomendaDTOResponse&gt;&gt; getAllEncomendas(@Valid @PathVariable String userId) {
+        try {
+<span class="nc" id="L100">            return ResponseEntity.ok(encomendaMapper.fromEncomendaDtoServiceResponseListToEncomendaDToResponseList(encomendaService.findAll(userId)));</span>
+<span class="nc" id="L101">        } catch (Exception e) {</span>
+<span class="nc" id="L102">            System.out.println(e.getMessage());</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if (!isTesting()) logger.logUnusualBusinessActivity(&quot;Error getting all encomendas&quot; + e.getMessage());</span>
+<span class="nc" id="L104">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    private boolean isTesting() {
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">        if (loggerStrategy.equals(&quot;test&quot;)) {</span>
+<span class="fc" id="L110">            return true;</span>
+        }
+<span class="nc" id="L112">        return false;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

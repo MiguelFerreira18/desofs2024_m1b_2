@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EncomendaSaveDTOService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer</a> &gt; <span class="el_source">EncomendaSaveDTOService.java</span></div><h1>EncomendaSaveDTOService.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Dto.EncomendaDTO.ServiceLayer;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import isep.ipp.pt.api.desofs.Model.Estado;
+import isep.ipp.pt.api.desofs.Model.Pacote;
+import isep.ipp.pt.api.desofs.Model.UserModel.User;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public class EncomendaSaveDTOService {
+    @Min(value = 1, message = &quot;Número de refeições por semana inválido&quot;)
+    @Max(value = 7, message = &quot;Número de refeições por semana inválido&quot;)
+    @Positive
+    private int mealsPerWeek;
+
+    @Min(value = 1, message = &quot;Número de pessoas inválido&quot;)
+    @Max(value = 5, message = &quot;Número de pessoas inválido&quot;)
+    @Positive
+    private int numberOfPeople;
+    @Min(value = 1, message = &quot;Preço inválido&quot;)
+    @Positive
+    private double price;
+
+    @JsonFormat(pattern=&quot;yyyy-MM-dd HH:mm:ss&quot;)
+    private LocalDateTime dataEncomenda;
+    @NotNull
+    private Pacote pacote;
+
+    @NotNull
+    private User user;
+
+
+    private Estado estado;
+
+<span class="fc" id="L38">    public EncomendaSaveDTOService(int mealsPerWeek, int numberOfPeople, double price, LocalDateTime dataEncomenda, Pacote pacote, Estado estado, User user) {</span>
+<span class="fc" id="L39">        this.mealsPerWeek = mealsPerWeek;</span>
+<span class="fc" id="L40">        this.numberOfPeople = numberOfPeople;</span>
+<span class="fc" id="L41">        this.price = price;</span>
+<span class="fc" id="L42">        this.dataEncomenda = dataEncomenda;</span>
+<span class="fc" id="L43">        this.pacote = pacote;</span>
+<span class="fc" id="L44">        this.estado = estado;</span>
+<span class="fc" id="L45">        this.user = user;</span>
+<span class="fc" id="L46">    }</span>
+
+    public int getMealsPerWeek() {
+<span class="fc" id="L49">        return mealsPerWeek;</span>
+    }
+
+    public int getNumberOfPeople() {
+<span class="fc" id="L53">        return numberOfPeople;</span>
+    }
+
+    public double getPrice() {
+<span class="fc" id="L57">        return price;</span>
+    }
+
+    public LocalDateTime getDataEncomenda() {
+<span class="fc" id="L61">        return dataEncomenda;</span>
+    }
+
+    public Pacote getPacote() {
+<span class="fc" id="L65">        return pacote;</span>
+    }
+
+    public Estado getEstado() {
+<span class="fc" id="L69">        return estado;</span>
+    }
+
+    public User getUser() {
+<span class="fc" id="L73">        return user;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

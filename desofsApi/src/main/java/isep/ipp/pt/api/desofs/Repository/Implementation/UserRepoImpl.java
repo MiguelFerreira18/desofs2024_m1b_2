@@ -1,5 +1,6 @@
 package isep.ipp.pt.api.desofs.Repository.Implementation;
 
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ServiceLayer.UserDTOPasswordChange;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
 import isep.ipp.pt.api.desofs.Repository.Repo.EncomendaRepo;
@@ -76,6 +77,8 @@ public class UserRepoImpl implements UserServiceRepo {
         userRepo.deleteUser(username);
     }
 
+
+
     private boolean isTesting() {
         if (loggerStrategy.equals("test")) {
             return true;
@@ -83,4 +86,14 @@ public class UserRepoImpl implements UserServiceRepo {
         return false;
     }
 
+    @Override
+    public boolean changePassword(String user, UserDTOPasswordChange password) {
+        String newPassword = password.getNewPassword();
+        newPassword = encoder.encode(newPassword);
+        User u = userRepo.getUserById(user);
+        u.setPassword(newPassword);
+        userRepo.deleteUserById(user);
+        userRepo.save(u);
+        return true;
+    }
 }

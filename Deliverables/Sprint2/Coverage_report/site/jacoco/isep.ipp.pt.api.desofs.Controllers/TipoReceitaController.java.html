@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TipoReceitaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Controllers</a> &gt; <span class="el_source">TipoReceitaController.java</span></div><h1>TipoReceitaController.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Controllers;
+
+import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ControllerLayer.TipoReceitaDTOResponse;
+import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ControllerLayer.TipoReceitaDTOSaveRequest;
+import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServiceRequest;
+import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServiceResponse;
+import isep.ipp.pt.api.desofs.Mapper.TipoReceitaMapper.TipoReceitaMapper;
+import isep.ipp.pt.api.desofs.Service.TipoReceitaService.TipoReceitaService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
+import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/tipoReceita&quot;)
+<span class="fc" id="L23">public class TipoReceitaController {</span>
+
+    @Autowired
+    private TipoReceitaService tipoReceitaService;
+    @Autowired
+    private TipoReceitaMapper tipoReceitaMapper;
+    @Autowired
+    private PersonalValidation validation;
+    @Autowired
+    private LoggerStrategy logger;
+    @Value(&quot;${app.logger.strategy}&quot;)
+    private String loggerStrategy;
+
+    @PostMapping(&quot;/save&quot;)
+    public ResponseEntity&lt;TipoReceitaDTOResponse&gt; save(@Valid  @RequestBody TipoReceitaDTOSaveRequest tipoReceitaRequest) {
+        try {
+<span class="fc" id="L39">            TipoReceitaDTOServiceRequest tipoReceitaServiceRequest = tipoReceitaMapper.toTipoReceitaDTOServiceRequestFromTipoReceitaDTOSaveRequest(tipoReceitaRequest);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (!validation.validate(tipoReceitaServiceRequest)) {</span>
+<span class="fc" id="L41">                return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+            }
+
+<span class="fc" id="L44">            TipoReceitaDTOResponse tipoReceitaDTOResponse = tipoReceitaMapper.toTipoReceitaDTOResponseFromTipoReceitaDTOServiceResponse(tipoReceitaService.save(tipoReceitaServiceRequest));</span>
+<span class="fc" id="L45">            return ResponseEntity.ok(tipoReceitaDTOResponse);</span>
+<span class="nc" id="L46">        } catch (Exception e) {</span>
+<span class="nc" id="L47">            System.out.println(e.getMessage());</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if(!isTesting()) logger.logUnusualBusinessActivity(&quot;Error saving tipoReceita&quot; + e.getMessage());</span>
+<span class="nc" id="L49">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @GetMapping(&quot;/{tipoReceitaId}&quot;)
+    public ResponseEntity&lt;TipoReceitaDTOResponse&gt; getTipoReceita(@PathVariable Long tipoReceitaId) {
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if (tipoReceitaId &lt; 0) return ResponseEntity.badRequest().build();</span>
+        try {
+<span class="nc" id="L57">            TipoReceitaDTOServiceResponse tipoReceitaServiceResponse = tipoReceitaService.findbyId(tipoReceitaId);</span>
+<span class="nc" id="L58">            TipoReceitaDTOResponse tipoReceitaDTOResponse = tipoReceitaMapper.toTipoReceitaDTOResponseFromTipoReceitaDTOServiceResponse(tipoReceitaServiceResponse);</span>
+<span class="nc" id="L59">            return ResponseEntity.ok(tipoReceitaDTOResponse);</span>
+<span class="nc" id="L60">        } catch (Exception e) {</span>
+<span class="nc" id="L61">            System.out.println(e.getMessage());</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if(!isTesting()) logger.logUnusualBusinessActivity(&quot;Error getting tipoReceita&quot; + e.getMessage());</span>
+<span class="nc" id="L63">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @GetMapping(&quot;/list&quot;)
+    public ResponseEntity&lt;List&lt;TipoReceitaDTOResponse&gt;&gt; getTipoReceitaList() {
+        try {
+<span class="nc" id="L70">            List&lt;TipoReceitaDTOServiceResponse&gt; tipoReceitaServiceResponseList = tipoReceitaService.findAll();</span>
+<span class="nc" id="L71">            List&lt;TipoReceitaDTOResponse&gt; tipoReceitaDTOResponseList = tipoReceitaMapper.toTipoReceitaDTOResponseListFromTipoReceitaDTOServiceResponseList(tipoReceitaServiceResponseList);</span>
+<span class="nc" id="L72">            return ResponseEntity.ok(tipoReceitaDTOResponseList);</span>
+<span class="nc" id="L73">        } catch (Exception e) {</span>
+<span class="nc" id="L74">            System.out.println(e.getMessage());</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if(!isTesting()) logger.logUnusualBusinessActivity(&quot;Error getting tipoReceita list&quot; + e.getMessage());</span>
+<span class="nc" id="L76">            return new ResponseEntity&lt;&gt;(HttpStatus.BAD_REQUEST);</span>
+        }
+    }
+
+    @DeleteMapping(&quot;/delete/All&quot;)
+    public ResponseEntity deleteAll() {
+<span class="nc" id="L82">        tipoReceitaService.deleteAll();</span>
+<span class="nc" id="L83">        return ResponseEntity.ok().build();</span>
+    }
+
+    @DeleteMapping(&quot;/delete/{tipoReceitaId}&quot;)
+    public ResponseEntity deleteById(@PathVariable Long tipoReceitaId) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (tipoReceitaId &lt; 0) return ResponseEntity.badRequest().build();</span>
+<span class="nc" id="L89">        tipoReceitaService.deleteById(tipoReceitaId);</span>
+<span class="nc" id="L90">        return ResponseEntity.ok().build();</span>
+    }
+    private boolean isTesting() {
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (loggerStrategy.equals(&quot;test&quot;)) {</span>
+<span class="nc" id="L94">            return true;</span>
+        }
+<span class="nc" id="L96">        return false;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

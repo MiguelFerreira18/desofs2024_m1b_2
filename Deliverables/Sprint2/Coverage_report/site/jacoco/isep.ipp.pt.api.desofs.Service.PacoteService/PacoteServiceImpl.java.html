@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PacoteServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Service.PacoteService</a> &gt; <span class="el_source">PacoteServiceImpl.java</span></div><h1>PacoteServiceImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Service.PacoteService;
+
+import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServicePatchRequest;
+import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceRequest;
+import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteDTOServiceResponse;
+import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacotePatchDTOService;
+import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ServiceLayer.PacoteSaveDTOService;
+import isep.ipp.pt.api.desofs.Mapper.PacoteMapper.PacoteMapper;
+import isep.ipp.pt.api.desofs.Model.TipoPacote;
+import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L20">public class PacoteServiceImpl implements PacoteService {</span>
+
+    @Autowired
+    private PacoteServiceRepo pacoteRepo;
+    @Autowired
+    private TipoPacoteServiceRepo tipoPacoteRepo;
+    @Autowired
+    private PacoteMapper pacoteMapper;
+    @Autowired
+    private PersonalValidation validation;
+
+    @Override
+    public PacoteDTOServiceResponse save(@Valid PacoteDTOServiceRequest pacoteService) {
+<span class="fc" id="L33">        TipoPacote tipoPacote = tipoPacoteRepo.findbyId(pacoteService.getTipoPacote());</span>
+<span class="fc" id="L34">        PacoteSaveDTOService pacoteSaveDTOService = new PacoteSaveDTOService(pacoteService.getNome(), pacoteService.getPacoteBasePrice(), pacoteService.getPacoteDescription(), pacoteService.getDisabled(), tipoPacote);</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (!validation.validate(pacoteSaveDTOService)) {</span>
+<span class="fc" id="L36">            return null;</span>
+        }
+<span class="fc" id="L38">        return pacoteMapper.toPacoteDTOServiceResponseFromPacote(pacoteRepo.save(pacoteMapper.toPacotefromPacoteSaveDtoService(pacoteSaveDTOService)));</span>
+    }
+
+    @Override
+    public PacoteDTOServiceResponse findbyId(Long id) {
+<span class="fc" id="L43">        return pacoteMapper.toPacoteDTOServiceResponseFromPacote(pacoteRepo.findbyId(id));</span>
+    }
+
+    @Override
+    public PacoteDTOServiceResponse update(@Valid PacoteDTOServicePatchRequest pacoteRequestService) {
+<span class="nc" id="L48">        TipoPacote tipoPacote = tipoPacoteRepo.findbyId(pacoteRequestService.getTipoPacote());</span>
+<span class="nc" id="L49">        PacotePatchDTOService pacotePatchDTOService = new PacotePatchDTOService(pacoteRequestService.getPacoteId() ,pacoteRequestService.getNome(), pacoteRequestService.getPacoteBasePrice(), pacoteRequestService.getPacoteDescription(), pacoteRequestService.getDisabled(), tipoPacote);</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if (!validation.validate(pacotePatchDTOService)) {</span>
+<span class="nc" id="L51">            return null;</span>
+        }
+<span class="nc" id="L53">        return pacoteMapper.toPacoteDTOServiceResponseFromPacote(pacoteRepo.save(pacoteMapper.toPacotefromPacotePatchDtoService(pacotePatchDTOService)));</span>
+
+    }
+
+    @Override
+    public void disable(Long id) {
+<span class="fc" id="L59">        pacoteRepo.disable(id);</span>
+
+<span class="fc" id="L61">    }</span>
+
+    @Override
+    public void enable(Long id) {
+<span class="fc" id="L65">        pacoteRepo.enable(id);</span>
+<span class="fc" id="L66">    }</span>
+
+    @Override
+    public List&lt;PacoteDTOServiceResponse&gt; findAll() {
+<span class="fc" id="L70">        return pacoteMapper.toPacoteDTOServiceResponseListFromPacoteList(pacoteRepo.findAll());</span>
+    }
+
+    @Override
+    public void deleteById(Long id) {
+<span class="nc" id="L75">        pacoteRepo.deleteById(id);</span>
+<span class="nc" id="L76">    }</span>
+
+    @Override
+    public void deleteAll() {
+<span class="fc" id="L80">        pacoteRepo.deleteAll();</span>
+<span class="fc" id="L81">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

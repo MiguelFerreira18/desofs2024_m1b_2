@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SignInRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Model.UserModel</a> &gt; <span class="el_source">SignInRequest.java</span></div><h1>SignInRequest.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Model.UserModel;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+public record SignInRequest(
+        @Email(message = &quot;Invalid email format&quot;)
+        @NotBlank(message = &quot;Email cannot be blank&quot;)
+        String username,
+        @NotBlank(message = &quot;Password cannot be blank&quot;)
+        @Size(min = 12, max = 128, message = &quot;Password must be between 12 and 128 characters&quot;)
+        String password
+) {
+
+        public SignInRequest copy(PasswordEncoder encoder){
+<span class="nc" id="L18">                return new SignInRequest(username, null);</span>
+        }
+
+        @Override
+        public String toString() {
+<span class="nc" id="L23">                final StringBuilder sb = new StringBuilder(&quot;SignInRequest{&quot;);</span>
+<span class="nc" id="L24">                sb.append(&quot;username='&quot;).append(username).append('\'');</span>
+<span class="nc" id="L25">                sb.append(&quot;, password='&quot;).append(password).append('\'');</span>
+<span class="nc" id="L26">                sb.append('}');</span>
+<span class="nc" id="L27">                return sb.toString();</span>
+        }
+
+
+
+<span class="pc" id="L32">        public SignInRequest {</span>
+<span class="fc" id="L33">                password = password.replaceAll(&quot;\\s+&quot;, &quot;&quot;);</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">                if (!password.matches(&quot;.*\\d.*&quot;)) {</span>
+<span class="fc" id="L36">                        throw new IllegalArgumentException(&quot;Password must contain at least one digit&quot;);</span>
+                }
+<span class="pc bpc" id="L38" title="1 of 2 branches missed.">                if (!password.matches(&quot;.*[A-Z].*&quot;)) {</span>
+<span class="fc" id="L39">                        throw new IllegalArgumentException(&quot;Password must contain at least one uppercase letter&quot;);</span>
+                }
+<span class="nc bnc" id="L41" title="All 2 branches missed.">                if (!password.matches(&quot;.*[!@#$%^&amp;*(),.?\&quot;:{}|&lt;&gt;].*&quot;)) {</span>
+<span class="nc" id="L42">                        throw new IllegalArgumentException(&quot;Password must contain at least one special character&quot;);</span>
+                }
+<span class="nc" id="L44">        }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

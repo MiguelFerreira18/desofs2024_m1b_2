@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReceitaDTOPatchRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ControllerLayer</a> &gt; <span class="el_source">ReceitaDTOPatchRequest.java</span></div><h1>ReceitaDTOPatchRequest.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ControllerLayer;
+
+import isep.ipp.pt.api.desofs.Model.Pacote;
+import isep.ipp.pt.api.desofs.Model.Receita;
+import isep.ipp.pt.api.desofs.Model.TipoReceita;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+public class ReceitaDTOPatchRequest {
+    @Id
+    @GeneratedValue
+    private Long receitaId;
+    @Pattern(regexp = &quot;[^\0]+\\.pdf$&quot;, message = &quot;Invalid path&quot;)
+    private String path;
+    @Pattern(regexp = &quot;^[a-zA-Z0-9]*$&quot;, message = &quot;Invalid name&quot;)
+    @NotNull
+    private String nome;
+    @ManyToOne
+    private Long pacote;
+
+    @ManyToOne
+    @NotNull
+    private Long tipoReceita;
+
+<span class="nc" id="L28">    public ReceitaDTOPatchRequest() {</span>
+<span class="nc" id="L29">    }</span>
+
+<span class="nc" id="L31">    public ReceitaDTOPatchRequest(Long receitaId, String path, String nome, Long pacote, Long tipoReceita) {</span>
+<span class="nc" id="L32">        this.receitaId = receitaId;</span>
+<span class="nc" id="L33">        this.path = path;</span>
+<span class="nc" id="L34">        this.nome = nome;</span>
+<span class="nc" id="L35">        this.pacote = pacote;</span>
+<span class="nc" id="L36">        this.tipoReceita = tipoReceita;</span>
+<span class="nc" id="L37">    }</span>
+
+<span class="nc" id="L39">    public ReceitaDTOPatchRequest(String path, String nome, Long pacote, Long tipoReceita) {</span>
+<span class="nc" id="L40">        this.path = path;</span>
+<span class="nc" id="L41">        this.nome = nome;</span>
+<span class="nc" id="L42">        this.pacote = pacote;</span>
+<span class="nc" id="L43">        this.tipoReceita = tipoReceita;</span>
+<span class="nc" id="L44">    }</span>
+
+    public Long getReceitaId() {
+<span class="nc" id="L47">        return receitaId;</span>
+    }
+
+    public String getPath() {
+<span class="nc" id="L51">        return path;</span>
+    }
+
+
+    public String getNome() {
+<span class="nc" id="L56">        return nome;</span>
+    }
+
+
+    public Long getPacote() {
+<span class="nc" id="L61">        return pacote;</span>
+    }
+
+    public Long getTipoReceita() {
+<span class="nc" id="L65">        return tipoReceita;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

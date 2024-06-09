@@ -12,7 +12,7 @@ public record SignUpRequest(
         String username,
 
         @NotBlank(message = "Password cannot be blank")
-        @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
+        @Size(min = 12, max = 128, message = "Password must be between 12 and 128 characters")
         String password,
 
         @NotBlank(message = "Nome cannot be blank")
@@ -25,20 +25,33 @@ public record SignUpRequest(
         String morada
 
 ) {
+    public SignInRequest copy(PasswordEncoder encoder) {
+        return new SignInRequest(username, null);
+    }
 
-        public SignUpRequest copy(PasswordEncoder encoder){
-                return new SignUpRequest(username, null, encoder.encode(fullName), encoder.encode(nif), encoder.encode(morada));
-        }
+    public SignUpRequest {
+        password = password.replaceAll("\\s+", "");
 
-        @Override
-        public String toString() {
-                final StringBuilder sb = new StringBuilder("SignUpRequest{");
-                sb.append("username='").append(username).append('\'');
-                sb.append(", password='").append(password).append('\'');
-                sb.append(", fullName='").append(fullName).append('\'');
-                sb.append(", nif='").append(nif).append('\'');
-                sb.append(", morada='").append(morada).append('\'');
-                sb.append('}');
-                return sb.toString();
+        if (!password.matches(".*\\d.*")) {
+            throw new IllegalArgumentException("Password must contain at least one digit");
         }
+        if (!password.matches(".*[A-Z].*")) {
+            throw new IllegalArgumentException("Password must contain at least one uppercase letter");
+        }
+        if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+            throw new IllegalArgumentException("Password must contain at least one special character");
+        }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("SignUpRequest{");
+        sb.append("username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", fullName='").append(fullName).append('\'');
+        sb.append(", nif='").append(nif).append('\'');
+        sb.append(", morada='").append(morada).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

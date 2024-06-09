@@ -10,12 +10,12 @@ public record SignInRequest(
         @NotBlank(message = "Email cannot be blank")
         String username,
         @NotBlank(message = "Password cannot be blank")
-        @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
+        @Size(min = 12, max = 128, message = "Password must be between 12 and 128 characters")
         String password
 ) {
 
         public SignInRequest copy(PasswordEncoder encoder){
-                return new SignInRequest(username, null);
+                return new SignInRequest(username, encoder.encode(password));
         }
 
         @Override
@@ -28,4 +28,18 @@ public record SignInRequest(
         }
 
 
+
+        public SignInRequest {
+                password = password.replaceAll("\\s+", "");
+
+                if (!password.matches(".*\\d.*")) {
+                        throw new IllegalArgumentException("Password must contain at least one digit");
+                }
+                if (!password.matches(".*[A-Z].*")) {
+                        throw new IllegalArgumentException("Password must contain at least one uppercase letter");
+                }
+                if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+                        throw new IllegalArgumentException("Password must contain at least one special character");
+                }
+        }
 }

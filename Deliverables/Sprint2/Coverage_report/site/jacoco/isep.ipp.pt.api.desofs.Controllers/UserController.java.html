@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Controllers</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Controllers;
+
+import isep.ipp.pt.api.desofs.Authentication.AuthenticationApi;
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer.UserDTOResponse;
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ControllerLayer.UserDTOPasswordChangeRequest;
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ServiceLayer.UserDTOPasswordChange;
+import isep.ipp.pt.api.desofs.Mapper.UserMapper.UserMapper;
+import isep.ipp.pt.api.desofs.Model.UserModel.SignInRequest;
+import isep.ipp.pt.api.desofs.Model.UserModel.User;
+import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
+import isep.ipp.pt.api.desofs.Service.UserService.UserService;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping(&quot;/user&quot;)
+<span class="fc" id="L23">public class UserController {</span>
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private AuthenticationApi authenticationApi;
+
+    @GetMapping(&quot;/info/{userId}&quot;)
+    public ResponseEntity&lt;UserDTOResponse&gt; getUserInfo(@PathVariable String userId){
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            if(userId == null) return ResponseEntity.badRequest().build();</span>
+<span class="nc" id="L37">            return ResponseEntity.ok(userMapper.fromUserToUserDTOResponse(userService.getUserById(userId)));</span>
+    }
+    @DeleteMapping(&quot;/delete/data&quot;)
+    public ResponseEntity deleteUser(@RequestBody @Valid final SignInRequest request){
+<span class="nc" id="L41">        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));</span>
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (authentication == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();</span>
+
+<span class="nc" id="L45">        userService.deleteUser(request.username());</span>
+<span class="nc" id="L46">        return ResponseEntity.ok().build();</span>
+    }
+
+    @PostMapping(&quot;/change-password/{userId}&quot;)
+    public ResponseEntity&lt;Void&gt; changePassword(@PathVariable String userId, @RequestBody UserDTOPasswordChangeRequest request){
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if(userId != null) return ResponseEntity.badRequest().build();</span>
+<span class="nc" id="L52">        UserDTOPasswordChange user = new UserDTOPasswordChange(UserDTOPasswordChangeRequest.getOldPassword(), UserDTOPasswordChangeRequest.getNewPassword());</span>
+//        UserDTOPasswordChange user = userMapper.fromUserDTOPassworChangeRequestToUserDTOPasswordChange(request);
+<span class="nc" id="L54">        UserView u = authenticationApi.login(new SignInRequest(UserDTOPasswordChangeRequest.getUsername(), UserDTOPasswordChangeRequest.getOldPassword())).getBody();</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (u == null) return ResponseEntity.badRequest().build();</span>
+<span class="nc" id="L56">        boolean changed = userService.changePassword(userId, user);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (changed) {</span>
+<span class="nc" id="L58">            return ResponseEntity.ok().build();</span>
+        } else {
+<span class="nc" id="L60">            return ResponseEntity.badRequest().build();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

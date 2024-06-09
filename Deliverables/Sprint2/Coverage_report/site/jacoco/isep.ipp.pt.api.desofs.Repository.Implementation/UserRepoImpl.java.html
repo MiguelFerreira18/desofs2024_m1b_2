@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserRepoImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Repository.Implementation</a> &gt; <span class="el_source">UserRepoImpl.java</span></div><h1>UserRepoImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Repository.Implementation;
+
+import isep.ipp.pt.api.desofs.Dto.UserDTO.ServiceLayer.UserDTOPasswordChange;
+import isep.ipp.pt.api.desofs.Model.UserModel.User;
+import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.EncomendaRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.ReviewRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.UserRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
+
+
+
+<span class="fc" id="L20">public class UserRepoImpl implements UserServiceRepo {</span>
+
+    @Autowired
+    private UserRepo userRepo;
+    @Autowired
+    private ReviewRepo reviewRepo;
+    @Autowired
+    private EncomendaRepo encomendaRepo;
+    @Autowired
+    private LoggerStrategy logger;
+    @Autowired
+    private PasswordEncoder encoder;
+    @Value(&quot;${app.logger.strategy}&quot;)
+    private String loggerStrategy;
+
+    @Override
+    public User getUserById(String userId) {
+<span class="fc" id="L37">        return userRepo.getUserById(userId);</span>
+    }
+
+    @Override
+    public List&lt;User&gt; getAllUsers() {
+<span class="nc" id="L42">        return null;</span>
+    }
+
+    @Override
+    public User findByUserByEmail(String email) {
+<span class="fc" id="L47">        return userRepo.findByUsername(email);</span>
+    }
+
+    @Override
+    public UserDetails findByUsername(String username) {
+<span class="fc" id="L52">        return userRepo.findByUsername(username);</span>
+    }
+
+    @Override
+    public void deleteAll() {
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if(!isTesting()) userRepo.findAll().forEach(user -&gt; logger.log(user.copy(encoder).toString()));</span>
+<span class="fc" id="L58">        userRepo.deleteAll();</span>
+<span class="fc" id="L59">    }</span>
+
+    @Override
+    public User saveUser(User user) {
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if(!isTesting()) logger.log(user.copy(encoder).toString());</span>
+<span class="fc" id="L64">        return userRepo.save(user);</span>
+    }
+  
+    @Override
+    public User validateUser(String username, String password) {
+<span class="nc" id="L69">        return userRepo.validateUser(username, password);</span>
+    }
+
+    @Override
+    public void deleteUser(String username) {
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if(!isTesting()) logger.log(userRepo.findByUsername(username).copy(encoder).toString());</span>
+<span class="nc" id="L75">        reviewRepo.deleteReviewsByUserName(username);</span>
+<span class="nc" id="L76">        encomendaRepo.deleteEncomendaByUserName(username);</span>
+<span class="nc" id="L77">        userRepo.deleteUser(username);</span>
+<span class="nc" id="L78">    }</span>
+
+
+
+    private boolean isTesting() {
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if (loggerStrategy.equals(&quot;test&quot;)) {</span>
+<span class="fc" id="L84">            return true;</span>
+        }
+<span class="nc" id="L86">        return false;</span>
+    }
+
+    @Override
+    public boolean changePassword(String user, UserDTOPasswordChange password) {
+<span class="nc" id="L91">        String newPassword = password.getNewPassword();</span>
+<span class="nc" id="L92">        newPassword = encoder.encode(newPassword);</span>
+<span class="nc" id="L93">        User u = userRepo.getUserById(user);</span>
+<span class="nc" id="L94">        u.setPassword(newPassword);</span>
+<span class="nc" id="L95">        userRepo.deleteUserById(user);</span>
+<span class="nc" id="L96">        userRepo.save(u);</span>
+<span class="nc" id="L97">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

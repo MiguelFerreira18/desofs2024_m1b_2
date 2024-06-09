@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EncomendaServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Repository.Implementation</a> &gt; <span class="el_source">EncomendaServiceImpl.java</span></div><h1>EncomendaServiceImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Repository.Implementation;
+
+import isep.ipp.pt.api.desofs.Model.Encomenda;
+import isep.ipp.pt.api.desofs.Repository.Interface.EncomendaServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.EncomendaRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+
+<span class="fc" id="L17">public class EncomendaServiceImpl implements EncomendaServiceRepo {</span>
+
+    @Autowired
+    private EncomendaRepo encomendaRepo;
+    @Autowired
+    private LoggerStrategy databaseLogger;
+    @Autowired
+    private PasswordEncoder encoder;
+    @Value(&quot;${app.logger.strategy}&quot;)
+    private String loggerStrategy;
+
+    @Override
+    public Encomenda save(Encomenda encomendaService) {
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">        if(!isTesting()) databaseLogger.log(encomendaService.copy(encoder).toString());</span>
+<span class="fc" id="L31">        return encomendaRepo.save(encomendaService);</span>
+    }
+
+    @Override
+    public Encomenda findbyId(Long id) {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if (encomendaRepo.findById(id).isPresent()) {</span>
+<span class="nc" id="L37">            return encomendaRepo.findById(id).get();</span>
+        } else {
+<span class="nc" id="L39">            return null;</span>
+        }
+    }
+
+    @Override
+    public Encomenda findByDateUserPackage(String userId, Long pacoteId, LocalDateTime dataEncomenda) {
+<span class="nc" id="L45">        return encomendaRepo.findByDateUserPackage(userId,pacoteId,dataEncomenda);</span>
+    }
+
+    @Override
+    public List&lt;Encomenda&gt; findAll(String userId) {
+<span class="nc" id="L50">        List&lt;Encomenda&gt; encomendas = new LinkedList&lt;&gt;();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        for (Encomenda encomenda : encomendaRepo.findAll()) {</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">            if(Objects.equals(encomenda.getUser().getUserId(), userId)) {</span>
+<span class="nc" id="L53">                encomendas.add(encomenda);</span>
+            }
+<span class="nc" id="L55">        }</span>
+<span class="nc" id="L56">        return encomendas;</span>
+    }
+
+    @Override
+    public void deleteById(Long id) {
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if(!isTesting()) encomendaRepo.findById(id).ifPresent(encomenda -&gt; databaseLogger.log(encomenda.copy(encoder).toString()));</span>
+<span class="nc" id="L62">        encomendaRepo.deleteById(id);</span>
+<span class="nc" id="L63">    }</span>
+
+    @Override
+    public void deleteAll() {
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        if(!isTesting()) encomendaRepo.findAll().forEach(encomenda -&gt; databaseLogger.log(encomenda.copy(encoder).toString()));</span>
+<span class="fc" id="L68">        encomendaRepo.deleteAll();</span>
+<span class="fc" id="L69">    }</span>
+
+    @Override
+    public List&lt;Encomenda&gt; findEncHistory(String userId) {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (encomendaRepo.findEncHistory(userId) != null) {</span>
+<span class="nc" id="L74">            return encomendaRepo.findEncHistory(userId);</span>
+        } else {
+<span class="nc" id="L76">            return null;</span>
+        }
+    }
+
+    @Override
+    public void deleteEncomendaByUserName(String userId) {
+<span class="nc" id="L82">        encomendaRepo.deleteEncomendaByUserName(userId);</span>
+<span class="nc" id="L83">    }</span>
+
+    private boolean isTesting() {
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">        if (loggerStrategy.equals(&quot;test&quot;)) {</span>
+<span class="fc" id="L87">            return true;</span>
+        }
+<span class="nc" id="L89">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

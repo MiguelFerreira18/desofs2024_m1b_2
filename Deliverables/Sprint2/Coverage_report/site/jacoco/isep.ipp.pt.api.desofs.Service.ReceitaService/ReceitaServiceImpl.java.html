@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReceitaServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Service.ReceitaService</a> &gt; <span class="el_source">ReceitaServiceImpl.java</span></div><h1>ReceitaServiceImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Service.ReceitaService;
+
+import isep.ipp.pt.api.desofs.Dto.ReceitaDTO.ServiceLayer.*;
+import isep.ipp.pt.api.desofs.Mapper.PacoteMapper.PacoteMapper;
+import isep.ipp.pt.api.desofs.Mapper.ReceitaMapper.ReceitaMapper;
+import isep.ipp.pt.api.desofs.Model.Pacote;
+import isep.ipp.pt.api.desofs.Model.TipoReceita;
+import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.ReceitaServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoReceitaServiceRepo;
+import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.mime.MimeTypes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.apache.tika.Tika;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import java.util.List;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+@Service
+<span class="fc" id="L38">public class ReceitaServiceImpl implements ReceitaService{</span>
+
+    @Autowired
+    private TipoReceitaServiceRepo tipoReceitaRepo;
+
+    @Autowired
+    private PacoteServiceRepo pacoteRepo;
+
+    @Autowired
+    private ReceitaServiceRepo receitaRepo;
+
+    @Autowired
+    private ReceitaMapper receitaMapper;
+
+    @Autowired
+    private PersonalValidation validation;
+
+<span class="fc" id="L55">    private final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB</span>
+<span class="fc" id="L56">    private final Tika tika = new Tika();</span>
+
+    @Override
+    public ReceitaDTOServiceResponse save(@Valid ReceitaDTOServiceRequest receitaService) {
+<span class="fc" id="L60">        String formattedDate = getFormattedDate();</span>
+<span class="fc" id="L61">        String outputPath = &quot;./Recipes/&quot; + formattedDate + &quot;.pdf&quot;;</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">        if(!generateFile(receitaService.getPath(), outputPath)){</span>
+<span class="fc" id="L63">            return null;</span>
+        }
+
+<span class="fc" id="L66">        TipoReceita tipoReceita = tipoReceitaRepo.findbyId(receitaService.getTipoReceita());</span>
+<span class="fc" id="L67">        Pacote pacote = pacoteRepo.findbyId(receitaService.getPacote());</span>
+<span class="fc" id="L68">        ReceitaSaveDTOService receitaSaveDTOService = new ReceitaSaveDTOService(outputPath, receitaService.getNome(), pacote, tipoReceita);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (!validation.validate(receitaSaveDTOService)) {</span>
+<span class="fc" id="L70">            return null;</span>
+        }
+<span class="fc" id="L72">        return receitaMapper.toReceitaDTOServiceResponseFromReceita(receitaRepo.save(receitaMapper.toReceitafromReceitaSaveDtoService(receitaSaveDTOService)));</span>
+    }
+
+    @Override
+    public ReceitaDTOServiceResponse findbyId(Long id) {
+<span class="fc" id="L77">        return receitaMapper.toReceitaDTOServiceResponseFromReceita(receitaRepo.findbyId(id));</span>
+    }
+
+    @Override
+    public ReceitaDTOServiceResponse update(@Valid ReceitaDTOServicePatchRequest receitaRequestService) {
+<span class="nc" id="L82">        String formattedDate = getFormattedDate();</span>
+<span class="nc" id="L83">        String outputPath = receitaRepo.findbyId(receitaRequestService.getReceitaId()).getPath();</span>
+<span class="nc" id="L84">        String FileToRemove = outputPath;</span>
+
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if(!FileToRemove.equalsIgnoreCase(receitaRequestService.getPath()))</span>
+        {
+<span class="nc" id="L88">            outputPath = &quot;./Recipes/&quot; + formattedDate + &quot;.pdf&quot;;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if(!generateFile(receitaRequestService.getPath(), outputPath)){</span>
+<span class="nc" id="L90">                return null;</span>
+            }
+<span class="nc" id="L92">            deleteFile(FileToRemove);</span>
+        }
+
+<span class="nc" id="L95">        TipoReceita tipoReceita = tipoReceitaRepo.findbyId(receitaRequestService.getTipoReceita());</span>
+<span class="nc" id="L96">        Pacote pacote = pacoteRepo.findbyId(receitaRequestService.getPacote());</span>
+<span class="nc" id="L97">        ReceitaPatchDTOService receitaPatchDTOService = new ReceitaPatchDTOService(receitaRequestService.getReceitaId(), outputPath, receitaRequestService.getNome(), pacote, tipoReceita);</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (!validation.validate(receitaPatchDTOService)) {</span>
+<span class="nc" id="L99">            return null;</span>
+        }
+<span class="nc" id="L101">        return receitaMapper.toReceitaDTOServiceResponseFromReceita(receitaRepo.save(receitaMapper.toReceitafromReceitaPatchDtoService(receitaPatchDTOService)));</span>
+    }
+
+    @Override
+    public List&lt;ReceitaDTOServiceResponse&gt; findAll() {
+<span class="nc" id="L106">        return receitaMapper.toReceitaDTOServiceResponseListFromReceitaList(receitaRepo.findAll());</span>
+    }
+
+    private boolean validateFile(File file) {
+        try {
+<span class="fc" id="L111">            String fileType = tika.detect(file);</span>
+<span class="pc bpc" id="L112" title="2 of 4 branches missed.">            if (!fileType.equals(MimeTypes.OCTET_STREAM) &amp;&amp; !fileType.equals(&quot;application/pdf&quot;)) {</span>
+<span class="nc" id="L113">                System.out.println(&quot;Invalid file type: &quot; + fileType);</span>
+<span class="nc" id="L114">                return false;</span>
+            }
+<span class="fc" id="L116">        } catch (IOException e) {</span>
+<span class="fc" id="L117">            e.printStackTrace();</span>
+<span class="fc" id="L118">            return false;</span>
+<span class="fc" id="L119">        }</span>
+
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        if (file.length() &gt; MAX_FILE_SIZE) {</span>
+<span class="nc" id="L122">            return false;</span>
+        }
+<span class="fc" id="L124">        return true;</span>
+    }
+
+    private boolean generateFile(String path , String outputPath) {
+<span class="pc bpc" id="L128" title="2 of 4 branches missed.">        if(path == null || outputPath == null){</span>
+<span class="nc" id="L129">            return false;</span>
+        }
+        try {
+<span class="fc" id="L132">            File file = new File(path);</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            if(!validateFile(file)){</span>
+<span class="fc" id="L134">                return false;</span>
+            }
+<span class="fc" id="L136">            Files.copy(file.toPath(), Paths.get(outputPath), StandardCopyOption.REPLACE_EXISTING);</span>
+<span class="nc" id="L137">        } catch (IOException e) {</span>
+<span class="nc" id="L138">            return false;</span>
+<span class="fc" id="L139">        }</span>
+<span class="fc" id="L140">        return true;</span>
+    }
+
+    private String getFormattedDate(){
+<span class="fc" id="L144">        SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd_HH-mm-ss&quot;);</span>
+<span class="fc" id="L145">        Date date = new Date();</span>
+<span class="fc" id="L146">        return dateFormat.format(date);</span>
+    }
+
+    private void deleteFile(String path){
+        try {
+<span class="nc bnc" id="L151" title="All 4 branches missed.">            if (!path.startsWith(&quot;./Recipes/&quot;) || !path.endsWith(&quot;.pdf&quot;)) {</span>
+<span class="nc" id="L152">                return;</span>
+            }
+<span class="nc" id="L154">            Path filePath = Paths.get(path).toAbsolutePath().normalize();</span>
+<span class="nc" id="L155">            Files.delete(filePath);</span>
+<span class="nc" id="L156">        } catch (Exception e) {</span>
+<span class="nc" id="L157">        }</span>
+<span class="nc" id="L158">    }</span>
+
+    @Override
+    public void deleteById(Long id) {
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">        if(receitaRepo.findbyId(id) == null){</span>
+<span class="fc" id="L163">            return;</span>
+        }
+<span class="nc" id="L165">        String filePathStr = receitaRepo.findbyId(id).getPath();</span>
+<span class="nc" id="L166">        deleteFile(filePathStr);</span>
+<span class="nc" id="L167">        receitaRepo.deleteById(id);</span>
+<span class="nc" id="L168">    }</span>
+
+    @Override
+    public void deleteAll() {
+<span class="fc" id="L172">        receitaRepo.deleteAll();</span>
+<span class="fc" id="L173">    }</span>
+
+    @Override
+    public ResponseEntity&lt;Resource&gt; downloadFile(Long id) {
+        try {
+<span class="nc" id="L178">            String path = receitaRepo.findbyId(id).getPath();</span>
+<span class="nc" id="L179">            Path fileStorageLocation = Paths.get(path).toAbsolutePath().normalize();</span>
+<span class="nc" id="L180">            Resource resource = new UrlResource(fileStorageLocation.toUri());</span>
+
+<span class="nc bnc" id="L182" title="All 2 branches missed.">            if (!resource.exists()) {</span>
+<span class="nc" id="L183">                return ResponseEntity.notFound().build();</span>
+            }
+
+<span class="nc" id="L186">            String contentType = Files.probeContentType(fileStorageLocation);</span>
+<span class="nc bnc" id="L187" title="All 2 branches missed.">            if (contentType == null) {</span>
+<span class="nc" id="L188">                contentType = &quot;application/octet-stream&quot;;</span>
+            }
+
+<span class="nc" id="L191">            return ResponseEntity.ok()</span>
+<span class="nc" id="L192">                    .contentType(MediaType.parseMediaType(contentType))</span>
+<span class="nc" id="L193">                    .header(HttpHeaders.CONTENT_DISPOSITION, &quot;attachment; filename=\&quot;&quot; + resource.getFilename() + &quot;\&quot;&quot;)</span>
+<span class="nc" id="L194">                    .body(resource);</span>
+<span class="nc" id="L195">        } catch (Exception e) {</span>
+<span class="nc" id="L196">            e.printStackTrace();</span>
+<span class="nc" id="L197">            return ResponseEntity.status(500).build();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

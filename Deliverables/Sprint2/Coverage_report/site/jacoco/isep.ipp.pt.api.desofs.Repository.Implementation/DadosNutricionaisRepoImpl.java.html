@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DadosNutricionaisRepoImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Repository.Implementation</a> &gt; <span class="el_source">DadosNutricionaisRepoImpl.java</span></div><h1>DadosNutricionaisRepoImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Repository.Implementation;
+
+import isep.ipp.pt.api.desofs.Model.DadosNutricionais;
+import isep.ipp.pt.api.desofs.Repository.Interface.DadosNutricionaisServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.DadosNutricionaisRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+<span class="fc" id="L10">public class DadosNutricionaisRepoImpl implements DadosNutricionaisServiceRepo {</span>
+
+    @Autowired
+    private DadosNutricionaisRepo dadosNutricionaisRepo;
+
+    @Override
+    public DadosNutricionais getDadosNutricionaisByReceitaId(Long receitaId) {
+<span class="nc" id="L17">        return dadosNutricionaisRepo.getDadosNutricionaisByReceitaId(receitaId);</span>
+    }
+
+    @Override
+    public boolean save(DadosNutricionais dadosNutricionais) {
+<span class="nc" id="L22">        dadosNutricionaisRepo.save(dadosNutricionais);</span>
+<span class="nc" id="L23">        return true;</span>
+    }
+
+    @Override
+    public boolean saveByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
+<span class="fc" id="L28">        DadosNutricionais dados = dadosNutricionaisRepo.getDadosNutricionaisByReceitaId(receitaId);</span>
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        if (dados == null) {</span>
+<span class="fc" id="L30">            dadosNutricionaisRepo.save(dadosNutricionais);</span>
+<span class="fc" id="L31">            return true;</span>
+        } else {
+<span class="nc" id="L33">            return false;</span>
+        }
+    }
+
+    @Override
+    public boolean updateByReceitaId(Long receitaId, DadosNutricionais dadosNutricionais) {
+<span class="nc" id="L39">        DadosNutricionais dados = dadosNutricionaisRepo.getDadosNutricionaisByReceitaId(receitaId);</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (dados != null) {</span>
+<span class="nc" id="L41">            dadosNutricionaisRepo.deleteById(dados.getDadosNutricionaisId());</span>
+<span class="nc" id="L42">            dadosNutricionaisRepo.save(dadosNutricionais);</span>
+<span class="nc" id="L43">            return true;</span>
+        } else {
+<span class="nc" id="L45">            return false;</span>
+        }
+    }
+
+    @Override
+    public List&lt;DadosNutricionais&gt; getAllDadosNutricionais() {
+<span class="nc" id="L51">        return (List&lt;DadosNutricionais&gt;) dadosNutricionaisRepo.findAll();</span>
+    }
+
+    @Override
+    public void deleteAll() {
+<span class="fc" id="L56">        dadosNutricionaisRepo.deleteAll();</span>
+<span class="fc" id="L57">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

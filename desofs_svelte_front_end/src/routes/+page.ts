@@ -13,6 +13,15 @@ export const load: PageLoad = async () => {
 		//only send four packages
 		enabledPackages.length = 4;
 	}
+	const responseDadosNutricionais = await sendRequest('dadosNutricionais/info/103', 'GET', '', '');
+	if (responseDadosNutricionais.ok) {
+		console.log(await responseDadosNutricionais.json());
+	}
+	const responseDadosNutricionais2 = await sendRequest('dadosNutricionais/info/102', 'GET', '', '');
+	if (responseDadosNutricionais2.ok) {
+		console.log(await responseDadosNutricionais2.json());
+	}
+
 	if (reviews.length !== 0 && reviews.length >= 5) {
 		const enabledPackages: Package[] = packages.filter((pkg) => pkg.disabled === false);
 

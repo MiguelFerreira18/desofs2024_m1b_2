@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PacoteServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Repository.Implementation</a> &gt; <span class="el_source">PacoteServiceImpl.java</span></div><h1>PacoteServiceImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Repository.Implementation;
+
+import isep.ipp.pt.api.desofs.Model.Pacote;
+import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.PacoteRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Logger;
+
+<span class="fc" id="L16">public class PacoteServiceImpl implements PacoteServiceRepo {</span>
+
+<span class="fc" id="L18">    private static final org.slf4j.Logger log = LoggerFactory.getLogger(PacoteServiceImpl.class);</span>
+    @Autowired
+    private PacoteRepo pacoteRepo;
+    @Autowired
+    private LoggerStrategy logger;
+    @Value(&quot;${app.logger.strategy}&quot;)
+    private String loggerStrategy;
+
+
+    @Override
+    public Pacote save(Pacote pacoteService) {
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        if(!isTesting()) logger.log(pacoteService.copy().toString());</span>
+<span class="fc" id="L30">        return pacoteRepo.save(pacoteService);</span>
+    }
+
+    @Override
+    public Pacote findbyName(String name) {
+<span class="fc" id="L35">        return pacoteRepo.findByName(name);</span>
+    }
+
+    @Override
+    public List&lt;Pacote&gt; findAll() {
+<span class="fc" id="L40">        List&lt;Pacote&gt; pacotes = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (Pacote pacote : pacoteRepo.findAll()) {</span>
+<span class="fc" id="L42">            pacotes.add(pacote);</span>
+<span class="fc" id="L43">        }</span>
+<span class="fc" id="L44">        return pacotes;</span>
+    }
+
+    @Override
+    public Pacote findbyId(Long id) {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (pacoteRepo.findById(id).isPresent()) {</span>
+<span class="fc" id="L50">            return pacoteRepo.findById(id).get();</span>
+        } else {
+<span class="fc" id="L52">            return null;</span>
+        }
+    }
+
+    @Override
+    public void disable(Long id) {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (pacoteRepo.findById(id).isPresent()) {</span>
+<span class="fc" id="L59">            Pacote pacote = pacoteRepo.findById(id).get();</span>
+<span class="fc" id="L60">            pacote.setDisabled();</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            if(!isTesting()) logger.log(pacote.copy().toString());</span>
+<span class="fc" id="L62">            pacoteRepo.save(pacote);</span>
+        }
+
+<span class="fc" id="L65">    }</span>
+
+    @Override
+    public void enable(Long id) {
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (pacoteRepo.findById(id).isPresent()) {</span>
+<span class="fc" id="L70">            Pacote pacote = pacoteRepo.findById(id).get();</span>
+<span class="fc" id="L71">            pacote.setEnabled();</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            if(!isTesting()) logger.log(pacote.copy().toString());</span>
+<span class="fc" id="L73">            pacoteRepo.save(pacote);</span>
+        }
+<span class="fc" id="L75">    }</span>
+
+    @Override
+    public void deleteById(Long id) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if(!isTesting()) pacoteRepo.findById(id).ifPresent(pacote -&gt; logger.log(pacote.copy().toString()));</span>
+<span class="nc" id="L80">        pacoteRepo.deleteById(id);</span>
+<span class="nc" id="L81">    }</span>
+
+    @Override
+    public void deleteAll() {
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        if(!isTesting()) pacoteRepo.findAll().forEach(pacote -&gt; logger.log(pacote.copy().toString()));</span>
+<span class="fc" id="L86">        pacoteRepo.deleteAll();</span>
+<span class="fc" id="L87">    }</span>
+
+    private boolean isTesting() {
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">        if (loggerStrategy.equals(&quot;test&quot;)) {</span>
+<span class="fc" id="L91">            return true;</span>
+        }
+<span class="nc" id="L93">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

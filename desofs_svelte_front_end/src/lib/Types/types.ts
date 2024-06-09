@@ -19,6 +19,7 @@ type User = {
 };
 
 type UserInfo = {
+	userId: number;
 	fullName: string;
 	username: string;
 	morada: string;
@@ -136,6 +137,17 @@ enum StateDelivery {
 	CANCELADO
 }
 
+type DadosNutricionais = {
+	receitaId: number;
+	porcao: string;
+	valorEnergetico: string;
+	carboidratos: string;
+	proteinas: string;
+	gordura: string;
+	sal: string;
+	acucar: string;
+};
+
 // Export
 export type {
 	Package,
@@ -151,6 +163,7 @@ export type {
 	Delivery,
 	DeliveryDTOPatch,
 	StateDelivery,
+	DadosNutricionais,
 	RecipeDTOSend,
 	RecipePatchSend,
 	RecipeType,
