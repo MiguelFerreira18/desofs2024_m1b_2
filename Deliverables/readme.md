@@ -2396,7 +2396,7 @@ esse tempo.
 
 A implementação da autenticação de dois factores não foi prosseguida devido à ausência de um servidor para a transmissão de mensagens de correio eletrónico ou mensagens para os dispositivos móveis dos utilizadores.
 
-**Countermeasure 2** (Rodrigo)
+**Countermeasure 2**
 
 Foi implementado na nossa solução as seguintes caracteristicas:
 
@@ -2404,6 +2404,231 @@ Foi implementado na nossa solução as seguintes caracteristicas:
 - A senha deve incluir letras minúsculas, maiúsculas, símbolos e números.
 - Reduzir múltiplos espaços consecutivos a um único espaço.
 - Indicador do nivel de força da password
+
+No código abaixo, que é o codigo da página do signup é possivel observar por exemplo como funciona o medidor de força da password.
+
+```java
+<script lang="ts">
+	import { enhance } from '$app/forms';
+
+	let password = '';
+	let repeatPassword = '';
+	let passwordStrength = 0;
+	let barColor = 'red';
+
+	let hasMinLength = false;
+	let hasNumber = false;
+	let hasUppercase = false;
+	let hasSpecialChar = false;
+	let passwordsMatch = false;
+
+	let buttonClass = '';
+	let isDisabled = false;
+
+	$: {
+		if (hasMinLength && hasNumber && hasUppercase && hasSpecialChar && passwordsMatch) {
+			buttonClass =
+				'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500';
+			isDisabled = false;
+		} else {
+			buttonClass =
+				'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-400 cursor-not-allowed';
+			isDisabled = true;
+		}
+	}
+
+	const updatePasswordStrength = () => {
+		hasMinLength = password.length >= 12;
+		hasNumber = /\d/.test(password);
+		hasUppercase = /[A-Z]/.test(password);
+		hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+		// Verificar se a senha contém apenas caracteres imprimíveis Unicode
+		if (password != '') {
+			passwordsMatch = password === repeatPassword;
+		}
+		// Calcular a força da senha, incluindo espaços na contagem de caracteres
+		const requirementsMet = [
+			hasMinLength,
+			hasNumber,
+			hasUppercase,
+			hasSpecialChar,
+			passwordsMatch
+		].filter(Boolean).length;
+		passwordStrength = requirementsMet / 6;
+
+		if (passwordStrength <= 1 / 3) {
+			barColor = 'red';
+		} else if (passwordStrength <= 2 / 3) {
+			barColor = 'yellow';
+		} else {
+			barColor = 'green';
+		}
+	};
+
+	const handlePasswordInput = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		password = target.value;
+		updatePasswordStrength();
+	};
+
+	const handleRepeatPasswordInput = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		repeatPassword = target.value;
+		updatePasswordStrength();
+	};
+
+	let passwordVisible = false;
+
+	const togglePasswordVisibility = () => {
+		const passwordInput = document.getElementById('password') as HTMLInputElement;
+		passwordVisible = !passwordVisible;
+		passwordInput.type = passwordVisible ? 'text' : 'password';
+	};
+</script>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+	<div class="max-w-md w-full space-y-8 border p-5 bg-white rounded">
+		<div>
+			<h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+				Sign in to your account
+			</h2>
+		</div>
+		<form class="mt-8 space-y-6 flex flex-col" use:enhance action="?/signup" method="POST">
+			<div class="rounded-md shadow-sm -space-y-px">
+				<div>
+					<label for="email-address" class="sr-only">Email address</label>
+					<input
+						id="email-address"
+						name="email"
+						type="email"
+						required
+						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="Email"
+					/>
+				</div>
+				<div>
+					<label for="fullName" class="sr-only">FullName</label>
+					<input
+						id="fullname"
+						name="fullname"
+						type="text"
+						required
+						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="Full name"
+					/>
+				</div>
+			</div>
+			<div class="rounded-md shadow-sm -space-y-px">
+				<div>
+					<label for="nif" class="sr-only">Nif</label>
+					<input
+						id="nif"
+						name="nif"
+						type="text"
+						required
+						class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="NIF"
+					/>
+				</div>
+				<div>
+					<label for="morada" class="sr-only">Morada</label>
+					<input
+						id="morada"
+						name="morada"
+						type="text"
+						required
+						class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="Morada"
+					/>
+				</div>
+			</div>
+			<div class="rounded-md shadow-sm -space-y-px">
+				<div>
+					<label for="password" class="sr-only">Password</label>
+					<div class="flex">
+						<input
+							id="password"
+							name="password"
+							type="password"
+							minlength="12"
+							maxlength="128"
+							bind:value={password}
+							on:input={handlePasswordInput}
+							required
+							class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+							placeholder="Password"
+						/>
+						<button
+							type="button"
+							class="ml-2 px-2 py-1 rounded-md bg-gray-200 text-gray-700"
+							on:click={togglePasswordVisibility}
+						>
+							{passwordVisible ? 'Hide' : 'Show'}
+						</button>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div>
+					<label for="repeat-password" class="sr-only">Repeat Password</label>
+					<input
+						id="repeat-password"
+						name="repeat-password"
+						type="password"
+						minlength="12"
+						maxlength="128"
+						bind:value={repeatPassword}
+						on:input={handleRepeatPasswordInput}
+						required
+						class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+						placeholder="Repeat password"
+					/>
+				</div>
+				<div class="strength-bar" style="margin-top: 0.5rem; margin-bottom: 0.5rem">
+					<div style="width: {passwordStrength * 100}%; background-color: {barColor};"></div>
+				</div>
+				<div style="margin-left: 1rem;">
+					<ul class="list-disc">
+						<li class={hasMinLength ? 'text-green-500' : ''}>
+							Password must have at least 12 characters
+						</li>
+						<li class={hasNumber ? 'text-green-500' : ''}>Password must have at least 1 number</li>
+						<li class={hasUppercase ? 'text-green-500' : ''}>
+							Password must have at least 1 uppercase letter
+						</li>
+						<li class={hasSpecialChar ? 'text-green-500' : ''}>
+							Password must have at least 1 special character
+						</li>
+						<li class={passwordsMatch ? 'text-green-500' : ''}>Passwords must match</li>
+					</ul>
+				</div>
+			</div>
+			<div>
+				<button type="submit" class={buttonClass} disabled={isDisabled}> Sign in </button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<style>
+	.strength-bar {
+		width: 100%;
+		height: 5px;
+		background-color: lightgray;
+		margin-top: 10px;
+	}
+	.strength-bar > div {
+		height: 100%;
+		transition:
+			width 0.3s ease,
+			background-color 0.3s ease;
+	}
+
+	li {
+		font-size: 0.8em;
+	}
+</style>
+```
 
 **Countermeasure 3**
 
@@ -2707,11 +2932,38 @@ relatórios podem ser encontrados na pasta "Deliverables\Sprint2\Mitigations_Thr
 
 ## 2. Authentication
 
-É de salientar que pelo menos metade das actividades de segurança foram concluídas, embora seja pertinente salientar que algumas nao foram possiveis de se implementar. Estas incluem a utilização de OTP (One-Time Password) e a utilização de serviços de email e SMS.
+É de salientar que pelo menos metade das actividades de segurança foram concluídas, embora seja pertinente salientar que algumas nao foram possiveis de se implementar. Estas incluem a utilização de OTP (One-Time Password) e a utilização de serviços de email e SMS. Também realçar as conquistas que foram as verificações à password e de garantir que a password seja forte e esteja protegida, junto com a token unica que é fornecida para permitir a interação com o sistema.
+
+
+Exemplo de uma das nossas implementações no backend:
+```java
+        public SignInRequest {
+                password = password.replaceAll("\\s+", "");
+
+                if (!password.matches(".*\\d.*")) {
+                        throw new IllegalArgumentException("Password must contain at least one digit");
+                }
+                if (!password.matches(".*[A-Z].*")) {
+                        throw new IllegalArgumentException("Password must contain at least one uppercase letter");
+                }
+                if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+                        throw new IllegalArgumentException("Password must contain at least one special character");
+                }
+        }
+```
 
 ## 3. Session Management
 
-A maioria das boas práticas foram implementadas no entanto algumas ficaram por realizar devido a falta de conhecimento prévio mais precisamente nos pontos 7.2.1 e 7.1.1.
+A maioria das boas práticas foram implementadas no entanto algumas ficaram por realizar devido a falta de conhecimento prévio mais precisamente nos pontos 7.2.1 e 7.1.1. Para garantir a sessão foi então utilizado a criação de uma cookie de sessão segura, httponly e que apenas funcionava para o nosso website em que armazenava o token e algumas informações essenciais mas nao comprometedoras do utilizador.
+
+```javascript
+		cookies.set('authToken', JSON.stringify(cookie), {
+			path: '/',
+			secure: true,
+			httpOnly: true,
+			sameSite: 'strict'
+		});
+```
 
 ## 4. Access Control
 
@@ -2808,8 +3060,23 @@ sendo que o outputPath era sempre no diretório Recipes e o nome do ficheiro era
 ````
 
 #### 12.2.1.13. API and Web Service
+
+A maioria das recomendações, para o nosso caso, acabaram por ser nao aplicaveis, pois alguns referiam o uso de XML, GraphQl. Aos aplicados, utilizamos o apache tika para garantir que os ficheiros utilizam a mesma codificação e a maioria das recomendações foram implementadas usando o springboot security.
+
 #### 12.2.1.14. Configuration
-## 12.3 Conclusão
+
+Pode afirmar-se que todas as recomendações possíveis para o nosso caso foram seguidas, com apenas quatro excepções que não eram aplicáveis. Os aspectos mais importantes da implementação são os seguintes:
+
+Configuração do pipeline do GitHub Actions: Foi implementado um pipeline robusto que automatiza a construção, o teste e a implantação do aplicativo. Esse pipeline é configurado no arquivo .github/workflows/deployment.yaml. É utilizada uma verificação de dependências para assegurar que todas as dependências estão actualizadas e livres de vulnerabilidades conhecidas. Essa verificação é realizada durante o processo de compilação.
+
+O CodeQL é integrado ao pipeline para a análise da segurança do código. Esta ferramenta ajuda a identificar potenciais vulnerabilidades no código-fonte, verificando a integridade e a segurança das configurações relevantes. Um exemplo desta implementação pode ser observado no commit f106638 no pull request #26. 
+
+O Dependabot é utilizado para monitorizar e atualizar automaticamente as dependências da aplicação. Esta ferramenta garante que todas as bibliotecas de terceiros utilizadas estão consistentemente actualizadas com os últimos patches de segurança.
+
+O Snyk é utilizado para análise de vulnerabilidades em tempo real, abrangendo dependências e código-fonte. O Snyk efectua verificações de dependência durante o processo de construção e fornece relatórios detalhados sobre quaisquer vulnerabilidades identificadas. 
+
+O DockerScout é utilizado para garantir a integridade e a segurança das imagens Docker. Verifica a ausência de vulnerabilidades conhecidas e assegura que todas as dependências dentro das imagens estão actualizadas.
+
 ## 12. Files and Resources
 
 O controlo de ficheiros e recursos garante que os ficheiros e recursos da aplicação são protegidos contra 
