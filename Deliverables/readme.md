@@ -1807,13 +1807,23 @@ A lista de controlo ASVS é composta por diferentes categorias de segurança. Ap
 O ficheiro Excel apresenta uma síntese dos resultados da ASVS para cada categoria de segurança. 
 Segue-se um resumo dos resultados, incluindo o número de critérios válidos, o total de critérios e a percentagem de validade para cada categoria.
 
-| Security Category                          | Total Criteria | Valid Criteria | Validity Percentage |
-|--------------------------------------------|----------------|----------------|---------------------|
-| Architecture, Design and Threat Modeling   | 33             | 28             | 84.85%              |
-| Authentication                             | 35             | 21             | 60.00%              |
-| Session Management                         | 14             | 10             | 71.43%              |
-| Access Control                             | 8              | 6              | 75.00%              |
-| Validation, Sanitization and Encoding      | 27             | 22             | 81.48%              |
+| Security Category                              | Total Criteria | Valid Criteria | Validity Percentage |
+|------------------------------------------------|----------------|----------------|---------------------|
+| Architecture, Design and Threat Modeling       | 33             | 28             | 84.85%              |
+| Authentication                                 | 35             | 21             | 60.00%              |
+| Session Management                             | 14             | 10             | 71.43%              |
+| Access Control                                 | 8              | 6              | 75.00%              |
+| Validation, Sanitization and Encoding          | 27             | 22             | 81.48%              |
+| Stored Cryptography                            | 12             | 11             | 91.67%              |
+| Error Handling and Logging                     | 10             | 3              |                     |
+| Data Protection                                |                |                |                     |
+| Communication                                  |                |                |                     |
+| Malicious Code                                 |                |                |                     |
+| Business Logic                                 |                |                |                     |
+| Files and Resources                            | 12             | 10             | 83.33%              |
+| API and Web Service                            |                |                |                     |
+| Configuration                                  |                |                |                     |
+
 
 De reforçar que no ficheiro do ASVS, as funcionalidades que estão assinaladas com "valid", são funcionalidades que já foram implementadas,
 as que estão assinaladas com "not-valid", são funcionalidades que pretendemos implementar no futuro, e as que estão assinaladas com "not-applicable".
@@ -2049,6 +2059,61 @@ Para este ponto de verificação, foi utilizada a mesma solução, que é a util
                 )
 ````
 
+#### 12.2.1.6. Stored Cryptography
+#### 12.2.1.7. Error Handling and Logging
+#### 12.2.1.8. Data Protection
+#### 12.2.1.9. Communication
+#### 12.2.1.10. Malicious Code
+#### 12.2.1.11. Business Logic
+#### 12.2.1.12. Files and Resources
+O controlo de ficheiros e recursos garante que os ficheiros e recursos da aplicação são protegidos contra ataques e acessos não autorizados. A validade nesta categoria é de 83,33%, com 10 critérios válidos num total de 12.
+
+No contexto da nossa aplicação, apenas permitimos o uso de ficheiros com extensão .pdf e com o Tipo MIME de octet_stream limitando também o tamanho dos ficheiros.
+
+````java
+        private final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+        private boolean validateFile(File file) {
+        try {
+            String fileType = tika.detect(file);
+            if (!fileType.equals(MimeTypes.OCTET_STREAM) && !fileType.equals("application/pdf")) {
+                System.out.println("Invalid file type: " + fileType);
+                return false;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        if (file.length() > MAX_FILE_SIZE) {
+            return false;
+        }
+        return true;
+    }
+````
+Na geração do ficheiro, verificou-se se os ficheiros são válidos e se o ficheiro já existe, caso contrário, o ficheiro é copiado para o diretório de output,
+sendo que o outputPath era sempre no diretório Recipes e o nome do ficheiro era gerado através da data atual.
+````java
+        private boolean generateFile(String path , String outputPath) {
+        if(path == null || outputPath == null){
+            return false;
+        }
+        try {
+            File file = new File(path);
+            if(!validateFile(file)){
+                return false;
+            }
+            Files.copy(file.toPath(), Paths.get(outputPath), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
+````
+
+#### 12.2.1.13. API and Web Service
+#### 12.2.1.14. Configuration
 ## 12.3 Conclusão
 
 A análise da lista de verificação ASVS revelou que, embora existam áreas de forte conformidade, como a Arquitetura, a Conceção e a Modelação e Validação de Ameaças, a Sanitização e a Codificação, também existem áreas que necessitam de ser melhoradas, como a Autenticação e a Gestão de Sessões.
