@@ -25,6 +25,9 @@ public record SignUpRequest(
         String morada
 
 ) {
+    public SignInRequest copy(PasswordEncoder encoder) {
+        return new SignInRequest(username, null);
+    }
 
     public SignUpRequest {
         password = password.replaceAll("\\s+", "");
@@ -40,15 +43,15 @@ public record SignUpRequest(
         }
     }
 
-        @Override
-        public String toString() {
-                final StringBuilder sb = new StringBuilder("SignUpRequest{");
-                sb.append("username='").append(username).append('\'');
-                sb.append(", password='").append(password).append('\'');
-                sb.append(", fullName='").append(fullName).append('\'');
-                sb.append(", nif='").append(nif).append('\'');
-                sb.append(", morada='").append(morada).append('\'');
-                sb.append('}');
-                return sb.toString();
-        }
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("SignUpRequest{");
+        sb.append("username='").append(username).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", fullName='").append(fullName).append('\'');
+        sb.append(", nif='").append(nif).append('\'');
+        sb.append(", morada='").append(morada).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

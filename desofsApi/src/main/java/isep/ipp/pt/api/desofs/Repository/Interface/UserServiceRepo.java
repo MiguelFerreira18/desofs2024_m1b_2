@@ -15,7 +15,6 @@ public interface UserServiceRepo {
     public User saveUser(User user);
     public User validateUser(String username, String password);
     public void deleteUser(String username);
-
-    public boolean changePassword(Long user, UserDTOPasswordChange password);
+    public boolean changePassword(String user, UserDTOPasswordChange password);
 
 }

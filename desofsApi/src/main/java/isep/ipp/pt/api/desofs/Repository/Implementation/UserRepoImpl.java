@@ -32,9 +32,6 @@ public class UserRepoImpl implements UserServiceRepo {
     @Value("${app.logger.strategy}")
     private String loggerStrategy;
 
-    @Autowired
-    private PasswordEncoder encoder;
-
     @Override
     public User getUserById(String userId) {
         return userRepo.getUserById(userId);
@@ -80,6 +77,8 @@ public class UserRepoImpl implements UserServiceRepo {
         userRepo.deleteUser(username);
     }
 
+
+
     private boolean isTesting() {
         if (loggerStrategy.equals("test")) {
             return true;
@@ -88,12 +87,12 @@ public class UserRepoImpl implements UserServiceRepo {
     }
 
     @Override
-    public boolean changePassword(Long user, UserDTOPasswordChange password) {
+    public boolean changePassword(String user, UserDTOPasswordChange password) {
         String newPassword = password.getNewPassword();
         newPassword = encoder.encode(newPassword);
         User u = userRepo.getUserById(user);
         u.setPassword(newPassword);
-        userRepo.deleteById(user);
+        userRepo.deleteUserById(user);
         userRepo.save(u);
         return true;
     }

@@ -7,6 +7,7 @@ import isep.ipp.pt.api.desofs.Dto.UserDTO.ServiceLayer.UserDTOPasswordChange;
 import isep.ipp.pt.api.desofs.Mapper.UserMapper.UserMapper;
 import isep.ipp.pt.api.desofs.Model.UserModel.SignInRequest;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
+import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
 import isep.ipp.pt.api.desofs.Service.UserService.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,8 @@ public class UserController {
     }
 
     @PostMapping("/change-password/{userId}")
-    public ResponseEntity<Void> changePassword(@PathVariable Long userId, @RequestBody UserDTOPasswordChangeRequest request){
-        if(userId < 0) return ResponseEntity.badRequest().build();
+    public ResponseEntity<Void> changePassword(@PathVariable String userId, @RequestBody UserDTOPasswordChangeRequest request){
+        if(userId != null) return ResponseEntity.badRequest().build();
         UserDTOPasswordChange user = new UserDTOPasswordChange(UserDTOPasswordChangeRequest.getOldPassword(), UserDTOPasswordChangeRequest.getNewPassword());
 //        UserDTOPasswordChange user = userMapper.fromUserDTOPassworChangeRequestToUserDTOPasswordChange(request);
         UserView u = authenticationApi.login(new SignInRequest(UserDTOPasswordChangeRequest.getUsername(), UserDTOPasswordChangeRequest.getOldPassword())).getBody();

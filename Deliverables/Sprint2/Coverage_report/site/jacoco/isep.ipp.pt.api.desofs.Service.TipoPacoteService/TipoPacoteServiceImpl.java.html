@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TipoPacoteServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Service.TipoPacoteService</a> &gt; <span class="el_source">TipoPacoteServiceImpl.java</span></div><h1>TipoPacoteServiceImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Service.TipoPacoteService;
+
+import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServiceResponse;
+import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServiceRequest;
+import isep.ipp.pt.api.desofs.Mapper.TipoPacoteMapper.TipoPacoteMapper;
+import isep.ipp.pt.api.desofs.Model.TipoPacote;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L16">public class TipoPacoteServiceImpl implements  TipoPacoteService {</span>
+
+    @Autowired
+    private TipoPacoteServiceRepo tipoPacoteServiceRepo;
+    @Autowired
+    private TipoPacoteMapper tipoPacoteMapper;
+    @Autowired
+    private PersonalValidation validation;
+
+
+
+    @Override
+    public TipoPacoteDTOServiceResponse save(@Valid TipoPacoteDTOServiceRequest tipoPacote) {
+<span class="fc" id="L29">        TipoPacote tipoPacoteMapped = tipoPacoteMapper.toTipoPacoteFromTipoPacoteDTOServiceRequest(tipoPacote);</span>
+<span class="fc" id="L30">        return tipoPacoteMapper.toTipoPacoteDTOServiceResponseFromTipoPacote(tipoPacoteServiceRepo.save(tipoPacoteMapped));</span>
+    }
+
+    @Override
+    public TipoPacoteDTOServiceResponse findbyId(Long id) {
+<span class="fc" id="L35">        return tipoPacoteMapper.toTipoPacoteDTOServiceResponseFromTipoPacote(tipoPacoteServiceRepo.findbyId(id));</span>
+    }
+
+    @Override
+    public List&lt;TipoPacoteDTOServiceResponse&gt; findAll() {
+<span class="fc" id="L40">        return tipoPacoteMapper.toTipoPacoteDTOServiceResponseListFromTipoPacote(tipoPacoteServiceRepo.findAll());</span>
+    }
+
+    @Override
+    public void deleteAll() {
+<span class="fc" id="L45">        tipoPacoteServiceRepo.deleteAll();</span>
+<span class="fc" id="L46">    }</span>
+
+    @Override
+    public void deleteById(Long id) {
+<span class="nc" id="L50">        tipoPacoteServiceRepo.deleteById(id);</span>
+<span class="nc" id="L51">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SignUpRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Model.UserModel</a> &gt; <span class="el_source">SignUpRequest.java</span></div><h1>SignUpRequest.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Model.UserModel;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+public record SignUpRequest(
+
+        @Email(message = &quot;Invalid email format&quot;)
+        @NotBlank(message = &quot;Email cannot be blank&quot;)
+        String username,
+
+        @NotBlank(message = &quot;Password cannot be blank&quot;)
+        @Size(min = 12, max = 128, message = &quot;Password must be between 12 and 128 characters&quot;)
+        String password,
+
+        @NotBlank(message = &quot;Nome cannot be blank&quot;)
+        String fullName,
+
+        @NotBlank(message = &quot;Nif cannot be blank&quot;)
+        String nif,
+
+        @NotBlank(message = &quot;Morada cannot be blank&quot;)
+        String morada
+
+) {
+    public SignInRequest copy(PasswordEncoder encoder) {
+<span class="nc" id="L29">        return new SignInRequest(username, null);</span>
+    }
+
+<span class="pc" id="L32">    public SignUpRequest {</span>
+<span class="fc" id="L33">        password = password.replaceAll(&quot;\\s+&quot;, &quot;&quot;);</span>
+
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (!password.matches(&quot;.*\\d.*&quot;)) {</span>
+<span class="fc" id="L36">            throw new IllegalArgumentException(&quot;Password must contain at least one digit&quot;);</span>
+        }
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (!password.matches(&quot;.*[A-Z].*&quot;)) {</span>
+<span class="nc" id="L39">            throw new IllegalArgumentException(&quot;Password must contain at least one uppercase letter&quot;);</span>
+        }
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (!password.matches(&quot;.*[!@#$%^&amp;*(),.?\&quot;:{}|&lt;&gt;].*&quot;)) {</span>
+<span class="nc" id="L42">            throw new IllegalArgumentException(&quot;Password must contain at least one special character&quot;);</span>
+        }
+<span class="nc" id="L44">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L48">        final StringBuilder sb = new StringBuilder(&quot;SignUpRequest{&quot;);</span>
+<span class="nc" id="L49">        sb.append(&quot;username='&quot;).append(username).append('\'');</span>
+<span class="nc" id="L50">        sb.append(&quot;, password='&quot;).append(password).append('\'');</span>
+<span class="nc" id="L51">        sb.append(&quot;, fullName='&quot;).append(fullName).append('\'');</span>
+<span class="nc" id="L52">        sb.append(&quot;, nif='&quot;).append(nif).append('\'');</span>
+<span class="nc" id="L53">        sb.append(&quot;, morada='&quot;).append(morada).append('\'');</span>
+<span class="nc" id="L54">        sb.append('}');</span>
+<span class="nc" id="L55">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TipoPacoteServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Repository.Implementation</a> &gt; <span class="el_source">TipoPacoteServiceImpl.java</span></div><h1>TipoPacoteServiceImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Repository.Implementation;
+
+
+import isep.ipp.pt.api.desofs.Model.TipoPacote;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.TipoPacoteRepo;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.LinkedList;
+import java.util.List;
+
+
+<span class="fc" id="L16">public class TipoPacoteServiceImpl implements TipoPacoteServiceRepo {</span>
+
+    @Autowired
+    private TipoPacoteRepo tipoPacoteRepo;
+    @Autowired
+    private LoggerStrategy logger;
+    @Value(&quot;${app.logger.strategy}&quot;)
+    private String loggerStrategy;
+
+
+    @Override
+    public TipoPacote save(TipoPacote pacoteService) {
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">        if(!isTesting()) logger.log(pacoteService.copy().toString());</span>
+<span class="fc" id="L29">        return tipoPacoteRepo.save(pacoteService);</span>
+    }
+
+    @Override
+    public TipoPacote findbyId(Long id) {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (tipoPacoteRepo.findById(id).isPresent()) {</span>
+<span class="fc" id="L35">            return tipoPacoteRepo.findById(id).get();</span>
+        }else {
+<span class="fc" id="L37">            return null;</span>
+        }
+    }
+
+    @Override
+    public List&lt;TipoPacote&gt; findAll() {
+<span class="fc" id="L43">        List&lt;TipoPacote&gt; lista = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (TipoPacote tipoPacote : tipoPacoteRepo.findAll()) {</span>
+<span class="fc" id="L45">            lista.add(tipoPacote);</span>
+<span class="fc" id="L46">        }</span>
+<span class="fc" id="L47">        return lista;</span>
+    }
+
+    @Override
+    public TipoPacote findbyName(String name) {
+<span class="fc" id="L52">        return tipoPacoteRepo.findByNome(name);</span>
+    }
+
+    @Override
+    public void deleteAll() {
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if(!isTesting()) tipoPacoteRepo.findAll().forEach(tipoPacote -&gt; logger.log(tipoPacote.copy().toString()));</span>
+<span class="fc" id="L58">        tipoPacoteRepo.deleteAll();</span>
+<span class="fc" id="L59">    }</span>
+
+    @Override
+    public void deleteById(Long id) {
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if(!isTesting()) tipoPacoteRepo.findById(id).ifPresent(tipoPacote -&gt; logger.log(tipoPacote.copy().toString()));</span>
+<span class="nc" id="L64">        tipoPacoteRepo.deleteById(id);</span>
+<span class="nc" id="L65">    }</span>
+
+    private boolean isTesting() {
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (loggerStrategy.equals(&quot;test&quot;)) {</span>
+<span class="fc" id="L69">            return true;</span>
+        }
+<span class="nc" id="L71">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

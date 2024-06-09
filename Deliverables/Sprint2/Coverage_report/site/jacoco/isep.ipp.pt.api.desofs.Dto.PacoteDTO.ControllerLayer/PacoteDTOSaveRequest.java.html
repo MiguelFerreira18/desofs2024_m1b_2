@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PacoteDTOSaveRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer</a> &gt; <span class="el_source">PacoteDTOSaveRequest.java</span></div><h1>PacoteDTOSaveRequest.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer;
+
+import jakarta.validation.constraints.*;
+
+
+public class PacoteDTOSaveRequest {
+
+
+    @NotBlank
+    @Pattern(regexp = &quot;^[a-zA-Z0-9 ]*$&quot;, message = &quot;Nome do pacote inválido&quot;)
+    @Size(min = 1, message = &quot;Nome do pacote inválido&quot;)
+    @Size(max = 16, message = &quot;Nome do pacote inválido&quot;)
+    private final String nome;
+
+    @Min(value = 0, message = &quot;Preço base do pacote inválido&quot;)
+    @Max(value = 500, message = &quot;Preço base do pacote inválido&quot;)
+    private final double pacoteBasePrice;
+
+    @Size(min = 1, message = &quot;Descrição do pacote inválida&quot;)
+    @Size(max = 64, message = &quot;Descrição do pacote inválida&quot;)
+    @Pattern(regexp = &quot;^[a-zA-Z0-9 ]*$&quot;, message = &quot;Descrição do pacote inválida&quot;)
+    private final String pacoteDescription;
+
+    private final boolean disabled;
+    @NotNull
+    @Positive
+    private final Long tipoPacote;
+
+<span class="fc" id="L29">    public PacoteDTOSaveRequest(String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, Long tipoPacote) {</span>
+<span class="fc" id="L30">        this.nome = nome;</span>
+<span class="fc" id="L31">        this.pacoteBasePrice = pacoteBasePrice;</span>
+<span class="fc" id="L32">        this.pacoteDescription = pacoteDescription;</span>
+<span class="fc" id="L33">        this.disabled = disabled;</span>
+<span class="fc" id="L34">        this.tipoPacote = tipoPacote;</span>
+<span class="fc" id="L35">    }</span>
+
+    public String getNome() {
+<span class="fc" id="L38">        return nome;</span>
+    }
+
+    public double getPacoteBasePrice() {
+<span class="fc" id="L42">        return pacoteBasePrice;</span>
+    }
+
+    public String getPacoteDescription() {
+<span class="fc" id="L46">        return pacoteDescription;</span>
+    }
+
+    public boolean getDisabled() {
+<span class="fc" id="L50">        return disabled;</span>
+    }
+
+    public Long getTipoPacote() {
+<span class="fc" id="L54">        return tipoPacote;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

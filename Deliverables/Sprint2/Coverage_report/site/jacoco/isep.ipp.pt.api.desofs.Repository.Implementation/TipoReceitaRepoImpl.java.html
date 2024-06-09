@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TipoReceitaRepoImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Repository.Implementation</a> &gt; <span class="el_source">TipoReceitaRepoImpl.java</span></div><h1>TipoReceitaRepoImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Repository.Implementation;
+
+import isep.ipp.pt.api.desofs.Model.TipoReceita;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoReceitaServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Repo.TipoReceitaRepo;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.LinkedList;
+import java.util.List;
+
+<span class="nc" id="L13">public class TipoReceitaRepoImpl implements TipoReceitaServiceRepo {</span>
+    @Autowired
+    private TipoReceitaRepo tipoReceitaRepo;
+
+    @Autowired
+    private LoggerStrategy logger;
+    @Value(&quot;${app.logger.strategy}&quot;)
+    private String loggerStrategy;
+
+    @Override
+    public TipoReceita findbyName(String name) {
+<span class="nc" id="L24">        return tipoReceitaRepo.findByNome(name);</span>
+    }
+
+    @Override
+    public TipoReceita save(TipoReceita receitaService) {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        if(!isTesting()) logger.log(receitaService.copy().toString());</span>
+<span class="nc" id="L30">        return tipoReceitaRepo.save(receitaService);</span>
+    }
+    @Override
+    public TipoReceita findbyId(Long id) {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (tipoReceitaRepo.findById(id).isPresent()) {</span>
+<span class="nc" id="L35">            return tipoReceitaRepo.findById(id).get();</span>
+        }else {
+<span class="nc" id="L37">            return null;</span>
+        }
+    }
+
+    @Override
+    public List&lt;TipoReceita&gt; findAll() {
+<span class="nc" id="L43">        List&lt;TipoReceita&gt; lista = new LinkedList&lt;&gt;();</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (TipoReceita tipoReceita : tipoReceitaRepo.findAll()) {</span>
+<span class="nc" id="L45">            lista.add(tipoReceita);</span>
+<span class="nc" id="L46">        }</span>
+<span class="nc" id="L47">        return lista;</span>
+    }
+
+    @Override
+    public void deleteAll() {
+<span class="nc" id="L52">        tipoReceitaRepo.deleteAll();</span>
+<span class="nc" id="L53">    }</span>
+
+    @Override
+    public void deleteById(Long id) {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if(!isTesting()) tipoReceitaRepo.findById(id).ifPresent(tipoReceita -&gt; logger.log(tipoReceita.copy().toString()));</span>
+<span class="nc" id="L58">        tipoReceitaRepo.deleteById(id);</span>
+<span class="nc" id="L59">    }</span>
+
+    private boolean isTesting() {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (loggerStrategy.equals(&quot;test&quot;)) {</span>
+<span class="nc" id="L63">            return true;</span>
+        }
+<span class="nc" id="L65">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

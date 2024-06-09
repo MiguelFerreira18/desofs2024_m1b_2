@@ -56,14 +56,6 @@ public class MysqlConfig {
         return new DadosNutricionaisRepoImpl();
     }
     @Bean
-    public ReceitaServiceRepo mysqlReceita(){
-        return new ReceitaRepoImpl();
-    }
-    @Bean
-    public TipoReceitaServiceRepo mysqlTipoReceita(){
-        return new TipoReceitaRepoImpl();
-    }
-    @Bean
     public TipoPacoteServiceRepo mysqlTipoPacote(){
         return new TipoPacoteServiceImpl();
     }

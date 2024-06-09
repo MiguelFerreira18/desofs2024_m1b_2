@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TipoReceitaServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Service.TipoReceitaService</a> &gt; <span class="el_source">TipoReceitaServiceImpl.java</span></div><h1>TipoReceitaServiceImpl.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Service.TipoReceitaService;
+
+import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServiceRequest;
+import isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ServiceLayer.TipoReceitaDTOServiceResponse;
+import isep.ipp.pt.api.desofs.Mapper.TipoReceitaMapper.TipoReceitaMapper;
+import isep.ipp.pt.api.desofs.Model.TipoReceita;
+import isep.ipp.pt.api.desofs.Repository.Interface.TipoReceitaServiceRepo;
+import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L16">public class TipoReceitaServiceImpl implements TipoReceitaService{</span>
+
+    @Autowired
+    private TipoReceitaServiceRepo tipoReceitaServiceRepo;
+    @Autowired
+    private TipoReceitaMapper tipoReceitaMapper;
+    @Autowired
+    private PersonalValidation validation;
+
+    @Override
+    public TipoReceitaDTOServiceResponse save(@Valid TipoReceitaDTOServiceRequest tipoReceita) {
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (!validation.validate(tipoReceita)) {</span>
+<span class="fc" id="L28">            return null;</span>
+        }
+<span class="fc" id="L30">        TipoReceita tipoReceitaMapped = tipoReceitaMapper.toTipoReceitaFromTipoReceitaDTOServiceRequest(tipoReceita);</span>
+<span class="fc" id="L31">        return tipoReceitaMapper.toTipoReceitaDTOServiceResponseFromTipoReceita(tipoReceitaServiceRepo.save(tipoReceitaMapped));</span>
+    }
+
+    @Override
+    public TipoReceitaDTOServiceResponse findbyId(Long id) {
+<span class="fc" id="L36">        return tipoReceitaMapper.toTipoReceitaDTOServiceResponseFromTipoReceita(tipoReceitaServiceRepo.findbyId(id));</span>
+    }
+
+    @Override
+    public List&lt;TipoReceitaDTOServiceResponse&gt; findAll() {
+<span class="fc" id="L41">        return tipoReceitaMapper.toTipoReceitaDTOServiceResponseListFromTipoReceita(tipoReceitaServiceRepo.findAll());</span>
+    }
+
+    @Override
+    public void deleteAll() {
+<span class="fc" id="L46">        tipoReceitaServiceRepo.deleteAll();</span>
+<span class="fc" id="L47">    }</span>
+
+    @Override
+    public void deleteById(Long id) {
+<span class="nc" id="L51">        tipoReceitaServiceRepo.deleteById(id);</span>
+<span class="nc" id="L52">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

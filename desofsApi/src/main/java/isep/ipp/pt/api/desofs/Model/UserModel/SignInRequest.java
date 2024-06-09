@@ -15,7 +15,7 @@ public record SignInRequest(
 ) {
 
         public SignInRequest copy(PasswordEncoder encoder){
-                return new SignInRequest(username, null);
+                return new SignInRequest(username, encoder.encode(password));
         }
 
         @Override

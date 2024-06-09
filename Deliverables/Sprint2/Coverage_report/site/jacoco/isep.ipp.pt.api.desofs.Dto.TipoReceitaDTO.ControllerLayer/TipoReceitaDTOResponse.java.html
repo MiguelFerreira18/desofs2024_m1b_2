@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TipoReceitaDTOResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ControllerLayer</a> &gt; <span class="el_source">TipoReceitaDTOResponse.java</span></div><h1>TipoReceitaDTOResponse.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Dto.TipoReceitaDTO.ControllerLayer;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+public class TipoReceitaDTOResponse {
+    @Id
+    @GeneratedValue
+    private Long tipoReceitaId;
+    @Pattern(regexp = &quot;^[a-zA-Z0-9]*$&quot;, message = &quot;Nome da receita inválido&quot;)
+    @NotNull
+    @NotBlank
+    @Size(min = 1,max = 64, message = &quot;Nome do tipo de receita inválido&quot;)
+    private String nome;
+
+<span class="fc" id="L20">    public TipoReceitaDTOResponse() {</span>
+<span class="fc" id="L21">    }</span>
+
+<span class="nc" id="L23">    public TipoReceitaDTOResponse(Long tipoReceitaId, String nome) {</span>
+<span class="nc" id="L24">        this.tipoReceitaId = tipoReceitaId;</span>
+<span class="nc" id="L25">        this.nome = nome;</span>
+<span class="nc" id="L26">    }</span>
+
+<span class="nc" id="L28">    public TipoReceitaDTOResponse(String nome) {</span>
+<span class="nc" id="L29">        this.nome = nome;</span>
+<span class="nc" id="L30">    }</span>
+
+    public Long getTipoReceitaId() {
+<span class="nc" id="L33">        return tipoReceitaId;</span>
+    }
+
+    public String getNome() {
+<span class="nc" id="L37">        return nome;</span>
+    }
+
+    public void setTipoReceitaId(Long tipoReceitaId) {
+<span class="fc" id="L41">        this.tipoReceitaId = tipoReceitaId;</span>
+<span class="fc" id="L42">    }</span>
+
+    public void setNome(String nome) {
+<span class="fc" id="L45">        this.nome = nome;</span>
+<span class="fc" id="L46">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

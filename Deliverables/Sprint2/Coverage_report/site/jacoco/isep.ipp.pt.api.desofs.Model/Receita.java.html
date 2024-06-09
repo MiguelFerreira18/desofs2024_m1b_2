@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Receita.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">desofs</a> &gt; <a href="index.source.html" class="el_package">isep.ipp.pt.api.desofs.Model</a> &gt; <span class="el_source">Receita.java</span></div><h1>Receita.java</h1><pre class="source lang-java linenums">package isep.ipp.pt.api.desofs.Model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
+@Entity
+public class Receita {
+
+    @Id
+    @GeneratedValue
+    private Long receitaId;
+    @Pattern(regexp = &quot;[^\0]+\\.pdf$&quot;, message = &quot;Invalid path&quot;)
+    private String path;
+    @Pattern(regexp = &quot;^[a-zA-Z0-9]*$&quot;, message = &quot;Invalid name&quot;)
+    @NotNull
+    private String nome;
+    @ManyToOne
+    private Pacote pacote;
+
+    @ManyToOne
+    @NotNull
+    private TipoReceita tipoReceita;
+
+<span class="fc" id="L28">    public Receita() {</span>
+<span class="fc" id="L29">    }</span>
+
+<span class="fc" id="L31">    public Receita(Long receitaId, String path, String nome, Pacote pacote, TipoReceita tipoReceita) {</span>
+<span class="fc" id="L32">        this.receitaId = receitaId;</span>
+<span class="fc" id="L33">        this.path = path;</span>
+<span class="fc" id="L34">        this.nome = nome;</span>
+<span class="fc" id="L35">        this.pacote = pacote;</span>
+<span class="fc" id="L36">        this.tipoReceita = tipoReceita;</span>
+<span class="fc" id="L37">    }</span>
+
+<span class="fc" id="L39">    public Receita(String path, String nome, Pacote pacote, TipoReceita tipoReceita) {</span>
+<span class="fc" id="L40">        this.path = path;</span>
+<span class="fc" id="L41">        this.nome = nome;</span>
+<span class="fc" id="L42">        this.pacote = pacote;</span>
+<span class="fc" id="L43">        this.tipoReceita = tipoReceita;</span>
+<span class="fc" id="L44">    }</span>
+
+    public Long getReceitaId() {
+<span class="fc" id="L47">        return receitaId;</span>
+    }
+
+    public void setReceitaId(Long receitaId) {
+<span class="nc" id="L51">        this.receitaId = receitaId;</span>
+<span class="nc" id="L52">    }</span>
+
+    public String getPath() {
+<span class="fc" id="L55">        return path;</span>
+    }
+
+    public void setPath(String path) {
+<span class="fc" id="L59">        this.path = path;</span>
+<span class="fc" id="L60">    }</span>
+
+    public String getNome() {
+<span class="fc" id="L63">        return nome;</span>
+    }
+
+    public void setNome(String nome) {
+<span class="fc" id="L67">        this.nome = nome;</span>
+<span class="fc" id="L68">    }</span>
+
+    public Pacote getPacote() {
+<span class="fc" id="L71">        return pacote;</span>
+    }
+
+    public void setPacote(Pacote pacote) {
+<span class="fc" id="L75">        this.pacote = pacote;</span>
+<span class="fc" id="L76">    }</span>
+
+    public TipoReceita getTipoReceita() {
+<span class="fc" id="L79">        return tipoReceita;</span>
+    }
+
+    public void setTipoReceita(TipoReceita tipoReceita) {
+<span class="fc" id="L83">        this.tipoReceita = tipoReceita;</span>
+<span class="fc" id="L84">    }</span>
+
+    public Receita copy(){
+<span class="nc" id="L87">        return new Receita(this.receitaId, this.path, this.nome, this.pacote, this.tipoReceita);</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L92">        final StringBuilder sb = new StringBuilder(&quot;Receita{&quot;);</span>
+<span class="nc" id="L93">        sb.append(&quot;receitaId=&quot;).append(receitaId);</span>
+<span class="nc" id="L94">        sb.append(&quot;, path='&quot;).append(path).append('\'');</span>
+<span class="nc" id="L95">        sb.append(&quot;, nome='&quot;).append(nome).append('\'');</span>
+<span class="nc" id="L96">        sb.append(&quot;, pacote=&quot;).append(pacote);</span>
+<span class="nc" id="L97">        sb.append(&quot;, tipoReceita=&quot;).append(tipoReceita);</span>
+<span class="nc" id="L98">        sb.append('}');</span>
+<span class="nc" id="L99">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

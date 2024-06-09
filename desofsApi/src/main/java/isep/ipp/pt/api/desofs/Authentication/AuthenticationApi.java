@@ -70,7 +70,7 @@ public class AuthenticationApi {
                     .claim("roles", scope).build();
 
             final String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-            logger.logAuthentication("Successful login for user: " + request.copy(encoder));
+            logger.logAuthentication("Successful login for user: " );
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(mapToUSerView(user));
         } catch (final BadCredentialsException ex) {
             logger.logAuthentication("Failed login attempt for user: " + request.copy(encoder));
