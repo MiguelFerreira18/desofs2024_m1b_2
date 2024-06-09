@@ -112,7 +112,6 @@ public class SecurityConfig {
                                 .requestMatchers("/tipoPacote/**").authenticated()
                                 .requestMatchers("/encomenda/**").authenticated()
                                 .requestMatchers("/user/info/**").authenticated()
-                                .requestMatchers("/encomenda/**").authenticated()
                                 .requestMatchers("/user/delete/data").authenticated()
                                 .requestMatchers("/tipoReceita/**").authenticated()
                                 .requestMatchers("/receita/**").authenticated()
