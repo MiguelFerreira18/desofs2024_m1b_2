@@ -537,13 +537,13 @@ um valor inferior, podendo exigir uma atenção menos imediata.
 
 ### STRIDE
 
-| Categoria              | Descrição                                                                                                                                                                                                                                                                                                                                                                                      |
-|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados                                                                                                                                                                 |
-| Tampering              | **Countermeasure 1**: Utilização de Hashing para as receitas<br/> **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos                                                                                                                                                               |
-| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                                                                                                                                                                                                                                                                                            |
-| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs                                                                                              |
-| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting                                                                                                                                                                                                                                |
+| Categoria              | Descrição                                                                                                                                                                                                                                                                                                                                                          |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Spoofing               | **Countermeasure 1**: Utilização de autenticação de dois fatores<br/> **Countermeasure 2**: É obrigatório ter passwords fortes <br/> **Countermeasure 3**: É utilizado Jwt em vez de uma autênticação baseada na base de dados                                                                                                                                     |
+| Tampering              | **Countermeasure 2**: Utilização de HTTPS para as comunicações entre o cliente e o servidor <br/> **Countermeasure 3**: Criar diferentes definições de acessos                                                                                                                                                               |
+| Repudiation            | **Countermeasure 1**: Todas as compras são guardadas na base de dados em formato de event streaming                                                                                                                                                                                                                                                                |
+| Information disclosure | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs                                                                  |
+| Denial of service      | **Countermeasure 1**: Utilização de um sistema distribuido em vez de um sistema monolitico<br/> **Countermeasure 2**: Utilização de um sistema de rate limiting                                                                                                                                                                                                    |
 | Elevation of privilege | **Countermeasure 1**: Utilização de HTTPS para as comunicações entre o cliente e o servidor<br/> **Countermeasure 2**: Utilização de JWT para autenticação<br/> **Countermeasure 3**: Utilização de CORS para proteger a API <br/> **Countermeasure 3**: Aplicar algoritmos de validação a inputs <br/> **Countermeasure 4**: Ninguem deve ter a capacidade de mudar os privilégios do sistema |
 
 ## 6.7 Dataflow Diagram Lv1
@@ -2563,20 +2563,17 @@ Aqui temos o uso do encoder do jwt para gerar o token, este token terá apenas 1
 
 ### Tampering
 
-**Countermeasure 1**
-
---Falta implemnetar(José)
-
 **Countermeasure 3**
 
 Como foi visto ateriormente temos diferentes endpoints que podem ser acedidos por roles autorizadas. Ou seja nós usamos
-um sistema de positive security, no qua dizemos aos utilizadores o que podem aceder.
+um sistema de positive security, no qual dizemos aos utilizadores o que podem aceder.
 
 ### Repudiation
 
 **Countermeasure 1**
 
--- Zé
+Nas encomendas, é possível observar por exemplo todas as encomendas realizadas pelo utilizador, detetando as alterações realizadas
+pelo utilizador em tempo real.
 
 ### Information Disclosure
 
@@ -2698,6 +2695,10 @@ relatórios podem ser encontrados na pasta "Deliverables\Sprint2\Mitigations_Thr
 ## 3. Session Management
 
 ## 4. Access Control
+
+A nível de Access Control, implementamos todas as asvs que se encaixavam no contexto da nossa aplicação. Desde modo,
+de um total de 7 asvs, 7 foram implementados. Assim, concluímos que a nossa aplicação está bastante segura a nível de 
+controlo de acessos tal como é possível verificar na nossa SecurityConfig e AuthenticationApi.
 
 ## 5. Validation, Sanitization and Encoding
 
