@@ -11,10 +11,7 @@ import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
-import isep.ipp.pt.api.desofs.Repository.Interface.EncomendaServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -49,9 +46,16 @@ public class EncomendaServiceImpltest {
     @Autowired
     private EncomendaService encomendaService;
 
+    @Autowired
+    private ReviewServiceRepo reviewServiceRepo;
+    @Autowired
+    private ReceitaServiceRepo receitaServiceRepo;
+
     private Validator validator;
     @BeforeEach
     public void populate() {
+        receitaServiceRepo.deleteAll();
+        reviewServiceRepo.deleteAll();
         encomendaRepo.deleteAll();
         pacoteRepo.deleteAll();
         userRepo.deleteAll();
@@ -61,19 +65,11 @@ public class EncomendaServiceImpltest {
         TipoPacote saved = tipoPacoteRepo.save(tipoPacote);
         Pacote pacote = new Pacote(1L,"pacote", 10.0, "pacotedescription", true , saved);
         pacoteRepo.save(pacote);
-        User admin = new User(1L, "admin@mail.com", "adminpw1", "josé", randomNum+"" , "RUA cena");
+        User admin = new User("AA", "admin@mail.com", "adminpw1", "josé", randomNum+"" , "RUA cena");
         admin.addAuthority(new Role(Role.Admin));
         userRepo.saveUser(admin);
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator = validatorFactory.getValidator();
-    }
-
-    @AfterEach
-    public void clean() {
-        encomendaRepo.deleteAll();
-        pacoteRepo.deleteAll();
-        userRepo.deleteAll();
-        tipoPacoteRepo.deleteAll();
     }
 
     @ParameterizedTest

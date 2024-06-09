@@ -6,8 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TipoReceitaRepo extends CrudRepository<TipoReceita, Long>{
-
+public interface TipoReceitaRepo extends CrudRepository<TipoReceita, Long> {
     @Query("SELECT t FROM TipoReceita t WHERE t.nome = ?1")
-    TipoReceita findbyName(String name);
+    TipoReceita findByNome(String nome);
 }

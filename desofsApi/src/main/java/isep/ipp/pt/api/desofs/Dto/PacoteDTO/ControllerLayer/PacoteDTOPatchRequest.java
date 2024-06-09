@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 public class PacoteDTOPatchRequest {
 
     @NotNull
+    @Positive
     private final Long pacoteId;
 
 
@@ -24,6 +25,8 @@ public class PacoteDTOPatchRequest {
     private final String pacoteDescription;
 
     private final boolean disabled;
+    @Positive
+    @NotNull
     private final Long tipoPacote;
 
     public PacoteDTOPatchRequest(Long pacoteId,String nome, double pacoteBasePrice, String pacoteDescription, boolean disabled, Long tipoPacote) {

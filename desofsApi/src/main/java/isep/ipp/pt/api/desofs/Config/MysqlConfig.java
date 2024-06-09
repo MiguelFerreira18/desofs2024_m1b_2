@@ -1,6 +1,8 @@
 package isep.ipp.pt.api.desofs.Config;
 
 import isep.ipp.pt.api.desofs.DesofsApplication;
+import isep.ipp.pt.api.desofs.Repository.Implementation.*;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import isep.ipp.pt.api.desofs.Repository.Implementation.PacoteServiceImpl;
 import isep.ipp.pt.api.desofs.Repository.Implementation.ReviewServiceImpl;
 import isep.ipp.pt.api.desofs.Repository.Implementation.TipoPacoteServiceImpl;
@@ -72,6 +74,14 @@ public class MysqlConfig {
     @Bean
     public ReviewServiceRepo mysqlReview(){
         return new ReviewServiceImpl();
+    }
+    @Bean
+    public TipoReceitaServiceRepo mysqlTipoReceita(){
+        return new TipoReceitaServiceImpl();
+    }
+    @Bean
+    public ReceitaServiceRepo mysqlReceita(){
+        return new ReceitaServiceImpl();
     }
 
     //Datasource

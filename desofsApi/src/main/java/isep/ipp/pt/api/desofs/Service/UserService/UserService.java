@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 public interface UserService {
-    public User getUserById(Long userId);
+    public User getUserById(String userId);
     public List<User> getAllUsers();
     public UserDetails findByUsername(final String username);
 
@@ -22,6 +22,7 @@ public interface UserService {
     public void deleteAll();
 
     public void saveUser(User user);
+    public void deleteUser(String username);
 
-    public boolean changePassword(Long user, UserDTOPasswordChange password);
+    public boolean changePassword(String user, UserDTOPasswordChange password);
 }

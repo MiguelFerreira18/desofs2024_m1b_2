@@ -7,13 +7,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 public interface UserServiceRepo {
-    public User getUserById(Long userId);
+    public User getUserById(String userId);
     public List<User> getAllUsers();
     public User findByUserByEmail(String email);
     public UserDetails findByUsername(final String username);
     public void deleteAll();
     public User saveUser(User user);
     public User validateUser(String username, String password);
+    public void deleteUser(String username);
 
     public boolean changePassword(Long user, UserDTOPasswordChange password);
 

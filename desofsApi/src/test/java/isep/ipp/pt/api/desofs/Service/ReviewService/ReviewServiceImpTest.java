@@ -8,10 +8,7 @@ import isep.ipp.pt.api.desofs.Model.Review;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
-import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -45,6 +42,8 @@ class ReviewServiceImpTest {
     private PacoteServiceRepo pacoteRepo;
     @Autowired
     private TipoPacoteServiceRepo tipoPacoteRepo;
+    @Autowired
+    private ReceitaServiceRepo receitaRepo;
 
     private Validator validator;
 
@@ -52,6 +51,7 @@ class ReviewServiceImpTest {
 
     @BeforeEach
     void setUp() {
+        receitaRepo.deleteAll();
         reviewRepo.deleteAll();
         pacoteRepo.deleteAll();
         userRepo.deleteAll();
@@ -60,7 +60,7 @@ class ReviewServiceImpTest {
         int randomNum = (int) (Math.random() * 900000000) + 100000000;
         TipoPacote tp1 = new TipoPacote("TugaTube");
         TipoPacote tp = tipoPacoteRepo.save(tp1);
-        User admin1 = new User(1L, "admin" + randomAdminNum + "@mail.com", "adminpw1", "miguel", "" + randomNum, "RUA cena");
+        User admin1 = new User("AA", "admin" + randomAdminNum + "@mail.com", "adminpw1", "miguel", "" + randomNum, "RUA cena");
         admin1.addAuthority(new Role(Role.Admin));
         User user = userRepo.saveUser(admin1);
         Pacote pacotec = new Pacote(1L,"Pacote1", 10.0, "Pacote1 Description", true, tp);
@@ -84,6 +84,7 @@ class ReviewServiceImpTest {
 
     @AfterEach
     void tearDown() {
+        receitaRepo.deleteAll();
         reviewRepo.deleteAll();
         pacoteRepo.deleteAll();
         userRepo.deleteAll();
@@ -133,7 +134,7 @@ class ReviewServiceImpTest {
             "MyReview16, 20, -1, -1",
             "MyReview17, 99999, 1, 1",
     })
-    void testSaveReviewFail(String review, int rating, Long user, Long pacote) {
+    void testSaveReviewFail(String review, int rating, String user, Long pacote) {
         ReviewDTOServiceSaveRequest reviewDTOServiceRequest = new ReviewDTOServiceSaveRequest(review, rating, user, pacote);
         Set<ConstraintViolation<ReviewDTOServiceSaveRequest>> violations = validator.validate(reviewDTOServiceRequest);
         ReviewDTOServiceResponse reviewDTOServiceResponse = null;
@@ -162,7 +163,7 @@ class ReviewServiceImpTest {
             "-5141,NewReviewText,3,1,1",
             "-5,NewReviewText,3,1,1",
     })
-    void testUpdateReviewFail(Long reviewId, String review, int rating, Long user, Long pacote) {
+    void testUpdateReviewFail(Long reviewId, String review, int rating, String user, Long pacote) {
         ReviewDTOServicePatchRequest reviewDTOServiceRequest = new ReviewDTOServicePatchRequest(reviewId, review, rating, user, pacote);
         Set<ConstraintViolation<ReviewDTOServicePatchRequest>> violations = validator.validate(reviewDTOServiceRequest);
         ReviewDTOServiceResponse reviewDTOServiceResponse = null;
@@ -196,7 +197,7 @@ class ReviewServiceImpTest {
             "-49045329",
             "-909999999",
     })
-    void testFindByUserIdFail(Long id) {
+    void testFindByUserIdFail(String id) {
         List<ReviewDTOServiceResponse> reviewDTOServiceResponse = reviewService.getReviewsByUserId(id);
         assertTrue(reviewDTOServiceResponse.isEmpty());
 

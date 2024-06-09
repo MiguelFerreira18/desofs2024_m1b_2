@@ -25,14 +25,15 @@ public class EncomendaDTOServiceRequest {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataEncomenda;
     @NotNull
+    @Positive
     private Long pacoteId;
     @NotNull
-    private Long userId;
+    private String userId;
 
 
     private Estado estado;
 
-    public EncomendaDTOServiceRequest(int mealsPerWeek, int numberOfPeople, double price, LocalDateTime dataEncomenda, Long pacoteId, Estado estado, Long userId) {
+    public EncomendaDTOServiceRequest(int mealsPerWeek, int numberOfPeople, double price, LocalDateTime dataEncomenda, Long pacoteId, Estado estado, String userId) {
         this.mealsPerWeek = mealsPerWeek;
         this.numberOfPeople = numberOfPeople;
         this.price = price;
@@ -65,7 +66,7 @@ public class EncomendaDTOServiceRequest {
         return estado;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 }

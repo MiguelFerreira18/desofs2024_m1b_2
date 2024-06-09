@@ -6,8 +6,12 @@ import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServic
 import isep.ipp.pt.api.desofs.Dto.TipoPacoteDTO.ServiceLayer.TipoPacoteDTOServiceResponse;
 import isep.ipp.pt.api.desofs.Mapper.TipoPacoteMapper.TipoPacoteMapper;
 import isep.ipp.pt.api.desofs.Service.TipoPacoteService.TipoPacoteService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,14 +28,14 @@ public class TipoPacoteController {
 
     @Autowired
     private PersonalValidation validation;
-
+    @Autowired
+    private LoggerStrategy logger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
 
     @PostMapping("/save")
-    public ResponseEntity<TipoPacoteDTOResponse> save(@RequestBody TipoPacoteDTOSaveRequest tipoPacoteRequest) {
-        if (!validation.validate(tipoPacoteRequest)) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<TipoPacoteDTOResponse> save(@Valid  @RequestBody TipoPacoteDTOSaveRequest tipoPacoteRequest) {
         try {
             TipoPacoteDTOServiceRequest tipoPacoteServiceRequest = tipoPacoteMapper.toTipoPacoteDTOServiceRequestFromTipoPacoteDTOSaveRequest(tipoPacoteRequest);
             if (!validation.validate(tipoPacoteServiceRequest)) {
@@ -42,6 +46,7 @@ public class TipoPacoteController {
             return ResponseEntity.ok(tipoPacoteDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error saving tipoPacote" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -55,6 +60,7 @@ public class TipoPacoteController {
             return ResponseEntity.ok(tipoPacoteDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting tipoPacote" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -67,6 +73,7 @@ public class TipoPacoteController {
             return ResponseEntity.ok(tipoPacoteDTOResponseList);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting tipoPacote list" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -83,6 +90,11 @@ public class TipoPacoteController {
         tipoPacoteService.deleteById(tipoPacoteId);
         return ResponseEntity.ok().build();
     }
-
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
+    }
 
 }

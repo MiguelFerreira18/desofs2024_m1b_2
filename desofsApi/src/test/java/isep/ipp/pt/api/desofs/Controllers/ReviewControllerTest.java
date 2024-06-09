@@ -7,9 +7,7 @@ import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
 import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
-import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import isep.ipp.pt.api.desofs.Service.ReviewService.ReviewService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -38,6 +36,10 @@ class ReviewControllerTest {
     private PacoteServiceRepo pacoteRepo;
     @Autowired
     private TipoPacoteServiceRepo tipoPacoteRepo;
+    @Autowired
+    private EncomendaServiceRepo encomendaRepo;
+    @Autowired
+    private ReceitaServiceRepo receitaRepo;
 
     private int randomAdmingNum = (int) (Math.random() * 90000000) + 10000000;
 
@@ -47,7 +49,7 @@ class ReviewControllerTest {
         int randomNum = (int) (Math.random() * 900000000) + 100000000;
         TipoPacote tp1 = new TipoPacote("TugaTube");
         TipoPacote tp = tipoPacoteRepo.save(tp1);
-        User admin1 = new User(1L, "admin" + randomAdmingNum + "@mail.com", "adminpw1", "miguel", "" + randomNum, "RUA cena");
+        User admin1 = new User("AA", "admin" + randomAdmingNum + "@mail.com", "adminpw1", "miguel", "" + randomNum, "RUA cena");
         admin1.addAuthority(new Role(Role.Admin));
         userRepo.saveUser(admin1);
         Pacote pacote = new Pacote(1L,"Pacote1", 10.0, "Pacote1 Description", true, tp);
@@ -58,6 +60,8 @@ class ReviewControllerTest {
 
     @AfterEach
     public void tearDown() {
+        receitaRepo.deleteAll();
+        encomendaRepo.deleteAll();
         reviewService.deleteAll();
         pacoteRepo.deleteAll();
         userRepo.deleteAll();
@@ -68,7 +72,7 @@ class ReviewControllerTest {
     @Order(1)
     public void testSaveReview_ValidRequest() {
         Long pacoteId = pacoteRepo.findbyName("Pacote1").getPacoteId();
-        Long userId = userRepo.findByUserByEmail("admin" + randomAdmingNum + "@mail.com").getUserId();
+        String userId = userRepo.findByUserByEmail("admin" + randomAdmingNum + "@mail.com").getUserId();
         ReviewDTOSaveRequest reviewDTOSaveRequest = new ReviewDTOSaveRequest("Review1", 5, userId , pacoteId);
 
         ResponseEntity<ReviewDTOResponse> response = reviewController.saveReview(reviewDTOSaveRequest);
@@ -88,7 +92,7 @@ class ReviewControllerTest {
     @Order(2)
     public void testSaveReview_ValidRequest_Parameterized(String nome, int rating) {
         Long pacoteId = pacoteRepo.findbyName("Pacote1").getPacoteId();
-        Long userId = userRepo.findByUserByEmail("admin" + randomAdmingNum + "@mail.com").getUserId();
+        String userId = userRepo.findByUserByEmail("admin" + randomAdmingNum + "@mail.com").getUserId();
         ReviewDTOSaveRequest reviewDTOSaveRequest = new ReviewDTOSaveRequest(nome, rating, userId, pacoteId);
 
         ResponseEntity<ReviewDTOResponse> response = reviewController.saveReview(reviewDTOSaveRequest);
@@ -100,7 +104,7 @@ class ReviewControllerTest {
     @Test
     @Order(3)
     public void testSaveReview_InvalidRequest() {
-        ReviewDTOSaveRequest reviewDTOSaveRequest = new ReviewDTOSaveRequest("a", -1, 1L, 1L);
+        ReviewDTOSaveRequest reviewDTOSaveRequest = new ReviewDTOSaveRequest("a", -1, "AA", 1L);
 
         ResponseEntity<ReviewDTOResponse> response = reviewController.saveReview(reviewDTOSaveRequest);
 
@@ -110,14 +114,14 @@ class ReviewControllerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "a, -1, 1, 1",
-            "b, -2, 1, 1",
-            "c, -3, 1, 1",
-            "d, -4, 1, 1",
-            "e, -5, 1, 1",
+            "a, -1, AA, 1",
+            "b, -2, AB, 1",
+            "c, -3, AC, 1",
+            "d, -4, AD, 1",
+            "e, -5, AF, 1",
     })
     @Order(4)
-    public void testSaveReview_InvalidRequest_Parameterized(String nome, int rating, long userId, long pacoteId) {
+    public void testSaveReview_InvalidRequest_Parameterized(String nome, int rating, String userId, long pacoteId) {
         ReviewDTOSaveRequest reviewDTOSaveRequest = new ReviewDTOSaveRequest(nome, rating, userId, pacoteId);
 
         ResponseEntity<ReviewDTOResponse> response = reviewController.saveReview(reviewDTOSaveRequest);
@@ -130,7 +134,7 @@ class ReviewControllerTest {
     @Order(5)
     public void testUpdateReview_ValidRequest() {
         Long pacoteId = pacoteRepo.findbyName("Pacote1").getPacoteId();
-        Long userId = userRepo.findByUserByEmail("admin" + randomAdmingNum + "@mail.com").getUserId();
+        String userId = userRepo.findByUserByEmail("admin" + randomAdmingNum + "@mail.com").getUserId();
         ReviewDTOPatchRequest reviewDTOSaveRequest = new ReviewDTOPatchRequest(1L,"Review1", 5, userId ,pacoteId);
 
         ResponseEntity<ReviewDTOResponse> response = reviewController.updateReview(reviewDTOSaveRequest);
@@ -172,7 +176,7 @@ class ReviewControllerTest {
             "-5",
     })
     @Order(8)
-    public void testGetReviewByUserId_InvalidRequest_Parameterized(Long id) {
+    public void testGetReviewByUserId_InvalidRequest_Parameterized(String id) {
         ResponseEntity<List<ReviewDTOResponse>> response = reviewController.getReviewsByUserId(id);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

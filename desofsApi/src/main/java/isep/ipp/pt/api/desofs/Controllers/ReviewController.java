@@ -9,13 +9,18 @@ import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceRespons
 import isep.ipp.pt.api.desofs.Dto.ReviewDTO.ServiceLayer.ReviewDTOServiceSaveRequest;
 import isep.ipp.pt.api.desofs.Mapper.ReviewMapper.ReviewMapper;
 import isep.ipp.pt.api.desofs.Service.ReviewService.ReviewService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import isep.ipp.pt.api.desofs.Utils.PersonalValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/review")
@@ -26,12 +31,13 @@ public class ReviewController {
     private ReviewMapper reviewMapper;
     @Autowired
     private PersonalValidation validation;
+    @Autowired
+    private LoggerStrategy logger;
+    @Value("${app.logger.strategy}")
+    private String loggerStrategy;
 
     @PostMapping("/save")
-    public ResponseEntity<ReviewDTOResponse> saveReview(@RequestBody ReviewDTOSaveRequest review) {
-        if (review == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ReviewDTOResponse> saveReview(@Valid @RequestBody ReviewDTOSaveRequest review) {
         try {
             ReviewDTOServiceSaveRequest reviewRequestService = reviewMapper.toReviewDtoServiceSaveRequestFromReviewDtoSaveRequest(review);
             if (!validation.validate(reviewRequestService)) {
@@ -43,15 +49,13 @@ public class ReviewController {
             return ResponseEntity.ok(reviewDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error saving review" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<ReviewDTOResponse> updateReview(@RequestBody ReviewDTOPatchRequest review) {
-        if (review == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ReviewDTOResponse> updateReview(@Valid @RequestBody ReviewDTOPatchRequest review) {
         try {
             ReviewDTOServicePatchRequest reviewRequestService = reviewMapper.toReviewDTOServiceSaveRequestFromReviewDTOPatchRequest(review);
             if (!validation.validate(reviewRequestService)) {
@@ -63,12 +67,13 @@ public class ReviewController {
             return ResponseEntity.ok(reviewDTOResponse);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error updating review" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/delete/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+    public ResponseEntity<Void> deleteReview( @PathVariable Long reviewId) {
         if (reviewId < 0) return ResponseEntity.badRequest().build();
         reviewService.deleteReview(reviewId);
 
@@ -97,11 +102,25 @@ public class ReviewController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ReviewDTOResponse>> getReviewsByUserId(@PathVariable Long userId) {
-        if (userId < 0) return ResponseEntity.badRequest().build();
+    public ResponseEntity<List<ReviewDTOResponse>> getReviewsByUserId(@PathVariable String userId) {
+        if (userId == null || isValidUUID(userId) == null ) return ResponseEntity.badRequest().build();
         List<ReviewDTOResponse> reviewDTOResponse = reviewMapper.fromReviewDTOServiceResponseListToReviewDTOResponseList(reviewService.getReviewsByUserId(userId));
         return ResponseEntity.ok(reviewDTOResponse);
     }
 
+    private UUID isValidUUID(String userId) {
+        try {
+            return UUID.fromString(userId);
+        } catch (IllegalArgumentException e) {
+            if(!isTesting()) logger.logUnusualBusinessActivity("Error getting review by user id" + e.getMessage());
+            return null;
+        }
+    }
+    private boolean isTesting() {
+        if (loggerStrategy.equals("test")) {
+            return true;
+        }
+        return false;
+    }
 
 }

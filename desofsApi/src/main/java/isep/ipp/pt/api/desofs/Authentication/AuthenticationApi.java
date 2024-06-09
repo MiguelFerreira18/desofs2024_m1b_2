@@ -7,6 +7,8 @@ import isep.ipp.pt.api.desofs.Model.UserModel.SignUpRequest;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
 import isep.ipp.pt.api.desofs.Service.UserService.UserService;
+import isep.ipp.pt.api.desofs.Utils.DatabaseLogger;
+import isep.ipp.pt.api.desofs.Utils.LoggerStrategy;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -43,6 +46,11 @@ public class AuthenticationApi {
     private UserMapper userMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private LoggerStrategy logger;
+    @Autowired
+    private PasswordEncoder encoder;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationApi.class);
 
 
@@ -62,8 +70,10 @@ public class AuthenticationApi {
                     .claim("roles", scope).build();
 
             final String token = this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+            logger.logAuthentication("Successful login for user: " + request.copy(encoder));
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(mapToUSerView(user));
         } catch (final BadCredentialsException ex) {
+            logger.logAuthentication("Failed login attempt for user: " + request.copy(encoder));
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
@@ -76,6 +86,7 @@ public class AuthenticationApi {
         UserDTOSignup u = userMapper.fromSignUpRequestToUserDTOSignup(request);
         UserView userView = userService.registerUser(u);
         if (userView == null) {
+            logger.logAuthentication("Failed signup attempt for user: " + request.copy(encoder));
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } else {
             return ResponseEntity.ok(userView);

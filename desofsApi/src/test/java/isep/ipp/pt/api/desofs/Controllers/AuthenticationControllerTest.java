@@ -33,11 +33,11 @@ public class AuthenticationControllerTest {
     @BeforeEach
     public void setUp() {
         Set<Role> authorities = new HashSet<>();
-        User user = new User(1L, "username1@mail.com", encoder.encode("password1"), "fullName1", authorities, "nif1", "morada1");
+        User user = new User("AA", "username1@mail.com", encoder.encode("password1"), "fullName1", authorities, "nif1", "morada1");
         user.addAuthority(new Role(Role.Admin));
         userService.saveUser(user);
 
-        User user2 = new User(2L, "username2@mail.com", encoder.encode("password2"), "fullName2", authorities, "nif2", "morada2");
+        User user2 = new User("AB", "username2@mail.com", encoder.encode("password2"), "fullName2", authorities, "nif2", "morada2");
         user2.addAuthority(new Role(Role.User));
         userService.saveUser(user2);
         }

@@ -4,6 +4,7 @@
 	import MenuCards from '$lib/components/main_page_components/MenuCards.svelte';
 	import Reviews from '$lib/components/main_page_components/Reviews.svelte';
 	import type { Package, Review } from '$lib/Types/types';
+	import Modal from '$lib/components/default_components/Modal.svelte';
 
 	export let data: PageData;
 	const pacotes: Package[] = data.enabledPackages || [];
@@ -17,6 +18,22 @@
 </svelte:head>
 
 <section class="bg-gray-100 px-20">
+	<Modal showModal={true}>
+		<h2 slot="header" class="text-3xl">
+			Terms and Services
+		</h2>
+
+		<ol class="definition-list list list-disc pl-2 pr-2">
+			<li>Autoriza a utlização de dados</li>
+			<li>
+				Autoriza a utilização de dados para a construção de uma base de conhecimento
+			</li>
+			<li>
+				Autoriza a modificação e a utilização de dados para a construção de uma base de
+				conhecimento
+			</li>
+		</ol>
+	</Modal>
 	<Hero />
 	{#if pacotes.length > 0}
 		<MenuCards packages={pacotes} />

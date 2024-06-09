@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
@@ -12,14 +13,16 @@ public class Receita {
     @Id
     @GeneratedValue
     private Long receitaId;
-    @Pattern(regexp = "^(\\.\\/[\\w-]+(\\/[\\w-]+)*\\/[\\w-]+\\.[\\w-]+)$", message = "Invalid path")
+    @Pattern(regexp = "[^\0]+\\.pdf$", message = "Invalid path")
     private String path;
     @Pattern(regexp = "^[a-zA-Z0-9]*$", message = "Invalid name")
+    @NotNull
     private String nome;
     @ManyToOne
     private Pacote pacote;
 
     @ManyToOne
+    @NotNull
     private TipoReceita tipoReceita;
 
     public Receita() {
@@ -44,44 +47,55 @@ public class Receita {
         return receitaId;
     }
 
-    public Receita setReceitaId(Long receitaId) {
+    public void setReceitaId(Long receitaId) {
         this.receitaId = receitaId;
-        return this;
     }
 
     public String getPath() {
         return path;
     }
 
-    public Receita setPath(String path) {
+    public void setPath(String path) {
         this.path = path;
-        return this;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public Receita setNome(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
-        return this;
     }
 
     public Pacote getPacote() {
         return pacote;
     }
 
-    public Receita setPacote(Pacote pacote) {
+    public void setPacote(Pacote pacote) {
         this.pacote = pacote;
-        return this;
     }
 
     public TipoReceita getTipoReceita() {
         return tipoReceita;
     }
 
-    public Receita setTipoReceita(TipoReceita tipoReceita) {
+    public void setTipoReceita(TipoReceita tipoReceita) {
         this.tipoReceita = tipoReceita;
-        return this;
+    }
+
+    public Receita copy(){
+        return new Receita(this.receitaId, this.path, this.nome, this.pacote, this.tipoReceita);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Receita{");
+        sb.append("receitaId=").append(receitaId);
+        sb.append(", path='").append(path).append('\'');
+        sb.append(", nome='").append(nome).append('\'');
+        sb.append(", pacote=").append(pacote);
+        sb.append(", tipoReceita=").append(tipoReceita);
+        sb.append('}');
+        return sb.toString();
     }
 }

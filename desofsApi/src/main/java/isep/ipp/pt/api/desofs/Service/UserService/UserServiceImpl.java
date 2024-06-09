@@ -6,6 +6,7 @@ import isep.ipp.pt.api.desofs.Model.UserModel.Role;
 import isep.ipp.pt.api.desofs.Model.UserModel.User;
 import isep.ipp.pt.api.desofs.Model.UserModel.UserView;
 import isep.ipp.pt.api.desofs.Repository.Interface.UserServiceRepo;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserServiceRepo userRepo;
 
     @Override
-    public User getUserById(Long userId) {
+    public User getUserById(String userId) {
         User user = userRepo.getUserById(userId);
         if (user == null) throw new IllegalArgumentException("User not found");
         return userRepo.getUserById(userId);
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserView registerUser(UserDTOSignup user) {
+    public UserView registerUser(@Valid UserDTOSignup user) {
         if (!Objects.equals(user.getUsername(), "") && !Objects.equals(user.getPassword(), "")) {
             UserDetails existingUser = userRepo.findByUsername(user.getUsername());
             if (existingUser == null) {
@@ -82,7 +83,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public boolean changePassword(Long user, UserDTOPasswordChange password) {
+    public void deleteUser(String username) {
+        userRepo.deleteUser(username);
+    }
+
+    @Override
+    public boolean changePassword(String user, UserDTOPasswordChange password) {
         return userRepo.changePassword(user, password);
     }
 }

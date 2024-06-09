@@ -16,13 +16,13 @@ public class ReviewDTOServiceSaveRequest {
     private final int rating;
 
     @NotNull
-    @Min(value = 0, message = "User inválido")
-    private final Long user;
+    @Size(min = 36, max = 36, message = "User inválido")
+    private final String user;
     @NotNull
     @Min(value = 0, message = "Pacote inválido")
     private final Long pacote;
 
-    public ReviewDTOServiceSaveRequest(String reviewText, int rating, Long user, Long pacote) {
+    public ReviewDTOServiceSaveRequest(String reviewText, int rating, String user, Long pacote) {
         this.reviewText = reviewText;
         this.rating = rating;
         this.user = user;
@@ -37,7 +37,7 @@ public class ReviewDTOServiceSaveRequest {
         return rating;
     }
 
-    public Long getUser() {
+    public String getUser() {
         return user;
     }
 

@@ -16,11 +16,12 @@ public class ReviewDTOSaveRequest {
     private final int rating;
 
     @NotNull
-    private final Long user;
+    private final String user;
     @NotNull
+    @Positive
     private final Long pacote;
 
-    public ReviewDTOSaveRequest(String reviewText, int rating, Long user, Long pacote) {
+    public ReviewDTOSaveRequest(String reviewText, int rating, String user, Long pacote) {
         this.reviewText = reviewText;
         this.rating = rating;
         this.user = user;
@@ -35,7 +36,7 @@ public class ReviewDTOSaveRequest {
         return rating;
     }
 
-    public Long getUser() {
+    public String getUser() {
         return user;
     }
 

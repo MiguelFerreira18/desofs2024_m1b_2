@@ -15,7 +15,7 @@ public class PacoteDTOServiceResponse {
     @Size(min = 1,max = 16, message = "Nome do pacote inválido")
     private final String nome;
 
-    @NotBlank
+
     @Pattern(regexp = "^[a-zA-Z0-9 ]*$", message = "Descrição do pacote inválida")
     @Size(min = 1,max = 64, message = "Descrição do pacote inválida")
     private final String pacoteDescription;

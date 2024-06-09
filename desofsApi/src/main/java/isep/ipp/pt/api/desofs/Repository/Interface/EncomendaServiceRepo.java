@@ -11,13 +11,14 @@ public interface EncomendaServiceRepo {
 
     Encomenda findbyId(Long id);
 
-    Encomenda findByDateUserPackage(Long userId, Long pacoteId, LocalDateTime dataEncomenda);
+    Encomenda findByDateUserPackage(String userId, Long pacoteId, LocalDateTime dataEncomenda);
 
-    List<Encomenda> findAll(Long userId);
+    List<Encomenda> findAll(String userId);
 
     void deleteById(Long id);
 
     void deleteAll();
 
-    List<Encomenda> findEncHistory(Long userId);
+    List<Encomenda> findEncHistory(String userId);
+    void deleteEncomendaByUserName(String userId);
 }

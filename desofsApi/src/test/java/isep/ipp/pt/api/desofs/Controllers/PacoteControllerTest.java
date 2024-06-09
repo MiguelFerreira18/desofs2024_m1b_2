@@ -4,9 +4,7 @@ import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOResponse;
 import isep.ipp.pt.api.desofs.Dto.PacoteDTO.ControllerLayer.PacoteDTOSaveRequest;
 import isep.ipp.pt.api.desofs.Model.Pacote;
 import isep.ipp.pt.api.desofs.Model.TipoPacote;
-import isep.ipp.pt.api.desofs.Repository.Interface.PacoteServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.ReviewServiceRepo;
-import isep.ipp.pt.api.desofs.Repository.Interface.TipoPacoteServiceRepo;
+import isep.ipp.pt.api.desofs.Repository.Interface.*;
 import isep.ipp.pt.api.desofs.Service.PacoteService.PacoteService;
 import org.apache.catalina.core.ApplicationContext;
 import org.junit.jupiter.api.*;
@@ -32,10 +30,16 @@ class PacoteControllerTest {
     private TipoPacoteServiceRepo tipoPacoteServiceRepo;
     @Autowired
     private ReviewServiceRepo reviewServiceRepo;
+    @Autowired
+    private EncomendaServiceRepo encomendaServiceRepo;
 
+    @Autowired
+    private ReceitaServiceRepo receitaServiceRepo;
 
     @BeforeEach
     public void setUp() {
+        receitaServiceRepo.deleteAll();
+        encomendaServiceRepo.deleteAll();
         reviewServiceRepo.deleteAll();
         pacoteServiceRepo.deleteAll();
         TipoPacote tp1 = new TipoPacote(1L, "TugaTube");
@@ -45,6 +49,9 @@ class PacoteControllerTest {
 
     @AfterEach
     public void tearDown() {
+        receitaServiceRepo.deleteAll();
+        encomendaServiceRepo.deleteAll();
+        reviewServiceRepo.deleteAll();
         pacoteServiceRepo.deleteAll();
         tipoPacoteServiceRepo.deleteAll();
     }

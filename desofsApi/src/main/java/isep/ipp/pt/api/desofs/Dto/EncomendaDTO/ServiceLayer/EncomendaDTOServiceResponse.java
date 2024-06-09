@@ -13,6 +13,7 @@ import java.util.List;
 public class EncomendaDTOServiceResponse {
 
     @NotNull
+    @Positive
     private Long encomendaId;
     @Min(value = 1, message = "Número de refeições por semana inválido")
     @Max(value = 7, message = "Número de refeições por semana inválido")

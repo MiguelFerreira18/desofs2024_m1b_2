@@ -10,6 +10,7 @@ public interface ReviewServiceRepo {
     public List<Review> getReviews();
     public Review getReviewById(Long reviewId);
     public List<Review> getReviewsByPacoteId(Long pacoteId);
-    public List<Review> getReviewsByUserId(Long userId);
+    public List<Review> getReviewsByUserId(String userId);
     public void deleteAll();
+    public void deleteReviewsByUserName(String username);
 }
